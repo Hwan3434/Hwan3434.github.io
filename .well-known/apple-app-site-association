@@ -1,11 +1,25 @@
 {
   "applinks": {
-      "apps": [],
-      "details": [
+    "apps": [],
+    "details": [
       {
-        "appID": "6D7P2939B7.com.nhncloud.contact.onlinecontact",
-        "paths": ["*"]
+        "appIDs": [
+          "6D7P2939B7.com.nhncloud.contact.onlinecontact"
+        ],
+        "paths": [
+          "*"
+        ],
+        "components": [
+          {
+            "/": "/*"
+          }
+        ]
       }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "6D7P2939B7.com.nhncloud.contact.onlinecontact"
     ]
   }
 }

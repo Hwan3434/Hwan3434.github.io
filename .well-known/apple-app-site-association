@@ -1,0 +1,11 @@
+{
+  "applinks": {
+      "apps": [],
+      "details": [
+      {
+        "appID": "6D7P2939B7.com.nhncloud.contact.onlinecontact",
+        "paths": ["*"]
+      }
+    ]
+  }
+}

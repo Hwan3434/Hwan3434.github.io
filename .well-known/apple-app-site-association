@@ -1,25 +1,18 @@
 {
   "applinks": {
-    "apps": [],
-    "details": [
-      {
-        "appIDs": [
-          "6D7P2939B7.com.nhncloud.contact.onlinecontact"
-        ],
-        "paths": [
-          "*"
-        ],
-        "components": [
-          {
-            "/": "/*"
-          }
-        ]
-      }
-    ]
-  },
-  "webcredentials": {
-    "apps": [
-      "6D7P2939B7.com.nhncloud.contact.onlinecontact"
-    ]
-  }
+      "details": [
+           {
+             "appIDs": [ "6D7P2939B7.com.nhncloud.contact.onlinecontact" ],
+             "components": [
+               {
+                  "/": "*",
+                  "comment": "Matches any URL whose path starts with /buy/"
+               }
+             ]
+           }
+       ]
+   },
+   "webcredentials": {
+      "apps": [ "6D7P2939B7.com.nhncloud.contact.onlinecontact" ]
+   }
 }

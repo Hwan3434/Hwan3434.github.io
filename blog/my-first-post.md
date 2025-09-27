@@ -1,17 +1,17 @@
 ---
-layout: post
 title: "My First Blog Post"
-date: 2025-09-27 10:00:00 +0900
-categories: [daily, development]
+summary: "This is my first blog post, written in Markdown."
 tags:
   - type/post
   - tech/general
   - concept/blog
 ---
 
+### Welcome to my blog!
+
 Hello! This is [[My First Blog Post]].
 
-This post is written in [[Markdown]] and hosted via [[GitHub Pages]].
+This post is written in [[Markdown]] and hosted directly via [[GitHub Pages]].
 
 ```markdown
 # Markdown Example

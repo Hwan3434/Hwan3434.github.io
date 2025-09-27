@@ -1,2 +1,3 @@
 title: Your GitHub Pages Site
 description: A simple GitHub Pages site.
+permalink: /:year/:month/:day/:title.html

@@ -1,0 +1,17 @@
+---
+---
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == "production" -%}
+  .bundle
+{%- endif -%}
+';
+
+/* 날짜 숨기기 */
+.post-meta time,
+.post-meta .update-on,
+.post-preview .post-meta > span:has(time),
+#archives time {
+  display: none !important;
+}

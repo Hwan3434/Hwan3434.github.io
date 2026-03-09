@@ -16,3 +16,17 @@ _site
 .vscode
 *.swp
 *.swo
+
+# Obsidian
+.obsidian/
+
+# PKM (PARA) 폴더
+1. Projects/
+2. Areas/
+3. Resources/
+4. Archives/
+
+# 개인 파일
+Flutter.md
+style6.html
+탄원서.md

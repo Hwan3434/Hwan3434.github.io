@@ -1,3 +1,94 @@
-title: Your GitHub Pages Site
-description: A simple GitHub Pages site.
-permalink: /:year/:month/:day/:title.html
+theme: jekyll-theme-chirpy
+
+lang: ko-KR
+timezone: Asia/Seoul
+
+title: Hwan's Dev Blog
+tagline: 10년차 모바일 개발자의 개발 기록
+description: >-
+  Flutter, Android, iOS 등 모바일 개발 경험과
+  서버, 학습, 회고를 기록하는 개발 블로그입니다.
+
+url: "https://hwan3434.github.io"
+github:
+  username: Hwan3434
+
+social:
+  name: 이정환
+  links:
+    - https://github.com/Hwan3434
+
+# 분석 (필요시 Google Analytics ID 입력)
+# google_analytics:
+#   id: ""
+
+# 웹마스터 인증 (필요시 입력)
+# webmaster_verifications:
+#   google: ""
+
+theme_mode: # [light | dark]
+# 비워두면 시스템 설정을 따름
+
+avatar: # 프로필 이미지 URL (추후 설정)
+
+toc: true # 목차 표시
+
+comments:
+  provider: # [disqus | utterances | giscus] 추후 설정 가능
+
+# 페이지네이션
+paginate: 10
+
+# 마크다운 설정
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+
+# 기본값
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      comments: true
+      toc: true
+      permalink: /posts/:title/
+  - scope:
+      path: _tabs
+    values:
+      layout: page
+      permalink: /:title/
+
+sass:
+  style: compressed
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
+  ignore:
+    envs: [development]
+
+exclude:
+  - "*.gem"
+  - "*.gemspec"
+  - docs
+  - tools
+  - README.md
+  - LICENSE
+  - "*.config.js"
+  - package*.json
+
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/

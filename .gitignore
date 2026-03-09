@@ -1,0 +1,18 @@
+# Bundler cache
+.bundle
+vendor
+Gemfile.lock
+
+# Jekyll cache
+.jekyll-cache
+.jekyll-metadata
+_site
+
+# macOS
+.DS_Store
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo

@@ -5,24 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주간 모바일 채용 다이제스트 - 2026-06-03</title>
     <style>
-        :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --text-main: #c9d1d9;
-            --text-muted: #8b949e;
-            --border: #30363d;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Inter', -apple-system, sans-serif;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.4;
-        }
+        :root { --bg-color: #0d1117; --card-bg: #161b22; --text-main: #c9d1d9; --text-muted: #8b949e; --border: #30363d; }
+        body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Inter', -apple-system, sans-serif; margin: 0; padding: 20px; line-height: 1.4; }
         .container { width: 96%; max-width: 1800px; margin: 0 auto; }
-        .header { text-align: left; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+        .header { position: relative; text-align: left; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
         .header h1 { font-size: 1.8rem; margin: 0; color: #ffffff; }
+        .last-updated { position: absolute; bottom: 15px; right: 0; color: var(--text-muted); font-size: 0.95rem; font-weight: 500; background: rgba(139, 148, 158, 0.1); padding: 6px 12px; border-radius: 6px; }
         .section-title { font-size: 1.3rem; color: #58a6ff; margin: 40px 0 15px 0; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(48, 54, 61, 0.5); padding-bottom: 8px; }
         .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
         .job-card { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 14px; display: flex; flex-direction: column; transition: border-color 0.2s; position: relative; }
@@ -42,6 +30,7 @@
         <div class="header">
             <h1>주간 모바일 채용 다이제스트 🚀</h1>
             <p style="color: var(--text-muted); margin-top: 5px; font-size: 0.95rem;">이번 주 신규 공고 및 기존 활성 공고 통합 리스트</p>
+            <div class="last-updated">⏱️ 최근 갱신: 2026-06-03 09:45</div>
         </div>
 <h2 class="section-title">💚 Android <span style="color:var(--text-muted); font-size:0.9rem; margin-left:8px;">4건</span></h2><div class="job-grid">
             <div class="job-card">

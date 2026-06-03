@@ -4,9 +4,23 @@ title: 소개
 permalink: /about/
 ---
 
-> 🤖 **안내**: 이 블로그의 모든 글, 페이지 디자인, 그리고 코드 작성은 전면적으로 AI 에이전트와의 협업을 통해 기획, 개발 및 작성되었습니다.
-
----
+<div style="
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-left: 4px solid #6366f1;
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+">
+  <div style="font-size: 24px; line-height: 1; flex-shrink: 0;">🤖</div>
+  <div style="font-size: 13.5px; line-height: 1.5; color: var(--text-color, inherit);">
+    <strong style="color: #4f46e5; font-size: 14px;">안내:</strong> 이 블로그의 모든 글, 페이지 디자인, 그리고 코드 작성은 전면적으로 <strong>AI 에이전트와의 협업</strong>을 통해 기획, 개발 및 작성되었습니다.
+  </div>
+</div>
 
 ### 안녕하세요, 이정환입니다.
 > **"팀원이 바뀌어도 코드는 읽혀야 하고, 구조가 오류를 막아야 한다고 믿는 10년 차 모바일 개발자입니다."**

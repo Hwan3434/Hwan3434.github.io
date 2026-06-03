@@ -324,6 +324,7 @@ permalink: /about/
       <div class="stitch-role">모바일 개발 파트</div>
       <ul class="stitch-tasks">
         <li><strong>모바일 GPT Client (Flutter):</strong> 신규 사내 앱을 바닥부터 설계하며, Flutter의 조합(Composition) 철학을 극대화한 예측 가능한 UI 컴포넌트 시스템 구축 (오버엔지니어링을 배제하고 목표에 가장 적합한 클린 아키텍처 적용)</li>
+        <li><strong>Contiple (Flutter 상담 솔루션):</strong> 프로젝트 초기 클린 아키텍처 기반 구조 설계 주도, Riverpod을 활용한 안정적인 페이징 구조 및 생체인증/딥링크 구현</li>
         <li><strong>공통 웹뷰 통신 구조 일반화:</strong> JS Interface 연동 시 발생하는 반복적인 코드 작성과 하드코딩을 제거하고 단일화된 구조로 개선하여 웹뷰 연동 버그 90% 차단</li>
         <li><strong>티켓링크 iOS:</strong> 예외 상황 처리가 부족했던 기존 오프라인 티켓 및 자동 로그인 프로세스 전면 리팩토링</li>
         <li><strong>운수도원 (Android/iOS):</strong> 구글 애드몹 전면 광고 적용 및 Jenkins CI/CD 자동화 파이프라인 구축</li>

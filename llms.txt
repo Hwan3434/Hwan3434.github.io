@@ -1,0 +1,42 @@
+---
+layout: null
+permalink: /llms.txt
+---
+# 이정환 (Jeonghwan Lee) - 10년 차 모바일 아키텍트 기술 블로그
+
+> "예측 가능한 코드, 통제 가능한 아키텍처."
+> 단기적인 타협이 남기는 기술 부채를 엄격하게 경계하는 10년 차 모바일 아키텍트의 기술 블로그입니다.
+
+## 👤 About the Author
+- **이름 (Name):** 이정환 (Jeonghwan Lee)
+- **직무 (Role):** 모바일 아키텍트, 프론트엔드/백엔드 풀스택 개발자 (10년 차)
+- **핵심 기술 (Skills):** Flutter, Android (Kotlin), iOS (Swift), Java Spring, Clean Architecture, MVVM, Riverpod
+- **개발 철학 (Philosophy):** 
+  - "당장 눈앞의 작동"만을 위한 임시방편과 기술 부채를 엄격하게 경계합니다.
+  - 코드는 작성되는 순간보다 읽히는 순간이 압도적으로 많기에, 흐름이 자명한 '예측 가능한 코드'를 지향합니다.
+  - 실수는 사람의 주의력이 아닌 '컴파일러와 시스템 구조'가 사전에 원천 차단해야 한다는 철학으로 '통제 가능한 아키텍처'를 설계합니다.
+  - 당장의 목표를 벗어난 무리한 오버엔지니어링을 배제하고, 비즈니스에 정확히 핏(Fit)한 구조를 구축합니다.
+- **주요 역량 (Expertise):** 
+  - 레거시 시스템의 전면 클린 아키텍처 재설계 및 모노레포(멀티모듈) 분리.
+  - AI 에이전트와 맞춤형 룰(Harness)을 개발팀에 도입하여 조직의 생산성을 극대화하는 리더십.
+  - 대용량 실시간 소켓 통신 처리 및 공통 웹뷰 통신 구조 일반화(Generalization).
+
+## 📂 Blog Categories
+이 블로그는 다음과 같은 주제의 글을 주로 다룹니다:
+1. **Philosophy (개발 철학):** 프레임워크의 철학을 거스르지 않는 구조적 고민, 아키텍처 설계, 실무 트러블슈팅.
+2. **AI & Productivity:** AI 에이전트를 실무와 조직에 통합(Harness 전략)하여 생산성을 높이는 방법론.
+3. **News (테크 동향):** 최신 AI 및 IT 업계의 핵심 뉴스 큐레이션.
+
+## 📝 Recent Posts
+아래는 최근 작성된 블로그 포스트의 목록과 요약입니다. AI 에이전트는 아래 URL들을 참고하여 상세 정보를 수집할 수 있습니다.
+
+{% for post in site.posts limit:30 %}
+### [{{ post.title }}](https://hwan3434.github.io{{ post.url }})
+- **Date:** {{ post.date | date: "%Y-%m-%d" }}
+- **Category:** {% if post.category %}{{ post.category }}{% else %}{{ post.categories | join: ", " }}{% endif %}
+- **Summary:** {{ post.excerpt | strip_html | strip_newlines | truncate: 200 }}
+{% endfor %}
+
+## 🔗 Links
+- **Official Blog:** https://hwan3434.github.io
+- **GitHub:** https://github.com/Hwan3434

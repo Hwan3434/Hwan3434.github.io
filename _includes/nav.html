@@ -9,6 +9,7 @@
     <div class="nav-links">
       <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' or page.layout == 'post' %}active{% endif %}">글</a>
       <a href="{{ '/about/' | relative_url }}" class="nav-link {% if page.url contains 'about' %}active{% endif %}">소개</a>
+      <a href="{{ '/jobs.html' | relative_url }}" class="nav-link {% if page.url contains 'jobs' %}active{% endif %}">채용</a>
     </div>
     <div class="nav-actions">
       <button class="icon-btn" id="btn-search-open" aria-label="검색">

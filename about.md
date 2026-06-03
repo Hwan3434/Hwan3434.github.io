@@ -322,7 +322,7 @@ permalink: /about/
     <div class="stitch-timeline-item">
       <div class="stitch-timeline-dot"></div>
       <div class="stitch-timeline-header">
-        <div class="stitch-company">엔에이치엔인재아이엔씨(NHN)</div>
+        <div class="stitch-company">엔에이치엔인재아이엔씨(NHN Injeinc)</div>
         <div class="stitch-period">2023.03 - 2025.07</div>
       </div>
       <div class="stitch-role">모바일 개발 파트</div>

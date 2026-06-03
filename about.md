@@ -308,11 +308,11 @@ permalink: /about/
       </div>
       <div class="stitch-role">플레이플래닛 & 플레이플래닛 AI (Flutter)</div>
       <ul class="stitch-tasks">
-        <li><strong>레거시 전면 클린아키텍처 재설계:</strong> 유지보수가 불가했던 거대 레거시를 9개 패키지의 멀티모듈 모노레포로 분리하여, 신규 기능 개발 시의 사이드 이펙트를 완벽히 차단</li>
-        <li><strong>의존성 방향 강제 (Riverpod):</strong> 팀원들의 의도치 않은 의존성 주입을 방지하기 위해 패키지 레벨에서 아키텍처 규칙을 강제하여, 코드 리뷰 비용 절감 및 오류 발생률 최소화</li>
-        <li><strong>높은 재사용성과 유연성:</strong> 분리된 코어 로직을 기반으로 두 번째 앱(플레이플래닛 AI) 론칭 시 개발 기간을 절반 이하로 단축</li>
+        <li><strong>레거시 전면 클린아키텍처 재설계:</strong> 유지보수가 한계에 달했던 거대 레거시 코드를 9개 패키지의 멀티모듈 모노레포로 분리하여 코드 결합도 최소화</li>
+        <li><strong>의존성 방향 강제 (Riverpod):</strong> 팀원들의 의도치 않은 의존성 주입을 방지하기 위해 패키지 레벨에서 아키텍처 규칙이 강제되도록 설계</li>
+        <li><strong>높은 재사용성과 유연성:</strong> 분리된 코어 로직을 신규 앱(플레이플래닛 AI)에 동일하게 적용하여 빠른 개발 속도와 높은 코드 재사용성 달성</li>
         <li>소셜로그인 일반화 (Apple, Google, Kakao, Naver) 및 JWT 토큰 자동 갱신 아키텍처 구축</li>
-        <li><strong>AI 도입 및 조직 문화 주도:</strong> 개발팀 맞춤형 AI 스킬(Harness), 룰, 에이전트를 직접 설계 및 배포하여 팀 생산성을 극대화하고, 사내 AI 계정 관리 및 전사적 활용 세미나를 주도</li>
+        <li><strong>AI 도입 및 조직 문화 주도:</strong> 사내 AI 계정 관리 및 활용 권장 세미나를 진행하고, 개발팀 맞춤형 AI 스킬(Harness), 룰, 에이전트를 직접 설계하여 배포</li>
       </ul>
     </div>
 
@@ -324,11 +324,11 @@ permalink: /about/
       </div>
       <div class="stitch-role">모바일 개발 파트</div>
       <ul class="stitch-tasks">
-        <li><strong>모바일 GPT Client (Flutter):</strong> 신규 사내 앱을 바닥부터 설계하며, Flutter의 조합(Composition) 철학을 극대화한 예측 가능한 UI 컴포넌트 시스템 구축 (오버엔지니어링을 배제하고 목표에 가장 적합한 클린 아키텍처 적용)</li>
-        <li><strong>Contiple (Flutter 상담 솔루션):</strong> 프로젝트 초기 클린 아키텍처 기반 구조 설계 주도, Riverpod을 활용한 안정적인 페이징 구조 및 생체인증/딥링크 구현</li>
-        <li><strong>공통 웹뷰 통신 구조 일반화:</strong> JS Interface 연동 시 발생하는 반복적인 코드 작성과 하드코딩을 제거하고 단일화된 구조로 개선하여 웹뷰 연동 버그 90% 차단</li>
-        <li><strong>티켓링크 iOS:</strong> 예외 상황 처리가 부족했던 기존 오프라인 티켓 및 자동 로그인 프로세스 전면 리팩토링</li>
-        <li><strong>운수도원 (Android/iOS):</strong> 구글 애드몹 전면 광고 적용 및 Jenkins CI/CD 자동화 파이프라인 구축</li>
+        <li><strong>모바일 GPT Client (Flutter):</strong> 사내용 Chat GPT 앱을 바닥부터 설계하며, 목표에 가장 적합한 클린 아키텍처 및 MVVM 패턴 적용</li>
+        <li><strong>Contiple (Flutter 상담 솔루션):</strong> 프로젝트 초기 클린 아키텍처 구조 설계, Riverpod 페이지네이션, 생체인증 및 딥링크 구현</li>
+        <li><strong>공통 웹뷰 통신 구조 일반화:</strong> JavaScript 기반 객체 데이터 송수신을 일반화(Generalize)하여 웹뷰 연동 시 발생하는 보일러플레이트 코드 제거</li>
+        <li><strong>티켓링크 iOS:</strong> 기존 오프라인 티켓 조회 및 자동 로그인 프로세스 리팩토링 및 개선</li>
+        <li><strong>운수도원 (Android/iOS):</strong> 구글 애드몹 전면 광고 적용 및 Jenkins CI/CD 설정</li>
       </ul>
     </div>
 
@@ -340,8 +340,8 @@ permalink: /about/
       </div>
       <div class="stitch-role">결제선생 앱 리팩토링 (Android)</div>
       <ul class="stitch-tasks">
-        <li><strong>검색 조건 및 페이징 일반화:</strong> 각 페이지에서 파편화되어 처리되던 검색 로직을 걷어내고, 의존성이 분리된 단일 페이징 구조로 리팩토링하여 유지보수성 극대화</li>
-        <li>복잡하게 꼬여있던 안드로이드 상태 관련 레거시 코드 전면 개선</li>
+        <li><strong>검색 조건 및 페이징 일반화:</strong> 검색 시 페이징과 검색 조건을 일반화하여 의존성을 분리하고 리팩토링 진행</li>
+        <li>복잡하게 꼬여있던 안드로이드 상태 관련 레거시 코드 개선</li>
       </ul>
     </div>
 
@@ -353,8 +353,8 @@ permalink: /about/
       </div>
       <div class="stitch-role">모바일 및 백엔드 개발</div>
       <ul class="stitch-tasks">
-        <li>자체 Push 서버 개발 (Java Spring) 및 모바일 네이티브(Android/iOS) Push SDK 구축</li>
-        <li><strong>미스리 메신저 및 주식인 앱 (Android/iOS):</strong> OAuth 연동, 주식 실시간 소켓 통신 앱 개발을 통해, 대용량 실시간 데이터를 병목 없이 처리하는 기반 설계 역량 확보</li>
+        <li>자체 Push 서버 개발 (Java Spring) 및 모바일 네이티브(Android/iOS) Push SDK 개발</li>
+        <li><strong>미스리 메신저 및 주식인 앱 (Android/iOS):</strong> OAuth, 소켓 통신, 주식 실시간 데이터 연동 앱 개발</li>
       </ul>
     </div>
 

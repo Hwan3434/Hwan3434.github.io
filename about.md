@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 소개
-heading: "예측 가능한 코드, 통제 가능한 <span style='color: var(--primary);'>아키텍처</span>."
+heading: "예측 가능한 코드<br>통제 가능한 <span style='color: var(--primary);'>아키텍처</span>."
 lede: "단기적인 타협이 남기는 기술 부채를 엄격하게 경계하는 10년 차 모바일 아키텍트, 이정환입니다."
 permalink: /about/
 ---

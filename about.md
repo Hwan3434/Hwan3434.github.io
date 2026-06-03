@@ -1,7 +1,7 @@
 ---
-# the default layout is 'page'
-icon: fas fa-info-circle
-order: 4
+layout: page
+title: 소개
+permalink: /about/
 ---
 
 ## 안녕하세요, 이정환입니다

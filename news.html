@@ -1,0 +1,33 @@
+---
+layout: default
+title: 뉴스
+permalink: /news/
+---
+<div class="page-enter">
+  <div class="col">
+    <header class="masthead">
+      <h1>테크 생태계의<br />주요 뉴스를 <em>전달</em>합니다.</h1>
+      <p class="lede">급변하는 IT 및 AI 업계의 핵심 소식들을 신속하고 간결하게 공유합니다.</p>
+    </header>
+
+    <div class="post-list">
+      {% for post in site.categories.News %}
+        <article class="post-row" data-tags="{{ post.tags | join: ',' }},{{ post.categories | join: ',' }}" onclick="window.location='{{ post.url | relative_url }}'">
+          <div class="pr-date">{{ post.date | date: "%Y.%m.%d" }}</div>
+          <div>
+            <div class="pr-cats">
+              {% for cat in post.categories %}
+                <span class="pr-cat">{{ cat }}</span>
+              {% endfor %}
+            </div>
+            <h2>{{ post.title }}</h2>
+            <p class="pr-sum">{{ post.description | default: post.excerpt | strip_html | truncatewords: 30 }}</p>
+          </div>
+        </article>
+      {% else %}
+        <div class="search-empty" style="padding: 60px 0;">아직 등록된 뉴스가 없습니다.</div>
+      {% endfor %}
+    </div>
+    <div style="height: 80px;"></div>
+  </div>
+</div>

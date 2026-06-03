@@ -5,7 +5,8 @@
       <span class="brand-word">Hwan</span>
     </a>
     <div class="nav-links">
-      <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' or page.layout == 'post' %}active{% endif %}">글</a>
+      <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' or page.url contains '/posts/' %}active{% endif %}">글</a>
+      <a href="{{ '/news/' | relative_url }}" class="nav-link {% if page.url contains '/news/' %}active{% endif %}">뉴스</a>
       <a href="{{ '/about/' | relative_url }}" class="nav-link {% if page.url contains 'about' %}active{% endif %}">소개</a>
     </div>
     <div class="nav-actions">

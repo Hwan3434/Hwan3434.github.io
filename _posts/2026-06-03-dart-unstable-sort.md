@@ -24,6 +24,7 @@ toc: true
 공식 문서를 찾아본 결과, **Dart의 기본 `List.sort()` 메서드는 안정 정렬을 보장하지 않는다**는 것을 알게 되었습니다.
 
 > "The sort function is not guaranteed to be stable, so distinct objects that compare as equal might change their relative order."
+> — [*Dart API Reference: List.sort()*](https://api.dart.dev/stable/dart-core/List/sort.html)
 
 Dart는 내부적으로 성능을 위해 불안정 정렬 방식을 채택하고 있습니다. 따라서 같은 우선순위를 가진 원소들이라도 정렬 후 원래의 상대적인 위치가 그대로 유지될 것이라고 기대해서는 안 됩니다.
 

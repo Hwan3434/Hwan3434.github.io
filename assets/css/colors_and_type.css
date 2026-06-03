@@ -1,0 +1,383 @@
+/* =========================================================================
+   Claude Design System — colors_and_type.css
+   Import once at the root of any HTML file:
+     <link rel="stylesheet" href="/colors_and_type.css">
+   All tokens are CSS custom properties. Use them — never inline hex.
+   ========================================================================= */
+
+/* ---- Fonts ---------------------------------------------------------- */
+/* Body sans: Pretendard (uploaded brand font, replaces Inter / StyreneB substitute) */
+@font-face {
+  font-family: 'Pretendard';
+  src: url('../fonts/PretendardVariable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+/* Display serif (Copernicus substitute) + mono via Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ===== Brand & Accent ================================================ */
+  --primary:           #cc785c;
+  --primary-active:    #a9583e;
+  --primary-disabled:  #e6dfd8;
+  --accent-teal:       #5db8a6;
+  --accent-amber:      #e8a55a;
+
+  /* ===== Surface ======================================================= */
+  --canvas:                #faf9f5;
+  --surface-soft:          #f5f0e8;
+  --surface-card:          #efe9de;
+  --surface-cream-strong:  #e8e0d2;
+  --surface-dark:          #181715;
+  --surface-dark-elevated: #252320;
+  --surface-dark-soft:     #1f1e1b;
+  --hairline:              #e6dfd8;
+  --hairline-soft:         #ebe6df;
+
+  /* ===== Text ========================================================== */
+  --ink:           #141413;
+  --body-strong:   #252523;
+  --body:          #3d3d3a;
+  --muted:         #6c6a64;
+  --muted-soft:    #8e8b82;
+  --on-primary:    #ffffff;
+  --on-dark:       #faf9f5;
+  --on-dark-soft:  #a09d96;
+
+  /* ===== Semantic ====================================================== */
+  --success: #5db872;
+  --warning: #d4a017;
+  --error:   #c64545;
+
+  /* ===== Spacing (4px base) ============================================ */
+  --space-xxs:     4px;
+  --space-xs:      8px;
+  --space-sm:      12px;
+  --space-md:      16px;
+  --space-lg:      24px;
+  --space-xl:      32px;
+  --space-xxl:     48px;
+  --space-section: 96px;
+
+  /* ===== Border Radius ================================================= */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-pill: 9999px;
+  --radius-full: 9999px;
+
+  /* ===== Shadow (rare) ================================================= */
+  --shadow-soft: 0 1px 3px rgba(20, 20, 19, 0.08);
+
+  /* ===== Container ===================================================== */
+  --container-max: 1200px;
+
+  /* ===== Type Families ================================================== */
+  /* Display: Copernicus → Tiempos Headline → Fraunces (Google Fonts) → Garamond */
+  --font-display: 'Copernicus', 'Tiempos Headline', 'Fraunces', 'Cormorant Garamond', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  /* Body: StyreneB → Pretendard (uploaded) → Inter → system humanist sans */
+  --font-body:    'StyreneB', 'Pretendard', 'Söhne', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* ===== Type tokens (size / weight / line-height / tracking) =========== */
+  /* Display sizes — always serif, weight 400, negative tracking */
+  --display-xl-size:     64px;  --display-xl-lh:  1.05; --display-xl-track:  -1.5px;
+  --display-lg-size:     48px;  --display-lg-lh:  1.1;  --display-lg-track:  -1px;
+  --display-md-size:     36px;  --display-md-lh:  1.15; --display-md-track:  -0.5px;
+  --display-sm-size:     28px;  --display-sm-lh:  1.2;  --display-sm-track:  -0.3px;
+
+  /* Title sizes — sans, weight 500 */
+  --title-lg-size: 22px; --title-lg-lh: 1.3;
+  --title-md-size: 18px; --title-md-lh: 1.4;
+  --title-sm-size: 16px; --title-sm-lh: 1.4;
+
+  /* Body — sans, weight 400 */
+  --body-md-size: 16px; --body-md-lh: 1.55;
+  --body-sm-size: 14px; --body-sm-lh: 1.55;
+
+  /* Caption / Code / Button / Nav */
+  --caption-size:           13px;
+  --caption-uppercase-size: 12px;
+  --code-size:              14px; --code-lh: 1.6;
+  --button-size:            14px;
+  --nav-link-size:          14px;
+}
+
+/* =========================================================================
+   Base reset + canvas
+   ========================================================================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--canvas);
+  color: var(--body);
+  font-family: var(--font-body);
+  font-size: var(--body-md-size);
+  line-height: var(--body-md-lh);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+/* =========================================================================
+   Semantic type — drop these classes on elements directly
+   ========================================================================= */
+
+/* Display (always serif, weight 400, negative tracking) */
+.display-xl, h1.display, .h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-xl-size);
+  line-height: var(--display-xl-lh);
+  letter-spacing: var(--display-xl-track);
+  color: var(--ink);
+  margin: 0;
+}
+.display-lg, h2.display, .h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-lg-size);
+  line-height: var(--display-lg-lh);
+  letter-spacing: var(--display-lg-track);
+  color: var(--ink);
+  margin: 0;
+}
+.display-md, h3.display, .h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-md-size);
+  line-height: var(--display-md-lh);
+  letter-spacing: var(--display-md-track);
+  color: var(--ink);
+  margin: 0;
+}
+.display-sm, h4.display, .h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-sm-size);
+  line-height: var(--display-sm-lh);
+  letter-spacing: var(--display-sm-track);
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Title (sans, weight 500) */
+.title-lg {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--title-lg-size);
+  line-height: var(--title-lg-lh);
+  color: var(--ink);
+  margin: 0;
+}
+.title-md {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--title-md-size);
+  line-height: var(--title-md-lh);
+  color: var(--ink);
+  margin: 0;
+}
+.title-sm {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--title-sm-size);
+  line-height: var(--title-sm-lh);
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Body */
+.body-md, p {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--body-md-size);
+  line-height: var(--body-md-lh);
+  color: var(--body);
+  margin: 0;
+}
+.body-sm {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-lh);
+  color: var(--body);
+  margin: 0;
+}
+
+/* Caption / labels */
+.caption {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--caption-size);
+  line-height: 1.4;
+  color: var(--ink);
+}
+.caption-uppercase {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--caption-uppercase-size);
+  line-height: 1.4;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* Code */
+code, pre, .code {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--code-size);
+  line-height: var(--code-lh);
+}
+
+/* Inline coral text-link — one of the system's most distinctive details */
+a, .text-link {
+  color: var(--primary);
+  text-decoration: none;
+}
+a:active, .text-link:active {
+  text-decoration: underline;
+  color: var(--primary-active);
+}
+
+/* =========================================================================
+   Utility surface helpers
+   ========================================================================= */
+.surface-canvas      { background: var(--canvas); color: var(--ink); }
+.surface-soft        { background: var(--surface-soft); color: var(--ink); }
+.surface-card        { background: var(--surface-card); color: var(--ink); }
+.surface-cream-strong{ background: var(--surface-cream-strong); color: var(--ink); }
+.surface-dark        { background: var(--surface-dark); color: var(--on-dark); }
+.surface-dark-soft   { background: var(--surface-dark-soft); color: var(--on-dark); }
+.surface-coral       { background: var(--primary); color: var(--on-primary); }
+
+/* =========================================================================
+   Buttons
+   ========================================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--button-size);
+  line-height: 1;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.btn-primary:active { background: var(--primary-active); }
+
+.btn-secondary {
+  background: var(--canvas);
+  color: var(--ink);
+  border-color: var(--hairline);
+}
+
+.btn-secondary-on-dark {
+  background: var(--surface-dark-elevated);
+  color: var(--on-dark);
+  border-color: transparent;
+}
+
+.btn-text {
+  background: transparent;
+  color: var(--ink);
+  padding: 0 8px;
+}
+
+.btn-icon-circular {
+  width: 36px; height: 36px;
+  padding: 0;
+  border-radius: var(--radius-full);
+  background: var(--canvas);
+  color: var(--ink);
+  border-color: var(--hairline);
+}
+
+/* =========================================================================
+   Inputs
+   ========================================================================= */
+.input {
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: var(--body-md-size);
+  color: var(--ink);
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(204, 120, 92, 0.15);
+}
+
+/* =========================================================================
+   Badges & pills
+   ========================================================================= */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--caption-size);
+  line-height: 1;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-card);
+  color: var(--ink);
+}
+.badge-coral {
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: var(--caption-uppercase-size);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* =========================================================================
+   Cards
+   ========================================================================= */
+.card {
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+}
+.card-feature       { background: var(--surface-card); }
+.card-mockup-dark   { background: var(--surface-dark); color: var(--on-dark); }
+.card-code-window   { background: var(--surface-dark); color: var(--on-dark); padding: var(--space-lg); }
+.card-pricing       { background: var(--canvas); border: 1px solid var(--hairline); }
+.card-pricing-featured { background: var(--surface-dark); color: var(--on-dark); }
+.card-callout-coral { background: var(--primary); color: var(--on-primary); padding: var(--space-xxl); }
+
+/* =========================================================================
+   Layout helpers
+   ========================================================================= */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+.section { padding: var(--space-section) 0; }

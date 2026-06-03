@@ -5,9 +5,24 @@
       <span class="brand-word">Hwan</span>
     </a>
     <div class="nav-links">
-      <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' or page.url contains '/posts/' %}active{% endif %}">글</a>
-      <a href="{{ '/philosophy/' | relative_url }}" class="nav-link {% if page.url contains '/philosophy/' %}active{% endif %}">철학</a>
-      <a href="{{ '/news/' | relative_url }}" class="nav-link {% if page.url contains '/news/' %}active{% endif %}">뉴스</a>
+      {% assign is_philosophy = false %}
+      {% if page.url == '/philosophy/' or page.categories contains 'Philosophy' %}
+        {% assign is_philosophy = true %}
+      {% endif %}
+
+      {% assign is_news = false %}
+      {% if page.url == '/news/' or page.categories contains 'News' %}
+        {% assign is_news = true %}
+      {% endif %}
+
+      {% assign is_home = false %}
+      {% if page.url == '/' or (page.layout == 'post' and is_philosophy == false and is_news == false) %}
+        {% assign is_home = true %}
+      {% endif %}
+
+      <a href="{{ '/' | relative_url }}" class="nav-link {% if is_home %}active{% endif %}">글</a>
+      <a href="{{ '/philosophy/' | relative_url }}" class="nav-link {% if is_philosophy %}active{% endif %}">철학</a>
+      <a href="{{ '/news/' | relative_url }}" class="nav-link {% if is_news %}active{% endif %}">뉴스</a>
       <a href="{{ '/about/' | relative_url }}" class="nav-link {% if page.url contains 'about' %}active{% endif %}">소개</a>
     </div>
     <div class="nav-actions">

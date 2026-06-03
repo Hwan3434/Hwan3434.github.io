@@ -32,7 +32,6 @@ permalink: /about/
   .stitch-container {
     max-width: 800px;
     margin: 0 auto;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
     color: var(--text-primary);
   }
 
@@ -85,9 +84,11 @@ permalink: /about/
 
   /* Section Titles */
   .stitch-section-title {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 28px;
+    letter-spacing: -0.5px;
+    color: var(--ink);
     margin: 64px 0 24px;
     display: flex;
     align-items: center;
@@ -175,9 +176,10 @@ permalink: /about/
     margin-bottom: 8px;
   }
   .stitch-company {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
   }
   .stitch-period {
     font-size: 0.875rem;
@@ -243,9 +245,10 @@ permalink: /about/
     margin-bottom: 0;
   }
   .stitch-story-title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
     margin-bottom: 6px;
     display: flex;
     align-items: center;

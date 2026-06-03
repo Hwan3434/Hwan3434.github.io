@@ -1,7 +1,7 @@
 ---
 title: "Dart List.sort()의 배신: 아직도 불안정 정렬을 쓴다고?"
 description: "Dart 기본 정렬의 불안정성 때문에 1시간 넘게 고생한 썰과 해결 방법 (collection 패키지)"
-date: 2026-06-03 12:16:00 +0900
+date: 2026-05-17 12:16:00 +0900
 categories: [Flutter, 트러블슈팅]
 tags: [Dart, 정렬, Stable Sort, 트러블슈팅]
 toc: true

@@ -13,7 +13,7 @@ layout: default
       <button class="tag tag-active" data-tag="all" onclick="filterTag('all', this)">전체</button>
       {% assign all_tags = "" | split: "" %}
       {% for post in site.posts %}
-        {% if post.categories contains 'News' %}{% continue %}{% endif %}
+        {% if post.categories contains 'News' or post.categories contains 'Philosophy' %}{% continue %}{% endif %}
         {% for tag in post.tags %}
           {% unless all_tags contains tag %}
             {% assign all_tags = all_tags | push: tag %}
@@ -53,7 +53,7 @@ layout: default
 
     <div class="post-list" id="post-list">
       {% for post in site.posts %}
-        {% if post.categories contains 'News' %}{% continue %}{% endif %}
+        {% if post.categories contains 'News' or post.categories contains 'Philosophy' %}{% continue %}{% endif %}
         {% if post == featured_post %}{% continue %}{% endif %}
         <article class="post-row" data-tags="{{ post.tags | join: ',' }},{{ post.categories | join: ',' }}" onclick="window.location='{{ post.url | relative_url }}'">
           <div class="pr-date">{{ post.date | date: "%Y.%m.%d" }}</div>

@@ -1,6 +1,8 @@
 ---
 layout: page
 title: 소개
+heading: "이정환<span style='color: var(--primary);'>.</span>"
+lede: "\"팀원이 바뀌어도 코드는 읽혀야 하고, 구조가 오류를 막아야 한다고 믿는 10년 차 모바일 개발자입니다.\""
 permalink: /about/
 ---
 
@@ -10,7 +12,7 @@ permalink: /about/
   border-left: 4px solid #6366f1;
   padding: 14px 18px;
   border-radius: 8px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -22,58 +24,80 @@ permalink: /about/
   </div>
 </div>
 
-### 안녕하세요, 이정환입니다.
-> **"팀원이 바뀌어도 코드는 읽혀야 하고, 구조가 오류를 막아야 한다고 믿는 10년 차 모바일 개발자입니다."**
+<p>10년간 Android, iOS, Flutter를 거치며 다양한 아키텍처와 상태관리를 경험했고, 프레임워크의 기본 철학을 거스르지 않는 설계가 장기적으로 가장 효과적임을 확신하게 되었습니다.</p>
 
-10년간 Android, iOS, Flutter를 거치며 다양한 아키텍처와 상태관리를 경험했고, 프레임워크의 기본 철학을 거스르지 않는 설계가 장기적으로 가장 효과적임을 확신하게 되었습니다.
+<p>최근에는 레거시 코드를 9개의 패키지 멀티모듈 클린아키텍처로 전면 재설계하고, 동일한 구조를 신규 앱에 적용하여 빠른 개발 속도와 높은 코드 재사용성을 달성했습니다. 오류를 개발자의 주의력이 아닌 구조로 차단하고, 누구나 이해 가능한 간결한 구조를 지향합니다.</p>
 
-최근에는 레거시 코드를 9개의 패키지 멀티모듈 클린아키텍처로 전면 재설계하고, 동일한 구조를 신규 앱에 적용하여 빠른 개발 속도와 높은 코드 재사용성을 달성했습니다. 오류를 개발자의 주의력이 아닌 구조로 차단하고, 누구나 이해 가능한 간결한 구조를 지향합니다.
+<div class="about-section" style="margin-top: 60px;">
+  <div class="as-title">기술 역량 (Skills)</div>
+  <div class="stack-grid">
+    <div class="stack-item">
+      <div class="si-k">주력 분야</div>
+      <div class="si-v">Flutter, Android, iOS</div>
+    </div>
+    <div class="stack-item">
+      <div class="si-k">언어</div>
+      <div class="si-v">Dart, Kotlin, Swift</div>
+    </div>
+    <div class="stack-item">
+      <div class="si-k">아키텍처</div>
+      <div class="si-v">Clean Arch, MVVM</div>
+    </div>
+    <div class="stack-item">
+      <div class="si-k">상태 관리</div>
+      <div class="si-v">Riverpod, Provider</div>
+    </div>
+    <div class="stack-item">
+      <div class="si-k">도구 & 인프라</div>
+      <div class="si-v">Git, CI/CD, Firebase</div>
+    </div>
+  </div>
+</div>
 
----
+<div class="about-section" style="margin-top: 60px;">
+  <div class="as-title">주요 경력 (Experience)</div>
+  
+  <h3 style="margin-top: 0;">주식회사 뱅크엑스 <span style="font-size: 14px; color: var(--muted); font-weight: normal; margin-left: 8px;">2025.09 - 현재</span></h3>
+  <p><strong>플레이플래닛 & 플레이플래닛 AI (Flutter)</strong></p>
+  <ul style="margin-top: 12px;">
+    <li>레거시 코드 전면 클린아키텍처 재설계 (9개 패키지 멀티모듈 모노레포)</li>
+    <li>MVVM + 커스텀 상태관리 라이브러리 패턴 설계 및 적용</li>
+    <li>Riverpod 기반 의존성 주입, 패키지 레벨 의존성 방향 강제</li>
+    <li>소셜로그인 일반화 (Apple, Google, Kakao, Naver) 및 JWT 토큰 자동 갱신</li>
+  </ul>
 
-### 기술 역량 (Skills)
-- **주력분야**: Flutter (3년), Android & iOS (7년)
-- **언어 및 프레임워크**: Dart, Kotlin, Swift, Java, C#
-- **아키텍처 & 패턴**: Clean Architecture, MVVM, Riverpod, Provider
-- **도구 및 인프라**: Jenkins, Firebase, Git, Github Actions
+  <h3 style="margin-top: 40px;">엔에이치엔인재아이엔씨(NHN) <span style="font-size: 14px; color: var(--muted); font-weight: normal; margin-left: 8px;">2023.03 - 2025.07</span></h3>
+  <p><strong>모바일 개발 파트</strong></p>
+  <ul style="margin-top: 12px;">
+    <li><strong>모바일 GPT Client (Flutter):</strong> 사내용 Chat GPT 앱 개발 및 MVVM 패턴 적용</li>
+    <li><strong>티켓링크 iOS:</strong> 오프라인 티켓 조회, 자동 로그인 프로세스 개선</li>
+    <li><strong>운수도원 (Android/iOS):</strong> 구글 애드몹 전면 광고 적용 및 Jenkins CI/CD 설정</li>
+  </ul>
 
----
+  <h3 style="margin-top: 40px;">페이민트 주식회사 <span style="font-size: 14px; color: var(--muted); font-weight: normal; margin-left: 8px;">2022.12 - 2023.03</span></h3>
+  <p><strong>결제선생 앱 리팩토링 (Android)</strong></p>
+  <ul style="margin-top: 12px;">
+    <li>검색 시 페이징과 검색 조건 일반화 및 의존성 분리</li>
+  </ul>
 
-### 주요 경력 (Experience)
+  <h3 style="margin-top: 40px;">미소앤클라우드 <span style="font-size: 14px; color: var(--muted); font-weight: normal; margin-left: 8px;">2015.10 - 2022.09</span></h3>
+  <p><strong>모바일 및 백엔드 개발</strong></p>
+  <ul style="margin-top: 12px;">
+    <li>자체 Push 서버 개발 (Java Spring) 및 Android/iOS Push SDK 개발</li>
+    <li>주식 매매 및 실시간 데이터 연동 앱 개발 (OAuth, 소켓 통신)</li>
+  </ul>
+</div>
 
-#### 주식회사 뱅크엑스 (2025.09 - 현재)
-**플레이플래닛 & 플레이플래닛 AI (Flutter)**
-- 레거시 코드 전면 클린아키텍처 재설계 (9개 패키지 멀티모듈 모노레포, Pub Workspaces)
-- MVVM + 커스텀 상태관리 라이브러리 패턴 설계 및 적용
-- Riverpod 기반 의존성 주입, 패키지 레벨 의존성 방향 강제
-- 소셜로그인 일반화 (Apple, Google, Kakao, Naver) 및 JWT 토큰 자동 갱신
-- go_router 기반 딥링크 및 Auth Guard 화면 접근 제어
-- 빌드 스크립트 자동화 (dev/prod Flavor 분리, QA/Store 배포)
-- LLM 채팅 기반 위치 혜택 질의응답 서비스 등 신규 앱 설계 및 개발
-
-#### 엔에이치엔인재아이엔씨(NHN) (2023.03 - 2025.07)
-**모바일 개발 파트**
-- **모바일 GPT Client 앱 개발 (Flutter)**: 사내용 Chat GPT Client 앱 개발 및 MVVM 패턴 적용
-- **티켓링크 iOS**: 오프라인 티켓 조회, 자동 로그인 프로세스 개선
-- **운수도원 (Android/iOS)**: 구글 애드몹 전면 광고 적용 및 Jenkins CI/CD 설정
-- **Contiple (Flutter)**: 프로젝트 초기 클린아키텍처 구조 설계, Riverpod 페이지네이션, 생체인증 및 딥링크 구현
-- **공통 웹뷰 개발 (Flutter)**: JavaScript 기반 객체 데이터 송수신 및 일반화 설계
-
-#### 페이민트 주식회사 (2022.12 - 2023.03)
-**결제선생 앱 리팩토링 (Android)**
-- 검색 시 페이징과 검색 조건 일반화 및 의존성 분리
-- 복잡한 상태 관련 코드 개선
-
-#### 미소앤클라우드 (2015.10 - 2022.09)
-**모바일 및 백엔드 개발**
-- 자체 Push 서버 개발 (Java Spring) 및 Android/iOS Push SDK 개발
-- 주식인 (Android, iOS) 및 미스리메신저 모바일 앱 개발 (OAuth, 소켓 통신, 주식 실시간 데이터 연동)
-- 주식매매 윈도우 프로그램 개발 (C#, 자동 매매 조건 모듈화)
-
----
-
-### 이 블로그에서는 다음과 같은 이야기를 나눕니다.
-
-- **Flutter & 모바일 아키텍처**: 프레임워크의 철학을 거스르지 않는 구조적 고민과, Dart SSE 통신 시 발생하는 인코딩 문제 등 깊이 있는 실무 트러블슈팅을 기록합니다.
-- **AI 에이전트와 생산성**: Claude Code 같은 AI 코딩 에이전트를 실무 환경에 맞게 커스텀(Harness)하며 겪은 시행착오와, 가장 현실적이고 효율적인 AI 협업 전략을 회고합니다.
-- **최신 테크 동향**: 숨 가쁘게 변하는 주요 AI 및 IT 업계의 핵심 뉴스들을 꾸준히 정리하고 공유합니다.
+<div class="about-section" style="margin-top: 60px; margin-bottom: 20px;">
+  <div class="as-title">이 블로그의 이야기들</div>
+  <div class="callout">
+    <div class="ci">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    </div>
+    <div class="cc">
+      <strong style="color: var(--ink);">Flutter & 모바일 아키텍처:</strong> 프레임워크의 철학을 거스르지 않는 구조적 고민과 실무 트러블슈팅을 기록합니다.<br><br>
+      <strong style="color: var(--ink);">AI 에이전트와 생산성:</strong> AI 코딩 에이전트를 실무 환경에 맞게 커스텀하며 겪은 시행착오와 효율적인 협업 전략을 회고합니다.<br><br>
+      <strong style="color: var(--ink);">최신 테크 동향:</strong> 쏟아지는 최신 AI 및 IT 업계의 핵심 뉴스들을 꾸준히 정리하고 공유합니다.
+    </div>
+  </div>
+</div>

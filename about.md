@@ -312,6 +312,7 @@ permalink: /about/
         <li><strong>의존성 방향 강제 (Riverpod):</strong> 팀원들의 의도치 않은 의존성 주입을 방지하기 위해 패키지 레벨에서 아키텍처 규칙을 강제하여, 코드 리뷰 비용 절감 및 오류 발생률 최소화</li>
         <li><strong>높은 재사용성과 유연성:</strong> 분리된 코어 로직을 기반으로 두 번째 앱(플레이플래닛 AI) 론칭 시 개발 기간을 절반 이하로 단축</li>
         <li>소셜로그인 일반화 (Apple, Google, Kakao, Naver) 및 JWT 토큰 자동 갱신 아키텍처 구축</li>
+        <li><strong>AI 도입 및 조직 문화 주도:</strong> 개발팀 맞춤형 AI 스킬(Harness), 룰, 에이전트를 직접 설계 및 배포하여 팀 생산성을 극대화하고, 사내 AI 계정 관리 및 전사적 활용 세미나를 주도</li>
       </ul>
     </div>
 

@@ -323,7 +323,7 @@ permalink: /about/
       </div>
       <div class="stitch-role">모바일 개발 파트</div>
       <ul class="stitch-tasks">
-        <li><strong>모바일 GPT Client (Flutter):</strong> 신규 사내 앱을 바닥부터 설계하며, Flutter의 조합(Composition) 철학을 극대화한 예측 가능한 UI 컴포넌트 시스템 구축 (오버엔지니어링 없이 목표에 핏한 MVVM 적용)</li>
+        <li><strong>모바일 GPT Client (Flutter):</strong> 신규 사내 앱을 바닥부터 설계하며, Flutter의 조합(Composition) 철학을 극대화한 예측 가능한 UI 컴포넌트 시스템 구축 (오버엔지니어링을 배제하고 목표에 가장 적합한 클린 아키텍처 적용)</li>
         <li><strong>공통 웹뷰 통신 구조 일반화:</strong> JS Interface 연동 시 발생하는 반복적인 코드 작성과 하드코딩을 제거하고 단일화된 구조로 개선하여 웹뷰 연동 버그 90% 차단</li>
         <li><strong>티켓링크 iOS:</strong> 예외 상황 처리가 부족했던 기존 오프라인 티켓 및 자동 로그인 프로세스 전면 리팩토링</li>
         <li><strong>운수도원 (Android/iOS):</strong> 구글 애드몹 전면 광고 적용 및 Jenkins CI/CD 자동화 파이프라인 구축</li>
@@ -352,7 +352,7 @@ permalink: /about/
       <div class="stitch-role">모바일 및 백엔드 개발</div>
       <ul class="stitch-tasks">
         <li>자체 Push 서버 개발 (Java Spring) 및 모바일 네이티브(Android/iOS) Push SDK 구축</li>
-        <li>주식 매매 및 실시간 소켓 통신 앱 개발을 통해, 대용량 실시간 데이터를 병목 없이 처리하는 기반 설계 역량 확보</li>
+        <li><strong>미스리 메신저 및 주식인 앱 (Android/iOS):</strong> OAuth 연동, 주식 실시간 소켓 통신 앱 개발을 통해, 대용량 실시간 데이터를 병목 없이 처리하는 기반 설계 역량 확보</li>
       </ul>
     </div>
 

@@ -357,7 +357,8 @@ permalink: /about/
       <div class="stitch-role">모바일 및 백엔드 개발</div>
       <ul class="stitch-tasks">
         <li>자체 Push 서버 개발 (Java Spring) 및 모바일 네이티브(Android/iOS) Push SDK 개발</li>
-        <li><strong>미스리 메신저 및 주식인 앱 (Android/iOS):</strong> OAuth, 소켓 통신, 주식 실시간 데이터 연동 앱 개발</li>
+        <li><strong>미스리 메신저 (Android/iOS):</strong> OAuth 연동 및 소켓 통신 기반 모바일 메신저 앱 개발</li>
+        <li><strong>주식인 (Windows):</strong> 실시간 주식 데이터 연동 및 매수/매도, 트리거(자동) 매매 시스템 구현</li>
       </ul>
     </div>
 

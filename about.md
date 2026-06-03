@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 소개
-heading: "팀원이 바뀌어도 코드는 읽혀야 하고, 오류는 <span style='color: var(--primary);'>구조</span>가 막아야 합니다."
+heading: "예측 가능한 코드, 통제 가능한 <span style='color: var(--primary);'>아키텍처</span>."
 lede: "단기적인 타협이 남기는 기술 부채를 엄격하게 경계하는 10년 차 모바일 아키텍트, 이정환입니다."
 permalink: /about/
 ---

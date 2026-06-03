@@ -21,7 +21,3 @@ permalink: /about/
 - 프로젝트 회고
 
 등을 다룰 예정입니다.
-
-### 연락처
-
-- GitHub: [Hwan3434](https://github.com/Hwan3434)

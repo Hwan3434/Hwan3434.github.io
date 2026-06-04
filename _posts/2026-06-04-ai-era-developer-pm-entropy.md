@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "AI 시대, 기획자와 개발자의 경계 그리고 엔트로피에 대한 단상"
-date: 2026-06-04 17:30:00 +0900
-categories: [Insight]
+date: 2026-06-04 08:00:00 +0900
+categories: [Philosophy]
 tags: [AI, DDD, Product Engineering, Essay]
 ---
 

@@ -2,7 +2,7 @@
 title: "AI 에이전트 하네스(Harness) 전략: 범용성을 버리고 도메인에 집중하기"
 description: "Claude Code 업데이트로 겪은 자체 구축 스킬(Skill)의 중복 문제와, 효과적인 AI 하네스 구축에 대한 깨달음"
 date: 2026-06-03 11:50:00 +0900
-categories: [AI, 회고]
+categories: [ai, 회고]
 tags: [Claude Code, AI Agent, Harness, 생산성]
 toc: true
 ---

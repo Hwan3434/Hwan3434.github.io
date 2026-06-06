@@ -2,7 +2,7 @@
 title: "Flutter 철학, 나의 언어로"
 description: "크로스플랫폼이라는 현실적 선택 이후, 내가 마주한 진짜 질문에 대하여"
 date: 2026-03-09 18:00:00 +0900
-categories: [Philosophy, 에세이]
+categories: [philosophy, 에세이]
 tags: [철학, 아키텍처, 마인드셋]
 pin: true
 toc: true

@@ -6,12 +6,12 @@
     </a>
     <div class="nav-links">
       {% assign is_philosophy = false %}
-      {% if page.url == '/philosophy/' or page.categories contains 'Philosophy' %}
+      {% if page.url == '/philosophy/' or page.categories contains 'philosophy' %}
         {% assign is_philosophy = true %}
       {% endif %}
 
       {% assign is_news = false %}
-      {% if page.url == '/news/' or page.categories contains 'News' %}
+      {% if page.url == '/news/' or page.categories contains 'news' %}
         {% assign is_news = true %}
       {% endif %}
 

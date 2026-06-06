@@ -2,7 +2,7 @@
 title: "Dart SSE 통신 시 한글 깨짐 문제"
 description: "SSE 스트림에서 멀티바이트 문자가 깨지는 원인과 Dart 스트림 파이프라인을 활용한 해결책"
 date: 2026-04-04 19:00:00 +0900
-categories: [Flutter, 트러블슈팅]
+categories: [flutter, 트러블슈팅]
 tags: [Dart, SSE, UTF-8, 인코딩]
 toc: true
 ---

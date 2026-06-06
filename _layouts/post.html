@@ -41,11 +41,33 @@ layout: default
               <span class="tag" onclick="window.location='{{ '/' | relative_url }}?tag={{ tag }}'">{{ tag }}</span>
             {% endfor %}
           </div>
+          {% assign current_category = page.categories.first %}
+          {% assign posts_in_category = site.categories[current_category] %}
+          {% assign prev_in_category = nil %}
+          {% assign next_in_category = nil %}
+          
+          {% for p in posts_in_category %}
+            {% if p.url == page.url %}
+              {% assign prev_index = forloop.index0 | plus: 1 %}
+              {% assign next_index = forloop.index0 | minus: 1 %}
+              
+              {% if prev_index < posts_in_category.size %}
+                {% assign prev_in_category = posts_in_category[prev_index] %}
+              {% endif %}
+              
+              {% if next_index >= 0 %}
+                {% assign next_in_category = posts_in_category[next_index] %}
+              {% endif %}
+              
+              {% break %}
+            {% endif %}
+          {% endfor %}
+
           <div class="prevnext">
-            {% if page.previous %}
-            <button class="pn-card prev" onclick="window.location='{{ page.previous.url | relative_url }}'">
+            {% if prev_in_category %}
+            <button class="pn-card prev" onclick="window.location='{{ prev_in_category.url | relative_url }}'">
               <div class="pn-label">← 이전 글</div>
-              <div class="pn-title">{{ page.previous.title }}</div>
+              <div class="pn-title">{{ prev_in_category.title }}</div>
             </button>
             {% else %}
             <button class="pn-card prev disabled">
@@ -54,10 +76,10 @@ layout: default
             </button>
             {% endif %}
 
-            {% if page.next %}
-            <button class="pn-card next" onclick="window.location='{{ page.next.url | relative_url }}'">
+            {% if next_in_category %}
+            <button class="pn-card next" onclick="window.location='{{ next_in_category.url | relative_url }}'">
               <div class="pn-label">다음 글 →</div>
-              <div class="pn-title">{{ page.next.title }}</div>
+              <div class="pn-title">{{ next_in_category.title }}</div>
             </button>
             {% else %}
             <button class="pn-card next disabled">

@@ -1,4 +1,5 @@
-import sqlite3
+import os
+import json
 import datetime
 
 def categorize_job(title):
@@ -9,28 +10,34 @@ def categorize_job(title):
     else: return '기타 모바일'
 
 def generate_html():
-    import os
-    db_path = os.path.join(os.path.dirname(__file__), 'jobs.db')
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
+    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'jobs.json'))
     
-    yesterday = (datetime.datetime.utcnow() - datetime.timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')
-    cursor.execute('''
-        SELECT title, company, platform, job_url, created_at, last_seen_at 
-        FROM jobs 
-        WHERE last_seen_at > ?
-        ORDER BY created_at DESC
-    ''', (yesterday,))
-    jobs = cursor.fetchall()
-    conn.close()
+    if os.path.exists(db_path):
+        with open(db_path, 'r', encoding='utf-8') as f:
+            jobs = json.load(f)
+    else:
+        jobs = []
+        
+    yesterday_dt = datetime.datetime.utcnow() - datetime.timedelta(days=1)
+    
+    active_jobs = []
+    for job in jobs:
+        try:
+            last_seen_dt = datetime.datetime.strptime(job['last_seen_at'], '%Y-%m-%d %H:%M:%S')
+        except:
+            continue
+        if last_seen_dt > yesterday_dt:
+            active_jobs.append(job)
+            
+    active_jobs.sort(key=lambda x: x['created_at'], reverse=True)
 
     grouped_jobs = {'Flutter': [], 'Android': [], 'iOS': [], '기타 모바일': []}
     
-    for title, company, platform, job_url, created_at, last_seen_at in jobs:
-        created_dt = datetime.datetime.strptime(created_at, '%Y-%m-%d %H:%M:%S')
+    for job in active_jobs:
+        created_dt = datetime.datetime.strptime(job['created_at'], '%Y-%m-%d %H:%M:%S')
         is_new = (datetime.datetime.utcnow() - created_dt).total_seconds() < 86400
-        cat = categorize_job(title)
-        grouped_jobs[cat].append((title, company, platform, job_url, is_new))
+        cat = categorize_job(job['title'])
+        grouped_jobs[cat].append((job['title'], job['company'], job['platform'], job['job_url'], is_new))
 
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     now_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -93,7 +100,6 @@ def generate_html():
         html_content += "</div>"
 
     html_content += "</div></body></html>"
-    import os
     output_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'jobs.html'))
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html_content)

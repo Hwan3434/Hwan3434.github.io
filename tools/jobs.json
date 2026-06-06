@@ -1,0 +1,342 @@
+[
+  {
+    "id": "wanted_365659",
+    "platform": "Wanted",
+    "title": "[엔지니어링 팀] 모바일 엔지니어 (3년 이상)",
+    "company": "하이어다이버시티",
+    "job_url": "https://www.wanted.co.kr/wd/365659",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-03 00:36:56",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_364787",
+    "platform": "Wanted",
+    "title": "iOS 개발자 (책임급)",
+    "company": "비누랩스",
+    "job_url": "https://www.wanted.co.kr/wd/364787",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-03 00:36:56",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_364268",
+    "platform": "Wanted",
+    "title": "모바일 에이전트 개발자",
+    "company": "와탭랩스(WhaTapLabs)",
+    "job_url": "https://www.wanted.co.kr/wd/364268",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-03 00:36:56",
+    "last_seen_at": "2026-06-03 00:36:56"
+  },
+  {
+    "id": "wanted_364234",
+    "platform": "Wanted",
+    "title": "Android App 개발 엔지니어(3~5년)",
+    "company": "교보문고",
+    "job_url": "https://www.wanted.co.kr/wd/364234",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-03 00:36:56",
+    "last_seen_at": "2026-06-03 00:36:56"
+  },
+  {
+    "id": "wanted_364098",
+    "platform": "Wanted",
+    "title": "[쑥쑥찰칵] Android 개발자",
+    "company": "제제미미",
+    "job_url": "https://www.wanted.co.kr/wd/364098",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-03 00:36:56",
+    "last_seen_at": "2026-06-03 00:36:56"
+  },
+  {
+    "id": "wanted_364097",
+    "platform": "Wanted",
+    "title": "[쑥쑥찰칵] iOS 개발자",
+    "company": "제제미미",
+    "job_url": "https://www.wanted.co.kr/wd/364097",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-03 00:36:56",
+    "last_seen_at": "2026-06-03 00:36:56"
+  },
+  {
+    "id": "wanted_363677",
+    "platform": "Wanted",
+    "title": "Android Engineer (System Application)",
+    "company": "포티투닷(42dot)",
+    "job_url": "https://www.wanted.co.kr/wd/363677",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-03 00:36:56",
+    "last_seen_at": "2026-06-03 00:36:56"
+  },
+  {
+    "id": "coupang_7474822",
+    "platform": "Coupang",
+    "title": "Staff Android Engineer",
+    "company": "쿠팡 (Coupang)",
+    "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7474822",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-03 00:36:56",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "coupang_7058315",
+    "platform": "Coupang",
+    "title": "Staff Mobile Engineer (iOS)",
+    "company": "쿠팡 (Coupang)",
+    "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7058315",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-03 00:36:56",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_366542",
+    "platform": "Wanted",
+    "title": "Staff Software Engineer (Sales & Delivery Application), Seoul, Korea",
+    "company": "테슬라(Tesla)",
+    "job_url": "https://www.wanted.co.kr/wd/366542",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_366541",
+    "platform": "Wanted",
+    "title": "Senior Application Support Engineer (Sales & Delivery Application), Seoul, Korea",
+    "company": "테슬라(Tesla)",
+    "job_url": "https://www.wanted.co.kr/wd/366541",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_366455",
+    "platform": "Wanted",
+    "title": "[중견 계열사] 의료 영상 소프트웨어 개발자",
+    "company": "우리엔",
+    "job_url": "https://www.wanted.co.kr/wd/366455",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_366378",
+    "platform": "Wanted",
+    "title": "Software Engineer SLAM",
+    "company": "베어로보틱스코리아",
+    "job_url": "https://www.wanted.co.kr/wd/366378",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_366375",
+    "platform": "Wanted",
+    "title": "Robotics Software Engineer,  Navigation",
+    "company": "베어로보틱스코리아",
+    "job_url": "https://www.wanted.co.kr/wd/366375",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_366156",
+    "platform": "Wanted",
+    "title": "Startup Partner Solutions Architect, Korea Startups",
+    "company": "아마존(Amazon)",
+    "job_url": "https://www.wanted.co.kr/wd/366156",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365989",
+    "platform": "Wanted",
+    "title": "[청주/미국출장] 배터리 전극/조립 MES 개발자",
+    "company": "오아비스 솔루션",
+    "job_url": "https://www.wanted.co.kr/wd/365989",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365872",
+    "platform": "Wanted",
+    "title": "Robot Learning Engineer 3년 이상",
+    "company": "세코어로보틱스",
+    "job_url": "https://www.wanted.co.kr/wd/365872",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365869",
+    "platform": "Wanted",
+    "title": "[텀블벅] iOS 개발자 (1~3년)",
+    "company": "백패커",
+    "job_url": "https://www.wanted.co.kr/wd/365869",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365793",
+    "platform": "Wanted",
+    "title": "솔루션개발 엔지니어",
+    "company": "로민",
+    "job_url": "https://www.wanted.co.kr/wd/365793",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365758",
+    "platform": "Wanted",
+    "title": "로보틱스 SW 엔지니어",
+    "company": "씨메스로보틱스",
+    "job_url": "https://www.wanted.co.kr/wd/365758",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365745",
+    "platform": "Wanted",
+    "title": "로봇 Application SW Engineer",
+    "company": "씨메스로보틱스",
+    "job_url": "https://www.wanted.co.kr/wd/365745",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365675",
+    "platform": "Wanted",
+    "title": "[인공지능 기반 정밀의료] Senior/Lead software engineer",
+    "company": "임프리메드코리아",
+    "job_url": "https://www.wanted.co.kr/wd/365675",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365637",
+    "platform": "Wanted",
+    "title": "Back-end Engineer (광고/SSP)",
+    "company": "씨제이올리브영(CJ올리브영)",
+    "job_url": "https://www.wanted.co.kr/wd/365637",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365604",
+    "platform": "Wanted",
+    "title": "Front-end Engineer (광고/DSP)",
+    "company": "씨제이올리브영(CJ올리브영)",
+    "job_url": "https://www.wanted.co.kr/wd/365604",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365560",
+    "platform": "Wanted",
+    "title": "HW/FW 개발자 (회로설계)",
+    "company": "아이씨티케이",
+    "job_url": "https://www.wanted.co.kr/wd/365560",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365516",
+    "platform": "Wanted",
+    "title": "[인턴] 풀스택 엔지니어",
+    "company": "모두닥",
+    "job_url": "https://www.wanted.co.kr/wd/365516",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365353",
+    "platform": "Wanted",
+    "title": "Application Architect, Professional Services",
+    "company": "아마존(Amazon)",
+    "job_url": "https://www.wanted.co.kr/wd/365353",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365304",
+    "platform": "Wanted",
+    "title": "Installation Project Manager",
+    "company": "에이아이트릭스(AITRICS)",
+    "job_url": "https://www.wanted.co.kr/wd/365304",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365271",
+    "platform": "Wanted",
+    "title": "Manager, Live TV Technical Operations, APAC",
+    "company": "넷플릭스(Netflix)",
+    "job_url": "https://www.wanted.co.kr/wd/365271",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365220",
+    "platform": "Wanted",
+    "title": "[자율주행솔루션사업부] FW 엔지니어",
+    "company": "유진로봇",
+    "job_url": "https://www.wanted.co.kr/wd/365220",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365218",
+    "platform": "Wanted",
+    "title": "[자율주행솔루션사업부] SW (Middleware)",
+    "company": "유진로봇",
+    "job_url": "https://www.wanted.co.kr/wd/365218",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_365034",
+    "platform": "Wanted",
+    "title": "Back-end 개발자",
+    "company": "비사이드코리아",
+    "job_url": "https://www.wanted.co.kr/wd/365034",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_364825",
+    "platform": "Wanted",
+    "title": "Product Engineer",
+    "company": "한국평가정보",
+    "job_url": "https://www.wanted.co.kr/wd/364825",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  },
+  {
+    "id": "wanted_364721",
+    "platform": "Wanted",
+    "title": "Partner Solutions Architect, AWS Partner Field APJ",
+    "company": "아마존(Amazon)",
+    "job_url": "https://www.wanted.co.kr/wd/364721",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-06 23:00:37",
+    "last_seen_at": "2026-06-06 23:04:51"
+  }
+]

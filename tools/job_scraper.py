@@ -1,8 +1,8 @@
-import sqlite3
 import json
 import urllib.request
 import re
 import datetime
+import os
 
 def normalize_string(s):
     if not s:
@@ -10,53 +10,60 @@ def normalize_string(s):
     s = re.sub(r'[^a-zA-Z0-9가-힣]', '', s)
     return s.lower()
 
-def is_duplicate(cursor, company, title):
+def is_duplicate(jobs, company, title):
     norm_title = normalize_string(title)
-    cursor.execute("SELECT id, title, platform FROM jobs WHERE company = ?", (company,))
-    for job_id, existing_title, existing_platform in cursor.fetchall():
-        norm_existing = normalize_string(existing_title)
-        if norm_title in norm_existing or norm_existing in norm_title:
-            return job_id, existing_platform
+    for job in jobs:
+        if job['company'] == company:
+            norm_existing = normalize_string(job['title'])
+            if norm_title in norm_existing or norm_existing in norm_title:
+                return job['id'], job['platform']
     return None
 
-def save_jobs(jobs):
-    import os
-    db_path = os.path.join(os.path.dirname(__file__), 'jobs.db')
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
+def save_jobs(new_jobs_list):
+    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'jobs.json'))
+    
+    if os.path.exists(db_path):
+        with open(db_path, 'r', encoding='utf-8') as f:
+            jobs = json.load(f)
+    else:
+        jobs = []
+
     new_jobs_count = 0
     updated_jobs_count = 0
-    
     current_time = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
-    
-    for job in jobs:
-        # 1. 완전 동일 ID 검사 (생명 연장!)
-        cursor.execute("SELECT id FROM jobs WHERE id = ?", (job['id'],))
-        if cursor.fetchone():
-            cursor.execute("UPDATE jobs SET last_seen_at = ? WHERE id = ?", (current_time, job['id']))
+
+    for new_job in new_jobs_list:
+        # 1. Check exact ID
+        existing = next((j for j in jobs if j['id'] == new_job['id']), None)
+        if existing:
+            existing['last_seen_at'] = current_time
             updated_jobs_count += 1
             continue
             
-        # 2. 크로스 플랫폼 유사도 검사 (생명 연장 + 배지 병합!)
-        dup_info = is_duplicate(cursor, job['company'], job['title'])
+        # 2. Cross platform similarity
+        dup_info = is_duplicate(jobs, new_job['company'], new_job['title'])
         if dup_info:
             dup_id, existing_platform = dup_info
-            new_platform = existing_platform
-            if job['platform'] not in existing_platform:
-                new_platform = f"{existing_platform}, {job['platform']}"
-            cursor.execute("UPDATE jobs SET platform = ?, last_seen_at = ? WHERE id = ?", (new_platform, current_time, dup_id))
-            updated_jobs_count += 1
+            
+            existing = next((j for j in jobs if j['id'] == dup_id), None)
+            if existing:
+                if new_job['platform'] not in existing_platform:
+                    existing['platform'] = f"{existing_platform}, {new_job['platform']}"
+                existing['last_seen_at'] = current_time
+                updated_jobs_count += 1
             continue
             
-        # 3. 완전 신규 공고!
-        cursor.execute('''
-        INSERT INTO jobs (id, platform, title, company, job_url, tech_stack, created_at, last_seen_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (job['id'], job['platform'], job['title'], job['company'], job['job_url'], job.get('tech_stack', ''), current_time, current_time))
+        # 3. New Job
+        new_job['created_at'] = current_time
+        new_job['last_seen_at'] = current_time
+        if 'tech_stack' not in new_job:
+            new_job['tech_stack'] = ''
+        jobs.append(new_job)
         new_jobs_count += 1
             
-    conn.commit()
-    conn.close()
+    with open(db_path, 'w', encoding='utf-8') as f:
+        json.dump(jobs, f, ensure_ascii=False, indent=2)
+
     return new_jobs_count, updated_jobs_count
 
 def scrape_wanted():
@@ -70,8 +77,7 @@ def scrape_wanted():
             for job in data.get('data', []):
                 title = job.get('position', '').lower()
                 
-                # 블랙리스트 방식: 확실히 모바일이 아닌 직무(백엔드, 서버, 데이터 등)만 걸러냄
-                # 이렇게 하면 영어(App Developer 등)나 범용 타이틀(Software Engineer)을 놓치지 않음
+                # 블랙리스트 방식
                 blacklist = ['backend', '백엔드', 'server', '서버', 'data', '데이터', 'ml', 'ai', '머신러닝', 'frontend', '프론트엔드', 'web', '웹', 'devops', '데브옵스', 'infra', '인프라']
                 
                 is_valid = True

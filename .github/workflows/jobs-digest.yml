@@ -1,0 +1,43 @@
+name: "Weekly Jobs Digest"
+
+on:
+  schedule:
+    # 매주 월요일 오전 9시 (KST) = UTC 기준 월요일 00:00
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-jobs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run Job Scraper
+        run: |
+          python tools/job_scraper.py
+          python tools/generate_job_html.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add jobs.html tools/jobs.json
+          
+          # 변경사항이 있을 때만 커밋
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: automated weekly jobs digest update"
+            git push
+          else
+            echo "No changes to commit."
+          fi

@@ -3,13 +3,13 @@ const { StdioServerTransport } = require("@modelcontextprotocol/sdk/server/stdio
 const { z } = require("zod");
 const fs = require("fs");
 const path = require("path");
-const { execSync } = require("child_process");
+const { execFileSync } = require("child_process");
 
 const BLOG_DIR = path.resolve(__dirname, '..');
 
 function runGit(args) {
     try {
-        return execSync(`git ${args.join(' ')}`, { cwd: BLOG_DIR, encoding: 'utf-8' });
+        return execFileSync('git', args, { cwd: BLOG_DIR, encoding: 'utf-8' });
     } catch (e) {
         throw new Error(`Git error: ${e.stderr || e.message}`);
     }

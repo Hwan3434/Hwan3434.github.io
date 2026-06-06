@@ -20,7 +20,7 @@
         {% assign is_home = true %}
       {% endif %}
 
-      <a href="{{ '/' | relative_url }}" class="nav-link {% if is_home %}active{% endif %}">글</a>
+      <a href="{{ '/' | relative_url }}" class="nav-link {% if is_home %}active{% endif %}">테크</a>
       <a href="{{ '/philosophy/' | relative_url }}" class="nav-link {% if is_philosophy %}active{% endif %}">철학</a>
       <a href="{{ '/news/' | relative_url }}" class="nav-link {% if is_news %}active{% endif %}">뉴스</a>
       <a href="{{ '/about/' | relative_url }}" class="nav-link {% if page.url contains 'about' %}active{% endif %}">소개</a>

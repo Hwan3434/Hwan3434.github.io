@@ -326,3 +326,32 @@ a { color: inherit; text-decoration: none; }
 .highlight .nb, .highlight .nc, .highlight .no, .highlight .nd, .highlight .ni, .highlight .ne, .highlight .nf, .highlight .nl, .highlight .nn, .highlight .nt, .highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi { color: #d2a8ff; }
 .highlight .na { color: #7ee787; }
 .highlight .err { color: #f85149; background-color: #490202; }
+
+/* Source Chip */
+.source-chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 13px;
+  text-decoration: none !important;
+  color: var(--text) !important;
+  margin: 4px 8px 4px 0;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+.source-chip:hover {
+  border-color: var(--primary);
+  background-color: var(--bg);
+  transform: translateY(-1px);
+}
+.source-chip .sc-label {
+  font-weight: 600;
+  color: var(--primary);
+  margin-right: 6px;
+}
+.source-chip .sc-provider {
+  color: var(--muted);
+}

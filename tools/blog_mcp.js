@@ -25,12 +25,16 @@ server.tool(
     {
         title: z.string().describe("The title of the blog post"),
         content: z.string().describe("The main markdown content"),
-        category: z.string().default("etc").describe("Category folder (e.g. news, tech, philosophy)")
+        category: z.string().default("etc").describe("Category folder (e.g. news, tech, philosophy)"),
+        slug: z.string().optional().describe("Optional english slug for the filename. If not provided, a default one is generated.")
     },
-    async ({ title, content, category }) => {
-        let slug = title.toLowerCase().replace(/[^a-z0-9가-힣]+/g, '-').replace(/(^-|-$)/g, '');
-        if (!slug) {
-            slug = `post-${Date.now()}`;
+    async ({ title, content, category, slug }) => {
+        let finalSlug = slug;
+        if (!finalSlug) {
+            finalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            if (!finalSlug) {
+                finalSlug = `post-${Date.now()}`;
+            }
         }
 
         const now = new Date();
@@ -42,7 +46,7 @@ server.tool(
         const timeStr = `${pad(kst.getUTCHours())}:${pad(kst.getUTCMinutes())}:${pad(kst.getUTCSeconds())}`;
         const datetimeStr = `${dateStr} ${timeStr} +0900`;
 
-        const filename = `${dateStr}-${slug}.md`;
+        const filename = `${dateStr}-${finalSlug}.md`;
         const catLower = category.toLowerCase();
         
         const outDir = path.join(BLOG_DIR, '_posts', catLower);

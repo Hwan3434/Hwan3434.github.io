@@ -26,9 +26,10 @@ server.tool(
         title: z.string().describe("The title of the blog post"),
         content: z.string().describe("The main markdown content"),
         category: z.string().default("etc").describe("Category folder (e.g. news, tech, philosophy)"),
-        slug: z.string().optional().describe("Optional english slug for the filename. If not provided, a default one is generated.")
+        slug: z.string().optional().describe("Optional english slug for the filename. If not provided, a default one is generated."),
+        tags: z.array(z.string()).optional().describe("Array of tags for the blog post")
     },
-    async ({ title, content, category, slug }) => {
+    async ({ title, content, category, slug, tags }) => {
         let finalSlug = slug;
         if (!finalSlug) {
             finalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -56,7 +57,11 @@ server.tool(
 
         const outPath = path.join(outDir, filename);
         
-        const frontmatter = `---\nlayout: post\ntitle: "${title}"\ndate: ${datetimeStr}\ncategories: [${catLower}]\n---\n\n`;
+        let tagsLine = "";
+        if (tags && tags.length > 0) {
+            tagsLine = `tags: [${tags.join(', ')}]\n`;
+        }
+        const frontmatter = `---\nlayout: post\ntitle: "${title}"\ndate: ${datetimeStr}\ncategories: [${catLower}]\n${tagsLine}---\n\n`;
         
         fs.writeFileSync(outPath, frontmatter + content, 'utf-8');
 

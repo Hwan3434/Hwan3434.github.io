@@ -27,9 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // TOC Generation
-  const prose = document.getElementById('prose');
-  const tocList = document.getElementById('toc-list');
-  if (prose && tocList) {
+  window.initTOC = function() {
+    const prose = document.getElementById('prose');
+    const tocList = document.getElementById('toc-list');
+    if (!prose || !tocList) return;
+    
+    tocList.innerHTML = '';
+    
+    if (window.tocObserver) {
+      window.tocObserver.disconnect();
+    }
+
     const headings = prose.querySelectorAll('h2, h3');
     headings.forEach((heading, idx) => {
       if (!heading.id) {
@@ -48,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // TOC Observer
     const tocLinks = tocList.querySelectorAll('a');
     if (tocLinks.length > 0 && typeof IntersectionObserver !== 'undefined') {
-      const obs = new IntersectionObserver((entries) => {
+      window.tocObserver = new IntersectionObserver((entries) => {
         const visible = entries.filter(e => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         
@@ -59,9 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }, { rootMargin: "-90px 0px -65% 0px", threshold: 0 });
       
-      headings.forEach(h => obs.observe(h));
+      headings.forEach(h => window.tocObserver.observe(h));
     }
-  }
+  };
+
+  window.initTOC();
 
   // Search Logic
   const searchBtn = document.getElementById('btn-search-open');

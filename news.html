@@ -14,6 +14,8 @@ permalink: /news/
 
     <div class="post-list">
       {% for post in site.categories.news %}
+        {% assign post_lang = post.lang | default: "ko" %}
+        {% if post_lang != current_lang %}{% continue %}{% endif %}
         <article class="post-row" data-tags="{{ post.tags | join: ',' }},{{ post.categories | join: ',' }}" onclick="window.location='{{ post.url | relative_url }}'">
           <div class="pr-date">{{ post.date | date: "%Y.%m.%d" }}</div>
           <div>

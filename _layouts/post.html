@@ -8,17 +8,38 @@ layout: default
   {% if down_path contains "/tech/" %}{% assign current_main_category = "tech" %}{% endif %}
   {% if down_path contains "/philosophy/" %}{% assign current_main_category = "philosophy" %}{% endif %}
 
+  {% assign current_lang = page.lang | default: "ko" %}
   {% assign tab_name = "기타" %}
+  {% if current_lang == "en" %}{% assign tab_name = "Etc" %}{% endif %}
   {% assign tab_url = "/" %}
-  {% if current_main_category == "news" %}{% assign tab_name = "뉴스" %}{% assign tab_url = "/news/" %}{% endif %}
-  {% if current_main_category == "tech" %}{% assign tab_name = "테크" %}{% assign tab_url = "/" %}{% endif %}
-  {% if current_main_category == "philosophy" %}{% assign tab_name = "철학" %}{% assign tab_url = "/philosophy/" %}{% endif %}
+  
+  {% if current_main_category == "news" %}
+    {% assign tab_name = "뉴스" %}
+    {% if current_lang == "en" %}{% assign tab_name = "News" %}{% endif %}
+    {% assign tab_url = "/news/" %}
+  {% endif %}
+  
+  {% if current_main_category == "tech" %}
+    {% assign tab_name = "테크" %}
+    {% if current_lang == "en" %}{% assign tab_name = "Tech" %}{% endif %}
+    {% assign tab_url = "/" %}
+  {% endif %}
+  
+  {% if current_main_category == "philosophy" %}
+    {% assign tab_name = "철학" %}
+    {% if current_lang == "en" %}{% assign tab_name = "Philosophy" %}{% endif %}
+    {% assign tab_url = "/philosophy/" %}
+  {% endif %}
+  
+  {% if current_lang == "en" %}
+    {% assign tab_url = "/en" | append: tab_url | replace: "//", "/" %}
+  {% endif %}
 
   <div class="col-wide">
     <nav class="breadcrumb">
       <button onclick="window.location='{{ tab_url | relative_url }}'">{{ tab_name }}</button>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; opacity: 0.6;"><path d="M9 18l6-6-6-6"/></svg>
-      <span style="color: var(--muted-soft);">{{ page.categories.last | default: "기록" | capitalize }}</span>
+      <span style="color: var(--muted-soft);">{% if current_lang == "en" %}{{ page.categories.last | default: "Record" | capitalize }}{% else %}{{ page.categories.last | default: "기록" | capitalize }}{% endif %}</span>
     </nav>
     <header class="article-head">
       <div class="pr-cats">
@@ -30,7 +51,7 @@ layout: default
       <div class="article-meta">
         <span class="meta-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18"/><rect x="3" y="4" width="18" height="18" rx="2"/></svg>
-          {{ page.date | date: "%Y년 %m월 %d일" }}
+          {% if current_lang == 'en' %}{{ page.date | date: "%b %d, %Y" }}{% else %}{{ page.date | date: "%Y년 %m월 %d일" }}{% endif %}
         </span>
         <span class="meta-dot"></span>
         <span class="meta-item">
@@ -58,7 +79,6 @@ layout: default
           {% assign next_in_category = nil %}
           {% assign found_current = false %}
           
-          {% assign current_lang = page.lang | default: "ko" %}
           {% for p in site.posts %}
             {% assign p_lang = p.lang | default: "ko" %}
             {% if p_lang != current_lang %}{% continue %}{% endif %}
@@ -113,7 +133,7 @@ layout: default
 
       {% if page.toc != false %}
       <aside class="toc" id="toc-container">
-        <div class="toc-title">목차</div>
+        <div class="toc-title">{% if current_lang == 'en' %}On this page{% else %}목차{% endif %}</div>
         <ul id="toc-list">
           <!-- JS will populate this from h2/h3 -->
         </ul>

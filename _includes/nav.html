@@ -127,6 +127,9 @@
         if (typeof window.initTOC === 'function') {
           window.initTOC();
         }
+        if (typeof window.initSourceChips === 'function') {
+          window.initSourceChips();
+        }
 
       } catch (err) {
         console.error('SPA routing failed, falling back to full reload', err);

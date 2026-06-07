@@ -73,6 +73,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.initTOC();
 
+  // Source Chips
+  window.initSourceChips = function() {
+    const prose = document.getElementById('prose');
+    if (!prose) return;
+    
+    prose.querySelectorAll('a').forEach(a => {
+      if (a.textContent.trim() === 'Source URL') {
+        a.classList.add('source-chip');
+        
+        let next = a.nextSibling;
+        if (next && next.nodeType === 3 && next.textContent.trim().startsWith('(')) {
+          let text = next.textContent.trim();
+          let provider = text.replace(/^\((.*)\)$/, '$1');
+          a.innerHTML = '<span class="sc-label">Source ↗</span> <span class="sc-provider">' + provider + '</span>';
+          next.textContent = ''; 
+        } else {
+          a.innerHTML = '<span class="sc-label">Source ↗</span>';
+        }
+      }
+    });
+  };
+  window.initSourceChips();
+
   // Search Logic
   const searchBtn = document.getElementById('btn-search-open');
   const searchScrim = document.getElementById('search-scrim');

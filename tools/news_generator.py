@@ -50,22 +50,38 @@ def generate_markdown(news_items):
         print(f"Gemini API generation failed: {e}")
         return None
 
+def translate_to_english(client, korean_markdown):
+    prompt = "Translate the following Korean markdown blog post into professional, natural English. Keep the markdown formatting, headers, and links exactly the same.\n\n" + korean_markdown
+    try:
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+        )
+        return response.text
+    except Exception as e:
+        print(f"Gemini API translation failed: {e}")
+        return None
+
 def main():
     items = fetch_geeknews_rss()
     if not items:
         print("No news items found.")
         return
         
-    content = generate_markdown(items)
-    if not content:
+    content_ko = generate_markdown(items)
+    if not content_ko:
         print("Failed to generate markdown content.")
         return
+        
+    api_key = os.getenv("GEMINI_API_KEY")
+    client = genai.Client(api_key=api_key)
+    content_en = translate_to_english(client, content_ko)
         
     KST = datetime.timezone(datetime.timedelta(hours=9))
     now = datetime.datetime.now(KST)
     date_str = now.strftime("%Y-%m-%d")
     
-    frontmatter = f"""---
+    frontmatter_ko = f"""---
 layout: post
 title: "데일리 테크 뉴스 - {date_str}"
 date: {now.strftime("%Y-%m-%d %H:%M:%S")} +0900
@@ -74,16 +90,35 @@ tags: [AI, Tech, Daily]
 ---
 
 """
-    final_content = frontmatter + content
+
+    frontmatter_en = f"""---
+layout: post
+title: "Daily Tech News - {date_str}"
+date: {now.strftime("%Y-%m-%d %H:%M:%S")} +0900
+categories: [news]
+tags: [AI, Tech, Daily]
+---
+
+"""
     
-    out_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '_posts', 'news'))
-    os.makedirs(out_dir, exist_ok=True)
-    out_path = os.path.join(out_dir, f"{date_str}-daily-tech-news.md")
+    # Save Korean Version
+    out_dir_ko = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '_posts', 'news'))
+    os.makedirs(out_dir_ko, exist_ok=True)
+    out_path_ko = os.path.join(out_dir_ko, f"{date_str}-daily-tech-news.md")
     
-    with open(out_path, 'w', encoding='utf-8') as f:
-        f.write(final_content)
+    with open(out_path_ko, 'w', encoding='utf-8') as f:
+        f.write(frontmatter_ko + content_ko)
+    print(f"Successfully wrote {out_path_ko}")
+
+    # Save English Version
+    if content_en:
+        out_dir_en = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '_posts', 'en', 'news'))
+        os.makedirs(out_dir_en, exist_ok=True)
+        out_path_en = os.path.join(out_dir_en, f"{date_str}-daily-tech-news.md")
         
-    print(f"Successfully wrote {out_path}")
+        with open(out_path_en, 'w', encoding='utf-8') as f:
+            f.write(frontmatter_en + content_en)
+        print(f"Successfully wrote {out_path_en}")
 
 if __name__ == "__main__":
     main()

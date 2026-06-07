@@ -41,25 +41,24 @@ layout: default
               <span class="tag" onclick="window.location='{{ '/' | relative_url }}?tag={{ tag }}'">{{ tag }}</span>
             {% endfor %}
           </div>
-          {% assign current_category = page.categories.first %}
-          {% assign posts_in_category = site.categories[current_category] %}
+          {% assign current_category = page.categories.first | downcase %}
           {% assign prev_in_category = nil %}
           {% assign next_in_category = nil %}
+          {% assign found_current = false %}
           
-          {% for p in posts_in_category %}
-            {% if p.url == page.url %}
-              {% assign prev_index = forloop.index0 | plus: 1 %}
-              {% assign next_index = forloop.index0 | minus: 1 %}
-              
-              {% if prev_index < posts_in_category.size %}
-                {% assign prev_in_category = posts_in_category[prev_index] %}
+          {% for p in site.posts %}
+            {% assign p_cats = p.categories | join: "," | downcase %}
+            {% if p_cats contains current_category %}
+              {% if found_current %}
+                {% assign prev_in_category = p %}
+                {% break %}
               {% endif %}
               
-              {% if next_index >= 0 %}
-                {% assign next_in_category = posts_in_category[next_index] %}
+              {% if p.url == page.url %}
+                {% assign found_current = true %}
+              {% else %}
+                {% assign next_in_category = p %}
               {% endif %}
-              
-              {% break %}
             {% endif %}
           {% endfor %}
 

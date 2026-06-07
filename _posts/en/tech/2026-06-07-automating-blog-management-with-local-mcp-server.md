@@ -3,6 +3,7 @@ layout: post
 title: "Automating Blog Management with a Local MCP Server"
 date: 2026-06-07 08:47:19 +0900
 categories: [tech]
+tags: [MCP, AI Agent, Automation]
 ---
 
 Today, I would like to share my experience of building a **pure local MCP server** so that an AI can control the Jekyll blog running on my local Mac environment.

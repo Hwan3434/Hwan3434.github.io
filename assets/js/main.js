@@ -81,6 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
     prose.querySelectorAll('a').forEach(a => {
       if (a.textContent.trim() === 'Source URL') {
         a.classList.add('source-chip');
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
         
         let next = a.nextSibling;
         if (next && next.nodeType === 3 && next.textContent.trim().startsWith('(')) {

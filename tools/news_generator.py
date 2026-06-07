@@ -6,8 +6,9 @@ from google import genai
 from google.genai import types
 
 def fetch_geeknews_rss():
-    # Google News RSS (Korean, AI/Tech, last 24 hours)
-    url = "https://news.google.com/rss/search?q=AI+OR+%ED%85%8C%ED%81%AC+when:1d&hl=ko&gl=KR&ceid=KR:ko"
+    # Google News RSS (Developer, AI, WWDC, Google I/O, Flutter, last 24 hours)
+    query = urllib.parse.quote('("개발자" OR "구글 I/O" OR "WWDC" OR "플러터" OR "Flutter" OR "오픈소스" OR "AI 모델") when:1d')
+    url = f"https://news.google.com/rss/search?q={query}&hl=ko&gl=KR&ceid=KR:ko"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
         with urllib.request.urlopen(req, timeout=10) as response:
@@ -34,8 +35,9 @@ def generate_markdown(news_items):
     client = genai.Client(api_key=api_key)
     
     now_date = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y년 %m월 %d일")
-    prompt = f"다음은 오늘({now_date}) 수집된 주요 최신 테크 뉴스 기사들입니다. 중복되는 내용을 정리하고, 핵심 내용을 쉽게 요약하여 마크다운 포맷의 블로그 포스트를 작성해주세요.\n"
-    prompt += "수집된 각 뉴스 항목의 끝에는 반드시 원본 기사의 링크(Source URL)를 달아주세요. 제목 크기는 h3(###)을 권장합니다.\n\n"
+    prompt = f"다음은 오늘({now_date}) 수집된 주요 최신 테크 뉴스 기사들입니다. 일반적인 경제/기업 주가 관련 뉴스는 철저히 제외하고, **오직 순수 개발자 관점(Google I/O, WWDC, Flutter, 오픈소스, AI 기술 및 모델 연구 등)**에서 흥미로울 만한 핵심 뉴스들만 엄선하여 마크다운 포맷의 블로그 포스트를 작성해주세요.\n"
+    prompt += "수집된 각 뉴스 항목의 끝에는 반드시 원본 기사의 링크(Source URL)를 달아주세요. (형식: `[Source URL](링크) (언론사)`)\n"
+    prompt += "제목 크기는 h3(###)을 권장하며, 기술적 깊이가 있는 요약을 제공해주세요.\n\n"
     
     for idx, item in enumerate(news_items):
         prompt += f"기사 {idx+1}. 제목: {item['title']}\n링크: {item['link']}\n내용: {item['description'][:500]}...\n\n"
@@ -86,7 +88,7 @@ layout: post
 title: "데일리 테크 뉴스 - {date_str}"
 date: {now.strftime("%Y-%m-%d %H:%M:%S")} +0900
 categories: [news]
-tags: [AI, Tech, Daily]
+tags: [Developer, AI, Daily]
 ---
 
 """
@@ -96,7 +98,7 @@ layout: post
 title: "Daily Tech News - {date_str}"
 date: {now.strftime("%Y-%m-%d %H:%M:%S")} +0900
 categories: [news]
-tags: [AI, Tech, Daily]
+tags: [Developer, AI, Daily]
 ---
 
 """

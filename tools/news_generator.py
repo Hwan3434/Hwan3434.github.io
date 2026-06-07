@@ -15,7 +15,21 @@ def fetch_tech_feeds():
         "https://developers.googleblog.com/feeds/posts/default?alt=rss", # Google Developers
         "https://hnrss.org/frontpage?points=100", # Hacker News Top
         "https://openai.com/news/rss.xml", # OpenAI News
-        "https://medium.com/feed/flutter" # Flutter
+        "https://medium.com/feed/flutter", # Flutter
+        
+        # 한국 기술 블로그
+        "https://techblog.woowahan.com/feed/", # 우아한형제들 (우아한테크)
+        "https://toss.tech/rss.xml", # 토스 테크
+        "https://d2.naver.com/d2.atom", # 네이버 D2
+        "https://tech.kakao.com/feed/", # 카카오 테크
+        
+        # 해외 유명 개발자/연구자
+        "https://martinfowler.com/feed.atom", # 마틴 파울러
+        "https://karpathy.github.io/feed.xml", # 안드레 카파시 (Andrej Karpathy)
+        
+        # Claude & Gemini (직접 RSS 제공이 불안정하여 구글 뉴스 특정 키워드로 대체)
+        "https://news.google.com/rss/search?q=%22Claude%22+OR+%22Anthropic%22+when:1d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=%22Gemini%22+OR+%22Google+DeepMind%22+when:1d&hl=en-US&gl=US&ceid=US:en"
     ]
     
     items = []

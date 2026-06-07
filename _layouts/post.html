@@ -41,14 +41,24 @@ layout: default
               <span class="tag" onclick="window.location='{{ '/' | relative_url }}?tag={{ tag }}'">{{ tag }}</span>
             {% endfor %}
           </div>
-          {% assign current_category = page.categories.first | downcase %}
+          {% assign current_main_category = "etc" %}
+          {% assign down_path = page.path | downcase %}
+          {% if down_path contains "/news/" %}{% assign current_main_category = "news" %}{% endif %}
+          {% if down_path contains "/tech/" %}{% assign current_main_category = "tech" %}{% endif %}
+          {% if down_path contains "/philosophy/" %}{% assign current_main_category = "philosophy" %}{% endif %}
+
           {% assign prev_in_category = nil %}
           {% assign next_in_category = nil %}
           {% assign found_current = false %}
           
           {% for p in site.posts %}
-            {% assign p_cats = p.categories | join: "," | downcase %}
-            {% if p_cats contains current_category %}
+            {% assign p_main_category = "etc" %}
+            {% assign p_down_path = p.path | downcase %}
+            {% if p_down_path contains "/news/" %}{% assign p_main_category = "news" %}{% endif %}
+            {% if p_down_path contains "/tech/" %}{% assign p_main_category = "tech" %}{% endif %}
+            {% if p_down_path contains "/philosophy/" %}{% assign p_main_category = "philosophy" %}{% endif %}
+
+            {% if p_main_category == current_main_category %}
               {% if found_current %}
                 {% assign prev_in_category = p %}
                 {% break %}

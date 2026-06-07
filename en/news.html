@@ -6,8 +6,10 @@ permalink: /en/news/
 <div class="page-enter">
   <div class="col">
     <header class="masthead">
-      <h1><em>Delivering</em> major news<br />from the tech ecosystem.</h1>
-      <p class="lede">Sharing key updates from the rapidly changing IT and AI industries swiftly and concisely.</p>
+      {% assign current_lang = page.lang | default: "en" %}
+      {% assign t_home = site.data[current_lang].home %}
+      <h1>{{ t_home.masthead_news_title }}</h1>
+      <p class="lede">{{ t_home.masthead_news_desc }}</p>
     </header>
 
     <div class="post-list">
@@ -28,7 +30,7 @@ permalink: /en/news/
           </div>
         </article>
       {% else %}
-        <div class="search-empty" style="padding: 60px 0;">No news posted yet.</div>
+        <div class="search-empty" style="padding: 60px 0;">{{ t_home.no_news }}</div>
       {% endfor %}
     </div>
     <div style="height: 80px;"></div>

@@ -9,25 +9,24 @@ layout: default
   {% if down_path contains "/philosophy/" %}{% assign current_main_category = "philosophy" %}{% endif %}
 
   {% assign current_lang = page.lang | default: "ko" %}
-  {% assign tab_name = "기타" %}
-  {% if current_lang == "en" %}{% assign tab_name = "Etc" %}{% endif %}
+  {% assign t_nav = site.data[current_lang].nav %}
+  {% assign t_post = site.data[current_lang].post %}
+  
+  {% assign tab_name = t_nav.etc %}
   {% assign tab_url = "/" %}
   
   {% if current_main_category == "news" %}
-    {% assign tab_name = "뉴스" %}
-    {% if current_lang == "en" %}{% assign tab_name = "News" %}{% endif %}
+    {% assign tab_name = t_nav.news %}
     {% assign tab_url = "/news/" %}
   {% endif %}
   
   {% if current_main_category == "tech" %}
-    {% assign tab_name = "테크" %}
-    {% if current_lang == "en" %}{% assign tab_name = "Tech" %}{% endif %}
+    {% assign tab_name = t_nav.tech %}
     {% assign tab_url = "/" %}
   {% endif %}
   
   {% if current_main_category == "philosophy" %}
-    {% assign tab_name = "철학" %}
-    {% if current_lang == "en" %}{% assign tab_name = "Philosophy" %}{% endif %}
+    {% assign tab_name = t_nav.philosophy %}
     {% assign tab_url = "/philosophy/" %}
   {% endif %}
   
@@ -39,7 +38,7 @@ layout: default
     <nav class="breadcrumb">
       <button onclick="window.location='{{ tab_url | relative_url }}'">{{ tab_name }}</button>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; opacity: 0.6;"><path d="M9 18l6-6-6-6"/></svg>
-      <span style="color: var(--muted-soft);">{% if current_lang == "en" %}{{ page.categories.last | default: "Record" | capitalize }}{% else %}{{ page.categories.last | default: "기록" | capitalize }}{% endif %}</span>
+      <span style="color: var(--muted-soft);">{{ page.categories.last | default: t_post.record | capitalize }}</span>
     </nav>
     <header class="article-head">
       <div class="pr-cats">
@@ -57,7 +56,7 @@ layout: default
         <span class="meta-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="10"/></svg>
           {% assign read_time = content | number_of_words | divided_by: 180 | plus: 1 %}
-          {{ read_time }}{% if page.lang == 'en' %} min read{% else %}분 읽기{% endif %}
+          {{ read_time }}{{ t_post.min_read }}
         </span>
         <span class="meta-dot"></span>
         <span class="meta-item">{{ site.social.name | default: "Hwan" }}</span>
@@ -106,24 +105,24 @@ layout: default
           <div class="prevnext">
             {% if prev_in_category %}
             <button class="pn-card prev" onclick="window.location='{{ prev_in_category.url | relative_url }}'">
-              <div class="pn-label">← {% if current_lang == 'en' %}Previous{% else %}이전 글{% endif %}</div>
+              <div class="pn-label">← {{ t_post.prev }}</div>
               <div class="pn-title">{{ prev_in_category.title }}</div>
             </button>
             {% else %}
             <button class="pn-card prev disabled">
-              <div class="pn-label">← {% if current_lang == 'en' %}Previous{% else %}이전 글{% endif %}</div>
+              <div class="pn-label">← {{ t_post.prev }}</div>
               <div class="pn-title">—</div>
             </button>
             {% endif %}
 
             {% if next_in_category %}
             <button class="pn-card next" onclick="window.location='{{ next_in_category.url | relative_url }}'">
-              <div class="pn-label">{% if current_lang == 'en' %}Next{% else %}다음 글{% endif %} →</div>
+              <div class="pn-label">{{ t_post.next }} →</div>
               <div class="pn-title">{{ next_in_category.title }}</div>
             </button>
             {% else %}
             <button class="pn-card next disabled">
-              <div class="pn-label">{% if current_lang == 'en' %}Next{% else %}다음 글{% endif %} →</div>
+              <div class="pn-label">{{ t_post.next }} →</div>
               <div class="pn-title">—</div>
             </button>
             {% endif %}
@@ -133,7 +132,7 @@ layout: default
 
       {% if page.toc != false %}
       <aside class="toc" id="toc-container">
-        <div class="toc-title">{% if current_lang == 'en' %}On this page{% else %}목차{% endif %}</div>
+        <div class="toc-title">{{ t_post.toc }}</div>
         <ul id="toc-list">
           <!-- JS will populate this from h2/h3 -->
         </ul>

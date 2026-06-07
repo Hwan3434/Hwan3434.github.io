@@ -6,8 +6,10 @@ permalink: /philosophy/
 <div class="page-enter">
   <div class="col">
     <header class="masthead">
-      <h1>개발과 마인드에 대한<br />깊이 있는 <em>고민</em>들.</h1>
-      <p class="lede">어떻게(How) 구현할 것인가를 넘어, 왜(Why) 이런 아키텍처와 방식을 선택해야 하는지 그 근본적인 이유를 기록합니다.</p>
+      {% assign current_lang = page.lang | default: "ko" %}
+      {% assign t_home = site.data[current_lang].home %}
+      <h1>{{ t_home.masthead_phil_title }}</h1>
+      <p class="lede">{{ t_home.masthead_phil_desc }}</p>
     </header>
 
     <div class="post-list">
@@ -25,7 +27,7 @@ permalink: /philosophy/
           </div>
         </article>
       {% else %}
-        <div class="search-empty" style="padding: 60px 0;">아직 등록된 철학 글이 없습니다.</div>
+        <div class="search-empty" style="padding: 60px 0;">{{ t_home.no_phil }}</div>
       {% endfor %}
     </div>
     <div style="height: 80px;"></div>

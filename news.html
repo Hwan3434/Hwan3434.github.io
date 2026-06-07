@@ -6,8 +6,10 @@ permalink: /news/
 <div class="page-enter">
   <div class="col">
     <header class="masthead">
-      <h1>테크 생태계의<br />주요 뉴스를 <em>전달</em>합니다.</h1>
-      <p class="lede">급변하는 IT 및 AI 업계의 핵심 소식들을 신속하고 간결하게 공유합니다.</p>
+      {% assign current_lang = page.lang | default: "ko" %}
+      {% assign t_home = site.data[current_lang].home %}
+      <h1>{{ t_home.masthead_news_title }}</h1>
+      <p class="lede">{{ t_home.masthead_news_desc }}</p>
     </header>
 
     <div class="post-list">
@@ -25,7 +27,7 @@ permalink: /news/
           </div>
         </article>
       {% else %}
-        <div class="search-empty" style="padding: 60px 0;">아직 등록된 뉴스가 없습니다.</div>
+        <div class="search-empty" style="padding: 60px 0;">{{ t_home.no_news }}</div>
       {% endfor %}
     </div>
     <div style="height: 80px;"></div>

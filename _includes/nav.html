@@ -35,19 +35,21 @@
         {% if page.url == "/" %}{% assign twin_url = "/en/" %}{% endif %}
       {% endif %}
 
-      <a href="{{ prefix | append: '/' | relative_url }}" class="nav-link {% if is_home %}active{% endif %}">{% if is_en %}Tech{% else %}테크{% endif %}</a>
-      <a href="{{ prefix | append: '/philosophy/' | relative_url }}" class="nav-link {% if is_philosophy %}active{% endif %}">{% if is_en %}Philosophy{% else %}철학{% endif %}</a>
-      <a href="{{ prefix | append: '/news/' | relative_url }}" class="nav-link {% if is_news %}active{% endif %}">{% if is_en %}News{% else %}뉴스{% endif %}</a>
-      <a href="{{ prefix | append: '/about/' | relative_url }}" class="nav-link {% if page.url contains 'about' %}active{% endif %}">{% if is_en %}About{% else %}소개{% endif %}</a>
+      {% assign t = site.data[current_lang].nav %}
+
+      <a href="{{ prefix | append: '/' | relative_url }}" class="nav-link {% if is_home %}active{% endif %}">{{ t.tech }}</a>
+      <a href="{{ prefix | append: '/philosophy/' | relative_url }}" class="nav-link {% if is_philosophy %}active{% endif %}">{{ t.philosophy }}</a>
+      <a href="{{ prefix | append: '/news/' | relative_url }}" class="nav-link {% if is_news %}active{% endif %}">{{ t.news }}</a>
+      <a href="{{ prefix | append: '/about/' | relative_url }}" class="nav-link {% if page.url contains 'about' %}active{% endif %}">{{ t.about }}</a>
     </div>
     <div class="nav-actions">
       <a href="{{ twin_url | relative_url }}" class="icon-btn lang-toggle" id="lang-toggle-btn" aria-label="언어 변경" style="font-weight: bold; font-size: 13px; text-decoration: none;">
         {% if is_en %}KO{% else %}EN{% endif %}
       </a>
-      <button class="icon-btn" id="btn-search-open" aria-label="검색">
+      <button class="icon-btn" id="btn-search-open" aria-label="{{ t.search }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3" /></svg>
       </button>
-      <button class="icon-btn" id="btn-theme-toggle" aria-label="테마 전환">
+      <button class="icon-btn" id="btn-theme-toggle" aria-label="{{ t.theme }}">
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M12 3v2M12 19v2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M3 12h2M19 12h2M5.6 18.4l1.4-1.4M17 7l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
       </button>

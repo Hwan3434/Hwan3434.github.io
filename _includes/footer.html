@@ -1,12 +1,13 @@
 <footer class="foot">
   <div class="foot-inner">
     {% assign current_lang = page.lang | default: "ko" %}
+    {% assign t = site.data[current_lang].footer %}
     <div class="foot-brand">
       <span class="foot-word">Hwan</span>
-      <span class="foot-fine" style="margin-left: 8px;">· {% if current_lang == 'en' %}Records of code and thoughts{% else %}개발과 생각의 기록{% endif %}</span>
+      <span class="foot-fine" style="margin-left: 8px;">· {{ t.slogan }}</span>
     </div>
     <div class="foot-social">
-      <a class="icon-btn" href="{{ '/jobs.html' | relative_url }}" aria-label="{% if current_lang == 'en' %}Portfolio and Resume{% else %}포트폴리오 및 이력서{% endif %}">
+      <a class="icon-btn" href="{{ '/about/' | relative_url }}" aria-label="{{ t.resume }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
       </a>
       <a class="icon-btn" href="https://github.com/hwan3434" target="_blank" rel="noopener" aria-label="GitHub">

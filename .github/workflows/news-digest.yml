@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   update-news:
@@ -43,6 +44,10 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "chore: automated daily tech news update"
             git push
+            # Automatically trigger the GitHub Pages deployment
+            gh workflow run pages-deploy.yml
           else
             echo "No changes to commit."
           fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

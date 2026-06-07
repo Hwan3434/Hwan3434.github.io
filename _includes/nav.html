@@ -104,6 +104,13 @@
           }
         }
 
+        // Swap the footer
+        const newFooter = doc.querySelector('.foot');
+        const oldFooter = document.querySelector('.foot');
+        if (newFooter && oldFooter) {
+          oldFooter.innerHTML = newFooter.innerHTML;
+        }
+
         // Change the URL in the browser without reloading
         window.history.pushState({path: targetUrl}, '', targetUrl);
         

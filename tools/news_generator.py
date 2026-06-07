@@ -1,30 +1,47 @@
 import urllib.request
-import xml.etree.ElementTree as ET
+import urllib.parse
+import datetime
+import os
+import feedparser
+from google import genai
 import datetime
 import os
 from google import genai
 from google.genai import types
 
-def fetch_geeknews_rss():
-    # Google News RSS (Developer, AI, WWDC, Google I/O, Flutter, last 24 hours)
-    query = urllib.parse.quote('("개발자" OR "구글 I/O" OR "WWDC" OR "플러터" OR "Flutter" OR "오픈소스" OR "AI 모델") when:1d')
-    url = f"https://news.google.com/rss/search?q={query}&hl=ko&gl=KR&ceid=KR:ko"
-    try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
-        with urllib.request.urlopen(req, timeout=10) as response:
-            data = response.read()
-            root = ET.fromstring(data)
-            items = []
-            # Google News RSS puts items under channel/item
-            for item in root.findall('.//item')[:10]:
-                title = item.find('title').text if item.find('title') is not None else ''
-                link = item.find('link').text if item.find('link') is not None else ''
-                desc = item.find('description').text if item.find('description') is not None else ''
+def fetch_tech_feeds():
+    feeds = [
+        "https://developer.apple.com/news/rss/news.rss",  # Apple Developer
+        "https://developers.googleblog.com/feeds/posts/default?alt=rss", # Google Developers
+        "https://hnrss.org/frontpage?points=100", # Hacker News Top
+        "https://openai.com/news/rss.xml", # OpenAI News
+        "https://medium.com/feed/flutter" # Flutter
+    ]
+    
+    items = []
+    now = datetime.datetime.now(datetime.timezone.utc)
+    
+    for url in feeds:
+        try:
+            parsed = feedparser.parse(url)
+            for entry in parsed.entries[:3]: # Top 3 per source
+                pub_date = None
+                if hasattr(entry, 'published_parsed') and entry.published_parsed:
+                    pub_date = datetime.datetime(*entry.published_parsed[:6], tzinfo=datetime.timezone.utc)
+                elif hasattr(entry, 'updated_parsed') and entry.updated_parsed:
+                    pub_date = datetime.datetime(*entry.updated_parsed[:6], tzinfo=datetime.timezone.utc)
+                    
+                if pub_date and (now - pub_date).total_seconds() > 86400 * 3:
+                    continue # Skip items older than 3 days
+                
+                title = entry.title if hasattr(entry, 'title') else ''
+                link = entry.link if hasattr(entry, 'link') else ''
+                desc = entry.description if hasattr(entry, 'description') else (entry.summary if hasattr(entry, 'summary') else '')
                 items.append({'title': title, 'link': link, 'description': desc})
-            return items
-    except Exception as e:
-        print(f"Failed to fetch RSS: {e}")
-        return []
+        except Exception as e:
+            print(f"Failed to fetch feed {url}: {e}")
+            
+    return items
 
 def generate_markdown(news_items):
     api_key = os.getenv("GEMINI_API_KEY")
@@ -65,7 +82,7 @@ def translate_to_english(client, korean_markdown):
         return None
 
 def main():
-    items = fetch_geeknews_rss()
+    items = fetch_tech_feeds()
     if not items:
         print("No news items found.")
         return

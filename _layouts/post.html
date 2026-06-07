@@ -61,9 +61,9 @@ layout: default
           {% for p in site.posts %}
             {% assign p_main_category = "etc" %}
             {% assign p_down_path = p.path | downcase %}
-            {% if p_down_path contains "/news/" %}{% assign p_main_category = "news" %}{% endif %}
-            {% if p_down_path contains "/tech/" %}{% assign p_main_category = "tech" %}{% endif %}
-            {% if p_down_path contains "/philosophy/" %}{% assign p_main_category = "philosophy" %}{% endif %}
+            {% if p_down_path contains "news/" %}{% assign p_main_category = "news" %}{% endif %}
+            {% if p_down_path contains "tech/" %}{% assign p_main_category = "tech" %}{% endif %}
+            {% if p_down_path contains "philosophy/" %}{% assign p_main_category = "philosophy" %}{% endif %}
 
             {% if p_main_category == current_main_category %}
               {% if found_current %}

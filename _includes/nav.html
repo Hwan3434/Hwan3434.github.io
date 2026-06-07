@@ -5,18 +5,20 @@
       <span class="brand-word">Hwan</span>
     </a>
     <div class="nav-links">
+      {% assign down_path = page.path | downcase %}
+      
       {% assign is_philosophy = false %}
-      {% if page.url == '/philosophy/' or page.categories contains 'philosophy' %}
+      {% if page.url == '/philosophy/' or down_path contains "philosophy/" %}
         {% assign is_philosophy = true %}
       {% endif %}
 
       {% assign is_news = false %}
-      {% if page.url == '/news/' or page.categories contains 'news' %}
+      {% if page.url == '/news/' or down_path contains "news/" %}
         {% assign is_news = true %}
       {% endif %}
 
       {% assign is_home = false %}
-      {% if page.url == '/' or (page.layout == 'post' and is_philosophy == false and is_news == false) %}
+      {% if page.url == '/' or page.url == '/index.html' or down_path contains "tech/" %}
         {% assign is_home = true %}
       {% endif %}
 

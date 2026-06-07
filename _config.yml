@@ -55,7 +55,27 @@ defaults:
       layout: post
       comments: true
       toc: true
+      lang: ko
       permalink: /posts/:year/:month/:day/:slug/
+  - scope:
+      path: "_posts/en"
+      type: posts
+    values:
+      layout: post
+      comments: true
+      toc: true
+      lang: en
+      permalink: /en/posts/:year/:month/:day/:slug/
+  - scope:
+      path: ""
+      type: pages
+    values:
+      lang: ko
+  - scope:
+      path: "en"
+      type: pages
+    values:
+      lang: en
   - scope:
       path: _tabs
     values:

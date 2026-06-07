@@ -36,7 +36,7 @@ layout: default
         <span class="meta-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="10"/></svg>
           {% assign read_time = content | number_of_words | divided_by: 180 | plus: 1 %}
-          {{ read_time }}분 읽기
+          {{ read_time }}{% if page.lang == 'en' %} min read{% else %}분 읽기{% endif %}
         </span>
         <span class="meta-dot"></span>
         <span class="meta-item">{{ site.social.name | default: "Hwan" }}</span>
@@ -58,7 +58,11 @@ layout: default
           {% assign next_in_category = nil %}
           {% assign found_current = false %}
           
+          {% assign current_lang = page.lang | default: "ko" %}
           {% for p in site.posts %}
+            {% assign p_lang = p.lang | default: "ko" %}
+            {% if p_lang != current_lang %}{% continue %}{% endif %}
+            
             {% assign p_main_category = "etc" %}
             {% assign p_down_path = p.path | downcase %}
             {% if p_down_path contains "news/" %}{% assign p_main_category = "news" %}{% endif %}
@@ -82,24 +86,24 @@ layout: default
           <div class="prevnext">
             {% if prev_in_category %}
             <button class="pn-card prev" onclick="window.location='{{ prev_in_category.url | relative_url }}'">
-              <div class="pn-label">← 이전 글</div>
+              <div class="pn-label">← {% if current_lang == 'en' %}Previous{% else %}이전 글{% endif %}</div>
               <div class="pn-title">{{ prev_in_category.title }}</div>
             </button>
             {% else %}
             <button class="pn-card prev disabled">
-              <div class="pn-label">← 이전 글</div>
+              <div class="pn-label">← {% if current_lang == 'en' %}Previous{% else %}이전 글{% endif %}</div>
               <div class="pn-title">—</div>
             </button>
             {% endif %}
 
             {% if next_in_category %}
             <button class="pn-card next" onclick="window.location='{{ next_in_category.url | relative_url }}'">
-              <div class="pn-label">다음 글 →</div>
+              <div class="pn-label">{% if current_lang == 'en' %}Next{% else %}다음 글{% endif %} →</div>
               <div class="pn-title">{{ next_in_category.title }}</div>
             </button>
             {% else %}
             <button class="pn-card next disabled">
-              <div class="pn-label">다음 글 →</div>
+              <div class="pn-label">{% if current_lang == 'en' %}Next{% else %}다음 글{% endif %} →</div>
               <div class="pn-title">—</div>
             </button>
             {% endif %}

@@ -4,15 +4,23 @@ layout: default
 <div class="page-enter">
   <div class="col">
     <header class="masthead">
+      {% if page.lang == 'en' %}
+      <h1>Slowly <em>recording</em><br />code and thoughts.</h1>
+      <p class="lede">Real problems encountered, perspectives on tools, and occasional non-code thoughts. Written at a sustainable pace.</p>
+      {% else %}
       <h1>코드와 생각을<br />천천히 <em>기록</em>합니다.</h1>
       <p class="lede">실제로 막혔던 문제, 도구에 대한 관점, 그리고 가끔은 코드와 무관한 생각들. 오래 지킬 수 있는 속도로 씁니다.</p>
+      {% endif %}
     </header>
 
     <div class="filterbar">
-      <span class="fb-label">필터</span>
-      <button class="tag tag-active" data-tag="all" onclick="filterTag('all', this)">전체</button>
+      <span class="fb-label">{% if page.lang == 'en' %}Filter{% else %}필터{% endif %}</span>
+      <button class="tag tag-active" data-tag="all" onclick="filterTag('all', this)">{% if page.lang == 'en' %}All{% else %}전체{% endif %}</button>
       {% assign all_tags = "" | split: "" %}
+      {% assign current_lang = page.lang | default: "ko" %}
       {% for post in site.posts %}
+        {% assign post_lang = post.lang | default: "ko" %}
+        {% if post_lang != current_lang %}{% continue %}{% endif %}
         {% if post.categories contains 'news' or post.categories contains 'philosophy' %}{% continue %}{% endif %}
         {% for tag in post.tags %}
           {% unless all_tags contains tag %}
@@ -26,7 +34,14 @@ layout: default
       {% endfor %}
     </div>
 
-    {% assign featured_post = site.posts | where: "featured", true | first %}
+    {% assign featured_post = nil %}
+    {% for post in site.posts %}
+      {% assign post_lang = post.lang | default: "ko" %}
+      {% if post_lang == current_lang and post.featured == true %}
+        {% assign featured_post = post %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
     {% if featured_post %}
     <article class="featured" onclick="window.location='{{ featured_post.url | relative_url }}'">
       <div class="pr-cats">
@@ -45,7 +60,7 @@ layout: default
         <span class="meta-item" style="margin-left: 8px;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px;"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="10"/></svg>
           {% assign read_time = featured_post.content | number_of_words | divided_by: 180 | plus: 1 %}
-          {{ read_time }}분
+          {{ read_time }}{% if page.lang == 'en' %} min{% else %}분{% endif %}
         </span>
       </div>
     </article>
@@ -53,6 +68,8 @@ layout: default
 
     <div class="post-list" id="post-list">
       {% for post in site.posts %}
+        {% assign post_lang = post.lang | default: "ko" %}
+        {% if post_lang != current_lang %}{% continue %}{% endif %}
         {% if post.categories contains 'news' or post.categories contains 'philosophy' %}{% continue %}{% endif %}
         {% if post == featured_post %}{% continue %}{% endif %}
         <article class="post-row" data-tags="{{ post.tags | join: ',' }},{{ post.categories | join: ',' }}" onclick="window.location='{{ post.url | relative_url }}'">
@@ -73,7 +90,7 @@ layout: default
           </div>
         </article>
       {% endfor %}
-      <div class="search-empty" id="empty-state" style="padding: 60px 0; display: none;">이 태그의 글이 아직 없습니다.</div>
+      <div class="search-empty" id="empty-state" style="padding: 60px 0; display: none;">{% if page.lang == 'en' %}No posts yet.{% else %}이 태그의 글이 아직 없습니다.{% endif %}</div>
     </div>
     <div style="height: 80px;"></div>
   </div>

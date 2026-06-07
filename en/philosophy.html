@@ -1,0 +1,36 @@
+---
+layout: default
+title: Philosophy
+permalink: /en/philosophy/
+---
+<div class="page-enter">
+  <div class="col">
+    <header class="masthead">
+      <h1>Deep <em>reflections</em><br />on development and mindset.</h1>
+      <p class="lede">Beyond just "how" to implement, recording the fundamental "why" behind architecture and methodologies.</p>
+    </header>
+
+    <div class="post-list">
+      {% assign current_lang = page.lang | default: "en" %}
+      {% for post in site.categories.philosophy %}
+        {% assign post_lang = post.lang | default: "ko" %}
+        {% if post_lang != current_lang %}{% continue %}{% endif %}
+        <article class="post-row" data-tags="{{ post.tags | join: ',' }},{{ post.categories | join: ',' }}" onclick="window.location='{{ post.url | relative_url }}'">
+          <div class="pr-date">{{ post.date | date: "%Y.%m.%d" }}</div>
+          <div>
+            <div class="pr-cats">
+              {% for cat in post.categories %}
+                <span class="pr-cat">{{ cat | capitalize }}</span>
+              {% endfor %}
+            </div>
+            <h2>{{ post.title }}</h2>
+            <p class="pr-sum">{{ post.description | default: post.excerpt | strip_html | truncatewords: 30 }}</p>
+          </div>
+        </article>
+      {% else %}
+        <div class="search-empty" style="padding: 60px 0;">No philosophy posts yet.</div>
+      {% endfor %}
+    </div>
+    <div style="height: 80px;"></div>
+  </div>
+</div>

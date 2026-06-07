@@ -39,8 +39,10 @@ def generate_html():
         cat = categorize_job(job['title'])
         grouped_jobs[cat].append((job['title'], job['company'], job['platform'], job['job_url'], is_new))
 
-    today = datetime.datetime.now().strftime("%Y-%m-%d")
-    now_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    KST = datetime.timezone(datetime.timedelta(hours=9))
+    now_kst = datetime.datetime.now(KST)
+    today = now_kst.strftime("%Y-%m-%d")
+    now_time = now_kst.strftime("%Y-%m-%d %H:%M")
     
     html_content = f"""<!DOCTYPE html>
 <html lang="ko">

@@ -8,26 +8,42 @@
       {% assign down_path = page.path | downcase %}
       
       {% assign is_philosophy = false %}
-      {% if page.url == '/philosophy/' or down_path contains "philosophy/" %}
+      {% if page.url == '/philosophy/' or page.url == '/en/philosophy/' or down_path contains "philosophy/" %}
         {% assign is_philosophy = true %}
       {% endif %}
 
       {% assign is_news = false %}
-      {% if page.url == '/news/' or down_path contains "news/" %}
+      {% if page.url == '/news/' or page.url == '/en/news/' or down_path contains "news/" %}
         {% assign is_news = true %}
       {% endif %}
 
       {% assign is_home = false %}
-      {% if page.url == '/' or page.url == '/index.html' or down_path contains "tech/" %}
+      {% if page.url == '/' or page.url == '/index.html' or page.url == '/en/' or down_path contains "tech/" %}
         {% assign is_home = true %}
       {% endif %}
 
-      <a href="{{ '/' | relative_url }}" class="nav-link {% if is_home %}active{% endif %}">테크</a>
-      <a href="{{ '/philosophy/' | relative_url }}" class="nav-link {% if is_philosophy %}active{% endif %}">철학</a>
-      <a href="{{ '/news/' | relative_url }}" class="nav-link {% if is_news %}active{% endif %}">뉴스</a>
-      <a href="{{ '/about/' | relative_url }}" class="nav-link {% if page.url contains 'about' %}active{% endif %}">소개</a>
+      {% assign is_en = false %}
+      {% assign prefix = "" %}
+      {% assign current_lang = page.lang | default: "ko" %}
+      {% if current_lang == "en" %}
+        {% assign is_en = true %}
+        {% assign prefix = "/en" %}
+        {% assign twin_url = page.url | remove_first: "/en" %}
+        {% if twin_url == "" %}{% assign twin_url = "/" %}{% endif %}
+      {% else %}
+        {% assign twin_url = "/en" | append: page.url %}
+        {% if page.url == "/" %}{% assign twin_url = "/en/" %}{% endif %}
+      {% endif %}
+
+      <a href="{{ prefix | append: '/' | relative_url }}" class="nav-link {% if is_home %}active{% endif %}">{% if is_en %}Tech{% else %}테크{% endif %}</a>
+      <a href="{{ prefix | append: '/philosophy/' | relative_url }}" class="nav-link {% if is_philosophy %}active{% endif %}">{% if is_en %}Philosophy{% else %}철학{% endif %}</a>
+      <a href="{{ prefix | append: '/news/' | relative_url }}" class="nav-link {% if is_news %}active{% endif %}">{% if is_en %}News{% else %}뉴스{% endif %}</a>
+      <a href="{{ prefix | append: '/about/' | relative_url }}" class="nav-link {% if page.url contains 'about' %}active{% endif %}">{% if is_en %}About{% else %}소개{% endif %}</a>
     </div>
     <div class="nav-actions">
+      <a href="{{ twin_url | relative_url }}" class="icon-btn lang-toggle" id="lang-toggle-btn" aria-label="언어 변경" style="font-weight: bold; font-size: 13px; text-decoration: none;">
+        {% if is_en %}KO{% else %}EN{% endif %}
+      </a>
       <button class="icon-btn" id="btn-search-open" aria-label="검색">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3" /></svg>
       </button>
@@ -41,3 +57,67 @@
     </div>
   </div>
 </nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const langToggle = document.getElementById('lang-toggle-btn');
+    if (!langToggle) return;
+
+    langToggle.addEventListener('click', async function(e) {
+      e.preventDefault();
+      const targetUrl = this.getAttribute('href');
+      
+      try {
+        // Fetch the target language page quietly
+        const response = await fetch(targetUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const text = await response.text();
+        
+        // Parse the HTML
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+        
+        // Swap the content container
+        const newContent = doc.querySelector('.page-enter');
+        const oldContent = document.querySelector('.page-enter');
+        if (newContent && oldContent) {
+          oldContent.innerHTML = newContent.innerHTML;
+        }
+
+        // Swap the navigation links and actions
+        const newNavLinks = doc.querySelector('.nav-links');
+        const oldNavLinks = document.querySelector('.nav-links');
+        if (newNavLinks && oldNavLinks) {
+          oldNavLinks.innerHTML = newNavLinks.innerHTML;
+        }
+
+        const newNavActions = doc.querySelector('.nav-actions');
+        const oldNavActions = document.querySelector('.nav-actions');
+        if (newNavActions && oldNavActions) {
+          // Keep the existing click listener by re-attaching or delegating,
+          // Actually, replacing innerHTML will lose event listeners on children.
+          // Let's just update the target href and label of the button.
+          const newLangBtn = doc.getElementById('lang-toggle-btn');
+          if (newLangBtn) {
+            langToggle.setAttribute('href', newLangBtn.getAttribute('href'));
+            langToggle.innerHTML = newLangBtn.innerHTML;
+          }
+        }
+
+        // Change the URL in the browser without reloading
+        window.history.pushState({path: targetUrl}, '', targetUrl);
+        
+        // Update document title
+        document.title = doc.title;
+
+        // Remember language preference
+        const newLang = targetUrl.startsWith('/en') ? 'en' : 'ko';
+        localStorage.setItem('preferred_lang', newLang);
+
+      } catch (err) {
+        console.error('SPA routing failed, falling back to full reload', err);
+        window.location.href = targetUrl;
+      }
+    });
+  });
+</script>

@@ -3,6 +3,7 @@ layout: post
 title: "로컬 MCP 서버로 블로그 관리 자동화하기"
 date: 2026-06-07 08:47:19 +0900
 categories: [tech]
+tags: ["MCP", "AI Agent", "자동화"]
 ---
 
 오늘은 제 로컬 Mac 환경에서 동작하는 지킬(Jekyll) 블로그를 AI가 제어할 수 있도록 **순수 로컬 MCP 서버**를 구축한 경험을 공유하고자 합니다.

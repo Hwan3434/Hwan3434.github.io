@@ -315,6 +315,18 @@ a { color: inherit; text-decoration: none; }
   .post-row .pr-date { padding-top: 0; }
   .prevnext { grid-template-columns: 1fr; }
   .masthead { padding: 60px 0 40px; }
+  
+  /* Mobile Search UI */
+  .search-scrim { padding: 0; align-items: stretch; }
+  .search-box { 
+    width: 100vw; height: 100vh; height: 100dvh; 
+    border-radius: 0; border: none; 
+    display: flex; flex-direction: column;
+    max-width: none;
+  }
+  .search-results { max-height: none; flex: 1; }
+  .search-kbd { display: none; }
+  .search-close { display: block !important; }
 }
 
 /* Rouge Syntax Highlighting */

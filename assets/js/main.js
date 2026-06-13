@@ -127,10 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (searchBtn && searchScrim) {
     searchBtn.addEventListener('click', openSearch);
+    const searchCloseBtn = document.getElementById('search-close');
+    if (searchCloseBtn) {
+      searchCloseBtn.addEventListener('click', closeSearch);
+    }
     searchScrim.addEventListener('mousedown', (e) => {
       if (e.target === searchScrim) closeSearch();
     });
-    
     searchInput.addEventListener('input', (e) => {
       const q = e.target.value.toLowerCase().trim();
       if (!q) {

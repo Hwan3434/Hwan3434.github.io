@@ -77,7 +77,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7474822",
     "tech_stack": "Mobile",
     "created_at": "2026-06-03 00:36:56",
-    "last_seen_at": "2026-06-15 01:24:02"
+    "last_seen_at": "2026-06-22 01:23:27"
   },
   {
     "id": "coupang_7058315",
@@ -87,7 +87,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7058315",
     "tech_stack": "Mobile",
     "created_at": "2026-06-03 00:36:56",
-    "last_seen_at": "2026-06-15 01:24:02"
+    "last_seen_at": "2026-06-22 01:23:27"
   },
   {
     "id": "wanted_366542",
@@ -117,7 +117,7 @@
     "job_url": "https://www.wanted.co.kr/wd/366455",
     "tech_stack": "Mobile",
     "created_at": "2026-06-06 23:00:37",
-    "last_seen_at": "2026-06-11 12:42:29"
+    "last_seen_at": "2026-06-22 01:23:27"
   },
   {
     "id": "wanted_366378",
@@ -637,7 +637,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7991999",
     "tech_stack": "Mobile",
     "created_at": "2026-06-11 12:42:29",
-    "last_seen_at": "2026-06-15 01:24:02"
+    "last_seen_at": "2026-06-22 01:23:27"
   },
   {
     "id": "wanted_368150",
@@ -647,7 +647,7 @@
     "job_url": "https://www.wanted.co.kr/wd/368150",
     "tech_stack": "Mobile",
     "created_at": "2026-06-15 01:24:02",
-    "last_seen_at": "2026-06-15 01:24:02"
+    "last_seen_at": "2026-06-22 01:23:27"
   },
   {
     "id": "wanted_368149",
@@ -657,7 +657,7 @@
     "job_url": "https://www.wanted.co.kr/wd/368149",
     "tech_stack": "Mobile",
     "created_at": "2026-06-15 01:24:02",
-    "last_seen_at": "2026-06-15 01:24:02"
+    "last_seen_at": "2026-06-22 01:23:27"
   },
   {
     "id": "wanted_368047",
@@ -667,7 +667,7 @@
     "job_url": "https://www.wanted.co.kr/wd/368047",
     "tech_stack": "Mobile",
     "created_at": "2026-06-15 01:24:02",
-    "last_seen_at": "2026-06-15 01:24:02"
+    "last_seen_at": "2026-06-22 01:23:27"
   },
   {
     "id": "wanted_368041",
@@ -677,6 +677,246 @@
     "job_url": "https://www.wanted.co.kr/wd/368041",
     "tech_stack": "Mobile",
     "created_at": "2026-06-15 01:24:02",
-    "last_seen_at": "2026-06-15 01:24:02"
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369797",
+    "platform": "Wanted",
+    "title": "iOS 개발자",
+    "company": "오렌지스퀘어",
+    "job_url": "https://www.wanted.co.kr/wd/369797",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369745",
+    "platform": "Wanted",
+    "title": "Agent Engineer",
+    "company": "팀카이",
+    "job_url": "https://www.wanted.co.kr/wd/369745",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369742",
+    "platform": "Wanted",
+    "title": "Agent PM",
+    "company": "팀카이",
+    "job_url": "https://www.wanted.co.kr/wd/369742",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369739",
+    "platform": "Wanted",
+    "title": "FDE (Forward Deployed Engineer)",
+    "company": "팀카이",
+    "job_url": "https://www.wanted.co.kr/wd/369739",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369618",
+    "platform": "Wanted",
+    "title": "[Platform] 게임 플랫폼 클라이언트(SDK) 개발자",
+    "company": "베이글코드(Bagelcode)",
+    "job_url": "https://www.wanted.co.kr/wd/369618",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369505",
+    "platform": "Wanted",
+    "title": "[인턴] 행정시스템 개발 및 정보보안 분야",
+    "company": "학교법인한세대학교",
+    "job_url": "https://www.wanted.co.kr/wd/369505",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369401",
+    "platform": "Wanted",
+    "title": "풀 스택 개발자 (계약직)",
+    "company": "롱제비티",
+    "job_url": "https://www.wanted.co.kr/wd/369401",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369360",
+    "platform": "Wanted",
+    "title": "엣지 비전 솔루션 개발자",
+    "company": "크래블",
+    "job_url": "https://www.wanted.co.kr/wd/369360",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369340",
+    "platform": "Wanted",
+    "title": "LLMOps Engineer",
+    "company": "원프레딕트(onepredict)",
+    "job_url": "https://www.wanted.co.kr/wd/369340",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369225",
+    "platform": "Wanted",
+    "title": "[Craver] 솔루션 개발자",
+    "company": "크레이버코퍼레이션",
+    "job_url": "https://www.wanted.co.kr/wd/369225",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369091",
+    "platform": "Wanted",
+    "title": "[토스] iOS Developer",
+    "company": "비바리퍼블리카(토스)",
+    "job_url": "https://www.wanted.co.kr/wd/369091",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369072",
+    "platform": "Wanted",
+    "title": "반도체·스마트팩토리 물류 제어 S/W 프론트 개발자(React)",
+    "company": "주밍코리아",
+    "job_url": "https://www.wanted.co.kr/wd/369072",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369012",
+    "platform": "Wanted",
+    "title": "엔드포인트 보안 SW 능력자 (C++기반 개발)",
+    "company": "소만사",
+    "job_url": "https://www.wanted.co.kr/wd/369012",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_369008",
+    "platform": "Wanted",
+    "title": "네트워크 보안 SW 능력자 (C++기반 개발)",
+    "company": "소만사",
+    "job_url": "https://www.wanted.co.kr/wd/369008",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_368989",
+    "platform": "Wanted",
+    "title": "VPN 솔루션 연구/개발(C/C++)",
+    "company": "소만사",
+    "job_url": "https://www.wanted.co.kr/wd/368989",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_368984",
+    "platform": "Wanted",
+    "title": "불법주정차 단속 시스템 풀스택 개발자",
+    "company": "창일",
+    "job_url": "https://www.wanted.co.kr/wd/368984",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_368834",
+    "platform": "Wanted",
+    "title": "플랫폼엔지니어링(배포시스템)",
+    "company": "우아한형제들(배달의민족)",
+    "job_url": "https://www.wanted.co.kr/wd/368834",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_368811",
+    "platform": "Wanted",
+    "title": "IT부문 증권 업무시스템 개발",
+    "company": "메리츠증권",
+    "job_url": "https://www.wanted.co.kr/wd/368811",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_368519",
+    "platform": "Wanted",
+    "title": "풀스택 개발자 5년 이상",
+    "company": "쎄듀",
+    "job_url": "https://www.wanted.co.kr/wd/368519",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_368456",
+    "platform": "Wanted",
+    "title": "Associate Solutions Architect, APJ Startup CSC SA",
+    "company": "아마존(Amazon)",
+    "job_url": "https://www.wanted.co.kr/wd/368456",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_368416",
+    "platform": "Wanted",
+    "title": "SW Engineer",
+    "company": "퀄리타스반도체",
+    "job_url": "https://www.wanted.co.kr/wd/368416",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_368404",
+    "platform": "Wanted",
+    "title": "mOS 응용개발자 (6년 이상)",
+    "company": "알서포트(Rsupport)",
+    "job_url": "https://www.wanted.co.kr/wd/368404",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_368307",
+    "platform": "Wanted",
+    "title": "iOS 앱 개발자",
+    "company": "스토어링크",
+    "job_url": "https://www.wanted.co.kr/wd/368307",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_368277",
+    "platform": "Wanted",
+    "title": "풀스택 개발자",
+    "company": "레시피온",
+    "job_url": "https://www.wanted.co.kr/wd/368277",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-22 01:23:27",
+    "last_seen_at": "2026-06-22 01:23:27"
   }
 ]

@@ -1,9 +1,6 @@
 name: "Daily Tech News Digest"
 
 on:
-  schedule:
-    # 매일 아침 9시 (KST) = UTC 기준 00:00
-    - cron: '0 0 * * *'
   workflow_dispatch:
 
 permissions:

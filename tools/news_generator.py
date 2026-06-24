@@ -2,6 +2,7 @@ import urllib.request
 import urllib.parse
 import datetime
 import os
+import re
 import feedparser
 from google import genai
 import datetime
@@ -95,20 +96,31 @@ def translate_to_english(client, korean_markdown):
         print(f"Gemini API translation failed: {e}")
         return None
 
+def normalize_source_links(markdown_text):
+    # Gemini doesn't reliably follow the "[Source URL](link)" format we ask for in the
+    # prompt - it sometimes uses the raw URL as the link text instead. The site's
+    # source-chip styling (assets/js/main.js initSourceChips) only re-styles links whose
+    # text is exactly "Source URL", so any deviation renders as a raw, unstyled link.
+    if not markdown_text:
+        return markdown_text
+    return re.sub(r'\[[^\]]*\]\((https?://[^\s)]+)\)', r'[Source URL](\1)', markdown_text)
+
 def main():
     items = fetch_tech_feeds()
     if not items:
         print("No news items found.")
         return
-        
+
     content_ko = generate_markdown(items)
     if not content_ko:
         print("Failed to generate markdown content.")
         return
-        
+    content_ko = normalize_source_links(content_ko)
+
     api_key = os.getenv("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     content_en = translate_to_english(client, content_ko)
+    content_en = normalize_source_links(content_en)
         
     KST = datetime.timezone(datetime.timedelta(hours=9))
     now = datetime.datetime.now(KST)

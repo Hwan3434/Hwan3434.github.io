@@ -12,6 +12,7 @@ CODEX_BIN = Path("/opt/homebrew/bin/codex")
 PROMPT_FILE = REPO_ROOT / "tools" / "codex_news_digest_prompt.md"
 LOG_DIR = REPO_ROOT / ".codex-news-logs"
 LOCK_FILE = LOG_DIR / "daily-news.lock"
+LAUNCHD_PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 
 def main() -> int:
@@ -57,9 +58,13 @@ def main() -> int:
             log.write(f"command: {' '.join(cmd)}\n\n")
             log.flush()
 
+            env = os.environ.copy()
+            env["PATH"] = LAUNCHD_PATH
+
             result = subprocess.run(
                 cmd,
                 cwd=REPO_ROOT,
+                env=env,
                 input=prompt,
                 text=True,
                 stdout=log,

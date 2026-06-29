@@ -77,7 +77,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7474822",
     "tech_stack": "Mobile",
     "created_at": "2026-06-03 00:36:56",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-06-29 01:16:18"
   },
   {
     "id": "coupang_7058315",
@@ -87,7 +87,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7058315",
     "tech_stack": "Mobile",
     "created_at": "2026-06-03 00:36:56",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-06-29 01:16:18"
   },
   {
     "id": "wanted_366542",
@@ -117,7 +117,7 @@
     "job_url": "https://www.wanted.co.kr/wd/366455",
     "tech_stack": "Mobile",
     "created_at": "2026-06-06 23:00:37",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-06-29 01:16:18"
   },
   {
     "id": "wanted_366378",
@@ -637,7 +637,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7991999",
     "tech_stack": "Mobile",
     "created_at": "2026-06-11 12:42:29",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-06-29 01:16:18"
   },
   {
     "id": "wanted_368150",
@@ -687,7 +687,7 @@
     "job_url": "https://www.wanted.co.kr/wd/369797",
     "tech_stack": "Mobile",
     "created_at": "2026-06-22 01:23:27",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-06-29 01:16:18"
   },
   {
     "id": "wanted_369745",
@@ -697,7 +697,7 @@
     "job_url": "https://www.wanted.co.kr/wd/369745",
     "tech_stack": "Mobile",
     "created_at": "2026-06-22 01:23:27",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-06-29 01:16:18"
   },
   {
     "id": "wanted_369742",
@@ -707,7 +707,7 @@
     "job_url": "https://www.wanted.co.kr/wd/369742",
     "tech_stack": "Mobile",
     "created_at": "2026-06-22 01:23:27",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-06-29 01:16:18"
   },
   {
     "id": "wanted_369739",
@@ -717,7 +717,7 @@
     "job_url": "https://www.wanted.co.kr/wd/369739",
     "tech_stack": "Mobile",
     "created_at": "2026-06-22 01:23:27",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-06-29 01:16:18"
   },
   {
     "id": "wanted_369618",
@@ -727,7 +727,7 @@
     "job_url": "https://www.wanted.co.kr/wd/369618",
     "tech_stack": "Mobile",
     "created_at": "2026-06-22 01:23:27",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-06-29 01:16:18"
   },
   {
     "id": "wanted_369505",
@@ -737,7 +737,7 @@
     "job_url": "https://www.wanted.co.kr/wd/369505",
     "tech_stack": "Mobile",
     "created_at": "2026-06-22 01:23:27",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-06-29 01:16:18"
   },
   {
     "id": "wanted_369401",
@@ -918,5 +918,295 @@
     "tech_stack": "Mobile",
     "created_at": "2026-06-22 01:23:27",
     "last_seen_at": "2026-06-22 01:23:27"
+  },
+  {
+    "id": "wanted_371280",
+    "platform": "Wanted",
+    "title": "R&D 소프트웨어 엔지니어",
+    "company": "마이프랜차이즈",
+    "job_url": "https://www.wanted.co.kr/wd/371280",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_371226",
+    "platform": "Wanted",
+    "title": "Deep Learning Applications Engineer",
+    "company": "엔비디아(NVIDIA)",
+    "job_url": "https://www.wanted.co.kr/wd/371226",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_371206",
+    "platform": "Wanted",
+    "title": "React Native Tech Lead (7년 이상)",
+    "company": "굿닥(goodoc)",
+    "job_url": "https://www.wanted.co.kr/wd/371206",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_371139",
+    "platform": "Wanted",
+    "title": "Python 워크플로우 자동화 개발자",
+    "company": "엑스보스",
+    "job_url": "https://www.wanted.co.kr/wd/371139",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_371137",
+    "platform": "Wanted",
+    "title": "Senior PM / Project Manager (5년 이상)",
+    "company": "위버스마인드",
+    "job_url": "https://www.wanted.co.kr/wd/371137",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_371099",
+    "platform": "Wanted",
+    "title": "SQA Manager (팀장급)",
+    "company": "트라이얼인포매틱스",
+    "job_url": "https://www.wanted.co.kr/wd/371099",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_371043",
+    "platform": "Wanted",
+    "title": "Quant Developer(QT Dev팀)",
+    "company": "크래프트테크놀로지스",
+    "job_url": "https://www.wanted.co.kr/wd/371043",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_371029",
+    "platform": "Wanted",
+    "title": "로봇기술연구 리더 (8년 이상)",
+    "company": "위드포인츠",
+    "job_url": "https://www.wanted.co.kr/wd/371029",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_371015",
+    "platform": "Wanted",
+    "title": "풀스택 개발 책임자",
+    "company": "마이폴퓨처스",
+    "job_url": "https://www.wanted.co.kr/wd/371015",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370982",
+    "platform": "Wanted",
+    "title": "Windows Application Engineer (POS 시스템)",
+    "company": "씨제이올리브영(CJ올리브영)",
+    "job_url": "https://www.wanted.co.kr/wd/370982",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370978",
+    "platform": "Wanted",
+    "title": "Platform Development Lead",
+    "company": "프로보이스",
+    "job_url": "https://www.wanted.co.kr/wd/370978",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370933",
+    "platform": "Wanted",
+    "title": "Software Validation Engineer",
+    "company": "망고부스트",
+    "job_url": "https://www.wanted.co.kr/wd/370933",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370860",
+    "platform": "Wanted",
+    "title": "Software Engineer (Back-end) - 10년 이상",
+    "company": "샵라이브",
+    "job_url": "https://www.wanted.co.kr/wd/370860",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370856",
+    "platform": "Wanted",
+    "title": "Software Engineer (Back-end) - 3년 이상",
+    "company": "샵라이브",
+    "job_url": "https://www.wanted.co.kr/wd/370856",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370855",
+    "platform": "Wanted",
+    "title": "Software Engineer (Android) - 4년 이상",
+    "company": "샵라이브",
+    "job_url": "https://www.wanted.co.kr/wd/370855",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370836",
+    "platform": "Wanted",
+    "title": "Solutions Architect - Startup, Korea",
+    "company": "아마존(Amazon)",
+    "job_url": "https://www.wanted.co.kr/wd/370836",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370737",
+    "platform": "Wanted",
+    "title": "날씨돌 Android 앱 개발",
+    "company": "헥토이노베이션",
+    "job_url": "https://www.wanted.co.kr/wd/370737",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370727",
+    "platform": "Wanted",
+    "title": "AOS 개발자",
+    "company": "휴머스온",
+    "job_url": "https://www.wanted.co.kr/wd/370727",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370636",
+    "platform": "Wanted",
+    "title": "Solution Architect",
+    "company": "에이비일팔공(AB180)",
+    "job_url": "https://www.wanted.co.kr/wd/370636",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370620",
+    "platform": "Wanted",
+    "title": "Forward Deployed Engineer - Seoul",
+    "company": "오픈에이아이(OpenAI)",
+    "job_url": "https://www.wanted.co.kr/wd/370620",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370617",
+    "platform": "Wanted",
+    "title": "Senior Manager, System Software - Automotive",
+    "company": "엔비디아(NVIDIA)",
+    "job_url": "https://www.wanted.co.kr/wd/370617",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370517",
+    "platform": "Wanted",
+    "title": "무인 프린트 시스템 개발자 (대리급 이상)",
+    "company": "유피소프트",
+    "job_url": "https://www.wanted.co.kr/wd/370517",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370499",
+    "platform": "Wanted",
+    "title": "풀스택 개발자",
+    "company": "룰루랩(lululab)",
+    "job_url": "https://www.wanted.co.kr/wd/370499",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370243",
+    "platform": "Wanted",
+    "title": "펌웨어 개발자",
+    "company": "신성테크",
+    "job_url": "https://www.wanted.co.kr/wd/370243",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370214",
+    "platform": "Wanted",
+    "title": "R&D Tech Leader",
+    "company": "피플앤드테크놀러지",
+    "job_url": "https://www.wanted.co.kr/wd/370214",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370095",
+    "platform": "Wanted",
+    "title": "Global Hardware Manager",
+    "company": "스마트스코어",
+    "job_url": "https://www.wanted.co.kr/wd/370095",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_370052",
+    "platform": "Wanted",
+    "title": "[스팀(Steam)] 클라이언트 개발자",
+    "company": "111퍼센트",
+    "job_url": "https://www.wanted.co.kr/wd/370052",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_369943",
+    "platform": "Wanted",
+    "title": "Post Silicon Validation Engineer, Korea",
+    "company": "테슬라(Tesla)",
+    "job_url": "https://www.wanted.co.kr/wd/369943",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
+  },
+  {
+    "id": "wanted_369937",
+    "platform": "Wanted",
+    "title": "Specialist Solution Architect, Developer Transformation",
+    "company": "아마존(Amazon)",
+    "job_url": "https://www.wanted.co.kr/wd/369937",
+    "tech_stack": "Mobile",
+    "created_at": "2026-06-29 01:16:18",
+    "last_seen_at": "2026-06-29 01:16:18"
   }
 ]

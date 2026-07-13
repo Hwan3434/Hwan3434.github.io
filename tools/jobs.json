@@ -77,7 +77,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7474822",
     "tech_stack": "Mobile",
     "created_at": "2026-06-03 00:36:56",
-    "last_seen_at": "2026-06-29 01:16:18"
+    "last_seen_at": "2026-07-13 03:41:00"
   },
   {
     "id": "coupang_7058315",
@@ -87,7 +87,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7058315",
     "tech_stack": "Mobile",
     "created_at": "2026-06-03 00:36:56",
-    "last_seen_at": "2026-06-29 01:16:18"
+    "last_seen_at": "2026-07-13 03:41:00"
   },
   {
     "id": "wanted_366542",
@@ -117,7 +117,7 @@
     "job_url": "https://www.wanted.co.kr/wd/366455",
     "tech_stack": "Mobile",
     "created_at": "2026-06-06 23:00:37",
-    "last_seen_at": "2026-07-06 01:00:08"
+    "last_seen_at": "2026-07-13 03:41:00"
   },
   {
     "id": "wanted_366378",
@@ -247,7 +247,7 @@
     "job_url": "https://www.wanted.co.kr/wd/365560",
     "tech_stack": "Mobile",
     "created_at": "2026-06-06 23:00:37",
-    "last_seen_at": "2026-06-08 01:19:11"
+    "last_seen_at": "2026-07-13 03:41:00"
   },
   {
     "id": "wanted_365516",
@@ -267,7 +267,7 @@
     "job_url": "https://www.wanted.co.kr/wd/365353",
     "tech_stack": "Mobile",
     "created_at": "2026-06-06 23:00:37",
-    "last_seen_at": "2026-06-08 01:19:11"
+    "last_seen_at": "2026-07-13 03:41:00"
   },
   {
     "id": "wanted_365304",
@@ -637,7 +637,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7991999",
     "tech_stack": "Mobile",
     "created_at": "2026-06-11 12:42:29",
-    "last_seen_at": "2026-06-29 01:16:18"
+    "last_seen_at": "2026-07-13 03:41:00"
   },
   {
     "id": "wanted_368150",
@@ -677,7 +677,7 @@
     "job_url": "https://www.wanted.co.kr/wd/368041",
     "tech_stack": "Mobile",
     "created_at": "2026-06-15 01:24:02",
-    "last_seen_at": "2026-06-22 01:23:27"
+    "last_seen_at": "2026-07-13 03:41:00"
   },
   {
     "id": "wanted_369797",
@@ -1217,7 +1217,7 @@
     "job_url": "https://www.wanted.co.kr/wd/372730",
     "tech_stack": "Mobile",
     "created_at": "2026-07-06 01:00:08",
-    "last_seen_at": "2026-07-06 01:00:08"
+    "last_seen_at": "2026-07-13 03:41:00"
   },
   {
     "id": "wanted_372729",
@@ -1227,7 +1227,7 @@
     "job_url": "https://www.wanted.co.kr/wd/372729",
     "tech_stack": "Mobile",
     "created_at": "2026-07-06 01:00:08",
-    "last_seen_at": "2026-07-06 01:00:08"
+    "last_seen_at": "2026-07-13 03:41:00"
   },
   {
     "id": "wanted_372728",
@@ -1388,5 +1388,265 @@
     "tech_stack": "Mobile",
     "created_at": "2026-07-06 01:00:08",
     "last_seen_at": "2026-07-06 01:00:08"
+  },
+  {
+    "id": "wanted_374426",
+    "platform": "Wanted",
+    "title": "Applied Solutions Architect, Google Cloud",
+    "company": "구글(Google)",
+    "job_url": "https://www.wanted.co.kr/wd/374426",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374425",
+    "platform": "Wanted",
+    "title": "Associate Solutions Architect, APJ ECT SA",
+    "company": "아마존(Amazon)",
+    "job_url": "https://www.wanted.co.kr/wd/374425",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374398",
+    "platform": "Wanted",
+    "title": "[EC사업그룹 개발팀] 임베디드 SW /  FW 개발자 신입",
+    "company": "쿤텍",
+    "job_url": "https://www.wanted.co.kr/wd/374398",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374365",
+    "platform": "Wanted",
+    "title": "[기획] Product Engineer (3년 ~ 8년 미만)",
+    "company": "스위트스팟(SweetSpot)",
+    "job_url": "https://www.wanted.co.kr/wd/374365",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374255",
+    "platform": "Wanted",
+    "title": "Senior Cloud Architect, Professional Services",
+    "company": "아마존(Amazon)",
+    "job_url": "https://www.wanted.co.kr/wd/374255",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374236",
+    "platform": "Wanted",
+    "title": "[NestPresso] Quantization Research Engineer",
+    "company": "노타(Nota)",
+    "job_url": "https://www.wanted.co.kr/wd/374236",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374174",
+    "platform": "Wanted",
+    "title": "React Native 모바일 앱 개발자 (Android/iOS)",
+    "company": "제이엠씨컨설팅",
+    "job_url": "https://www.wanted.co.kr/wd/374174",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374138",
+    "platform": "Wanted",
+    "title": "Software Engineer (Android) - 7년 이상",
+    "company": "샵라이브",
+    "job_url": "https://www.wanted.co.kr/wd/374138",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374137",
+    "platform": "Wanted",
+    "title": "Software Engineer (iOS) - 7년 이상",
+    "company": "샵라이브",
+    "job_url": "https://www.wanted.co.kr/wd/374137",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374054",
+    "platform": "Wanted",
+    "title": "[토스] Node.js Developer (Ads)",
+    "company": "비바리퍼블리카(토스)",
+    "job_url": "https://www.wanted.co.kr/wd/374054",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374043",
+    "platform": "Wanted",
+    "title": "[아이디어스] 안드로이드 개발자",
+    "company": "백패커",
+    "job_url": "https://www.wanted.co.kr/wd/374043",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374016",
+    "platform": "Wanted",
+    "title": "강화학습 개발 연구·개발자",
+    "company": "알지에이로보틱스(RGA Robotics) ",
+    "job_url": "https://www.wanted.co.kr/wd/374016",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_374015",
+    "platform": "Wanted",
+    "title": "로봇제어 개발 연구·개발자",
+    "company": "알지에이로보틱스(RGA Robotics) ",
+    "job_url": "https://www.wanted.co.kr/wd/374015",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373963",
+    "platform": "Wanted",
+    "title": "응용 프로그램 개발자",
+    "company": "비주얼리서치",
+    "job_url": "https://www.wanted.co.kr/wd/373963",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373721",
+    "platform": "Wanted",
+    "title": "생산 시뮬레이션 및 최적화 시스템 개발자",
+    "company": "인터엑스",
+    "job_url": "https://www.wanted.co.kr/wd/373721",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373630",
+    "platform": "Wanted",
+    "title": "RPA 개발 및 운영 담당자 (계약직)",
+    "company": "카카오뱅크(kakaobank)",
+    "job_url": "https://www.wanted.co.kr/wd/373630",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373595",
+    "platform": "Wanted",
+    "title": "Solutions Architect - Cloud Sales Centre, CSC SA",
+    "company": "아마존(Amazon)",
+    "job_url": "https://www.wanted.co.kr/wd/373595",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373584",
+    "platform": "Wanted",
+    "title": "System Engineer",
+    "company": "스트라드비젼(STRADVISION)",
+    "job_url": "https://www.wanted.co.kr/wd/373584",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373350",
+    "platform": "Wanted",
+    "title": "iOS 앱개발자",
+    "company": "빗썸",
+    "job_url": "https://www.wanted.co.kr/wd/373350",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373305",
+    "platform": "Wanted",
+    "title": "물류자동화 펌웨어 엔지니어",
+    "company": "알티올",
+    "job_url": "https://www.wanted.co.kr/wd/373305",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373231",
+    "platform": "Wanted",
+    "title": "Full stack Software Developer",
+    "company": "셀틱스테크놀로지",
+    "job_url": "https://www.wanted.co.kr/wd/373231",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373188",
+    "platform": "Wanted",
+    "title": "React Native 앱개발자",
+    "company": "한차오",
+    "job_url": "https://www.wanted.co.kr/wd/373188",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373127",
+    "platform": "Wanted",
+    "title": "Senior Quantization Research Engineer",
+    "company": "노타(Nota)",
+    "job_url": "https://www.wanted.co.kr/wd/373127",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_373030",
+    "platform": "Wanted",
+    "title": "[병역특레 현역/보충역] 안드로이드앱(Kotlin) 개발자",
+    "company": "넛지헬스케어(캐시워크)",
+    "job_url": "https://www.wanted.co.kr/wd/373030",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "wanted_372978",
+    "platform": "Wanted",
+    "title": "[병역특례 현역/보충역] Flutter개발자",
+    "company": "넛지헬스케어(캐시워크)",
+    "job_url": "https://www.wanted.co.kr/wd/372978",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
+  },
+  {
+    "id": "coupang_8040918",
+    "platform": "Coupang",
+    "title": "Senior Flutter Engineer (Coupang Eats)",
+    "company": "쿠팡 (Coupang)",
+    "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=8040918",
+    "tech_stack": "Mobile",
+    "created_at": "2026-07-13 03:41:00",
+    "last_seen_at": "2026-07-13 03:41:00"
   }
 ]

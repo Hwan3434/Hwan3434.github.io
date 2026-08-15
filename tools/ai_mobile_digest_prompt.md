@@ -40,6 +40,7 @@ Stock prices, earnings, funding rounds, executive moves, and broad business news
 Match the established house style of recent posts under `_posts/news/` — read two of them before writing.
 
 - Korean prose, but keep technical terms in English (`KV cache`, `coroutine`, `build variant`, `Compose`). Do not translate API or type names.
+- **Never use Obsidian-style wikilinks (`[[term]]`).** This repository's `CLAUDE.md` describes an Obsidian vault workflow — that does not apply to these Jekyll posts. There is no wikilink plugin here, so Jekyll renders the brackets literally. Write technical terms as plain text, or use a real markdown link when linking out.
 - Each item: a **bold one-line headline**, then 4–8 sentences of substantive summary. Include concrete specifics — version numbers, measured deltas, API names, migration steps. State the mechanism, not just the announcement.
 - No hype. If a result is preliminary, unreproduced, or vendor-reported, say so plainly.
 - Close every item with a source link in exactly this shape:

@@ -40,14 +40,32 @@ Match the established house style of recent posts under `_posts/news/` — read 
 
 - Korean prose, but keep technical terms in English (`KV cache`, `coroutine`, `build variant`, `Compose`). Do not translate API or type names.
 - **Never use Obsidian-style wikilinks (`[[term]]`).** This repository's `CLAUDE.md` describes an Obsidian vault workflow — that does not apply to these Jekyll posts. There is no wikilink plugin here, so Jekyll renders the brackets literally. Write technical terms as plain text, or use a real markdown link when linking out.
-- Each item: a **bold one-line headline**, then 4–8 sentences of substantive summary. Include concrete specifics — version numbers, measured deltas, API names, migration steps. State the mechanism, not just the announcement.
-- No hype. If a result is preliminary, unreproduced, or vendor-reported, say so plainly.
-- Close every item with a source link in exactly this shape:
-  `[Source URL](https://example.com/article) (Source Name)`
+- No hype. If a result is preliminary, unreproduced, or vendor-reported, mark it `(vendor 측정)` and move on — do not spend a sentence explaining the caveat.
 
-**Mobile-developer angle (required):** end each item with a single line starting `> 시사점:` (English: `> Takeaway:`) that says what this concretely means for a Flutter/Android/iOS developer — a migration to plan, a number to watch, an API to try, or explicitly "당장 조치는 불필요" when that is the honest answer. One or two sentences. Never pad this line.
+### This is a digest, not a rewrite of the source
 
-Open with an `##` headline naming the day's threads, followed by a short framing paragraph. Separate sections with `---` and group items under `###` section headers named after the actual topic (e.g. `### On-Device Inference`, `### Flutter Toolchain`). Close with a 2–3 sentence synthesis of what the day's items have in common.
+The reader scans it over coffee in under two minutes. **Ruthlessly cut.** If a detail does not change what the reader would do or believe, it does not belong. Prefer one sharp number over three supporting ones. Never restate the headline in the body.
+
+Each item is **exactly** this shape:
+
+```
+*   **한 줄 헤드라인 — 무슨 일이 일어났는지**
+    -   핵심 사실 1 (한 문장, 40자 내외)
+    -   핵심 사실 2
+    -   핵심 사실 3 (선택)
+    [Source URL](https://example.com/article) (Source Name)
+    > 시사점: 한 문장.
+```
+
+Hard limits, enforced:
+- **2–3 bullets per item. Never 4.** Each bullet is one sentence and must carry a concrete fact — a version, a number, an API name, a migration step. No bullet may be scene-setting or context.
+- **No paragraphs anywhere in an item body.** Bullets only.
+- `> 시사점:` is **one sentence**. What to do, watch, or migrate — or exactly `당장 조치는 불필요합니다.` when that is honest, with nothing appended.
+- Cut every clause that explains why something matters in general terms. The bullet states the fact; the 시사점 states the action.
+
+Open with an `##` headline naming the day's threads, then a **TL;DR list — one line per item, no more than 60 characters each** — and nothing else. No framing paragraph.
+
+Separate sections with `---` and group items under `###` headers named after the actual topic (e.g. `### On-Device Inference`, `### Flutter Toolchain`). Close with **one sentence** on what the day's items share. If nothing genuinely connects them, omit the closing line rather than inventing a thread.
 
 ## Output
 

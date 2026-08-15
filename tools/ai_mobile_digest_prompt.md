@@ -6,7 +6,6 @@ Goal: publish today's digest covering two pillars — **AI engineering** and **m
 
 ## Hard constraints
 
-- Do not run `tools/news_generator.py`. Do not use `GEMINI_API_KEY` or any Gemini API.
 - Do not modify unrelated files. Keep existing uncommitted user changes intact.
 - Use Asia/Seoul time for all dates.
 - Every claim must come from a source you actually fetched today. Never invent numbers, version strings, or URLs. If you cannot verify an item, drop it.

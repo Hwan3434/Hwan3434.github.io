@@ -77,7 +77,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7474822",
     "tech_stack": "Mobile",
     "created_at": "2026-06-03 00:36:56",
-    "last_seen_at": "2026-08-24 01:47:12"
+    "last_seen_at": "2026-08-31 05:10:57"
   },
   {
     "id": "coupang_7058315",
@@ -87,7 +87,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7058315",
     "tech_stack": "Mobile",
     "created_at": "2026-06-03 00:36:56",
-    "last_seen_at": "2026-08-24 01:47:12"
+    "last_seen_at": "2026-08-31 05:10:57"
   },
   {
     "id": "wanted_366542",
@@ -1757,7 +1757,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=8067901",
     "tech_stack": "Mobile",
     "created_at": "2026-07-20 03:49:45",
-    "last_seen_at": "2026-08-24 01:47:12"
+    "last_seen_at": "2026-08-31 05:10:57"
   },
   {
     "id": "coupang_8081073",
@@ -1767,7 +1767,7 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=8081073",
     "tech_stack": "Mobile",
     "created_at": "2026-07-27 03:49:30",
-    "last_seen_at": "2026-08-24 01:47:12"
+    "last_seen_at": "2026-08-31 05:10:57"
   },
   {
     "id": "coupang_7984162",
@@ -1777,6 +1777,16 @@
     "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=7984162",
     "tech_stack": "Mobile",
     "created_at": "2026-08-17 01:45:22",
-    "last_seen_at": "2026-08-24 01:47:12"
+    "last_seen_at": "2026-08-31 05:10:57"
+  },
+  {
+    "id": "coupang_8161016",
+    "platform": "Coupang",
+    "title": "Staff Mobile Engineer [Marketing Product Engineering]",
+    "company": "쿠팡 (Coupang)",
+    "job_url": "https://www.coupang.jobs/en/jobs/?gh_jid=8161016",
+    "tech_stack": "Mobile",
+    "created_at": "2026-08-31 05:10:57",
+    "last_seen_at": "2026-08-31 05:10:57"
   }
 ]

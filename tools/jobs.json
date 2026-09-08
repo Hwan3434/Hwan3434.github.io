@@ -1467,7 +1467,7 @@
     "job_url": "https://www.wanted.co.kr/wd/374138",
     "tech_stack": "Mobile",
     "created_at": "2026-07-13 03:41:00",
-    "last_seen_at": "2026-09-08 13:10:40",
+    "last_seen_at": "2026-09-08 14:21:15",
     "track": "Android"
   },
   {
@@ -1800,7 +1800,7 @@
     "track": "기타 모바일",
     "posted_at": "2026-07-31 10:12:59",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greenhouse_coupang_8034909",
@@ -1812,7 +1812,7 @@
     "track": "Android",
     "posted_at": "2026-09-07 04:55:45",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greenhouse_coupang_7977174",
@@ -1824,7 +1824,7 @@
     "track": "기타 모바일",
     "posted_at": "2026-07-31 09:39:09",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greenhouse_daangn_4496730003",
@@ -1836,7 +1836,7 @@
     "track": "Android",
     "posted_at": "2026-08-28 17:04:57",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greenhouse_daangn_5282170003",
@@ -1848,7 +1848,7 @@
     "track": "iOS",
     "posted_at": "2026-08-31 11:21:44",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greenhouse_krafton_8460159002",
@@ -1860,55 +1860,7 @@
     "track": "기타 모바일",
     "posted_at": "2026-08-28 10:25:39",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
-  },
-  {
-    "id": "greenhouse_moloco_7825121003",
-    "platform": "Greenhouse",
-    "title": "Applied Scientist II - Moloco Commerce Media",
-    "company": "몰로코",
-    "job_url": "https://job-boards.greenhouse.io/moloco/jobs/7825121003",
-    "tech_stack": "Mobile",
-    "track": "기타 모바일",
-    "posted_at": "2026-08-12 18:35:22",
-    "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
-  },
-  {
-    "id": "greenhouse_moloco_6643909003",
-    "platform": "Greenhouse",
-    "title": "Senior Applied Scientist - Moloco Ads",
-    "company": "몰로코",
-    "job_url": "https://job-boards.greenhouse.io/moloco/jobs/6643909003",
-    "tech_stack": "Mobile",
-    "track": "기타 모바일",
-    "posted_at": "2026-08-12 18:35:22",
-    "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
-  },
-  {
-    "id": "greenhouse_moloco_7519526003",
-    "platform": "Greenhouse",
-    "title": "Senior Software Engineer - Applied Data",
-    "company": "몰로코",
-    "job_url": "https://job-boards.greenhouse.io/moloco/jobs/7519526003",
-    "tech_stack": "Mobile",
-    "track": "기타 모바일",
-    "posted_at": "2026-08-12 18:35:22",
-    "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
-  },
-  {
-    "id": "greenhouse_moloco_7452525003",
-    "platform": "Greenhouse",
-    "title": "Senior/Staff Applied Scientist (시니어/스태프 응용 과학자)",
-    "company": "몰로코",
-    "job_url": "https://job-boards.greenhouse.io/moloco/jobs/7452525003",
-    "tech_stack": "Mobile",
-    "track": "기타 모바일",
-    "posted_at": "2026-08-12 18:35:22",
-    "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_musinsa_231729",
@@ -1920,7 +1872,7 @@
     "track": "기타 모바일",
     "posted_at": "2026-08-03 08:50:20",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_cashwalk12_30835",
@@ -1932,7 +1884,7 @@
     "track": "Flutter",
     "posted_at": "2023-06-27 00:09:49",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_cashwalk12_30813",
@@ -1944,7 +1896,7 @@
     "track": "Flutter",
     "posted_at": "2026-05-06 06:25:21",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_cashwalk12_30830",
@@ -1956,7 +1908,7 @@
     "track": "iOS",
     "posted_at": "2022-07-15 02:56:13",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_cashwalk12_56673",
@@ -1968,7 +1920,7 @@
     "track": "iOS",
     "posted_at": "2024-03-14 05:00:12",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_cashwalk12_30829",
@@ -1980,7 +1932,7 @@
     "track": "Android",
     "posted_at": "2022-07-15 02:52:18",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_cashwalk12_30827",
@@ -1992,7 +1944,7 @@
     "track": "Android",
     "posted_at": "2023-04-21 00:41:13",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_cashwalk12_187928",
@@ -2004,7 +1956,7 @@
     "track": "Flutter",
     "posted_at": "2026-07-01 07:07:35",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_cashwalk12_187927",
@@ -2016,7 +1968,7 @@
     "track": "iOS",
     "posted_at": "2026-07-01 07:07:14",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_cashwalk12_187926",
@@ -2028,7 +1980,7 @@
     "track": "Android",
     "posted_at": "2026-07-01 07:06:51",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_finda_232467",
@@ -2040,7 +1992,7 @@
     "track": "기타 모바일",
     "posted_at": "2026-08-10 03:23:22",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "greeting_finda_29753",
@@ -2052,19 +2004,7 @@
     "track": "Android",
     "posted_at": "2026-08-10 06:19:06",
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
-  },
-  {
-    "id": "greeting_finda_189081",
-    "platform": "그리팅",
-    "title": "Application Security Engineer(자동화/취약점)",
-    "company": "핀다",
-    "job_url": "https://finda.career.greetinghr.com/o/189081",
-    "tech_stack": "Mobile",
-    "track": "기타 모바일",
-    "posted_at": "2026-08-03 12:06:09",
-    "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_384902",
@@ -2076,7 +2016,7 @@
     "track": "iOS",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_384295",
@@ -2088,7 +2028,7 @@
     "track": "기타 모바일",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_384172",
@@ -2100,7 +2040,7 @@
     "track": "Android",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_384126",
@@ -2112,7 +2052,7 @@
     "track": "기타 모바일",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_383926",
@@ -2124,7 +2064,7 @@
     "track": "기타 모바일",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_383608",
@@ -2136,7 +2076,7 @@
     "track": "Flutter",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_383227",
@@ -2148,7 +2088,7 @@
     "track": "Android",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_383221",
@@ -2160,7 +2100,7 @@
     "track": "iOS",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_383220",
@@ -2172,7 +2112,7 @@
     "track": "Android",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_382702",
@@ -2184,7 +2124,7 @@
     "track": "iOS",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_382661",
@@ -2196,7 +2136,7 @@
     "track": "Android",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_382462",
@@ -2208,7 +2148,7 @@
     "track": "기타 모바일",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_382451",
@@ -2220,7 +2160,7 @@
     "track": "Flutter",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_382392",
@@ -2232,7 +2172,7 @@
     "track": "Flutter",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_382268",
@@ -2244,7 +2184,7 @@
     "track": "Android",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_382155",
@@ -2256,7 +2196,7 @@
     "track": "Android",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_382143",
@@ -2268,7 +2208,7 @@
     "track": "기타 모바일",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_382047",
@@ -2280,7 +2220,7 @@
     "track": "Flutter",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   },
   {
     "id": "wanted_381727",
@@ -2292,6 +2232,6 @@
     "track": "React Native",
     "posted_at": null,
     "created_at": "2026-09-08 13:10:40",
-    "last_seen_at": "2026-09-08 13:10:40"
+    "last_seen_at": "2026-09-08 14:21:15"
   }
 ]

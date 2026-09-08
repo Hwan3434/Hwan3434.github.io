@@ -51,24 +51,53 @@ def normalize_string(s):
     return re.sub(r'[^a-zA-Z0-9가-힣]', '', s).lower()
 
 
+# 키워드를 그냥 부분 문자열로 찾으면 엉뚱한 단어에 걸린다.
+# 'app'이 Application에, 'ios'가 Studios에, 'mobile'이 automobile에,
+# 'ml'이 HTML에 걸리는 식이다. 실제로 핀다의 "Application Security Engineer"가
+# 모바일 공고로 수집되고 있었다.
+#
+# 그렇다고 \b 를 쓰면 "iOS개발"처럼 한글이 바로 붙는 제목이 죽는다.
+# 한글도 \w 라서 경계로 인정되지 않기 때문이다. 그래서 앞뒤에 "영문자"가
+# 붙은 경우만 막는다. 한글 키워드는 그런 경계가 없으니 그대로 둔다.
+def compile_keyword(keyword):
+    pattern = re.escape(keyword)
+    if re.search(r'[a-z]', keyword):
+        pattern = r'(?<![a-z])' + pattern + r'(?![a-z])'
+    return re.compile(pattern)
+
+
+def first_keyword_index(patterns, text):
+    """가장 앞에서 걸린 키워드의 위치. 하나도 없으면 None."""
+    hits = [m.start() for m in (p.search(text) for p in patterns) if m]
+    return min(hits) if hits else None
+
+
 # 네이티브 / 크로스플랫폼 트랙은 시장이 다르다. 페이지에서 나눠 보여주려고 분류한다.
+TRACK_KEYWORDS = (
+    ('Flutter', ('flutter', '플러터', 'dart')),
+    ('React Native', ('react native', 'react-native', '리액트 네이티브')),
+    ('Android', ('android', '안드로이드')),
+    ('iOS', ('ios', '아이폰', 'swift')),
+)
+
+TRACK_PATTERNS = tuple(
+    (track, tuple(compile_keyword(k) for k in keywords))
+    for track, keywords in TRACK_KEYWORDS
+)
+
+
 def classify_track(title):
     t = (title or '').lower()
-    if 'flutter' in t or '플러터' in t or 'dart' in t:
-        return 'Flutter'
-    if 'react native' in t or 'react-native' in t or '리액트 네이티브' in t:
-        return 'React Native'
-    if 'android' in t or '안드로이드' in t:
-        return 'Android'
-    if 'ios' in t or '아이폰' in t or 'swift' in t:
-        return 'iOS'
+    for track, patterns in TRACK_PATTERNS:
+        if first_keyword_index(patterns, t) is not None:
+            return track
     return '기타 모바일'
 
 
 # 모바일 직군만 남기기 위한 판별. 화이트리스트 우선, 그다음 블랙리스트.
 MOBILE_KEYWORDS = (
     'android', '안드로이드', 'ios', '아이폰', 'flutter', '플러터', 'dart',
-    'mobile', '모바일', 'react native', 'kotlin', 'swift', 'app', '앱',
+    'mobile', '모바일', 'react native', 'kotlin', 'swift', 'app', 'apps', '앱',
 )
 
 NON_MOBILE_KEYWORDS = (
@@ -78,21 +107,19 @@ NON_MOBILE_KEYWORDS = (
     'security', '보안', 'designer', '디자이너', 'pm', '기획',
 )
 
+MOBILE_PATTERNS = tuple(compile_keyword(k) for k in MOBILE_KEYWORDS)
+NON_MOBILE_PATTERNS = tuple(compile_keyword(k) for k in NON_MOBILE_KEYWORDS)
+
 
 def looks_mobile(title):
     t = (title or '').lower()
-    if not any(k in t for k in MOBILE_KEYWORDS):
+    first_mobile = first_keyword_index(MOBILE_PATTERNS, t)
+    if first_mobile is None:
         return False
     # "웹 프론트엔드 (React Native 우대)" 같은 건 걸러낸다.
     # 단 모바일 키워드가 제목 앞쪽에 있으면 모바일 직군으로 본다.
-    for bad in NON_MOBILE_KEYWORDS:
-        if bad in t:
-            first_mobile = min(
-                (t.index(k) for k in MOBILE_KEYWORDS if k in t), default=len(t)
-            )
-            if t.index(bad) < first_mobile:
-                return False
-    return True
+    first_bad = first_keyword_index(NON_MOBILE_PATTERNS, t)
+    return first_bad is None or first_bad >= first_mobile
 
 
 def iso_to_stamp(value):

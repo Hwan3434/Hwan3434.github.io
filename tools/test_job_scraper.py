@@ -137,6 +137,34 @@ class TestClassify(unittest.TestCase):
         # 반대로 웹 프론트 공고가 RN을 우대로 적은 경우는 제외한다.
         self.assertFalse(js.looks_mobile("프론트엔드 개발자 (React Native 우대)"))
 
+    def test_ascii_keyword_needs_word_boundary(self):
+        # 'app'이 Application/Applied 에 걸려 모바일 공고로 잡히던 오탐.
+        # 실제로 수집돼 있던 제목들이다.
+        self.assertFalse(js.looks_mobile("Application Security Engineer(자동화/취약점)"))
+        self.assertFalse(js.looks_mobile("Applied Scientist II - Moloco Commerce Media"))
+        self.assertFalse(js.looks_mobile("Application Architect, Professional Services"))
+        self.assertFalse(js.looks_mobile("Deep Learning Applications Engineer"))
+        # 'ios'가 Studios 에, 'mobile'이 automobile 에 걸리는 것도 같은 문제다.
+        self.assertFalse(js.looks_mobile("Onetake Studios 3D 배경 모델러"))
+        self.assertFalse(js.looks_mobile("Automobile Test Engineer"))
+        # 'ml'이 HTML 에 걸려 제외어로 작동하던 것도 사라져야 한다.
+        self.assertTrue(js.looks_mobile("Android 개발자 (HTML 렌더링)"))
+
+    def test_word_boundary_keeps_real_matches(self):
+        # 경계를 넣어도 진짜 모바일 공고는 그대로 걸려야 한다.
+        self.assertTrue(js.looks_mobile("App Lead"))
+        self.assertTrue(js.looks_mobile("Mobile Apps Engineer"))
+        self.assertTrue(js.looks_mobile("Sr. Mobile App Developer"))
+        # 한글이 바로 붙는 제목. \b 를 썼다면 여기서 죽는다.
+        self.assertTrue(js.looks_mobile("[캐시워크] iOS개발 채용전환형 인턴"))
+        self.assertTrue(js.looks_mobile("[캐시워크] Flutter개발 병역특례"))
+        self.assertTrue(js.looks_mobile("Android/iOS 클라이언트 개발자"))
+
+    def test_track_uses_same_boundary(self):
+        # classify_track 도 같은 부분 문자열 문제를 갖고 있었다.
+        self.assertEqual(js.classify_track("[캐시워크] iOS개발 병역특례"), "iOS")
+        self.assertEqual(js.classify_track("Mobile Studios Engineer"), "기타 모바일")
+
 
 class TestStamp(unittest.TestCase):
     def test_utc_z(self):

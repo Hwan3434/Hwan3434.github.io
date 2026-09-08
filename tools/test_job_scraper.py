@@ -1,7 +1,8 @@
 """수집기 로직 테스트.
 
-네트워크를 타지 않는다. fetch_json 을 갈아끼워 응답을 흉내내고,
-파싱·필터·중복제거·실패처리만 확인한다.
+네트워크를 타지 않는다. fetch_json / fetch_text 를 갈아끼워 응답을 흉내내고,
+파싱·필터·중복제거·실패처리만 확인한다. 픽스처는 실제 응답에서 구조만 남기고
+줄인 것이다.
 
     python3 tools/test_job_scraper.py
 """
@@ -38,6 +39,58 @@ GREENHOUSE_FIXTURE = {
          "updated_at": "2026-09-02T00:00:00Z"},
     ]
 }
+
+# 실제 api.lever.co/v0/postings/neowiz 응답에서 구조만 남기고 줄인 것.
+# 최상위가 dict 가 아니라 배열이고, createdAt 이 epoch 밀리초다.
+LEVER_FIXTURE = [
+    {"id": "c3704f2e-5921-49f2-a9c2-8857696d846f",
+     "text": "Android 클라이언트 프로그래머",
+     "hostedUrl": "https://jobs.lever.co/neowiz/c3704f2e",
+     "createdAt": 1774511583936},
+    {"id": "5ad83a87-38c2-4441-81da-5ab73e3217fc",
+     "text": "3D 캐릭터 모델러",
+     "hostedUrl": "https://jobs.lever.co/neowiz/5ad83a87",
+     "createdAt": 1785312618130},
+    {"id": "8ec875e2-4a05-461e-9a91-0660f2f3981a",
+     "text": "iOS 개발자",
+     "hostedUrl": "https://jobs.lever.co/neowiz/8ec875e2",
+     "createdAt": None},
+]
+
+
+def greeting_opening(opening_id, title, open_date):
+    return {"deploy": True, "fixed": False, "openingId": opening_id,
+            "title": title, "openDate": open_date, "dueDate": None,
+            "workspaceDivision": {"id": 7, "division": "무신사"}}
+
+
+# 실제 채용 홈 HTML의 __NEXT_DATA__ 를 그대로 축소한 것.
+# 전체 공고 목록이 react-query 캐시(queryKey ["openings"])로 직렬화되어 들어온다.
+def greeting_html(openings, with_openings_query=True):
+    queries = [
+        {"queryKey": ["publicCareer", "getCareerBaseInfo", "www"],
+         "state": {"data": {}}},
+    ]
+    if with_openings_query:
+        queries.append({"queryKey": ["openings"], "state": {"data": openings}})
+    payload = {"buildId": "build-TfctsWXpff2fKS",
+               "props": {"pageProps": {"dehydratedState": {
+                   "mutations": [], "queries": queries}}}}
+    return ('<html><body><script id="__NEXT_DATA__" '
+            'type="application/json">' + json.dumps(payload, ensure_ascii=False)
+            + '</script></body></html>')
+
+
+GREETING_FIXTURE = [
+    greeting_opening(30835, "[캐시워크] Flutter개발 병역특례",
+                     "2023-06-27T00:09:49Z"),
+    greeting_opening(30830, "[캐시워크] iOS개발 병역특례",
+                     "2022-07-15T02:56:13Z"),
+    greeting_opening(222714, "Backend Engineer (Catalog)",
+                     "2026-09-08T00:47:55Z"),
+    greeting_opening(235739, "Data Operations Lead", None),
+]
+
 
 WANTED_FIXTURE = {
     "data": [
@@ -99,13 +152,25 @@ class TestStamp(unittest.TestCase):
         self.assertIsNone(js.iso_to_stamp(""))
         self.assertIsNone(js.iso_to_stamp("어제"))
 
+    def test_epoch_ms(self):
+        # Lever 는 ISO8601이 아니라 epoch 밀리초를 준다.
+        self.assertEqual(js.epoch_ms_to_stamp(1774511583936),
+                         "2026-03-26 07:53:03")
+
+    def test_epoch_ms_bad_values(self):
+        self.assertIsNone(js.epoch_ms_to_stamp(None))
+        self.assertIsNone(js.epoch_ms_to_stamp(0))
+        self.assertIsNone(js.epoch_ms_to_stamp("2026-03-26"))
+
 
 class TestScrapers(unittest.TestCase):
     def setUp(self):
         self._orig = js.fetch_json
+        self._orig_text = js.fetch_text
 
     def tearDown(self):
         js.fetch_json = self._orig
+        js.fetch_text = self._orig_text
 
     def test_greenhouse_filters_and_maps(self):
         js.fetch_json = lambda url: GREENHOUSE_FIXTURE
@@ -123,6 +188,78 @@ class TestScrapers(unittest.TestCase):
         js.fetch_json = lambda url: {"unexpected": []}
         with self.assertRaises(js.SourceError):
             js.scrape_greenhouse("nope", "없는회사")
+
+    def test_lever_filters_and_maps(self):
+        js.fetch_json = lambda url: LEVER_FIXTURE
+        jobs = js.scrape_lever("neowiz", "네오위즈")
+
+        self.assertEqual(len(jobs), 2)  # 3D 모델러 제외
+        self.assertEqual([j['track'] for j in jobs], ['Android', 'iOS'])
+        self.assertEqual(jobs[0]['id'],
+                         'lever_neowiz_c3704f2e-5921-49f2-a9c2-8857696d846f')
+        self.assertEqual(jobs[0]['platform'], 'Lever')
+        self.assertEqual(jobs[0]['job_url'],
+                         'https://jobs.lever.co/neowiz/c3704f2e')
+        self.assertEqual(jobs[0]['posted_at'], '2026-03-26 07:53:03')
+        self.assertIsNone(jobs[1]['posted_at'])
+
+    def test_lever_bad_shape_raises(self):
+        # 계정이 사라지면 배열이 아니라 {"ok": false} 가 온다.
+        js.fetch_json = lambda url: {"ok": False, "error": "Document not found"}
+        with self.assertRaises(js.SourceError):
+            js.scrape_lever("nope", "없는회사")
+
+    def test_lever_bad_posting_shape_raises(self):
+        js.fetch_json = lambda url: [{"id": "1", "title": "제목 키가 바뀐 경우"}]
+        with self.assertRaises(js.SourceError):
+            js.scrape_lever("neowiz", "네오위즈")
+
+    def test_greetinghr_filters_and_maps(self):
+        js.fetch_text = lambda url: greeting_html(GREETING_FIXTURE)
+        jobs = js.scrape_greetinghr("cashwalk12", "넛지헬스케어(캐시워크)")
+
+        self.assertEqual(len(jobs), 2)  # backend/data 제외
+        self.assertEqual([j['track'] for j in jobs], ['Flutter', 'iOS'])
+        self.assertEqual(jobs[0]['id'], 'greeting_cashwalk12_30835')
+        self.assertEqual(jobs[0]['platform'], '그리팅')
+        self.assertEqual(
+            jobs[0]['job_url'],
+            'https://cashwalk12.career.greetinghr.com/o/30835')
+        self.assertEqual(jobs[0]['posted_at'], '2023-06-27 00:09:49')
+
+    def test_greetinghr_empty_openings_is_not_an_error(self):
+        # 공고가 0건인 회사는 정상이다. 실패로 집계하면 매주 헛경고가 뜬다.
+        js.fetch_text = lambda url: greeting_html([])
+        self.assertEqual(js.scrape_greetinghr("xyz", "엑스와이지"), [])
+
+    def test_greetinghr_missing_next_data_raises(self):
+        # SSR 구조가 바뀌면 조용히 0건이 아니라 실패로 끝나야 한다.
+        js.fetch_text = lambda url: '<html><body>공고 목록</body></html>'
+        with self.assertRaises(js.SourceError):
+            js.scrape_greetinghr("musinsa", "무신사")
+
+    def test_greetinghr_missing_openings_query_raises(self):
+        js.fetch_text = lambda url: greeting_html([], with_openings_query=False)
+        with self.assertRaises(js.SourceError):
+            js.scrape_greetinghr("musinsa", "무신사")
+
+    def test_greetinghr_bad_openings_shape_raises(self):
+        js.fetch_text = lambda url: greeting_html({"data": []})
+        with self.assertRaises(js.SourceError):
+            js.scrape_greetinghr("musinsa", "무신사")
+
+    def test_greetinghr_broken_next_data_json_raises(self):
+        js.fetch_text = lambda url: (
+            '<script id="__NEXT_DATA__" type="application/json">'
+            '{not json</script>')
+        with self.assertRaises(js.SourceError):
+            js.scrape_greetinghr("musinsa", "무신사")
+
+    def test_greetinghr_missing_opening_id_raises(self):
+        js.fetch_text = lambda url: greeting_html(
+            [{"title": "안드로이드 개발자", "openDate": "2026-09-01T00:00:00Z"}])
+        with self.assertRaises(js.SourceError):
+            js.scrape_greetinghr("musinsa", "무신사")
 
     def test_wanted_filters(self):
         js.fetch_json = lambda url: WANTED_FIXTURE

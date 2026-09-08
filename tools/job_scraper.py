@@ -26,16 +26,19 @@ class SourceError(Exception):
 
 # ---------------------------------------------------------------- 공통 유틸
 
-def fetch_json(url):
+def fetch_text(url):
     req = urllib.request.Request(url, headers={'User-Agent': USER_AGENT})
     try:
         with urllib.request.urlopen(req, timeout=TIMEOUT) as response:
-            body = response.read().decode('utf-8')
+            return response.read().decode('utf-8', 'replace')
     except urllib.error.HTTPError as e:
         raise SourceError(f"HTTP {e.code} — {url}")
     except Exception as e:
         raise SourceError(f"{type(e).__name__}: {e} — {url}")
 
+
+def fetch_json(url):
+    body = fetch_text(url)
     try:
         return json.loads(body)
     except json.JSONDecodeError as e:
@@ -106,16 +109,32 @@ def iso_to_stamp(value):
         return None
 
 
+def epoch_ms_to_stamp(value):
+    """Lever가 주는 epoch 밀리초를 같은 문자열 포맷으로 바꾼다."""
+    if not isinstance(value, (int, float)) or value <= 0:
+        return None
+    try:
+        dt = datetime.datetime.utcfromtimestamp(value / 1000.0)
+    except (ValueError, OverflowError, OSError):
+        return None
+    return dt.strftime('%Y-%m-%d %H:%M:%S')
+
+
 # ---------------------------------------------------------------- 소스: Greenhouse
 
 # 공개 Job Board API를 쓰는 곳. 회사마다 함수를 새로 짤 필요가 없다.
-# 여기 있는 토큰은 실제 채용 URL에서 확인된 것만 넣는다.
-# 확인되지 않은 후보(당근, 토스, 오늘의집 등)는 job_id 포맷상 Greenhouse로
-# 보이지만 board token을 확인하지 못해 넣지 않았다. 토큰을 확인하면 한 줄 추가하면 된다.
+# 여기 있는 토큰은 전부 실제로 200 + jobs 배열이 오는 것만 확인해서 넣었다.
+#
+# 확인해보고 뺀 것 (전부 404):
+#   dunamu  — 두나무는 Greenhouse를 쓰지 않는다. dunamu.com/careers/jobs 자체 Next.js 사이트다.
+#   karrotmarket, toss, tossbank, bucketplace, hyperconnect, banksalad
+#           — 토큰이 존재하지 않는다. 토스는 자체 채용 사이트를 쓴다.
 GREENHOUSE_BOARDS = {
     'coupang': '쿠팡',
-    'dunamu': '두나무',
+    'daangn': '당근',
+    'krafton': '크래프톤',
     'moloco': '몰로코',
+    'sendbird': '센드버드',
 }
 
 
@@ -151,6 +170,148 @@ def greenhouse_sources():
         yield (
             f"Greenhouse:{token}",
             lambda t=token, c=company: scrape_greenhouse(t, c),
+        )
+
+
+# ---------------------------------------------------------------- 소스: Lever
+
+# Lever도 키 없이 열려 있다. 응답은 dict 가 아니라 공고 배열이다.
+# 국내 사용사를 훑어봤는데 실제로 200이 오는 곳은 네오위즈뿐이었다.
+# (클래스101은 jobs.lever.co/class101 이 지금 404다. Lever에서 빠진 것으로 보인다.)
+LEVER_ACCOUNTS = {
+    'neowiz': '네오위즈',
+}
+
+
+def scrape_lever(token, company):
+    url = f"https://api.lever.co/v0/postings/{token}?mode=json"
+    data = fetch_json(url)
+
+    # 계정이 사라지면 200이 아니라 {"ok": false} 가 오지만, 형태가 바뀌는 경우도
+    # 여기서 걸러야 한다. 배열이 아니면 우리가 아는 응답이 아니다.
+    if not isinstance(data, list):
+        raise SourceError(f"예상과 다른 응답 형태 (배열이 아님) — {url}")
+
+    jobs = []
+    for posting in data:
+        if not isinstance(posting, dict) or 'text' not in posting:
+            raise SourceError(f"예상과 다른 공고 형태 (text 키 없음) — {url}")
+        title = posting.get('text') or ''
+        if not looks_mobile(title):
+            continue
+        jobs.append({
+            'id': f"lever_{token}_{posting.get('id')}",
+            'platform': 'Lever',
+            'title': title,
+            'company': company,
+            'job_url': posting.get('hostedUrl'),
+            'tech_stack': 'Mobile',
+            'track': classify_track(title),
+            # Lever의 createdAt 은 ISO8601이 아니라 epoch 밀리초다.
+            'posted_at': epoch_ms_to_stamp(posting.get('createdAt')),
+        })
+    return jobs
+
+
+def lever_sources():
+    for token, company in LEVER_ACCOUNTS.items():
+        yield (
+            f"Lever:{token}",
+            lambda t=token, c=company: scrape_lever(t, c),
+        )
+
+
+# ---------------------------------------------------------------- 소스: 그리팅
+
+# 국내 표준 ATS(도입사 3,000곳 이상)라 파서 하나로 커버리지가 가장 크게 는다.
+#
+# 공식 Open API(oapi.greetinghr.com)는 쓸 수 없다. 채용하는 회사가 자기 워크스페이스에서
+# 발급받는 키가 필수라, 남의 회사 공고를 모으는 용도로는 발급 자체가 불가능하다.
+#
+# 대신 공개 채용 홈은 Next.js SSR이고, 전체 공고 목록이 이미 응답 HTML의
+# __NEXT_DATA__ 안에 react-query 캐시(queryKey ["openings"])로 직렬화되어 들어온다.
+# 그래서 XHR을 흉내낼 필요 없이 홈 HTML 한 번만 받으면 된다.
+#
+# 다만 이건 비공식 내부 구조라 예고 없이 바뀔 수 있다. 그래서 아래 파서는
+# __NEXT_DATA__ 가 없거나 openings 쿼리가 사라지면 반드시 SourceError 를 올린다.
+# 조용히 빈 리스트를 돌려주면 안 된다.
+GREETING_COMPANIES = {
+    'musinsa': '무신사',
+    'kakaomobility': '카카오모빌리티',
+    '11st': '11번가',
+    'buzzvil': '버즈빌',
+    'cashwalk12': '넛지헬스케어(캐시워크)',
+    'zigbang': '직방',
+    'finda': '핀다',
+    'megastudyedu': '메가스터디교육',
+    'kstd-lezhin': '키다리스튜디오/레진',
+    'xyz': '엑스와이지',
+}
+
+# 확인해보고 뺀 서브도메인 (전부 404): medibloc, socar, brandi-recruit, thesleepfactory.
+
+NEXT_DATA_RE = re.compile(
+    r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', re.S)
+
+
+def extract_greetinghr_openings(html, url):
+    """채용 홈 HTML에서 공고 목록을 꺼낸다. 형태가 다르면 SourceError."""
+    match = NEXT_DATA_RE.search(html)
+    if not match:
+        raise SourceError(f"__NEXT_DATA__ 스크립트를 찾지 못했다 — {url}")
+
+    try:
+        data = json.loads(match.group(1))
+    except json.JSONDecodeError as e:
+        raise SourceError(f"__NEXT_DATA__ JSON 파싱 실패 ({e}) — {url}")
+
+    queries = (data.get('props', {}).get('pageProps', {})
+                   .get('dehydratedState', {}).get('queries'))
+    if not isinstance(queries, list):
+        raise SourceError(f"dehydratedState.queries 가 없다 — {url}")
+
+    for query in queries:
+        if query.get('queryKey') == ['openings']:
+            openings = query.get('state', {}).get('data')
+            # 공고가 0건인 회사는 정상이다. 리스트가 아닌 것만 실패로 본다.
+            if not isinstance(openings, list):
+                raise SourceError(f"openings 데이터가 배열이 아니다 — {url}")
+            return openings
+
+    raise SourceError(f'queryKey ["openings"] 쿼리가 사라졌다 — {url}')
+
+
+def scrape_greetinghr(subdomain, company):
+    url = f"https://{subdomain}.career.greetinghr.com/"
+    openings = extract_greetinghr_openings(fetch_text(url), url)
+
+    jobs = []
+    for opening in openings:
+        title = opening.get('title') or ''
+        if not looks_mobile(title):
+            continue
+        opening_id = opening.get('openingId')
+        if opening_id is None:
+            raise SourceError(f"공고에 openingId 가 없다 — {url}")
+        jobs.append({
+            'id': f"greeting_{subdomain}_{opening_id}",
+            'platform': '그리팅',
+            'title': title,
+            'company': company,
+            'job_url': (f"https://{subdomain}.career.greetinghr.com"
+                        f"/o/{opening_id}"),
+            'tech_stack': 'Mobile',
+            'track': classify_track(title),
+            'posted_at': iso_to_stamp(opening.get('openDate')),
+        })
+    return jobs
+
+
+def greetinghr_sources():
+    for subdomain, company in GREETING_COMPANIES.items():
+        yield (
+            f"그리팅:{subdomain}",
+            lambda s=subdomain, c=company: scrape_greetinghr(s, c),
         )
 
 
@@ -191,16 +352,10 @@ def scrape_wanted():
 
 def build_sources():
     sources = list(greenhouse_sources())
+    sources.extend(lever_sources())
+    sources.extend(greetinghr_sources())
     sources.append(("Wanted", scrape_wanted))
     return sources
-
-
-# TODO(그리팅): 무신사·카카오모빌리티·11번가·야놀자·버즈빌·직방·메디블록·쏘카·
-# 강남언니·브랜디·핀다 등이 모두 *.career.greetinghr.com 을 쓴다. 국내 표준 ATS라
-# 파서 하나로 커버리지가 가장 크게 늘어난다. 다만 공개 API 스펙을 확인하지 못해
-# 넣지 않았다. 추측으로 엔드포인트를 넣으면 조용히 0건을 수집하게 되므로,
-# 채용 페이지를 열고 DevTools Network 탭에서 공고 목록 XHR을 확인한 뒤
-# scrape_greenhouse 와 같은 형태로 추가할 것.
 
 
 # ---------------------------------------------------------------- 저장

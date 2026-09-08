@@ -23,21 +23,49 @@ jobs:
         with:
           python-version: '3.10'
 
+      # 수집 로직이 깨진 채로 도는 것을 막는다. 네트워크를 타지 않는다.
+      - name: Run tests
+        run: python tools/test_job_scraper.py
+
       - name: Run Job Scraper
+        id: scrape
         run: |
+          set +e
           python tools/job_scraper.py
-          python tools/generate_job_html.py
+          code=$?
+          set -e
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+
+          # 0: 전부 성공 / 2: 일부 소스 실패 / 그 외: 수집 0건 등 치명적
+          if [ "$code" -ne 0 ] && [ "$code" -ne 2 ]; then
+            echo "::error::수집에 실패했다 (exit $code). 커밋하지 않는다."
+            exit "$code"
+          fi
+
+          if [ "$code" -eq 2 ]; then
+            echo "::warning::일부 소스가 실패한 채로 수집됐다. 로그를 확인할 것."
+          fi
+
+      - name: Generate HTML
+        run: python tools/generate_job_html.py
 
       - name: Commit and Push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add jobs.html tools/jobs.json
-          
-          # 변경사항이 있을 때만 커밋
+
           if ! git diff --cached --quiet; then
             git commit -m "chore: automated weekly jobs digest update"
             git push
           else
             echo "No changes to commit."
           fi
+
+      # 일부 소스가 죽은 채로 넘어가면 다음 주에 또 조용히 넘어간다.
+      # 결과는 커밋하되, 실행 자체는 실패로 남겨 눈에 띄게 한다.
+      - name: Fail if any source failed
+        if: steps.scrape.outputs.exit_code == '2'
+        run: |
+          echo "::error::일부 수집 소스가 실패했다. 위 로그의 실패 목록을 확인할 것."
+          exit 1

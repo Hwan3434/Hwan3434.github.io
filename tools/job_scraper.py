@@ -11,11 +11,18 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 
 USER_AGENT = 'Mozilla/5.0 (compatible; Hwan3434-jobs-digest/2.0)'
 TIMEOUT = 15
+
+# 일시적인 흔들림(차단 판정, 레이트 리밋, 게이트웨이 오류)만 걷어내려는 재시도다.
+# 주 1회 실행이라 몇 초 더 기다리는 비용은 무의미하고, 여기까지 다 쓰고도
+# 실패하면 일시적인 문제가 아니라는 뜻이라서 그대로 실패로 올린다.
+RETRY_STATUSES = (403, 429, 500, 502, 503, 504)
+RETRY_WAITS = (2, 5)
 
 DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'jobs.json'))
 
@@ -26,19 +33,36 @@ class SourceError(Exception):
 
 # ---------------------------------------------------------------- 공통 유틸
 
-def fetch_text(url):
-    req = urllib.request.Request(url, headers={'User-Agent': USER_AGENT})
-    try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as response:
-            return response.read().decode('utf-8', 'replace')
-    except urllib.error.HTTPError as e:
-        raise SourceError(f"HTTP {e.code} — {url}")
-    except Exception as e:
-        raise SourceError(f"{type(e).__name__}: {e} — {url}")
+def fetch_text(url, headers=None):
+    """소스별로 헤더를 덮어쓸 수 있다. Accept-Encoding 은 넣지 않는다.
+    urllib 은 압축을 풀어 주지 않아서 gzip 응답을 받으면 파싱이 깨진다.
+    """
+    request_headers = {'User-Agent': USER_AGENT}
+    if headers:
+        request_headers.update(headers)
+
+    for attempt in range(len(RETRY_WAITS) + 1):
+        req = urllib.request.Request(url, headers=request_headers)
+        try:
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as response:
+                return response.read().decode('utf-8', 'replace')
+        except urllib.error.HTTPError as e:
+            error = SourceError(f"HTTP {e.code} — {url}")
+            retryable = e.code in RETRY_STATUSES
+        except Exception as e:
+            error = SourceError(f"{type(e).__name__}: {e} — {url}")
+            retryable = True
+
+        if not retryable or attempt == len(RETRY_WAITS):
+            raise error
+
+        wait = RETRY_WAITS[attempt]
+        print(f"  … {error} — {wait}초 후 재시도", file=sys.stderr)
+        time.sleep(wait)
 
 
-def fetch_json(url):
-    body = fetch_text(url)
+def fetch_json(url, headers=None):
+    body = fetch_text(url, headers)
     try:
         return json.loads(body)
     except json.JSONDecodeError as e:
@@ -351,8 +375,24 @@ WANTED_URL = (
 )
 
 
+# 봇임을 밝히는 기본 UA 로는 2026년 9월부터 403 이 돌아온다. 원티드는 웹
+# 프런트가 보내는 헤더 조합을 보므로, 브라우저가 실제로 보내는 것만 맞춰 준다.
+# 그래도 403 이면 헤더가 아니라 러너 IP 가 막힌 것이니 소스를 갈아야 한다.
+WANTED_HEADERS = {
+    'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+                   'AppleWebKit/537.36 (KHTML, like Gecko) '
+                   'Chrome/140.0.0.0 Safari/537.36'),
+    'Accept': 'application/json, text/plain, */*',
+    'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+    # 동일 출처 GET 에서 브라우저는 Origin 을 보내지 않는다. 넣으면 오히려 어긋난다.
+    'Referer': 'https://www.wanted.co.kr/wdlist',
+    'wanted-os': 'web',
+    'wanted-device': 'pc',
+}
+
+
 def scrape_wanted():
-    data = fetch_json(WANTED_URL)
+    data = fetch_json(WANTED_URL, WANTED_HEADERS)
 
     if 'data' not in data:
         raise SourceError("예상과 다른 응답 형태 (data 키 없음) — Wanted")

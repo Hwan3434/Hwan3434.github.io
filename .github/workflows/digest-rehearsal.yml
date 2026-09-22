@@ -1,0 +1,51 @@
+# 임시 검증용. jobs-digest 와 같은 순서로 돌려 이제 초록으로 끝나는지만 본다.
+# 커밋·푸시 스텝은 뺐고 contents: read 라 아무것도 쓰지 않는다.
+# 확인이 끝나면 이 파일은 지운다.
+name: "수집 리허설 (임시)"
+
+on:
+  push:
+    branches:
+      - claude/github-action-failure-3yiqrx
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rehearse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+
+      - name: Run tests
+        run: python tools/test_job_scraper.py
+
+      - name: Run Job Scraper
+        id: scrape
+        run: |
+          set +e
+          python tools/job_scraper.py
+          code=$?
+          set -e
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          echo "── job_scraper.py exit code: $code"
+
+          if [ "$code" -ne 0 ]; then
+            echo "::error::exit $code — 아직 실패한다. 0 이어야 한다."
+            exit "$code"
+          fi
+          echo "모든 소스 성공. exit 0."
+
+      - name: Generate HTML
+        run: python tools/generate_job_html.py
+
+      - name: 커밋될 내용 확인 (실제로 커밋하지는 않는다)
+        run: |
+          git --no-pager diff --stat -- jobs.html tools/jobs.json

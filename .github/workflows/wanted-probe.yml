@@ -1,7 +1,9 @@
-# 임시 판정용. 원티드 403 이 헤더 문제인지 러너 IP 차단인지 가리기만 한다.
-# 판정이 끝나면 이 파일은 지운다. jobs-digest 는 건드리지 않고, 아무것도
-# 커밋하지 않는다 (contents: read).
-name: "Wanted 403 판정 (임시)"
+# 임시 판정용. 1차 판정에서 브라우저 헤더로도 403 이 나왔다.
+# 이제 두 가지를 가린다.
+#   1. 원티드가 경로(WAF) 차단인지 IP 차단인지 — 살릴 길이 있는지
+#   2. 조사 노트의 후보 ATS 토큰 중 실제로 200 이 오는 곳
+# 판정이 끝나면 이 파일은 지운다. 아무것도 커밋하지 않는다.
+name: "채용 소스 판정 (임시)"
 
 on:
   push:
@@ -24,46 +26,139 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: 헤더 A/B 판정
+      - name: 소스 판정
         run: |
           python - <<'PY'
+          import json
           import sys
+          import urllib.error
+          import urllib.request
+
           sys.path.insert(0, 'tools')
           import job_scraper as js
 
+          BROWSER = dict(js.WANTED_HEADERS)
 
-          def probe(label, headers):
+
+          def probe(url, headers=None):
+              """상태코드와 본문을 그대로 돌려준다. 재시도는 하지 않는다."""
+              req = urllib.request.Request(url, headers=headers or {
+                  'User-Agent': js.USER_AGENT})
               try:
-                  data = js.fetch_json(js.WANTED_URL, headers)
-              except js.SourceError as e:
-                  print(f"  {label}: 실패 — {e}")
-                  return None
-              count = len(data.get('data') or [])
-              print(f"  {label}: 성공 — 응답 {count}건")
-              return count
+                  with urllib.request.urlopen(req, timeout=10) as r:
+                      return r.status, r.read().decode('utf-8', 'replace')
+              except urllib.error.HTTPError as e:
+                  return e.code, ''
+              except Exception as e:
+                  return f"{type(e).__name__}", ''
 
 
-          print("=== A: 기존 봇 UA — 실패를 먼저 재현한다 ===")
-          old = probe("기존 UA", None)
+          print("=" * 70)
+          print("1. 원티드 — 도메인 전체가 막혔는지, API 경로만 막혔는지")
+          print("=" * 70)
+          wanted_routes = [
+              ("robots.txt", "https://www.wanted.co.kr/robots.txt"),
+              ("루트 페이지", "https://www.wanted.co.kr/"),
+              ("공고 목록 HTML", "https://www.wanted.co.kr/wdlist/518/677"),
+              ("목록 API", js.WANTED_URL),
+          ]
+          alive = []
+          for label, url in wanted_routes:
+              status, body = probe(url, BROWSER)
+              mark = "OK " if status == 200 else "-- "
+              extra = ""
+              if status == 200:
+                  alive.append(label)
+                  extra = f" · {len(body)}바이트"
+                  if '__NEXT_DATA__' in body:
+                      extra += " · __NEXT_DATA__ 있음(파싱 가능)"
+              print(f"  {mark}{label}: {status}{extra}")
 
           print()
-          print("=== B: 브라우저 헤더 — 수정안 ===")
-          new = probe("브라우저 헤더", js.WANTED_HEADERS)
-
-          print()
-          if new is None:
-              print("판정: 헤더로는 해결되지 않는다. 러너 IP 차단으로 봐야 한다.")
-              print("      → 헤더 수정은 되돌리고 소스 확충(그리팅·Greenhouse·Lever)으로 간다.")
-              sys.exit(1)
-
-          if old is not None:
-              print("판정: 기존 UA 도 통했다. 403 이 상시 차단이 아니라 간헐적이라는 뜻이다.")
-              print("      → 헤더 보강은 그대로 두고, 재시도가 실제 방어선이 된다.")
+          if not alive:
+              print("  → 도메인 전체가 막혔다. 러너 IP 차단이다. 원티드는 살릴 수 없다.")
           else:
-              print("판정: 헤더 문제였다. 기존 UA 는 막히고 브라우저 헤더는 통한다.")
+              print(f"  → 살아있는 경로: {', '.join(alive)}. 경로 차단이라 우회 여지가 있다.")
 
-          jobs = js.scrape_wanted()
-          print(f"모바일 필터 통과 {len(jobs)}건")
-          for job in jobs[:10]:
-              print(f"  - {job['company']} | {job['title']} ({job['track']})")
+          print()
+          print("=" * 70)
+          print("2. 후보 ATS 토큰 — 조사 노트 기준. 200 이 오는 곳만 쓸 수 있다")
+          print("=" * 70)
+
+          # 이미 쓰는 곳은 제외하고, 조사 노트가 지목한 후보만 찍는다.
+          GREENHOUSE = {
+              'dunamu': '두나무', 'toss': '토스', 'vivarepublica': '토스(대안 토큰)',
+              'bucketplace': '오늘의집', 'ohousekr': '오늘의집(대안 토큰)',
+              'hyperconnect': '하이퍼커넥트', 'riiid': '뤼이드',
+              'socar': '쏘카', 'yanolja': '야놀자', 'kakaostyle': '카카오스타일',
+          }
+          GREETING = {
+              'yanolja': '야놀자', 'medibloc': '메디블록', 'socar': '쏘카',
+              'gangnamunni': '강남언니', 'healingpaper': '강남언니(힐링페이퍼)',
+              'brandi': '브랜디', 'barogo': '바로고', 'ably': '에이블리',
+              'remember': '리멤버', 'channeltalk': '채널톡',
+          }
+          LEVER = {
+              'class101': '클래스101', 'hyperconnect': '하이퍼커넥트',
+              'riiid': '뤼이드',
+          }
+
+          def report(label, token, company, status, titles):
+              if status != 200:
+                  print(f"  -- {label}:{token} ({company}) → {status}")
+                  return False
+              mobile = [t for t in titles if js.looks_mobile(t)]
+              print(f"  OK {label}:{token} ({company}) → 전체 {len(titles)}건 "
+                    f"· 모바일 {len(mobile)}건")
+              for t in mobile[:5]:
+                  print(f"       · {t}")
+              return True
+
+          usable = []
+
+          print("\n[Greenhouse]")
+          for token, company in GREENHOUSE.items():
+              url = f"https://boards-api.greenhouse.io/v1/boards/{token}/jobs"
+              status, body = probe(url)
+              titles = []
+              if status == 200:
+                  try:
+                      titles = [j.get('title') or ''
+                                for j in json.loads(body).get('jobs', [])]
+                  except json.JSONDecodeError:
+                      status = "JSON 파싱 실패"
+              if report("Greenhouse", token, company, status, titles):
+                  usable.append(f"Greenhouse:{token}")
+
+          print("\n[그리팅]")
+          for sub, company in GREETING.items():
+              url = f"https://{sub}.career.greetinghr.com/"
+              status, body = probe(url)
+              titles = []
+              if status == 200:
+                  try:
+                      titles = [o.get('title') or '' for o in
+                                js.extract_greetinghr_openings(body, url)]
+                  except js.SourceError as e:
+                      status = f"파서 실패: {e}"
+              if report("그리팅", sub, company, status, titles):
+                  usable.append(f"그리팅:{sub}")
+
+          print("\n[Lever]")
+          for token, company in LEVER.items():
+              url = f"https://api.lever.co/v0/postings/{token}"
+              status, body = probe(url)
+              titles = []
+              if status == 200:
+                  try:
+                      titles = [p.get('text') or '' for p in json.loads(body)]
+                  except (json.JSONDecodeError, AttributeError):
+                      status = "JSON 파싱 실패"
+              if report("Lever", token, company, status, titles):
+                  usable.append(f"Lever:{token}")
+
+          print()
+          print("=" * 70)
+          print(f"쓸 수 있는 신규 소스 {len(usable)}개: {', '.join(usable) or '없음'}")
+          print("=" * 70)
           PY

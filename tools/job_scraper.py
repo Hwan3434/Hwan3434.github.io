@@ -419,7 +419,10 @@ def build_sources():
     sources = list(greenhouse_sources())
     sources.extend(lever_sources())
     sources.extend(greetinghr_sources())
-    sources.append(("Wanted", scrape_wanted))
+    # 원티드는 등록하지 않는다. 러너 IP 가 막혀 매주 403 만 받고, 그 실패가
+    # 수집 전체를 실패로 끌고 내려간다. scrape_wanted 는 지우지 않고 남겨 둔다.
+    # 파서가 깨진 게 아니라 나가는 IP 가 막힌 것뿐이라, 데이터센터가 아닌 곳에서
+    # 돌리면 그대로 동작한다. 그때는 이 줄만 되살리면 된다.
     return sources
 
 

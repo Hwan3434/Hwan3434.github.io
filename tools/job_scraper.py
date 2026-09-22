@@ -180,6 +180,8 @@ def epoch_ms_to_stamp(value):
 #   dunamu  — 두나무는 Greenhouse를 쓰지 않는다. dunamu.com/careers/jobs 자체 Next.js 사이트다.
 #   karrotmarket, toss, tossbank, bucketplace, hyperconnect, banksalad
 #           — 토큰이 존재하지 않는다. 토스는 자체 채용 사이트를 쓴다.
+#   vivarepublica, ohousekr, riiid, socar, yanolja, kakaostyle
+#           — 2026-09-22 재확인. 전부 404 다.
 GREENHOUSE_BOARDS = {
     'coupang': '쿠팡',
     'daangn': '당근',
@@ -297,9 +299,16 @@ GREETING_COMPANIES = {
     'megastudyedu': '메가스터디교육',
     'kstd-lezhin': '키다리스튜디오/레진',
     'xyz': '엑스와이지',
+    # 전체 35건 중 모바일 2건(Android·iOS)을 실제로 돌려주는 것을 확인했다.
+    # 조사 노트가 적어 둔 'gangnamunni' 는 404 다. 실제 보드는 힐링페이퍼다.
+    'healingpaper': '강남언니',
 }
 
 # 확인해보고 뺀 서브도메인 (전부 404): medibloc, socar, brandi-recruit, thesleepfactory.
+# 2026-09-22 추가 확인분 (404): gangnamunni, brandi, barogo, ably, remember, channeltalk.
+# yanolja 는 200 이 오지만 공고가 0건이다. 빈 보드라 넣어도 얻는 게 없어서 뺐다.
+# 회사 이름으로 서브도메인을 짐작하면 대개 틀린다. 강남언니가 healingpaper 인 것처럼
+# 법인명을 쓰는 곳이 많다. 추가할 때는 반드시 실제 응답을 먼저 찍어 볼 것.
 
 NEXT_DATA_RE = re.compile(
     r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', re.S)
@@ -375,24 +384,13 @@ WANTED_URL = (
 )
 
 
-# 봇임을 밝히는 기본 UA 로는 2026년 9월부터 403 이 돌아온다. 원티드는 웹
-# 프런트가 보내는 헤더 조합을 보므로, 브라우저가 실제로 보내는 것만 맞춰 준다.
-# 그래도 403 이면 헤더가 아니라 러너 IP 가 막힌 것이니 소스를 갈아야 한다.
-WANTED_HEADERS = {
-    'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
-                   'AppleWebKit/537.36 (KHTML, like Gecko) '
-                   'Chrome/140.0.0.0 Safari/537.36'),
-    'Accept': 'application/json, text/plain, */*',
-    'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
-    # 동일 출처 GET 에서 브라우저는 Origin 을 보내지 않는다. 넣으면 오히려 어긋난다.
-    'Referer': 'https://www.wanted.co.kr/wdlist',
-    'wanted-os': 'web',
-    'wanted-device': 'pc',
-}
-
-
+# 2026-09-08 부터 이 소스는 403 만 돌려준다. GitHub Actions 러너에서
+# robots.txt·루트·목록 HTML·API 가 전부 403 이라 도메인 자체가 러너 IP 를
+# 막은 것이다 (런 35675333520). 브라우저 UA·Referer·wanted-os 를 맞춰도
+# 똑같이 403 이었다 (런 35675132627). 헤더로 풀 수 있는 문제가 아니고,
+# 데이터센터 IP 가 아닌 곳에서 돌리지 않는 한 되살릴 수 없다.
 def scrape_wanted():
-    data = fetch_json(WANTED_URL, WANTED_HEADERS)
+    data = fetch_json(WANTED_URL)
 
     if 'data' not in data:
         raise SourceError("예상과 다른 응답 형태 (data 키 없음) — Wanted")

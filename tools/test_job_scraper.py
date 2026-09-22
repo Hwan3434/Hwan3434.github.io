@@ -388,26 +388,6 @@ class TestScrapers(unittest.TestCase):
         with self.assertRaises(js.SourceError):
             js.scrape_wanted()
 
-    def test_wanted_sends_browser_headers(self):
-        """기본 UA 로는 403 이 온다. 헤더를 안 보내는 회귀를 막는다."""
-        captured = {}
-
-        def fetch_json(url, headers=None):
-            captured['headers'] = headers
-            return WANTED_FIXTURE
-
-        js.fetch_json = fetch_json
-        js.scrape_wanted()
-
-        sent = captured['headers']
-        self.assertIsNotNone(sent)
-        self.assertIn('Chrome', sent['User-Agent'])
-        self.assertNotIn('Hwan3434', sent['User-Agent'])
-        self.assertTrue(sent['Referer'].startswith('https://www.wanted.co.kr'))
-        self.assertEqual(sent['wanted-os'], 'web')
-        # urllib 은 압축을 풀어 주지 않는다. 넣으면 gzip 바이트를 파싱하게 된다.
-        self.assertNotIn('Accept-Encoding', sent)
-
 
 class TestCollect(unittest.TestCase):
     def test_partial_failure_keeps_going(self):

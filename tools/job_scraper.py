@@ -11,11 +11,18 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 
 USER_AGENT = 'Mozilla/5.0 (compatible; Hwan3434-jobs-digest/2.0)'
 TIMEOUT = 15
+
+# 일시적인 흔들림(차단 판정, 레이트 리밋, 게이트웨이 오류)만 걷어내려는 재시도다.
+# 주 1회 실행이라 몇 초 더 기다리는 비용은 무의미하고, 여기까지 다 쓰고도
+# 실패하면 일시적인 문제가 아니라는 뜻이라서 그대로 실패로 올린다.
+RETRY_STATUSES = (403, 429, 500, 502, 503, 504)
+RETRY_WAITS = (2, 5)
 
 DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'jobs.json'))
 
@@ -26,19 +33,36 @@ class SourceError(Exception):
 
 # ---------------------------------------------------------------- 공통 유틸
 
-def fetch_text(url):
-    req = urllib.request.Request(url, headers={'User-Agent': USER_AGENT})
-    try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as response:
-            return response.read().decode('utf-8', 'replace')
-    except urllib.error.HTTPError as e:
-        raise SourceError(f"HTTP {e.code} — {url}")
-    except Exception as e:
-        raise SourceError(f"{type(e).__name__}: {e} — {url}")
+def fetch_text(url, headers=None):
+    """소스별로 헤더를 덮어쓸 수 있다. Accept-Encoding 은 넣지 않는다.
+    urllib 은 압축을 풀어 주지 않아서 gzip 응답을 받으면 파싱이 깨진다.
+    """
+    request_headers = {'User-Agent': USER_AGENT}
+    if headers:
+        request_headers.update(headers)
+
+    for attempt in range(len(RETRY_WAITS) + 1):
+        req = urllib.request.Request(url, headers=request_headers)
+        try:
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as response:
+                return response.read().decode('utf-8', 'replace')
+        except urllib.error.HTTPError as e:
+            error = SourceError(f"HTTP {e.code} — {url}")
+            retryable = e.code in RETRY_STATUSES
+        except Exception as e:
+            error = SourceError(f"{type(e).__name__}: {e} — {url}")
+            retryable = True
+
+        if not retryable or attempt == len(RETRY_WAITS):
+            raise error
+
+        wait = RETRY_WAITS[attempt]
+        print(f"  … {error} — {wait}초 후 재시도", file=sys.stderr)
+        time.sleep(wait)
 
 
-def fetch_json(url):
-    body = fetch_text(url)
+def fetch_json(url, headers=None):
+    body = fetch_text(url, headers)
     try:
         return json.loads(body)
     except json.JSONDecodeError as e:
@@ -156,6 +180,8 @@ def epoch_ms_to_stamp(value):
 #   dunamu  — 두나무는 Greenhouse를 쓰지 않는다. dunamu.com/careers/jobs 자체 Next.js 사이트다.
 #   karrotmarket, toss, tossbank, bucketplace, hyperconnect, banksalad
 #           — 토큰이 존재하지 않는다. 토스는 자체 채용 사이트를 쓴다.
+#   vivarepublica, ohousekr, riiid, socar, yanolja, kakaostyle
+#           — 2026-09-22 재확인. 전부 404 다.
 GREENHOUSE_BOARDS = {
     'coupang': '쿠팡',
     'daangn': '당근',
@@ -273,9 +299,16 @@ GREETING_COMPANIES = {
     'megastudyedu': '메가스터디교육',
     'kstd-lezhin': '키다리스튜디오/레진',
     'xyz': '엑스와이지',
+    # 전체 35건 중 모바일 2건(Android·iOS)을 실제로 돌려주는 것을 확인했다.
+    # 조사 노트가 적어 둔 'gangnamunni' 는 404 다. 실제 보드는 힐링페이퍼다.
+    'healingpaper': '강남언니',
 }
 
 # 확인해보고 뺀 서브도메인 (전부 404): medibloc, socar, brandi-recruit, thesleepfactory.
+# 2026-09-22 추가 확인분 (404): gangnamunni, brandi, barogo, ably, remember, channeltalk.
+# yanolja 는 200 이 오지만 공고가 0건이다. 빈 보드라 넣어도 얻는 게 없어서 뺐다.
+# 회사 이름으로 서브도메인을 짐작하면 대개 틀린다. 강남언니가 healingpaper 인 것처럼
+# 법인명을 쓰는 곳이 많다. 추가할 때는 반드시 실제 응답을 먼저 찍어 볼 것.
 
 NEXT_DATA_RE = re.compile(
     r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', re.S)
@@ -351,6 +384,11 @@ WANTED_URL = (
 )
 
 
+# 2026-09-08 부터 이 소스는 403 만 돌려준다. GitHub Actions 러너에서
+# robots.txt·루트·목록 HTML·API 가 전부 403 이라 도메인 자체가 러너 IP 를
+# 막은 것이다 (런 35675333520). 브라우저 UA·Referer·wanted-os 를 맞춰도
+# 똑같이 403 이었다 (런 35675132627). 헤더로 풀 수 있는 문제가 아니고,
+# 데이터센터 IP 가 아닌 곳에서 돌리지 않는 한 되살릴 수 없다.
 def scrape_wanted():
     data = fetch_json(WANTED_URL)
 
@@ -381,7 +419,10 @@ def build_sources():
     sources = list(greenhouse_sources())
     sources.extend(lever_sources())
     sources.extend(greetinghr_sources())
-    sources.append(("Wanted", scrape_wanted))
+    # 원티드는 등록하지 않는다. 러너 IP 가 막혀 매주 403 만 받고, 그 실패가
+    # 수집 전체를 실패로 끌고 내려간다. scrape_wanted 는 지우지 않고 남겨 둔다.
+    # 파서가 깨진 게 아니라 나가는 IP 가 막힌 것뿐이라, 데이터센터가 아닌 곳에서
+    # 돌리면 그대로 동작한다. 그때는 이 줄만 되살리면 된다.
     return sources
 
 

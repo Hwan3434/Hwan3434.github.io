@@ -13,6 +13,7 @@ import os
 import sys
 import tempfile
 import unittest
+import urllib.error
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -191,6 +192,92 @@ class TestStamp(unittest.TestCase):
         self.assertIsNone(js.epoch_ms_to_stamp("2026-03-26"))
 
 
+class FakeResponse:
+    def __init__(self, body):
+        self.body = body
+
+    def read(self):
+        return self.body.encode('utf-8')
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+def http_error(code):
+    return urllib.error.HTTPError('https://x.test', code, 'nope', {}, None)
+
+
+class TestFetch(unittest.TestCase):
+    """fetch_text 의 헤더 병합과 재시도. 실제 소켓도, 실제 대기도 없다."""
+
+    def setUp(self):
+        self._orig_urlopen = js.urllib.request.urlopen
+        self._orig_sleep = js.time.sleep
+        self.requests = []
+        self.waits = []
+        js.time.sleep = self.waits.append
+
+    def tearDown(self):
+        js.urllib.request.urlopen = self._orig_urlopen
+        js.time.sleep = self._orig_sleep
+
+    def respond_with(self, *outcomes):
+        """호출 순서대로 하나씩 돌려준다. 예외 클래스면 올린다."""
+        remaining = list(outcomes)
+
+        def urlopen(req, timeout=None):
+            self.requests.append(req)
+            outcome = remaining.pop(0)
+            if isinstance(outcome, Exception):
+                raise outcome
+            return FakeResponse(outcome)
+
+        js.urllib.request.urlopen = urlopen
+
+    def test_default_user_agent_is_sent(self):
+        self.respond_with('ok')
+        self.assertEqual(js.fetch_text('https://x.test'), 'ok')
+        self.assertEqual(self.requests[0].get_header('User-agent'),
+                         js.USER_AGENT)
+
+    def test_headers_override_default(self):
+        self.respond_with('ok')
+        js.fetch_text('https://x.test', {'User-Agent': 'Chrome/140',
+                                         'Referer': 'https://x.test/list'})
+        sent = self.requests[0]
+        self.assertEqual(sent.get_header('User-agent'), 'Chrome/140')
+        self.assertEqual(sent.get_header('Referer'), 'https://x.test/list')
+
+    def test_403_is_retried_then_succeeds(self):
+        self.respond_with(http_error(403), 'ok')
+        self.assertEqual(js.fetch_text('https://x.test'), 'ok')
+        self.assertEqual(len(self.requests), 2)
+        self.assertEqual(self.waits, [js.RETRY_WAITS[0]])
+
+    def test_403_gives_up_and_reports_the_status(self):
+        self.respond_with(*[http_error(403)] * (len(js.RETRY_WAITS) + 1))
+        with self.assertRaises(js.SourceError) as caught:
+            js.fetch_text('https://x.test')
+        self.assertIn('HTTP 403', str(caught.exception))
+        self.assertEqual(len(self.requests), len(js.RETRY_WAITS) + 1)
+        self.assertEqual(self.waits, list(js.RETRY_WAITS))
+
+    def test_404_is_not_retried(self):
+        self.respond_with(http_error(404))
+        with self.assertRaises(js.SourceError):
+            js.fetch_text('https://x.test')
+        self.assertEqual(len(self.requests), 1)
+        self.assertEqual(self.waits, [])
+
+    def test_network_error_is_retried(self):
+        self.respond_with(urllib.error.URLError('끊김'), 'ok')
+        self.assertEqual(js.fetch_text('https://x.test'), 'ok')
+        self.assertEqual(len(self.requests), 2)
+
+
 class TestScrapers(unittest.TestCase):
     def setUp(self):
         self._orig = js.fetch_json
@@ -201,7 +288,7 @@ class TestScrapers(unittest.TestCase):
         js.fetch_text = self._orig_text
 
     def test_greenhouse_filters_and_maps(self):
-        js.fetch_json = lambda url: GREENHOUSE_FIXTURE
+        js.fetch_json = lambda url, headers=None: GREENHOUSE_FIXTURE
         jobs = js.scrape_greenhouse("coupang", "쿠팡")
 
         self.assertEqual(len(jobs), 3)  # backend/data 제외
@@ -213,12 +300,12 @@ class TestScrapers(unittest.TestCase):
         self.assertIsNone(jobs[2]['posted_at'])
 
     def test_greenhouse_bad_shape_raises(self):
-        js.fetch_json = lambda url: {"unexpected": []}
+        js.fetch_json = lambda url, headers=None: {"unexpected": []}
         with self.assertRaises(js.SourceError):
             js.scrape_greenhouse("nope", "없는회사")
 
     def test_lever_filters_and_maps(self):
-        js.fetch_json = lambda url: LEVER_FIXTURE
+        js.fetch_json = lambda url, headers=None: LEVER_FIXTURE
         jobs = js.scrape_lever("neowiz", "네오위즈")
 
         self.assertEqual(len(jobs), 2)  # 3D 모델러 제외
@@ -233,17 +320,17 @@ class TestScrapers(unittest.TestCase):
 
     def test_lever_bad_shape_raises(self):
         # 계정이 사라지면 배열이 아니라 {"ok": false} 가 온다.
-        js.fetch_json = lambda url: {"ok": False, "error": "Document not found"}
+        js.fetch_json = lambda url, headers=None: {"ok": False, "error": "Document not found"}
         with self.assertRaises(js.SourceError):
             js.scrape_lever("nope", "없는회사")
 
     def test_lever_bad_posting_shape_raises(self):
-        js.fetch_json = lambda url: [{"id": "1", "title": "제목 키가 바뀐 경우"}]
+        js.fetch_json = lambda url, headers=None: [{"id": "1", "title": "제목 키가 바뀐 경우"}]
         with self.assertRaises(js.SourceError):
             js.scrape_lever("neowiz", "네오위즈")
 
     def test_greetinghr_filters_and_maps(self):
-        js.fetch_text = lambda url: greeting_html(GREETING_FIXTURE)
+        js.fetch_text = lambda url, headers=None: greeting_html(GREETING_FIXTURE)
         jobs = js.scrape_greetinghr("cashwalk12", "넛지헬스케어(캐시워크)")
 
         self.assertEqual(len(jobs), 2)  # backend/data 제외
@@ -257,47 +344,47 @@ class TestScrapers(unittest.TestCase):
 
     def test_greetinghr_empty_openings_is_not_an_error(self):
         # 공고가 0건인 회사는 정상이다. 실패로 집계하면 매주 헛경고가 뜬다.
-        js.fetch_text = lambda url: greeting_html([])
+        js.fetch_text = lambda url, headers=None: greeting_html([])
         self.assertEqual(js.scrape_greetinghr("xyz", "엑스와이지"), [])
 
     def test_greetinghr_missing_next_data_raises(self):
         # SSR 구조가 바뀌면 조용히 0건이 아니라 실패로 끝나야 한다.
-        js.fetch_text = lambda url: '<html><body>공고 목록</body></html>'
+        js.fetch_text = lambda url, headers=None: '<html><body>공고 목록</body></html>'
         with self.assertRaises(js.SourceError):
             js.scrape_greetinghr("musinsa", "무신사")
 
     def test_greetinghr_missing_openings_query_raises(self):
-        js.fetch_text = lambda url: greeting_html([], with_openings_query=False)
+        js.fetch_text = lambda url, headers=None: greeting_html([], with_openings_query=False)
         with self.assertRaises(js.SourceError):
             js.scrape_greetinghr("musinsa", "무신사")
 
     def test_greetinghr_bad_openings_shape_raises(self):
-        js.fetch_text = lambda url: greeting_html({"data": []})
+        js.fetch_text = lambda url, headers=None: greeting_html({"data": []})
         with self.assertRaises(js.SourceError):
             js.scrape_greetinghr("musinsa", "무신사")
 
     def test_greetinghr_broken_next_data_json_raises(self):
-        js.fetch_text = lambda url: (
+        js.fetch_text = lambda url, headers=None: (
             '<script id="__NEXT_DATA__" type="application/json">'
             '{not json</script>')
         with self.assertRaises(js.SourceError):
             js.scrape_greetinghr("musinsa", "무신사")
 
     def test_greetinghr_missing_opening_id_raises(self):
-        js.fetch_text = lambda url: greeting_html(
+        js.fetch_text = lambda url, headers=None: greeting_html(
             [{"title": "안드로이드 개발자", "openDate": "2026-09-01T00:00:00Z"}])
         with self.assertRaises(js.SourceError):
             js.scrape_greetinghr("musinsa", "무신사")
 
     def test_wanted_filters(self):
-        js.fetch_json = lambda url: WANTED_FIXTURE
+        js.fetch_json = lambda url, headers=None: WANTED_FIXTURE
         jobs = js.scrape_wanted()
         self.assertEqual(len(jobs), 2)
         self.assertEqual(jobs[0]['id'], 'wanted_900001')
         self.assertEqual(jobs[1]['track'], 'Flutter')
 
     def test_wanted_bad_shape_raises(self):
-        js.fetch_json = lambda url: {"nope": 1}
+        js.fetch_json = lambda url, headers=None: {"nope": 1}
         with self.assertRaises(js.SourceError):
             js.scrape_wanted()
 

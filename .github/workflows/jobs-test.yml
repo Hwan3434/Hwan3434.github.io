@@ -1,0 +1,34 @@
+name: "Jobs Scraper Tests"
+
+# 수집 로직이 깨진 것을 월요일 스케줄 실행 때가 아니라 바꾼 시점에 알기 위한 것이다.
+# 네트워크를 타지 않는 테스트만 돌린다. 실제 수집·커밋은 jobs-digest 가 한다.
+# main 에 직접 푸시하는 경우가 많아서 PR 과 main 푸시 양쪽에 건다.
+on:
+  pull_request:
+    paths:
+      - 'tools/*.py'
+      - '.github/workflows/jobs-test.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'tools/*.py'
+      - '.github/workflows/jobs-test.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+
+      - name: Run tests
+        run: python tools/test_job_scraper.py

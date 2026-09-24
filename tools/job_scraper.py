@@ -331,6 +331,34 @@ GREETING_COMPANIES = {
     # 전체 35건 중 모바일 2건(Android·iOS)을 실제로 돌려주는 것을 확인했다.
     # 조사 노트가 적어 둔 'gangnamunni' 는 404 다. 실제 보드는 힐링페이퍼다.
     'healingpaper': '강남언니',
+
+    # 2026-09-24 추가. 웹 검색으로 실제 공고 URL 이 걸린 보드와 짐작한 보드
+    # 170곳을 러너에서 찍어, 200 이 오고 <title> 로 회사가 확인된 곳 중
+    # 모바일 앱이 핵심 제품인 곳만 넣었다. 지금 모바일 공고가 없는 곳이 많다.
+    # 보드가 사라지면 수집 실패로 드러나니 그때 빼면 된다.
+    'pfct': 'PFCT(크플)',
+    'scatterlab': '스캐터랩',
+    'oliveyoung': 'CJ올리브영',
+    'kidsnote': '키즈노트',
+    'kurly': '컬리',
+    'nrise': '엔라이즈',
+    'apartmentary': '아파트멘터리',
+    'medistream': '메디스트림',
+    'danbiedu': '단비교육',
+    'kakaopay': '카카오페이',
+    'gripcorp': '그립컴퍼니',
+    'gccompany': '여기어때',
+    'myrealtrip': '마이리얼트립',
+    'soomgo': '숨고',
+    'catchtable': '캐치테이블',
+    'wadiz': '와디즈',
+    'goodoc': '굿닥',
+    'kmong': '크몽',
+    'hybe': '하이브(위버스)',
+    'travel-wallet': '트래블월렛',
+    'spoonradio': '스푼랩스',
+    'wconcept': 'W컨셉',
+    'gravitylabs': '그래비티랩스(머니워크)',
 }
 
 # 확인해보고 뺀 서브도메인 (전부 404): medibloc, socar, brandi-recruit, thesleepfactory.
@@ -404,6 +432,57 @@ def greetinghr_sources():
         )
 
 
+# ---------------------------------------------------------------- 소스: 점핏
+
+# 점핏은 목록을 공개 API 로 준다. 원티드와 달리 러너 IP 를 막지 않고, API 호스트에는
+# robots.txt 가 없으며 본 사이트 robots.txt 도 공고 목록을 막지 않는다 (2026-09-24 실측).
+# 키워드 검색은 "안드로이드"만으로 510건이 걸려 쓸 수 없다. 직군 필터 번호를 실측으로
+# 찾았다. 한 공고가 여러 직군에 걸리므로 id 로 한 번만 담는다.
+JUMPIT_API = "https://jumpit-api.saramin.co.kr/api/positions"
+JUMPIT_CATEGORIES = {
+    4: '안드로이드 개발자',
+    16: 'iOS 개발자',
+    18: '크로스플랫폼 앱개발자',
+}
+# 페이지당 16건 고정이다. 지금은 직군마다 한 페이지로 끝난다. 끝없이 돌지 않게 막아 둔다.
+JUMPIT_MAX_PAGES = 10
+
+
+def scrape_jumpit():
+    jobs, seen = [], set()
+    for category in JUMPIT_CATEGORIES:
+        fetched = 0
+        for page in range(1, JUMPIT_MAX_PAGES + 1):
+            url = f"{JUMPIT_API}?jobCategory={category}&sort=reg_dt&page={page}"
+            data = fetch_json(url)
+            result = data.get('result') if isinstance(data, dict) else None
+            positions = result.get('positions') if isinstance(result, dict) else None
+            if not isinstance(positions, list):
+                raise SourceError(f"예상과 다른 응답 형태 (result.positions 없음) — {url}")
+
+            for position in positions:
+                position_id = position.get('id')
+                title = position.get('title') or ''
+                if position_id is None or position_id in seen or not looks_mobile(title):
+                    continue
+                seen.add(position_id)
+                jobs.append({
+                    'id': f"jumpit_{position_id}",
+                    'platform': '점핏',
+                    'title': title,
+                    'company': position.get('companyName'),
+                    'job_url': f"https://jumpit.saramin.co.kr/position/{position_id}",
+                    'tech_stack': 'Mobile',
+                    'track': classify_track(title),
+                    'posted_at': None,  # 목록 API 는 게시일을 주지 않는다
+                })
+
+            fetched += len(positions)
+            if not positions or fetched >= (result.get('totalCount') or 0):
+                break
+    return jobs
+
+
 # ---------------------------------------------------------------- 소스: 원티드
 
 WANTED_URL = (
@@ -448,6 +527,7 @@ def build_sources():
     sources = list(greenhouse_sources())
     sources.extend(lever_sources())
     sources.extend(greetinghr_sources())
+    sources.append(("점핏", scrape_jumpit))
     # 원티드는 등록하지 않는다. 러너 IP 가 막혀 매주 403 만 받고, 그 실패가
     # 수집 전체를 실패로 끌고 내려간다. scrape_wanted 는 지우지 않고 남겨 둔다.
     # 파서가 깨진 게 아니라 나가는 IP 가 막힌 것뿐이라, 데이터센터가 아닌 곳에서

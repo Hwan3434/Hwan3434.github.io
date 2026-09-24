@@ -105,6 +105,28 @@ WANTED_FIXTURE = {
 }
 
 
+# 실제 jumpit-api.saramin.co.kr/api/positions 응답에서 구조만 남기고 줄인 것.
+# 한 공고가 여러 직군에 걸리므로 안드로이드(4)와 iOS(16) 양쪽에 같은 id 가 나온다.
+def jumpit_page(positions, total):
+    return {"message": "포지션 리스트가 조회되었습니다.", "status": 200, "code": "P004",
+            "result": {"totalCount": total, "page": 1, "positions": positions}}
+
+
+JUMPIT_BOTH = {"id": 55000479, "jobCategory": "안드로이드 개발자,iOS 개발자",
+               "title": "안드로이드 개발자", "companyName": "핀다",
+               "techStacks": ["Kotlin"], "closedAt": "2026-10-10T23:59:59"}
+JUMPIT_BY_CATEGORY = {
+    4: [JUMPIT_BOTH,
+        {"id": 55000480, "jobCategory": "기술지원,안드로이드 개발자,devops/시스템 엔지니어",
+         "title": "DevOps 엔지니어", "companyName": "인프라사"}],
+    16: [JUMPIT_BOTH,
+         {"id": 55000481, "jobCategory": "iOS 개발자", "title": "iOS 개발자 (Swift)",
+          "companyName": "아이폰랩"}],
+    18: [{"id": 55000482, "jobCategory": "크로스플랫폼 앱개발자",
+          "title": "Flutter 앱 개발자", "companyName": "플러터랩"}],
+}
+
+
 class TestClassify(unittest.TestCase):
     def test_track(self):
         cases = {
@@ -414,6 +436,52 @@ class TestScrapers(unittest.TestCase):
         js.fetch_json = lambda url, headers=None: {"nope": 1}
         with self.assertRaises(js.SourceError):
             js.scrape_wanted()
+
+    def fake_jumpit(self, calls):
+        def fetch_json(url, headers=None):
+            calls.append(url)
+            category = int(url.split('jobCategory=')[1].split('&')[0])
+            positions = JUMPIT_BY_CATEGORY[category]
+            return jumpit_page(positions, len(positions))
+        return fetch_json
+
+    def test_jumpit_filters_dedups_and_maps(self):
+        calls = []
+        js.fetch_json = self.fake_jumpit(calls)
+        jobs = js.scrape_jumpit()
+
+        # DevOps 는 제목으로 걸러지고, 두 직군에 걸린 공고는 한 번만 담긴다.
+        self.assertEqual([j['id'] for j in jobs],
+                         ['jumpit_55000479', 'jumpit_55000481', 'jumpit_55000482'])
+        self.assertEqual([j['track'] for j in jobs], ['Android', 'iOS', 'Flutter'])
+        self.assertEqual(jobs[0]['platform'], '점핏')
+        self.assertEqual(jobs[0]['company'], '핀다')
+        self.assertEqual(jobs[0]['job_url'],
+                         'https://jumpit.saramin.co.kr/position/55000479')
+        # 직군마다 한 페이지로 끝나면 더 넘기지 않는다.
+        self.assertEqual(len(calls), len(js.JUMPIT_CATEGORIES))
+
+    def test_jumpit_follows_pages_until_total(self):
+        pages = {1: [{"id": 1, "title": "iOS 개발자", "companyName": "A"}],
+                 2: [{"id": 2, "title": "Android 개발자", "companyName": "B"}]}
+        calls = []
+
+        def fetch_json(url, headers=None):
+            calls.append(url)
+            if 'jobCategory=4&' not in url:
+                return jumpit_page([], 0)
+            page = int(url.split('page=')[1])
+            return jumpit_page(pages[page], 2)
+
+        js.fetch_json = fetch_json
+        jobs = js.scrape_jumpit()
+        self.assertEqual([j['id'] for j in jobs], ['jumpit_1', 'jumpit_2'])
+        self.assertEqual(sum('jobCategory=4&' in u for u in calls), 2)
+
+    def test_jumpit_bad_shape_raises(self):
+        js.fetch_json = lambda url, headers=None: {"result": {"items": []}}
+        with self.assertRaises(js.SourceError):
+            js.scrape_jumpit()
 
 
 class TestCollect(unittest.TestCase):

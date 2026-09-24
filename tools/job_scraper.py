@@ -253,7 +253,7 @@ def greenhouse_sources():
 # (클래스101은 jobs.lever.co/class101 이 지금 404다. Lever에서 빠진 것으로 보인다.)
 LEVER_ACCOUNTS = {
     'neowiz': '네오위즈',
-    'matchgroup': '매치그룹',
+    'matchgroup': '매치그룹(아자르·틴더 서울)',
 }
 
 # 글로벌 보드는 서울 공고만 받는다. 필터가 없으면 미국 공고가 대부분이다.
@@ -483,6 +483,56 @@ def scrape_jumpit():
     return jobs
 
 
+# ---------------------------------------------------------------- 소스: 랠릿
+
+# 랠릿도 목록을 공개 API 로 준다. 러너 IP 를 막지 않고 robots.txt 도 /api 를 막지
+# 않는다 (2026-09-24 실측). 직군 필터 이름은 실측으로 확인했다. FLUTTER_DEVELOPER,
+# MOBILE_DEVELOPER 같은 이름은 0건이 온다. 크로스플랫폼은 프론트엔드가 많이 섞여
+# 들어오지만 제목 판별에서 걸러진다.
+RALLIT_API = "https://www.rallit.com/api/v1/position"
+RALLIT_JOBS = ('ANDROID_DEVELOPER', 'IOS_DEVELOPER', 'CROSS_PLATFORM_DEVELOPER')
+RALLIT_PAGE_SIZE = 20
+RALLIT_MAX_PAGES = 10
+
+
+def scrape_rallit():
+    jobs, seen = [], set()
+    for job in RALLIT_JOBS:
+        for page in range(1, RALLIT_MAX_PAGES + 1):
+            url = (f"{RALLIT_API}?jobGroup=DEVELOPER&job={job}"
+                   f"&pageNumber={page}&pageSize={RALLIT_PAGE_SIZE}")
+            payload = fetch_json(url)
+            data = payload.get('data') if isinstance(payload, dict) else None
+            items = data.get('items') if isinstance(data, dict) else None
+            if not isinstance(items, list):
+                raise SourceError(f"예상과 다른 응답 형태 (data.items 없음) — {url}")
+
+            for item in items:
+                item_id = item.get('id')
+                title = (item.get('title') or '').strip()
+                status = (item.get('status') or {}).get('code')
+                if item_id is None or item_id in seen or status != 'HIRING':
+                    continue
+                if not looks_mobile(title):
+                    continue
+                seen.add(item_id)
+                jobs.append({
+                    'id': f"rallit_{item_id}",
+                    'platform': '랠릿',
+                    'title': title,
+                    'company': item.get('companyName'),
+                    'job_url': item.get('url') or f"https://www.rallit.com/positions/{item_id}",
+                    'tech_stack': 'Mobile',
+                    'track': classify_track(title),
+                    # startedAt 은 전부 1970-01-01(상시)로 와서 게시일로 쓸 수 없다.
+                    'posted_at': None,
+                })
+
+            if page >= (data.get('totalPage') or 1):
+                break
+    return jobs
+
+
 # ---------------------------------------------------------------- 소스: 원티드
 
 WANTED_URL = (
@@ -528,6 +578,7 @@ def build_sources():
     sources.extend(lever_sources())
     sources.extend(greetinghr_sources())
     sources.append(("점핏", scrape_jumpit))
+    sources.append(("랠릿", scrape_rallit))
     # 원티드는 등록하지 않는다. 러너 IP 가 막혀 매주 403 만 받고, 그 실패가
     # 수집 전체를 실패로 끌고 내려간다. scrape_wanted 는 지우지 않고 남겨 둔다.
     # 파서가 깨진 게 아니라 나가는 IP 가 막힌 것뿐이라, 데이터센터가 아닌 곳에서

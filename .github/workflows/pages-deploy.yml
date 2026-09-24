@@ -11,6 +11,15 @@ on:
 
   workflow_dispatch:
 
+  # 채용 digest 는 GITHUB_TOKEN 으로 푸시하는데, GitHub 는 워크플로 연쇄를 막으려고
+  # 그 푸시로 위의 push 트리거를 깨우지 않는다. 그래서 digest 가 끝나면 여기서
+  # 이어받아 배포한다. 이때 체크아웃되는 것은 digest 가 푸시한 뒤의 최신 main 이다.
+  # 실패로 끝나도 배포한다. 일부 소스만 실패하면(exit 2) 데이터는 이미 커밋돼 있고,
+  # 커밋이 없었다면 같은 내용을 다시 올릴 뿐이다.
+  workflow_run:
+    workflows: ["Weekly Jobs Digest"]
+    types: [completed]
+
 permissions:
   contents: read
   pages: write

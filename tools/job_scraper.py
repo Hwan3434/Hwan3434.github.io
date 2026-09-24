@@ -13,6 +13,7 @@ import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 USER_AGENT = 'Mozilla/5.0 (compatible; Hwan3434-jobs-digest/2.0)'
@@ -128,15 +129,34 @@ NON_MOBILE_KEYWORDS = (
     'backend', '백엔드', 'back-end', 'server', '서버', 'data', '데이터',
     'ml', '머신러닝', 'machine learning', 'frontend', '프론트엔드', 'front-end',
     'web', '웹', 'devops', '데브옵스', 'infra', '인프라', 'sre', 'qa',
-    'security', '보안', 'designer', '디자이너', 'pm', '기획',
+    'security', '보안', 'pm',
 )
+
+# 개발 직군이 아닌 것. 위 블랙리스트와 달리 제목 어디에 있든 걸러낸다.
+# 모바일 키워드가 앞에 오면 통과시키는 규칙 때문에 "모바일 게임 퍼포먼스 마케터",
+# "앱/웹 서비스 기획 (PM)" 같은 제목이 모바일 공고로 들어오고 있었다.
+# '마케팅'/'marketing'은 넣지 않는다. "Mobile Engineer [Marketing Product
+# Engineering]"처럼 팀 이름에 흔히 들어간다. 사람을 가리키는 말만 쓴다.
+ROLE_KEYWORDS = (
+    '마케터', 'marketer', '기획', 'planner',
+    '디자이너', 'designer', '영업', 'sales',
+)
+
+# "모바일 게임"은 게임 직군이라 이 구절의 '모바일'은 모바일 앱 신호로 치지 않는다.
+# "Android 게임 클라이언트"처럼 플랫폼 이름이 따로 있으면 그쪽으로 잡힌다.
+MOBILE_GAME_RE = re.compile(r'(?:모바일|mobile)\s*(?:게임|game)')
 
 MOBILE_PATTERNS = tuple(compile_keyword(k) for k in MOBILE_KEYWORDS)
 NON_MOBILE_PATTERNS = tuple(compile_keyword(k) for k in NON_MOBILE_KEYWORDS)
+ROLE_PATTERNS = tuple(compile_keyword(k) for k in ROLE_KEYWORDS)
 
 
 def looks_mobile(title):
     t = (title or '').lower()
+    if first_keyword_index(ROLE_PATTERNS, t) is not None:
+        return False
+    # 길이를 유지한 채 지워야 아래 두 위치 비교가 어긋나지 않는다.
+    t = MOBILE_GAME_RE.sub(lambda m: ' ' * len(m.group(0)), t)
     first_mobile = first_keyword_index(MOBILE_PATTERNS, t)
     if first_mobile is None:
         return False
@@ -182,6 +202,11 @@ def epoch_ms_to_stamp(value):
 #           — 토큰이 존재하지 않는다. 토스는 자체 채용 사이트를 쓴다.
 #   vivarepublica, ohousekr, riiid, socar, yanolja, kakaostyle
 #           — 2026-09-22 재확인. 전부 404 다.
+#   dunamu(재확인), channelio, ably, wadiz, liner, linercorp, upstage, twelvelabs,
+#   furiosa, scatterlab, bithumb, lunit, vuno, gentlemonster, bucketplace, ab180,
+#   airbridge — 2026-09-24. 전부 404 다. (두나무는 검색에 Greenhouse 공고 URL 이
+#           보이지만 API 는 404 다. 옛 색인이다.)
+#   seoulrobotics, furiosaai — 200 이지만 모바일 앱 회사가 아니라 넣지 않았다.
 GREENHOUSE_BOARDS = {
     'coupang': '쿠팡',
     'daangn': '당근',
@@ -233,11 +258,23 @@ def greenhouse_sources():
 # (클래스101은 jobs.lever.co/class101 이 지금 404다. Lever에서 빠진 것으로 보인다.)
 LEVER_ACCOUNTS = {
     'neowiz': '네오위즈',
+    'matchgroup': '매치그룹(아자르·틴더 서울)',
+}
+
+# 확인해보고 뺀 것 (2026-09-24, 전부 404): sendbird, toss, riiid, krafton, nexon,
+# hybe, musinsa, ab180, moloco.
+
+# 글로벌 보드는 서울 공고만 받는다. 필터가 없으면 미국 공고가 대부분이다.
+# 매치그룹은 전체 76건 중 서울이 11건이었다 (2026-09-24 실측).
+LEVER_LOCATIONS = {
+    'matchgroup': 'Seoul, South Korea',
 }
 
 
-def scrape_lever(token, company):
+def scrape_lever(token, company, location=None):
     url = f"https://api.lever.co/v0/postings/{token}?mode=json"
+    if location:
+        url += '&location=' + urllib.parse.quote(location)
     data = fetch_json(url)
 
     # 계정이 사라지면 200이 아니라 {"ok": false} 가 오지만, 형태가 바뀌는 경우도
@@ -270,7 +307,7 @@ def lever_sources():
     for token, company in LEVER_ACCOUNTS.items():
         yield (
             f"Lever:{token}",
-            lambda t=token, c=company: scrape_lever(t, c),
+            lambda t=token, c=company: scrape_lever(t, c, LEVER_LOCATIONS.get(t)),
         )
 
 
@@ -302,6 +339,34 @@ GREETING_COMPANIES = {
     # 전체 35건 중 모바일 2건(Android·iOS)을 실제로 돌려주는 것을 확인했다.
     # 조사 노트가 적어 둔 'gangnamunni' 는 404 다. 실제 보드는 힐링페이퍼다.
     'healingpaper': '강남언니',
+
+    # 2026-09-24 추가. 웹 검색으로 실제 공고 URL 이 걸린 보드와 짐작한 보드
+    # 170곳을 러너에서 찍어, 200 이 오고 <title> 로 회사가 확인된 곳 중
+    # 모바일 앱이 핵심 제품인 곳만 넣었다. 지금 모바일 공고가 없는 곳이 많다.
+    # 보드가 사라지면 수집 실패로 드러나니 그때 빼면 된다.
+    'pfct': 'PFCT(크플)',
+    'scatterlab': '스캐터랩',
+    'oliveyoung': 'CJ올리브영',
+    'kidsnote': '키즈노트',
+    'kurly': '컬리',
+    'nrise': '엔라이즈',
+    'apartmentary': '아파트멘터리',
+    'medistream': '메디스트림',
+    'danbiedu': '단비교육',
+    'kakaopay': '카카오페이',
+    'gripcorp': '그립컴퍼니',
+    'gccompany': '여기어때',
+    'myrealtrip': '마이리얼트립',
+    'soomgo': '숨고',
+    'catchtable': '캐치테이블',
+    'wadiz': '와디즈',
+    'goodoc': '굿닥',
+    'kmong': '크몽',
+    'hybe': '하이브(위버스)',
+    'travel-wallet': '트래블월렛',
+    'spoonradio': '스푼랩스',
+    'wconcept': 'W컨셉',
+    'gravitylabs': '그래비티랩스(머니워크)',
 }
 
 # 확인해보고 뺀 서브도메인 (전부 404): medibloc, socar, brandi-recruit, thesleepfactory.
@@ -309,6 +374,16 @@ GREETING_COMPANIES = {
 # yanolja 는 200 이 오지만 공고가 0건이다. 빈 보드라 넣어도 얻는 게 없어서 뺐다.
 # 회사 이름으로 서브도메인을 짐작하면 대개 틀린다. 강남언니가 healingpaper 인 것처럼
 # 법인명을 쓰는 곳이 많다. 추가할 때는 반드시 실제 응답을 먼저 찍어 볼 것.
+#
+# 2026-09-24 에 170곳을 찍었다. 짐작한 111곳 중 200 이 온 것은 18곳이었고,
+# 검색으로 찾은 59곳은 42곳이 200 이었다.
+# 웹 검색으로 "<회사>.career.greetinghr.com/o/<번호>" 공고 URL 을 찾는 쪽이 훨씬
+# 잘 맞는다. 다만 검색 색인이 오래돼 이미 떠난 보드도 걸린다. bucketplace(오늘의집),
+# millie, ridi, tappytoon, talecrew, chic, altimobility 등은 검색엔 공고가 보이지만
+# /, /ko, /ko/home, /career 가 모두 404 다. 그리팅을 떠난 것으로 본다.
+# 200 이지만 모바일 앱 회사가 아니거나(B2B·AI 반도체·게임) 게임·보안이 섞인 그룹이라
+# 넣지 않은 곳: allganize, rebellions, mangoboost, sionicai, autocrypt, upstage,
+# supercent, 111percent, playhard, enki, estfamily, hr-suprema, mobilinthire 등.
 
 NEXT_DATA_RE = re.compile(
     r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', re.S)
@@ -375,6 +450,120 @@ def greetinghr_sources():
         )
 
 
+# ---------------------------------------------------------------- 소스: 점핏
+
+# 점핏은 목록을 공개 API 로 준다. 원티드와 달리 러너 IP 를 막지 않고, API 호스트에는
+# robots.txt 가 없으며 본 사이트 robots.txt 도 공고 목록을 막지 않는다 (2026-09-24 실측).
+# 키워드 검색은 "안드로이드"만으로 510건이 걸려 쓸 수 없다. 직군 필터 번호를 실측으로
+# 찾았다. 한 공고가 여러 직군에 걸리므로 id 로 한 번만 담는다.
+JUMPIT_API = "https://jumpit-api.saramin.co.kr/api/positions"
+JUMPIT_CATEGORIES = {
+    4: '안드로이드 개발자',
+    16: 'iOS 개발자',
+    18: '크로스플랫폼 앱개발자',
+}
+# 페이지당 16건 고정이다. 지금은 직군마다 한 페이지로 끝난다. 끝없이 돌지 않게 막아 둔다.
+JUMPIT_MAX_PAGES = 10
+
+
+def scrape_jumpit():
+    jobs, seen = [], set()
+    for category in JUMPIT_CATEGORIES:
+        fetched = 0
+        for page in range(1, JUMPIT_MAX_PAGES + 1):
+            url = f"{JUMPIT_API}?jobCategory={category}&sort=reg_dt&page={page}"
+            data = fetch_json(url)
+            result = data.get('result') if isinstance(data, dict) else None
+            positions = result.get('positions') if isinstance(result, dict) else None
+            if not isinstance(positions, list):
+                raise SourceError(f"예상과 다른 응답 형태 (result.positions 없음) — {url}")
+
+            for position in positions:
+                if not isinstance(position, dict):
+                    raise SourceError(f"예상과 다른 공고 형태 (dict 아님) — {url}")
+                position_id = position.get('id')
+                title = position.get('title') or ''
+                if position_id is None or position_id in seen or not looks_mobile(title):
+                    continue
+                seen.add(position_id)
+                jobs.append({
+                    'id': f"jumpit_{position_id}",
+                    'platform': '점핏',
+                    'title': title,
+                    'company': position.get('companyName'),
+                    'job_url': f"https://jumpit.saramin.co.kr/position/{position_id}",
+                    'tech_stack': 'Mobile',
+                    'track': classify_track(title),
+                    'posted_at': None,  # 목록 API 는 게시일을 주지 않는다
+                })
+
+            fetched += len(positions)
+            if not positions or fetched >= (result.get('totalCount') or 0):
+                break
+    return jobs
+
+
+# 같이 찍어보고 뺀 채용 플랫폼 (2026-09-24):
+#   프로그래머스 — 러너에서 접속 자체가 안 된다 (URLError).
+#   로켓펀치 — 예전 목록 API 가 404 다. robots.txt 가 /search 를 막는다.
+#   직행 — robots.txt 가 /api/ 를 막는다.
+#   리멤버 — 서버 렌더링 HTML 에 공고가 없다. 목록은 공개되지 않은 API 로 따로 온다.
+
+
+# ---------------------------------------------------------------- 소스: 랠릿
+
+# 랠릿도 목록을 공개 API 로 준다. 러너 IP 를 막지 않고 robots.txt 도 /api 를 막지
+# 않는다 (2026-09-24 실측). 직군 필터 이름은 실측으로 확인했다. FLUTTER_DEVELOPER,
+# MOBILE_DEVELOPER 같은 이름은 0건이 온다. 크로스플랫폼은 프론트엔드가 많이 섞여
+# 들어오지만 제목 판별에서 걸러진다.
+RALLIT_API = "https://www.rallit.com/api/v1/position"
+RALLIT_JOBS = ('ANDROID_DEVELOPER', 'IOS_DEVELOPER', 'CROSS_PLATFORM_DEVELOPER')
+RALLIT_PAGE_SIZE = 20
+RALLIT_MAX_PAGES = 10
+
+
+def scrape_rallit():
+    jobs, seen = [], set()
+    for job in RALLIT_JOBS:
+        for page in range(1, RALLIT_MAX_PAGES + 1):
+            url = (f"{RALLIT_API}?jobGroup=DEVELOPER&job={job}"
+                   f"&pageNumber={page}&pageSize={RALLIT_PAGE_SIZE}")
+            payload = fetch_json(url)
+            data = payload.get('data') if isinstance(payload, dict) else None
+            items = data.get('items') if isinstance(data, dict) else None
+            if not isinstance(items, list):
+                raise SourceError(f"예상과 다른 응답 형태 (data.items 없음) — {url}")
+
+            for item in items:
+                if not isinstance(item, dict):
+                    raise SourceError(f"예상과 다른 공고 형태 (dict 아님) — {url}")
+                item_id = item.get('id')
+                title = (item.get('title') or '').strip()
+                # 지금은 {"code": "HIRING", ...} 객체로 온다. 문자열로 바뀌어도 읽는다.
+                status = item.get('status')
+                status = status.get('code') if isinstance(status, dict) else status
+                if item_id is None or item_id in seen or status != 'HIRING':
+                    continue
+                if not looks_mobile(title):
+                    continue
+                seen.add(item_id)
+                jobs.append({
+                    'id': f"rallit_{item_id}",
+                    'platform': '랠릿',
+                    'title': title,
+                    'company': item.get('companyName'),
+                    'job_url': item.get('url') or f"https://www.rallit.com/positions/{item_id}",
+                    'tech_stack': 'Mobile',
+                    'track': classify_track(title),
+                    # startedAt 은 전부 1970-01-01(상시)로 와서 게시일로 쓸 수 없다.
+                    'posted_at': None,
+                })
+
+            if page >= (data.get('totalPage') or 1):
+                break
+    return jobs
+
+
 # ---------------------------------------------------------------- 소스: 원티드
 
 WANTED_URL = (
@@ -419,6 +608,8 @@ def build_sources():
     sources = list(greenhouse_sources())
     sources.extend(lever_sources())
     sources.extend(greetinghr_sources())
+    sources.append(("점핏", scrape_jumpit))
+    sources.append(("랠릿", scrape_rallit))
     # 원티드는 등록하지 않는다. 러너 IP 가 막혀 매주 403 만 받고, 그 실패가
     # 수집 전체를 실패로 끌고 내려간다. scrape_wanted 는 지우지 않고 남겨 둔다.
     # 파서가 깨진 게 아니라 나가는 IP 가 막힌 것뿐이라, 데이터센터가 아닌 곳에서

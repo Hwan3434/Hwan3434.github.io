@@ -105,6 +105,62 @@ WANTED_FIXTURE = {
 }
 
 
+# 실제 jumpit-api.saramin.co.kr/api/positions 응답에서 구조만 남기고 줄인 것.
+# 한 공고가 여러 직군에 걸리므로 안드로이드(4)와 iOS(16) 양쪽에 같은 id 가 나온다.
+def jumpit_page(positions, total):
+    return {"message": "포지션 리스트가 조회되었습니다.", "status": 200, "code": "P004",
+            "result": {"totalCount": total, "page": 1, "positions": positions}}
+
+
+JUMPIT_BOTH = {"id": 55000479, "jobCategory": "안드로이드 개발자,iOS 개발자",
+               "title": "안드로이드 개발자", "companyName": "핀다",
+               "techStacks": ["Kotlin"], "closedAt": "2026-10-10T23:59:59"}
+JUMPIT_BY_CATEGORY = {
+    4: [JUMPIT_BOTH,
+        {"id": 55000480, "jobCategory": "기술지원,안드로이드 개발자,devops/시스템 엔지니어",
+         "title": "DevOps 엔지니어", "companyName": "인프라사"}],
+    16: [JUMPIT_BOTH,
+         {"id": 55000481, "jobCategory": "iOS 개발자", "title": "iOS 개발자 (Swift)",
+          "companyName": "아이폰랩"}],
+    18: [{"id": 55000482, "jobCategory": "크로스플랫폼 앱개발자",
+          "title": "Flutter 앱 개발자", "companyName": "플러터랩"}],
+}
+
+
+# 실제 www.rallit.com/api/v1/position 응답에서 구조만 남기고 줄인 것.
+# status 는 문자열이 아니라 객체고, startedAt 은 상시 공고라 1970-01-01 로 온다.
+def rallit_item(item_id, title, company, status='HIRING'):
+    return {"id": item_id, "title": title, "companyName": company,
+            "startedAt": "1970-01-01", "endedAt": "9999-12-31",
+            "status": {"code": status, "name": "모집 중"},
+            "url": f"https://www.rallit.com/positions/{item_id}"}
+
+
+def rallit_page(items, total_page=1):
+    return {"statusCode": "OK", "message": "",
+            "data": {"pageNumber": 1, "pageSize": 20, "totalCount": len(items),
+                     "totalPage": total_page, "items": items},
+            "errorCode": None}
+
+
+RALLIT_BY_JOB = {
+    'ANDROID_DEVELOPER': [
+        rallit_item(1591, "[야나두(야핏)] 안드로이드(AOS) 개발", "(주)야나두"),
+        rallit_item(2995, "프론트엔지니어 개발자(시니어/미들)", "엑세스 주식회사"),
+        rallit_item(3100, "React Native 개발 가능한 풀스텍개발자", "브이아이펫"),
+    ],
+    'IOS_DEVELOPER': [
+        rallit_item(1618, " iOS 개발자 채용", "ms인포테크"),
+        rallit_item(3100, "React Native 개발 가능한 풀스텍개발자", "브이아이펫"),
+        rallit_item(9999, "iOS 개발자 (마감)", "마감사", status='CLOSED'),
+    ],
+    'CROSS_PLATFORM_DEVELOPER': [
+        rallit_item(3462, "플러터 개발자", "주식회사 다이노즈"),
+        rallit_item(4125, "프론트엔드 개발자", "인프랩 (인프런)"),
+    ],
+}
+
+
 class TestClassify(unittest.TestCase):
     def test_track(self):
         cases = {
@@ -165,6 +221,24 @@ class TestClassify(unittest.TestCase):
         # classify_track 도 같은 부분 문자열 문제를 갖고 있었다.
         self.assertEqual(js.classify_track("[캐시워크] iOS개발 병역특례"), "iOS")
         self.assertEqual(js.classify_track("Mobile Studios Engineer"), "기타 모바일")
+
+    def test_non_dev_roles_dropped_wherever_they_are(self):
+        # 모바일 키워드가 앞에 와도 개발 직군이 아니면 뺀다.
+        for title in ("[UA팀] 모바일 게임 퍼포먼스 마케터 (주니어)",
+                      "앱/웹 서비스 기획 (PM) (경력)",
+                      "모바일 앱 디자이너"):
+            self.assertFalse(js.looks_mobile(title), title)
+
+    def test_marketing_team_name_is_not_a_role(self):
+        # 팀 이름의 Marketing 때문에 진짜 모바일 엔지니어가 빠지면 안 된다.
+        self.assertTrue(js.looks_mobile(
+            "Staff Mobile Engineer [Marketing Product Engineering]"))
+
+    def test_mobile_game_is_not_a_mobile_app_signal(self):
+        self.assertFalse(js.looks_mobile(
+            "MMORPG 온라인/모바일 게임 클라이언트 프로그래머 (C++, C#)"))
+        # 플랫폼 이름이 따로 있으면 그쪽으로 잡힌다.
+        self.assertTrue(js.looks_mobile("Android 게임 클라이언트 개발자"))
 
 
 class TestStamp(unittest.TestCase):
@@ -318,6 +392,15 @@ class TestScrapers(unittest.TestCase):
         self.assertEqual(jobs[0]['posted_at'], '2026-03-26 07:53:03')
         self.assertIsNone(jobs[1]['posted_at'])
 
+    def test_lever_location_filter_goes_into_url(self):
+        # 글로벌 보드는 서울 공고만 받아야 한다. 필터가 URL 에 실려야 한다.
+        seen = []
+        js.fetch_json = lambda url, headers=None: seen.append(url) or []
+        js.scrape_lever("matchgroup", "매치그룹", "Seoul, South Korea")
+        js.scrape_lever("neowiz", "네오위즈")
+        self.assertIn("&location=Seoul%2C%20South%20Korea", seen[0])
+        self.assertNotIn("location=", seen[1])
+
     def test_lever_bad_shape_raises(self):
         # 계정이 사라지면 배열이 아니라 {"ok": false} 가 온다.
         js.fetch_json = lambda url, headers=None: {"ok": False, "error": "Document not found"}
@@ -387,6 +470,105 @@ class TestScrapers(unittest.TestCase):
         js.fetch_json = lambda url, headers=None: {"nope": 1}
         with self.assertRaises(js.SourceError):
             js.scrape_wanted()
+
+    def fake_jumpit(self, calls):
+        def fetch_json(url, headers=None):
+            calls.append(url)
+            category = int(url.split('jobCategory=')[1].split('&')[0])
+            positions = JUMPIT_BY_CATEGORY[category]
+            return jumpit_page(positions, len(positions))
+        return fetch_json
+
+    def test_jumpit_filters_dedups_and_maps(self):
+        calls = []
+        js.fetch_json = self.fake_jumpit(calls)
+        jobs = js.scrape_jumpit()
+
+        # DevOps 는 제목으로 걸러지고, 두 직군에 걸린 공고는 한 번만 담긴다.
+        self.assertEqual([j['id'] for j in jobs],
+                         ['jumpit_55000479', 'jumpit_55000481', 'jumpit_55000482'])
+        self.assertEqual([j['track'] for j in jobs], ['Android', 'iOS', 'Flutter'])
+        self.assertEqual(jobs[0]['platform'], '점핏')
+        self.assertEqual(jobs[0]['company'], '핀다')
+        self.assertEqual(jobs[0]['job_url'],
+                         'https://jumpit.saramin.co.kr/position/55000479')
+        # 직군마다 한 페이지로 끝나면 더 넘기지 않는다.
+        self.assertEqual(len(calls), len(js.JUMPIT_CATEGORIES))
+
+    def test_jumpit_follows_pages_until_total(self):
+        pages = {1: [{"id": 1, "title": "iOS 개발자", "companyName": "A"}],
+                 2: [{"id": 2, "title": "Android 개발자", "companyName": "B"}]}
+        calls = []
+
+        def fetch_json(url, headers=None):
+            calls.append(url)
+            if 'jobCategory=4&' not in url:
+                return jumpit_page([], 0)
+            page = int(url.split('page=')[1])
+            return jumpit_page(pages[page], 2)
+
+        js.fetch_json = fetch_json
+        jobs = js.scrape_jumpit()
+        self.assertEqual([j['id'] for j in jobs], ['jumpit_1', 'jumpit_2'])
+        self.assertEqual(sum('jobCategory=4&' in u for u in calls), 2)
+
+    def test_rallit_filters_dedups_and_maps(self):
+        def fetch_json(url, headers=None):
+            job = url.split('job=')[1].split('&')[0]
+            return rallit_page(RALLIT_BY_JOB[job])
+
+        js.fetch_json = fetch_json
+        jobs = js.scrape_rallit()
+
+        # 프론트엔드는 제목으로, 마감은 status 로 걸러지고, 두 직군에 걸린 공고는 한 번만.
+        self.assertEqual([j['id'] for j in jobs],
+                         ['rallit_1591', 'rallit_3100', 'rallit_1618', 'rallit_3462'])
+        self.assertEqual([j['track'] for j in jobs],
+                         ['Android', 'React Native', 'iOS', 'Flutter'])
+        self.assertEqual(jobs[2]['title'], 'iOS 개발자 채용')  # 앞 공백 제거
+        self.assertEqual(jobs[0]['job_url'], 'https://www.rallit.com/positions/1591')
+        self.assertEqual(jobs[0]['platform'], '랠릿')
+        self.assertIsNone(jobs[0]['posted_at'])
+
+    def test_rallit_follows_total_page(self):
+        calls = []
+
+        def fetch_json(url, headers=None):
+            calls.append(url)
+            if 'job=ANDROID_DEVELOPER' not in url:
+                return rallit_page([])
+            page = int(url.split('pageNumber=')[1].split('&')[0])
+            return rallit_page([rallit_item(page, f"Android 개발자 {page}", "A")], total_page=2)
+
+        js.fetch_json = fetch_json
+        jobs = js.scrape_rallit()
+        self.assertEqual([j['id'] for j in jobs], ['rallit_1', 'rallit_2'])
+        self.assertEqual(sum('job=ANDROID_DEVELOPER' in u for u in calls), 2)
+
+    def test_rallit_bad_shape_raises(self):
+        js.fetch_json = lambda url, headers=None: {"statusCode": "OK", "data": []}
+        with self.assertRaises(js.SourceError):
+            js.scrape_rallit()
+
+    def test_platform_item_not_dict_raises_source_error(self):
+        # AttributeError 로 새면 collect() 가 못 잡아 나머지 소스까지 멈춘다.
+        js.fetch_json = lambda url, headers=None: jumpit_page(["문자열"], 1)
+        with self.assertRaises(js.SourceError):
+            js.scrape_jumpit()
+        js.fetch_json = lambda url, headers=None: rallit_page(["문자열"])
+        with self.assertRaises(js.SourceError):
+            js.scrape_rallit()
+
+    def test_rallit_status_as_plain_string_still_works(self):
+        item = rallit_item(1, "Android 개발자", "A")
+        item['status'] = 'HIRING'
+        js.fetch_json = lambda url, headers=None: rallit_page([item])
+        self.assertEqual([j['id'] for j in js.scrape_rallit()], ['rallit_1'])
+
+    def test_jumpit_bad_shape_raises(self):
+        js.fetch_json = lambda url, headers=None: {"result": {"items": []}}
+        with self.assertRaises(js.SourceError):
+            js.scrape_jumpit()
 
 
 class TestCollect(unittest.TestCase):

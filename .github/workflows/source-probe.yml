@@ -1,0 +1,22 @@
+# 임시 판정용. 채용 소스 후보를 러너에서 실측한다. 아무것도 커밋하지 않는다.
+# 판정이 끝나면 .github/probe/ 와 함께 지운다.
+name: "채용 소스 발굴 (임시)"
+
+on:
+  push:
+    branches:
+      - claude/github-action-failure-3yiqrx
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+      - name: 후보 실측
+        run: python .github/probe/probe_sources.py

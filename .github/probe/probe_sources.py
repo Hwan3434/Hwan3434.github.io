@@ -52,106 +52,31 @@ def section(title):
     print("=" * 72)
 
 
-# ------------------------------------------------------------ 1. 그리팅 신원 확인
-
-CHOSEN = """
-pfct scatterlab oliveyoung kidsnote kurly nrise apartmentary medistream danbiedu
-kakaopay gripcorp gccompany estfamily myrealtrip soomgo catchtable wadiz goodoc
-kmong hybe travel-wallet spoonradio wconcept gravitylabs
-""".split()
-
-TITLE_RE = re.compile(r'<title[^>]*>(.*?)</title>', re.S)
-
-
-def check_greeting():
-    section("1. 그리팅 — 추가 후보의 신원")
-    for sub in CHOSEN:
-        url = f"https://{sub}.career.greetinghr.com/"
-        status, body, _ = probe(url)
-        if status != 200:
-            print(f"  -- {sub}: {status}")
-            continue
-        m = TITLE_RE.search(body)
-        page_title = (m.group(1).strip() if m else '?')[:60]
-        try:
-            titles = [o.get('title') or '' for o in js.extract_greetinghr_openings(body, url)]
-        except js.SourceError as e:
-            print(f"  !! {sub}: {e}")
-            continue
-        print(f"  {sub:14} <title>{page_title}</title>  공고 {len(titles)}건")
-        for t in titles[:8]:
-            print(f"        · {t}")
-
-
-# ------------------------------------------------------------ 2. 점핏
-
-JUMPIT_API = "https://jumpit-api.saramin.co.kr/api/positions"
-
-
-def check_jumpit():
-    section("2. 점핏 — API 호스트 robots.txt · jobCategory 번호")
-    status, body, _ = probe("https://jumpit-api.saramin.co.kr/robots.txt", BROWSER)
-    print(f"  api 호스트 robots.txt: {status} {body[:300]!r}")
-
-    for cat in range(1, 26):
-        status, body, _ = probe(f"{JUMPIT_API}?page=1&sort=reg_dt&jobCategory={cat}", BROWSER)
-        if status != 200:
-            print(f"  jobCategory={cat}: {status}")
-            continue
-        result = json.loads(body).get('result') or {}
-        positions = result.get('positions') or []
-        cats = sorted({p.get('jobCategory') for p in positions[:6]})
-        print(f"  jobCategory={cat:2}: total {result.get('totalCount')} · 페이지당 {len(positions)} · 예: {cats[:3]}")
-
-    # 페이지 크기를 키울 수 있는지
-    for extra in ('&size=100', '&pageSize=100', '&limit=100'):
-        status, body, _ = probe(f"{JUMPIT_API}?page=1&sort=reg_dt&jobCategory=4{extra}", BROWSER)
-        n = len((json.loads(body).get('result') or {}).get('positions') or []) if status == 200 else status
-        print(f"  jobCategory=4{extra}: 한 페이지 {n}")
-
-    # 한 건의 전체 필드
-    status, body, _ = probe(f"{JUMPIT_API}?page=1&sort=reg_dt&jobCategory=4", BROWSER)
-    if status == 200:
-        positions = (json.loads(body).get('result') or {}).get('positions') or []
-        if positions:
-            print("  샘플 한 건:", json.dumps(positions[0], ensure_ascii=False)[:600])
-
-
-# ------------------------------------------------------------ 3. 랠릿
+# ------------------------------------------------------------ 3. 랠릿 샘플
 
 RALLIT_API = "https://www.rallit.com/api/v1/position"
 
 
 def check_rallit():
-    section("3. 랠릿 — 리다이렉트 · 필터 파라미터")
-    status, _, headers = probe("https://www.rallit.com/positions?jobGroup=DEVELOPER", BROWSER, follow=False)
-    loc = headers.get('Location') or headers.get('location')
-    print(f"  /positions → {status} Location={loc}")
-    if loc:
-        target = urllib.parse.urljoin("https://www.rallit.com/", loc)
-        status, body, _ = probe(target, BROWSER)
-        print(f"  {target} → {status}, {len(body)}B")
-        found = sorted(set(re.findall(r'[?&](job[A-Za-z]*|skill[A-Za-z]*|keyword|q)=([A-Z_]{3,40})', body)))
-        print(f"  페이지 안의 필터 파라미터 흔적: {found[:30]}")
-
-    base = f"{RALLIT_API}?jobGroup=DEVELOPER&pageNumber=1&pageSize=20"
-    status, body, _ = probe(base, BROWSER)
-    total = (json.loads(body).get('data') or {}).get('totalCount') if status == 200 else status
-    print(f"  기준 DEVELOPER 전체: {total}")
-    items = []
-    for extra in ('&job=ANDROID_DEVELOPER', '&jobs=ANDROID_DEVELOPER', '&job=ANDROID',
-                  '&jobs=ANDROID', '&keyword=Android', '&q=Android',
-                  '&job=IOS_DEVELOPER', '&jobs=IOS_DEVELOPER', '&pageSize=100'):
-        status, body, _ = probe(base + extra, BROWSER)
+    section("3. 랠릿 — 공고 한 건의 전체 필드")
+    for job in ("ANDROID_DEVELOPER", "IOS_DEVELOPER", "FLUTTER_DEVELOPER",
+                "CROSS_PLATFORM_DEVELOPER", "MOBILE_DEVELOPER", "REACT_NATIVE_DEVELOPER"):
+        url = f"{RALLIT_API}?jobGroup=DEVELOPER&job={job}&pageNumber=1&pageSize=20"
+        status, body, _ = probe(url, BROWSER)
         if status != 200:
-            print(f"  {extra}: {status}")
+            print(f"  {job}: {status}")
             continue
-        data = json.loads(body).get('data') or {}
+        payload = json.loads(body)
+        data = payload.get('data')
+        if not isinstance(data, dict):
+            print(f"  {job}: data 가 dict 가 아니다 — {body[:200]!r}")
+            continue
         items = data.get('items') or []
-        print(f"  {extra}: total {data.get('totalCount')} · 이번 페이지 {len(items)} · "
-              f"예: {[i.get('title') for i in items[:3]]}")
-    if items:
-        print("  샘플 한 건:", json.dumps(items[0], ensure_ascii=False)[:600])
+        print(f"  {job}: total {data.get('totalCount')} · statuses={sorted({i.get('status') for i in items})}")
+        for i in items[:12]:
+            print(f"      · {i.get('title')} | {i.get('companyName')} | {i.get('startedAt')}~{i.get('endedAt')} | {i.get('url')}")
+        if items:
+            print("    샘플:", json.dumps(items[0], ensure_ascii=False)[:700])
 
 
 # ------------------------------------------------------------ 4. 리멤버
@@ -199,8 +124,6 @@ def check_matchgroup():
 
 
 if __name__ == '__main__':
-    check_greeting()
-    check_jumpit()
     check_rallit()
     check_remember()
     check_matchgroup()

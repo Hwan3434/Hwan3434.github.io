@@ -1,0 +1,42 @@
+# 임시 검증용. jobs-digest 와 같은 순서로 돌리고 커밋·푸시만 뺀다.
+# contents: read 라 아무것도 쓰지 않는다. 확인이 끝나면 지운다.
+name: "수집 리허설 (임시)"
+
+on:
+  push:
+    branches:
+      - claude/github-action-failure-3yiqrx
+
+permissions:
+  contents: read
+
+jobs:
+  rehearse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+      - name: Run tests
+        run: python tools/test_job_scraper.py
+      - name: Run Job Scraper
+        run: |
+          set +e
+          python tools/job_scraper.py
+          code=$?
+          echo "── job_scraper.py exit code: $code"
+          exit $code
+      - name: Generate HTML
+        run: python tools/generate_job_html.py
+      - name: 새로 들어온 공고 (커밋하지 않는다)
+        run: |
+          git --no-pager diff --stat -- jobs.html tools/jobs.json
+          python - <<'PY'
+          import json, subprocess
+          old = {j['id'] for j in json.loads(subprocess.check_output(['git', 'show', 'HEAD:tools/jobs.json']))}
+          new = [j for j in json.load(open('tools/jobs.json')) if j['id'] not in old]
+          print(f"신규 {len(new)}건")
+          for j in sorted(new, key=lambda j: (j['platform'], j.get('company') or '')):
+              print(f"  [{j['platform']}] {j.get('company')} | {j['title']} ({j.get('track')})")
+          PY

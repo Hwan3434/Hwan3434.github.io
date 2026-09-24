@@ -202,6 +202,11 @@ def epoch_ms_to_stamp(value):
 #           — 토큰이 존재하지 않는다. 토스는 자체 채용 사이트를 쓴다.
 #   vivarepublica, ohousekr, riiid, socar, yanolja, kakaostyle
 #           — 2026-09-22 재확인. 전부 404 다.
+#   dunamu(재확인), channelio, ably, wadiz, liner, linercorp, upstage, twelvelabs,
+#   furiosa, scatterlab, bithumb, lunit, vuno, gentlemonster, bucketplace, ab180,
+#   airbridge — 2026-09-24. 전부 404 다. (두나무는 검색에 Greenhouse 공고 URL 이
+#           보이지만 API 는 404 다. 옛 색인이다.)
+#   seoulrobotics, furiosaai — 200 이지만 모바일 앱 회사가 아니라 넣지 않았다.
 GREENHOUSE_BOARDS = {
     'coupang': '쿠팡',
     'daangn': '당근',
@@ -255,6 +260,9 @@ LEVER_ACCOUNTS = {
     'neowiz': '네오위즈',
     'matchgroup': '매치그룹(아자르·틴더 서울)',
 }
+
+# 확인해보고 뺀 것 (2026-09-24, 전부 404): sendbird, toss, riiid, krafton, nexon,
+# hybe, musinsa, ab180, moloco.
 
 # 글로벌 보드는 서울 공고만 받는다. 필터가 없으면 미국 공고가 대부분이다.
 # 매치그룹은 전체 76건 중 서울이 11건이었다 (2026-09-24 실측).
@@ -366,6 +374,16 @@ GREETING_COMPANIES = {
 # yanolja 는 200 이 오지만 공고가 0건이다. 빈 보드라 넣어도 얻는 게 없어서 뺐다.
 # 회사 이름으로 서브도메인을 짐작하면 대개 틀린다. 강남언니가 healingpaper 인 것처럼
 # 법인명을 쓰는 곳이 많다. 추가할 때는 반드시 실제 응답을 먼저 찍어 볼 것.
+#
+# 2026-09-24 에 170곳을 찍었다. 짐작한 111곳 중 200 이 온 것은 18곳이었고,
+# 검색으로 찾은 59곳은 42곳이 200 이었다.
+# 웹 검색으로 "<회사>.career.greetinghr.com/o/<번호>" 공고 URL 을 찾는 쪽이 훨씬
+# 잘 맞는다. 다만 검색 색인이 오래돼 이미 떠난 보드도 걸린다. bucketplace(오늘의집),
+# millie, ridi, tappytoon, talecrew, chic, altimobility 등은 검색엔 공고가 보이지만
+# /, /ko, /ko/home, /career 가 모두 404 다. 그리팅을 떠난 것으로 본다.
+# 200 이지만 모바일 앱 회사가 아니거나(B2B·AI 반도체·게임) 게임·보안이 섞인 그룹이라
+# 넣지 않은 곳: allganize, rebellions, mangoboost, sionicai, autocrypt, upstage,
+# supercent, 111percent, playhard, enki, estfamily, hr-suprema, mobilinthire 등.
 
 NEXT_DATA_RE = re.compile(
     r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', re.S)
@@ -461,6 +479,8 @@ def scrape_jumpit():
                 raise SourceError(f"예상과 다른 응답 형태 (result.positions 없음) — {url}")
 
             for position in positions:
+                if not isinstance(position, dict):
+                    raise SourceError(f"예상과 다른 공고 형태 (dict 아님) — {url}")
                 position_id = position.get('id')
                 title = position.get('title') or ''
                 if position_id is None or position_id in seen or not looks_mobile(title):
@@ -481,6 +501,13 @@ def scrape_jumpit():
             if not positions or fetched >= (result.get('totalCount') or 0):
                 break
     return jobs
+
+
+# 같이 찍어보고 뺀 채용 플랫폼 (2026-09-24):
+#   프로그래머스 — 러너에서 접속 자체가 안 된다 (URLError).
+#   로켓펀치 — 예전 목록 API 가 404 다. robots.txt 가 /search 를 막는다.
+#   직행 — robots.txt 가 /api/ 를 막는다.
+#   리멤버 — 서버 렌더링 HTML 에 공고가 없다. 목록은 공개되지 않은 API 로 따로 온다.
 
 
 # ---------------------------------------------------------------- 소스: 랠릿
@@ -508,9 +535,13 @@ def scrape_rallit():
                 raise SourceError(f"예상과 다른 응답 형태 (data.items 없음) — {url}")
 
             for item in items:
+                if not isinstance(item, dict):
+                    raise SourceError(f"예상과 다른 공고 형태 (dict 아님) — {url}")
                 item_id = item.get('id')
                 title = (item.get('title') or '').strip()
-                status = (item.get('status') or {}).get('code')
+                # 지금은 {"code": "HIRING", ...} 객체로 온다. 문자열로 바뀌어도 읽는다.
+                status = item.get('status')
+                status = status.get('code') if isinstance(status, dict) else status
                 if item_id is None or item_id in seen or status != 'HIRING':
                     continue
                 if not looks_mobile(title):

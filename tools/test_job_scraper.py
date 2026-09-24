@@ -550,6 +550,21 @@ class TestScrapers(unittest.TestCase):
         with self.assertRaises(js.SourceError):
             js.scrape_rallit()
 
+    def test_platform_item_not_dict_raises_source_error(self):
+        # AttributeError 로 새면 collect() 가 못 잡아 나머지 소스까지 멈춘다.
+        js.fetch_json = lambda url, headers=None: jumpit_page(["문자열"], 1)
+        with self.assertRaises(js.SourceError):
+            js.scrape_jumpit()
+        js.fetch_json = lambda url, headers=None: rallit_page(["문자열"])
+        with self.assertRaises(js.SourceError):
+            js.scrape_rallit()
+
+    def test_rallit_status_as_plain_string_still_works(self):
+        item = rallit_item(1, "Android 개발자", "A")
+        item['status'] = 'HIRING'
+        js.fetch_json = lambda url, headers=None: rallit_page([item])
+        self.assertEqual([j['id'] for j in js.scrape_rallit()], ['rallit_1'])
+
     def test_jumpit_bad_shape_raises(self):
         js.fetch_json = lambda url, headers=None: {"result": {"items": []}}
         with self.assertRaises(js.SourceError):

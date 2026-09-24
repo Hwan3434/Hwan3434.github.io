@@ -52,82 +52,46 @@ def section(title):
     print("=" * 72)
 
 
-# ------------------------------------------------------------ 3. 랠릿 샘플
-
-RALLIT_API = "https://www.rallit.com/api/v1/position"
-
-
-def check_rallit():
-    section("3. 랠릿 — 공고 한 건의 전체 필드")
-    for job in ("ANDROID_DEVELOPER", "IOS_DEVELOPER", "FLUTTER_DEVELOPER",
-                "CROSS_PLATFORM_DEVELOPER", "MOBILE_DEVELOPER", "REACT_NATIVE_DEVELOPER"):
-        url = f"{RALLIT_API}?jobGroup=DEVELOPER&job={job}&pageNumber=1&pageSize=20"
-        status, body, _ = probe(url, BROWSER)
-        if status != 200:
-            print(f"  {job}: {status}")
-            continue
-        payload = json.loads(body)
-        data = payload.get('data')
-        if not isinstance(data, dict):
-            print(f"  {job}: data 가 dict 가 아니다 — {body[:200]!r}")
-            continue
-        items = data.get('items') or []
-        statuses = sorted({json.dumps(i.get('status'), ensure_ascii=False) for i in items})
-        print(f"  {job}: total {data.get('totalCount')} · statuses={statuses}")
-        for i in items[:12]:
-            print(f"      · {i.get('title')} | {i.get('companyName')} | {i.get('startedAt')}~{i.get('endedAt')} | {i.get('url')}")
-        if items:
-            print("    샘플:", json.dumps(items[0], ensure_ascii=False)[:700])
-
-
 # ------------------------------------------------------------ 4. 리멤버
 
 NEXT_RE = re.compile(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', re.S)
 
 
-def tree(node, path='', depth=0, out=None):
-    out = [] if out is None else out
-    if depth > 7 or len(out) > 80:
-        return out
+def shape(node, depth=0):
+    if depth > 3:
+        return '…'
     if isinstance(node, dict):
-        for k, v in node.items():
-            tree(v, f"{path}.{k}", depth + 1, out)
-    elif isinstance(node, list):
-        if node and isinstance(node[0], dict):
-            out.append(f"{path}[{len(node)}] keys={list(node[0])[:12]}")
-            tree(node[0], f"{path}[0]", depth + 1, out)
-    return out
+        return '{' + ', '.join(f"{k}: {shape(v, depth + 1)}" for k, v in list(node.items())[:10]) + '}'
+    if isinstance(node, list):
+        return f"[{len(node)}× {shape(node[0], depth + 1) if node else ''}]"
+    return type(node).__name__
+
+
+def remember_queries(url):
+    status, body, _ = probe(url, BROWSER)
+    m = NEXT_RE.search(body or '')
+    if not m:
+        print(f"  {url} → {status}, __NEXT_DATA__ 없음")
+        return
+    data = json.loads(m.group(1))
+    print(f"  {url} → {status}")
+    print(f"    query: {json.dumps(data.get('query'), ensure_ascii=False)[:200]}")
+    for q in data['props']['pageProps'].get('dehydratedState', {}).get('queries', []):
+        print(f"    queryKey={json.dumps(q.get('queryKey'), ensure_ascii=False)[:300]}")
+        print(f"      data={shape((q.get('state') or {}).get('data'))[:600]}")
 
 
 def check_remember():
-    section("4. 리멤버 — __NEXT_DATA__ 안의 목록")
-    status, body, _ = probe("https://career.rememberapp.co.kr/job/postings", BROWSER)
-    m = NEXT_RE.search(body)
-    if not m:
-        print(f"  {status}, __NEXT_DATA__ 없음")
-        return
-    data = json.loads(m.group(1))
-    for line in tree(data):
-        print("  " + line)
-
-
-# ------------------------------------------------------------ 5. 매치그룹
-
-def check_matchgroup():
-    section("5. 매치그룹 Lever — 서울 공고")
-    status, body, _ = probe("https://api.lever.co/v0/postings/matchgroup?location=Seoul%2C%20South%20Korea")
-    if status != 200:
-        print(f"  {status}")
-        return
-    for p in json.loads(body):
-        cats = p.get('categories') or {}
-        print(f"  · {p.get('text')}  [{cats.get('team')} / {cats.get('location')}]")
+    section("4. 리멤버 — react-query 캐시의 queryKey 와 모양")
+    remember_queries("https://career.rememberapp.co.kr/job/postings")
+    remember_queries("https://career.rememberapp.co.kr/job/postings?search=%7B%22keywords%22%3A%5B%22iOS%22%5D%7D")
+    status, body, _ = probe("https://career.rememberapp.co.kr/robots.txt", BROWSER)
+    print(f"  robots.txt 전문:\n{body[:1500]}")
 
 
 if __name__ == '__main__':
     import traceback
-    for check in (check_rallit, check_remember, check_matchgroup):
-        try:
-            check()
-        except Exception:
-            traceback.print_exc(file=sys.stdout)
+    try:
+        check_remember()
+    except Exception:
+        traceback.print_exc(file=sys.stdout)

@@ -166,6 +166,24 @@ class TestClassify(unittest.TestCase):
         self.assertEqual(js.classify_track("[캐시워크] iOS개발 병역특례"), "iOS")
         self.assertEqual(js.classify_track("Mobile Studios Engineer"), "기타 모바일")
 
+    def test_non_dev_roles_dropped_wherever_they_are(self):
+        # 모바일 키워드가 앞에 와도 개발 직군이 아니면 뺀다.
+        for title in ("[UA팀] 모바일 게임 퍼포먼스 마케터 (주니어)",
+                      "앱/웹 서비스 기획 (PM) (경력)",
+                      "모바일 앱 디자이너"):
+            self.assertFalse(js.looks_mobile(title), title)
+
+    def test_marketing_team_name_is_not_a_role(self):
+        # 팀 이름의 Marketing 때문에 진짜 모바일 엔지니어가 빠지면 안 된다.
+        self.assertTrue(js.looks_mobile(
+            "Staff Mobile Engineer [Marketing Product Engineering]"))
+
+    def test_mobile_game_is_not_a_mobile_app_signal(self):
+        self.assertFalse(js.looks_mobile(
+            "MMORPG 온라인/모바일 게임 클라이언트 프로그래머 (C++, C#)"))
+        # 플랫폼 이름이 따로 있으면 그쪽으로 잡힌다.
+        self.assertTrue(js.looks_mobile("Android 게임 클라이언트 개발자"))
+
 
 class TestStamp(unittest.TestCase):
     def test_utc_z(self):
@@ -317,6 +335,15 @@ class TestScrapers(unittest.TestCase):
                          'https://jobs.lever.co/neowiz/c3704f2e')
         self.assertEqual(jobs[0]['posted_at'], '2026-03-26 07:53:03')
         self.assertIsNone(jobs[1]['posted_at'])
+
+    def test_lever_location_filter_goes_into_url(self):
+        # 글로벌 보드는 서울 공고만 받아야 한다. 필터가 URL 에 실려야 한다.
+        seen = []
+        js.fetch_json = lambda url, headers=None: seen.append(url) or []
+        js.scrape_lever("matchgroup", "매치그룹", "Seoul, South Korea")
+        js.scrape_lever("neowiz", "네오위즈")
+        self.assertIn("&location=Seoul%2C%20South%20Korea", seen[0])
+        self.assertNotIn("location=", seen[1])
 
     def test_lever_bad_shape_raises(self):
         # 계정이 사라지면 배열이 아니라 {"ok": false} 가 온다.

@@ -13,6 +13,7 @@ import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 USER_AGENT = 'Mozilla/5.0 (compatible; Hwan3434-jobs-digest/2.0)'
@@ -128,15 +129,34 @@ NON_MOBILE_KEYWORDS = (
     'backend', '백엔드', 'back-end', 'server', '서버', 'data', '데이터',
     'ml', '머신러닝', 'machine learning', 'frontend', '프론트엔드', 'front-end',
     'web', '웹', 'devops', '데브옵스', 'infra', '인프라', 'sre', 'qa',
-    'security', '보안', 'designer', '디자이너', 'pm', '기획',
+    'security', '보안', 'pm',
 )
+
+# 개발 직군이 아닌 것. 위 블랙리스트와 달리 제목 어디에 있든 걸러낸다.
+# 모바일 키워드가 앞에 오면 통과시키는 규칙 때문에 "모바일 게임 퍼포먼스 마케터",
+# "앱/웹 서비스 기획 (PM)" 같은 제목이 모바일 공고로 들어오고 있었다.
+# '마케팅'/'marketing'은 넣지 않는다. "Mobile Engineer [Marketing Product
+# Engineering]"처럼 팀 이름에 흔히 들어간다. 사람을 가리키는 말만 쓴다.
+ROLE_KEYWORDS = (
+    '마케터', 'marketer', '기획', 'planner',
+    '디자이너', 'designer', '영업', 'sales',
+)
+
+# "모바일 게임"은 게임 직군이라 이 구절의 '모바일'은 모바일 앱 신호로 치지 않는다.
+# "Android 게임 클라이언트"처럼 플랫폼 이름이 따로 있으면 그쪽으로 잡힌다.
+MOBILE_GAME_RE = re.compile(r'(?:모바일|mobile)\s*(?:게임|game)')
 
 MOBILE_PATTERNS = tuple(compile_keyword(k) for k in MOBILE_KEYWORDS)
 NON_MOBILE_PATTERNS = tuple(compile_keyword(k) for k in NON_MOBILE_KEYWORDS)
+ROLE_PATTERNS = tuple(compile_keyword(k) for k in ROLE_KEYWORDS)
 
 
 def looks_mobile(title):
     t = (title or '').lower()
+    if first_keyword_index(ROLE_PATTERNS, t) is not None:
+        return False
+    # 길이를 유지한 채 지워야 아래 두 위치 비교가 어긋나지 않는다.
+    t = MOBILE_GAME_RE.sub(lambda m: ' ' * len(m.group(0)), t)
     first_mobile = first_keyword_index(MOBILE_PATTERNS, t)
     if first_mobile is None:
         return False
@@ -233,11 +253,20 @@ def greenhouse_sources():
 # (클래스101은 jobs.lever.co/class101 이 지금 404다. Lever에서 빠진 것으로 보인다.)
 LEVER_ACCOUNTS = {
     'neowiz': '네오위즈',
+    'matchgroup': '매치그룹',
+}
+
+# 글로벌 보드는 서울 공고만 받는다. 필터가 없으면 미국 공고가 대부분이다.
+# 매치그룹은 전체 76건 중 서울이 11건이었다 (2026-09-24 실측).
+LEVER_LOCATIONS = {
+    'matchgroup': 'Seoul, South Korea',
 }
 
 
-def scrape_lever(token, company):
+def scrape_lever(token, company, location=None):
     url = f"https://api.lever.co/v0/postings/{token}?mode=json"
+    if location:
+        url += '&location=' + urllib.parse.quote(location)
     data = fetch_json(url)
 
     # 계정이 사라지면 200이 아니라 {"ok": false} 가 오지만, 형태가 바뀌는 경우도
@@ -270,7 +299,7 @@ def lever_sources():
     for token, company in LEVER_ACCOUNTS.items():
         yield (
             f"Lever:{token}",
-            lambda t=token, c=company: scrape_lever(t, c),
+            lambda t=token, c=company: scrape_lever(t, c, LEVER_LOCATIONS.get(t)),
         )
 
 

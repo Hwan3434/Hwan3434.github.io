@@ -72,7 +72,8 @@ def check_rallit():
             print(f"  {job}: data 가 dict 가 아니다 — {body[:200]!r}")
             continue
         items = data.get('items') or []
-        print(f"  {job}: total {data.get('totalCount')} · statuses={sorted({i.get('status') for i in items})}")
+        statuses = sorted({json.dumps(i.get('status'), ensure_ascii=False) for i in items})
+        print(f"  {job}: total {data.get('totalCount')} · statuses={statuses}")
         for i in items[:12]:
             print(f"      · {i.get('title')} | {i.get('companyName')} | {i.get('startedAt')}~{i.get('endedAt')} | {i.get('url')}")
         if items:
@@ -124,6 +125,9 @@ def check_matchgroup():
 
 
 if __name__ == '__main__':
-    check_rallit()
-    check_remember()
-    check_matchgroup()
+    import traceback
+    for check in (check_rallit, check_remember, check_matchgroup):
+        try:
+            check()
+        except Exception:
+            traceback.print_exc(file=sys.stdout)

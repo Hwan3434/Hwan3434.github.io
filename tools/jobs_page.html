@@ -434,6 +434,7 @@
       meta.appendChild(document.createTextNode(' · '));
       meta.appendChild(el('span', { class: r.po < '2025' ? 'old' : '', text: '게시 ' + r.po.replace(/-/g, '.') }));
     }
+    [r.cr, r.lo].forEach(function (v) { if (v) meta.appendChild(document.createTextNode(' · ' + v)); });
     var read = readMap[r.u];
     var open = function () { markRead(r.u); };
     return el('a', { class: cls, href: href, target: '_blank', rel: 'noopener noreferrer', onclick: open, onauxclick: open }, [

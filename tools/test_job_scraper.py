@@ -734,6 +734,51 @@ class TestGenerate(unittest.TestCase):
         self.assertEqual({r['t']: r['dl'] for r in rows},
                          {'Android 개발자': '2026-10-10', 'iOS 개발자': ''})
 
+    def test_duplicates_across_platforms_are_merged(self):
+        rows = self.rows([
+            self.job('[헤렌/공비서] iOS 리드 엔지니어', company='헤렌', platform='Wanted'),
+            self.job('시니어 모바일 앱 개발자 (React Native)', company='비버웍스', platform='Wanted'),
+        ])
+        extra = [
+            {'title': '[공비서] iOS 리드 엔지니어', 'company': '헤렌', 'platform': '원티드',
+             'job_url': 'https://a.test/1', 'deadline': '10/09(금)', 'career': '경력 7년 이상'},
+            {'title': '시니어 모바일앱 개발자(ReactNative)', 'company': '(주)비버웍스',
+             'platform': '리멤버', 'job_url': 'https://a.test/2', 'location': '없음'},
+        ]
+        merged = gen.build_rows([self.job('[헤렌/공비서] iOS 리드 엔지니어', company='헤렌', platform='Wanted'),
+                                 self.job('시니어 모바일 앱 개발자 (React Native)', company='비버웍스', platform='Wanted')],
+                                [], self.now, extra=extra)
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(len(merged), 2)
+        by_co = {r['co']: r for r in merged}
+        self.assertEqual(by_co['헤렌']['p'], '원티드')  # Wanted 와 원티드는 같은 플랫폼
+        self.assertEqual(by_co['헤렌']['dl'], '2026-10-09')  # Aside 쪽 마감일을 가져온다
+        self.assertEqual(by_co['헤렌']['cr'], '경력 7년 이상')
+        self.assertEqual(by_co['비버웍스']['p'], '원티드 · 리멤버')
+        self.assertEqual(by_co['비버웍스']['lo'], '')
+
+    def test_different_postings_are_not_merged(self):
+        rows = self.rows([
+            self.job('Software Engineer, Android', company='당근'),
+            self.job('Software Engineer, Android (인턴)', company='당근'),
+            self.job('클라이언트(flutter) 개발자 경력 채용', company='스쿨버스'),
+            self.job('클라이언트(flutter) 개발자 신입 채용', company='스쿨버스'),
+            self.job('Software Engineer, Android', company='다른회사'),
+        ])
+        self.assertEqual(len(rows), 5)
+
+    def test_aside_rows_skip_mobile_filter_and_parse_deadline(self):
+        extra = [{'title': '웹/앱 프론트엔드 개발자 채용', 'company': '파란샘', 'platform': '잡코리아',
+                  'job_url': 'https://a.test/3', 'deadline': '채용시마감'}]
+        rows = gen.build_rows([], [], self.now, extra=extra)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]['dl'], '')
+        self.assertEqual(gen.aside_deadline('2026-10-15'), '2026-10-15')
+        self.assertEqual(gen.aside_deadline('12/01(화)'), '2026-12-01')
+        self.assertEqual(gen.aside_deadline('01/05(화)'), '2027-01-05')
+        self.assertIsNone(gen.aside_deadline('상시'))
+        self.assertIsNone(gen.aside_deadline(None))
+
     def test_company_keys(self):
         self.assertEqual(gen.company_keys('(주)오메타'), {'오메타'})
         self.assertEqual(gen.company_keys('주식회사 다이노즈'), {'다이노즈'})
@@ -815,7 +860,8 @@ class TestGenerate(unittest.TestCase):
             with open(db, 'w', encoding='utf-8') as f:
                 json.dump([self.job('Flutter 앱 개발자', company='비밀회사')], f, ensure_ascii=False)
             applied = [{'company': '비밀회사', 'date': '2025', 'result': '불합격'}]
-            gen.generate_html(out, password='pw', applied=applied, now=self.now, db_path=db)
+            gen.generate_html(out, password='pw', applied=applied, now=self.now, db_path=db,
+                              aside_path=os.path.join(tmp, 'none.json'))
             with open(out, encoding='utf-8') as f:
                 page = f.read()
 

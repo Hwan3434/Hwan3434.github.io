@@ -55,6 +55,13 @@ PAREN_RE = re.compile(r'\((.*?)\)')
 TITLE_TAG_RE = re.compile(r'\[(.*?)\]')
 LEADING_TAGS_RE = re.compile(r'^\s*(\[[^\]]*\]\s*)+')
 DOMAIN_RE = re.compile(r'^[a-z0-9-]+(\.[a-z0-9-]+)+$')
+# 지원 결과가 이 말을 담으면 그 회사에서 떨어진 것으로 본다.
+REJECTED_RE = re.compile(r'불합격|탈락')
+# 경력 표기. 공백을 지운 뒤에 맞춘다. '3년~8년 미만', '5년차 이상', '경력3년↑', '35년 이하'.
+CAREER_RANGE_RE = re.compile(r'(\d{1,2})년?차?[~\-](\d{1,2})년차?(미만)?')
+CAREER_MIN_RE = re.compile(r'(\d{1,2})년차?(?:↑|이상|~|\+)')
+CAREER_MAX_RE = re.compile(r'(\d{1,2})년차?이하')
+CAREER_YEARS_RE = re.compile(r'경력(\d{1,2})년')
 
 
 def parse_stamp(value):
@@ -155,6 +162,45 @@ def history_label(company, entries):
     if len(set(results)) == 1:
         return joined(when(e) for e in entries) + ' ' + results[0]
     return joined(f'{when(e)} {r}' for e, r in zip(entries, results))
+
+
+def is_rejected(entries):
+    return any(REJECTED_RE.search(str(entry.get('result', ''))) for entry in entries)
+
+
+# ---------------------------------------------------------------- 경력
+
+def parse_career(text):
+    """경력 표기를 [최소, 최대] 연차로 바꾼다. 최대가 없으면 None. 읽을 수 없으면 None.
+
+    '경력 3-7년' → [3, 7], '경력5년↑' → [5, None], '신입' → [0, 0], '경력무관' → [0, None].
+    '미들', '경력'처럼 연차가 없는 표기는 모른다고 본다.
+    """
+    t = re.sub(r'\s', '', str(text or ''))
+    found = CAREER_RANGE_RE.search(t)
+    if found:
+        low, high = int(found.group(1)), int(found.group(2))
+        return [low, high - 1 if found.group(3) else high]
+    found = CAREER_MIN_RE.search(t)
+    if found:
+        return [int(found.group(1)), None]
+    found = CAREER_MAX_RE.search(t)
+    if found:
+        return [0, int(found.group(1))]
+    if '무관' in t or '경력전체' in t or ('신입' in t and '경력' in t and not CAREER_YEARS_RE.search(t)):
+        return [0, None]
+    if '신입' in t or '인턴' in t:
+        found = CAREER_YEARS_RE.search(t)
+        return [0, int(found.group(1)) if found else 0]
+    found = CAREER_YEARS_RE.search(t)
+    if found:
+        return [int(found.group(1)), None]
+    return None
+
+
+def career_range(career, title):
+    """경력 칸을 먼저 보고, 없거나 읽을 수 없으면 제목의 '(5년 이상)' 같은 표기를 본다."""
+    return parse_career(career) or parse_career(title)
 
 
 def history_detail(entries):
@@ -335,6 +381,7 @@ def build_rows(jobs, applied, now, domains=None, extra=()):
             'lo': clean_text(job.get('location')),
             'h': history_label(job.get('company'), history) if history else '',
             'hd': history_detail(history) if history else '',
+            'rj': is_rejected(history),
             '_ck': company_keys(job.get('company')),
             '_tk': title_keys(title),
             '_aside': curated,
@@ -344,6 +391,8 @@ def build_rows(jobs, applied, now, domains=None, extra=()):
     for row in rows:
         for key in ('_ck', '_tk', '_aside'):
             del row[key]
+        # 합친 뒤에 계산한다. 경력 칸은 묶인 공고 중 처음 채워진 것을 쓴다.
+        row['cy'] = career_range(row['cr'], row['t'])
 
     active = [r for r in rows if r['a']]
     closed = [r for r in rows if not r['a']]

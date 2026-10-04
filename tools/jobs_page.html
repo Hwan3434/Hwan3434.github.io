@@ -334,20 +334,36 @@
   }
 
   // 읽음 표시는 이 기기에만 남긴다. 공고 링크를 키로, 처음 연 날짜를 값으로 둔다.
-  var readMap = (function () {
+  function loadRead() {
     try { return JSON.parse(store.get(READ_KEY) || '{}') || {}; } catch (e) { return {}; }
-  })();
+  }
+  var readMap = loadRead();
   function today() {
     var d = new Date(), pad = function (n) { return n < 10 ? '0' + n : String(n); };
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
   }
-  function markRead(url) {
+  // 누른 줄은 클릭 처리 안에서 바로 읽음으로 바꾼다. 새 탭이 앞으로 오면 이 탭은
+  // 가려져 타이머가 늦게 돌거나 멈추므로, 다시 그리기에만 기대면 돌아왔을 때 그대로다.
+  function markRead(url, row) {
     if (!url || readMap[url]) return;
     readMap[url] = today();
     store.set(READ_KEY, JSON.stringify(readMap));
-    // 링크가 먼저 열리도록 다시 그리는 건 클릭 처리 뒤로 미룬다.
+    row.classList.remove('unread');
+    var date = row.querySelector('.date');
+    date.appendChild(el('span', { class: 'read', text: '· 읽음(' + shortDate(readMap[url], (DATA.updated || '').slice(0, 4)) + ')' }));
+    // 개수와 필터는 링크가 먼저 열리도록 클릭 처리 뒤에 다시 그린다.
     setTimeout(render, 0);
   }
+  // 다른 탭에서 읽었거나, 뒤로 가기로 예전 화면이 되살아난 경우를 저장된 값에 맞춘다.
+  function syncRead() {
+    var saved = loadRead();
+    if (!DATA || JSON.stringify(saved) === JSON.stringify(readMap)) return;
+    readMap = saved;
+    render();
+  }
+  window.addEventListener('storage', function (e) { if (e.key === READ_KEY) syncRead(); });
+  window.addEventListener('pageshow', syncRead);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) syncRead(); });
 
   function hash(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
   function md(d) { return Number(d.slice(5, 7)) + '월 ' + Number(d.slice(8, 10)) + '일'; }
@@ -436,7 +452,7 @@
     }
     [r.cr, r.lo].forEach(function (v) { if (v) meta.appendChild(document.createTextNode(' · ' + v)); });
     var read = readMap[r.u];
-    var open = function () { markRead(r.u); };
+    var open = function () { markRead(r.u, this); };
     return el('a', { class: cls, href: href, target: '_blank', rel: 'noopener noreferrer', onclick: open, onauxclick: open }, [
       el('span', { class: 'dot', 'aria-hidden': 'true' }),
       renderAvatar(r),

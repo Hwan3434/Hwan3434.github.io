@@ -241,6 +241,24 @@ class TestClassify(unittest.TestCase):
         self.assertTrue(js.looks_mobile("Android 게임 클라이언트 개발자"))
 
 
+class TestRegion(unittest.TestCase):
+    def test_capital_area_and_unknown_locations_stay(self):
+        for location in ('서울', '서울/강남구', '경기 광주시', '인천 서해구', 'Seoul, South Korea',
+                         '없음', '기타', '', None):
+            self.assertTrue(js.in_capital_area(location, 'Android 개발자'), location)
+
+    def test_local_locations_are_dropped(self):
+        for location in ('대전', '대전 중구', '부산 해운대구', '대구', '경남 창원시 성산구', '전북', '경북', '해외'):
+            self.assertFalse(js.in_capital_area(location, 'Android 개발자'), location)
+
+    def test_title_tag_marks_region_when_location_is_missing(self):
+        self.assertFalse(js.in_capital_area(None, '[대전/IT] 모바일 앱(Flutter) 개발자'))
+        self.assertFalse(js.in_capital_area(None, '[개발부문/대전] 로보틱스 엔지니어'))
+        # 꼬리표가 아닌 본문의 단어나 브랜드 꼬리표는 지역으로 보지 않는다.
+        self.assertTrue(js.in_capital_area(None, '[더블디] Flutter 앱 개발자'))
+        self.assertTrue(js.in_capital_area(None, '부산은행 모바일앱 개발자'))
+
+
 class TestDeadline(unittest.TestCase):
     def test_values(self):
         self.assertEqual(js.deadline_date('2026-10-10T23:59:59'), '2026-10-10')
@@ -679,6 +697,17 @@ class TestSave(unittest.TestCase):
         js.save_jobs([dict(base)])  # 마감일을 안 주는 소스는 건드리지 않는다
         self.assertEqual(self.read()[0]['deadline_at'], '2026-10-31')
 
+    def test_non_capital_postings_are_not_saved(self):
+        new, _ = js.save_jobs([
+            {'id': 'a', 'platform': '점핏', 'title': '[대전/IT] Android 개발자',
+             'company': 'A', 'job_url': 'u', 'track': 'Android'},
+            {'id': 'b', 'platform': '점핏', 'title': 'Android 개발자', 'location': '부산',
+             'company': 'B', 'job_url': 'u', 'track': 'Android'},
+            {'id': 'c', 'platform': '점핏', 'title': 'Android 개발자', 'location': '서울 강남구',
+             'company': 'C', 'job_url': 'u', 'track': 'Android'}])
+        self.assertEqual(new, 1)
+        self.assertEqual([j['id'] for j in self.read()], ['c'])
+
     def test_different_companies_not_merged(self):
         js.save_jobs([{'id': 'a', 'platform': 'Wanted', 'title': 'Android 개발자',
                        'company': '회사A', 'job_url': 'u', 'track': 'Android'}])
@@ -721,6 +750,13 @@ class TestGenerate(unittest.TestCase):
         # 예전 규칙으로 들어온 공고가 jobs.json 에 남아 있다.
         rows = self.rows([self.job('Robot Learning Engineer'), self.job('Android 개발자')])
         self.assertEqual([r['t'] for r in rows], ['Android 개발자'])
+
+    def test_non_capital_postings_are_dropped(self):
+        rows = gen.build_rows([self.job('[대전/IT] Android 개발자'), self.job('iOS 개발자')],
+                              [], self.now,
+                              extra=[{'id': 'a', 'title': 'Flutter 개발자', 'company': 'B',
+                                      'platform': '사람인', 'job_url': 'u', 'location': '부산 해운대구'}])
+        self.assertEqual([r['t'] for r in rows], ['iOS 개발자'])
 
     def test_track_falls_back_to_scraper_classifier(self):
         rows = self.rows([self.job('Senior iOS Engineer'),

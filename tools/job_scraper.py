@@ -166,6 +166,33 @@ def looks_mobile(title):
     return first_bad is None or first_bad >= first_mobile
 
 
+# 수도권(서울·경기·인천) 공고만 본다 (2026-10-04 결정). 근무지를 주는 소스는
+# 첫 단어("대전 중구"의 "대전")로, 근무지를 안 주는 소스는 제목 꼬리표("[대전/IT]")로
+# 판별한다. 해외 근무도 뺀다. 근무지가 비었거나 "기타"처럼 지역이 아닌 값이면 남긴다.
+OUTSIDE_REGIONS = (
+    '해외',
+    '부산', '대구', '광주', '대전', '울산', '세종', '강원', '충북', '충남', '충청',
+    '전북', '전남', '전라', '경북', '경남', '경상', '제주',
+    '창원', '천안', '청주', '포항', '구미', '전주', '김해', '아산',
+)
+LOCATION_HEAD_RE = re.compile(r'[^\s/,(]+')
+TITLE_TAG_RE = re.compile(r'[\[(]([^\])]*)[\])]')
+
+
+def is_outside_region(word):
+    return any(word.startswith(region) for region in OUTSIDE_REGIONS)
+
+
+def in_capital_area(location=None, title=None):
+    head = LOCATION_HEAD_RE.match((location or '').strip())
+    if head and is_outside_region(head.group(0)):
+        return False
+    for tag in TITLE_TAG_RE.findall(title or ''):
+        if any(is_outside_region(word) for word in re.split(r'[\s/,·]+', tag) if word):
+            return False
+    return True
+
+
 def iso_to_stamp(value):
     """ATS가 주는 ISO8601을 jobs.json이 쓰는 문자열 포맷으로 바꾼다."""
     if not value:
@@ -672,6 +699,8 @@ def save_jobs(new_jobs_list):
     now = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
 
     for new_job in new_jobs_list:
+        if not in_capital_area(new_job.get('location'), new_job.get('title')):
+            continue
         existing = by_id.get(new_job['id'])
 
         if existing is None:

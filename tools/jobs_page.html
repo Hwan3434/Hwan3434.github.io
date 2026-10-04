@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Jobs</title>
+<script>
+  // 블로그와 같은 키로 테마를 고른다. 렌더 전에 정해야 깜빡이지 않는다.
+  (function () {
+    var theme = null;
+    try { theme = localStorage.getItem('theme'); } catch (e) {}
+    if (!theme && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) theme = 'dark';
+    document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+  })();
+</script>
+<style>
+  @font-face {
+    font-family: 'Pretendard';
+    src: url('/assets/fonts/PretendardVariable.woff2') format('woff2-variations');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  :root {
+    --bg: #EEF0F3; --panel: #FFFFFF; --ink: #1D2129; --muted: #5E6673; --faint: #8A919C;
+    --line: #E6E8EC; --line-soft: #EEF0F3; --hover: #F3F5F8; --nav-active: #DDE3EC;
+    --chip: #F1F3F5; --chip-ink: #3B424D; --input: #F1F3F5;
+    --new: #2D6BFF; --new-bg: #FAFBFF; --hist: #A13D00; --hist-bg: #FFE8D6; --hist-dot: #E8590C;
+    --closed: #8A919C; --old: #C92A2A; --shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+    --row-py: 14px; --row-gap: 14px; --avatar: 40px; --co-size: 15px; --title-size: 15px; --meta-size: 13px;
+  }
+  [data-theme="dark"] {
+    --bg: #111316; --panel: #191C20; --ink: #E8EAED; --muted: #A2A9B3; --faint: #7D8590;
+    --line: #2A2E34; --line-soft: #22262B; --hover: #20242A; --nav-active: #2A303A;
+    --chip: #252A31; --chip-ink: #C9CED6; --input: #22262B;
+    --new: #6E9BFF; --new-bg: #1A2030; --hist: #FFB37A; --hist-bg: #3D2414; --hist-dot: #FF8A3D;
+    --closed: #7D8590; --old: #FF7B7B; --shadow: none;
+  }
+  [data-density="min"] { --row-py: 7px; --row-gap: 10px; --avatar: 0px; --co-size: 13.5px; --title-size: 14px; --meta-size: 12px; }
+  [data-density="max"] { --row-py: 22px; --row-gap: 18px; --avatar: 48px; --co-size: 16px; --title-size: 17px; --meta-size: 14px; }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--new); outline-offset: 2px; }
+  [hidden] { display: none !important; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* 잠금 화면 */
+  .gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .gate form { width: min(360px, 100%); background: var(--panel); border-radius: 20px; box-shadow: var(--shadow); padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; }
+  .logo { width: 40px; height: 40px; border-radius: 12px; background: var(--ink); color: var(--panel); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; }
+  .gate h1 { margin: 4px 0 6px; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+  .gate input[type="password"] { height: 48px; border: 1px solid var(--line); background: var(--input); border-radius: 12px; padding: 0 14px; font-size: 16px; outline: none; }
+  .gate input[type="password"]:focus { border-color: var(--new); }
+  .gate .remember { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+  .gate .remember input { width: 18px; height: 18px; accent-color: var(--new); }
+  .gate button { height: 48px; border: 0; border-radius: 12px; background: var(--ink); color: var(--panel); font-weight: 700; font-size: 15px; }
+  .gate button:disabled { opacity: 0.6; cursor: progress; }
+  .gate .error { min-height: 20px; margin: 0; font-size: 13px; color: var(--old); }
+
+  /* 앱 */
+  .shell { max-width: 1320px; margin: 0 auto; padding: 24px 24px 64px; display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+  .side { flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 8px 12px 18px; }
+  .brand .name { font-weight: 800; font-size: 20px; letter-spacing: -0.02em; }
+  .brand .week { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .nav { display: flex; flex-direction: column; gap: 2px; }
+  .nav button { display: flex; align-items: center; gap: 12px; min-height: 42px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; font-size: 14px; font-weight: 500; text-align: left; }
+  .nav button:hover { background: var(--nav-active); }
+  .nav button[aria-pressed="true"] { background: var(--nav-active); font-weight: 700; }
+  .nav .swatch { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .nav .swatch.round { border-radius: 50%; }
+  .nav .label { flex: 1; white-space: nowrap; }
+  .nav .count { font-size: 12px; color: var(--muted); }
+  .divider { height: 1px; background: var(--line); margin: 12px; }
+  .side-foot { padding: 20px 12px 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--faint); }
+  .side-foot button { border: 0; background: transparent; color: var(--muted); font-size: 12px; padding: 6px 8px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px; }
+  .side-foot button:hover { background: var(--nav-active); color: var(--ink); }
+
+  .main { flex: 999 1 600px; min-width: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
+  .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 16px 22px; border-bottom: 1px solid var(--line); }
+  .toolbar h2 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+  .toolbar .total { font-size: 14px; color: var(--muted); }
+  .toolbar .grow { flex: 1 1 0; }
+  .seg { display: inline-flex; background: var(--input); border-radius: 10px; padding: 3px; gap: 2px; }
+  .seg button { min-height: 34px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; font-size: 13px; font-weight: 500; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+  .seg button[aria-pressed="true"] { background: var(--panel); color: var(--ink); font-weight: 700; box-shadow: var(--shadow); }
+  .seg .n { font-size: 11.5px; opacity: 0.8; }
+  .seg.icons button { width: 38px; padding: 0; justify-content: center; }
+  .seg.icons svg { width: 18px; height: 18px; }
+  .search { flex: 0 1 260px; min-width: 160px; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; background: var(--input); border-radius: 999px; }
+  .search svg { width: 16px; height: 16px; flex: none; color: var(--muted); }
+  .search input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font-size: 14px; }
+  .search input::placeholder { color: var(--faint); }
+
+  .list { display: flex; flex-direction: column; }
+  .row { display: flex; gap: var(--row-gap); align-items: flex-start; padding: var(--row-py) 22px; border-bottom: 1px solid var(--line-soft); }
+  .row:hover { background: var(--hover) !important; }
+  .row.new { background: var(--new-bg); }
+  .row .dot { width: 8px; height: 8px; flex: none; border-radius: 50%; margin-top: calc(var(--avatar) / 2 - 4px + 2px); }
+  .row.new .dot { background: var(--new); }
+  .row .avatar { width: var(--avatar); height: var(--avatar); flex: none; border-radius: 50%; color: #1D2129; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: calc(var(--avatar) * 0.4); }
+  .row .body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .row .head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+  .row .co { font-size: var(--co-size); font-weight: 500; }
+  .row.new .co { font-weight: 800; }
+  .chip { font-size: 11.5px; font-weight: 500; border-radius: 6px; padding: 1px 7px; white-space: nowrap; }
+  .chip.track { background: var(--chip); color: var(--chip-ink); }
+  .chip.hist { background: var(--hist-bg); color: var(--hist); font-weight: 700; }
+  .chip.closed { background: transparent; color: var(--closed); border: 1px solid var(--line); }
+  .row .title { font-size: var(--title-size); color: var(--ink); overflow-wrap: anywhere; }
+  .row.new .title { font-weight: 700; }
+  .row.closed .title, .row.closed .co { color: var(--closed); }
+  .row .meta { font-size: var(--meta-size); color: var(--muted); }
+  .row .meta .old { color: var(--old); }
+  .row .date { flex: none; font-size: 12.5px; color: var(--muted); padding-top: 2px; white-space: nowrap; }
+  .row.new .date { font-weight: 800; }
+  [data-density="min"] .row .avatar { display: none; }
+  [data-density="min"] .row .dot { margin-top: 7px; }
+  [data-density="min"] .row .body { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+  [data-density="min"] .row .head { order: 0; }
+  [data-density="min"] .row .title { order: 1; flex: 1 1 280px; }
+  [data-density="min"] .row .meta { order: 2; }
+  [data-density="max"] .row .body { gap: 6px; }
+  .empty { margin: 0; padding: 72px 22px; text-align: center; color: var(--faint); }
+
+  .pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 22px; }
+  .pager .range { font-size: 13px; color: var(--muted); }
+  .pager .pages { display: flex; align-items: center; gap: 4px; }
+  .pager button { min-width: 36px; height: 36px; padding: 0 10px; border: 0; border-radius: 10px; background: transparent; font-size: 13.5px; color: var(--muted); }
+  .pager button:hover:not(:disabled) { background: var(--hover); color: var(--ink); }
+  .pager button[aria-current="page"] { background: var(--ink); color: var(--panel); font-weight: 700; }
+  .pager button:disabled { opacity: 0.35; cursor: default; }
+  .pager .gap { color: var(--faint); padding: 0 4px; }
+
+  @media (max-width: 719px) {
+    .shell { padding: 12px 12px 48px; gap: 12px; }
+    .brand { padding: 4px 4px 8px; }
+    .nav { flex-direction: row; overflow-x: auto; gap: 4px; padding-bottom: 4px; scrollbar-width: none; }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav button { flex: none; min-height: 38px; background: var(--panel); }
+    .divider { display: none; }
+    .side-foot { padding: 4px 4px 0; }
+    .side { flex-basis: 100%; }
+    .toolbar { padding: 14px 16px; }
+    .toolbar .grow { flex-basis: 100%; height: 0; }
+    .seg button { padding: 0 8px; }
+    .seg.icons button { width: 34px; }
+    .search { order: 9; flex: 1 1 100%; }
+    .row { padding-left: 16px; padding-right: 16px; }
+    .pager { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+<noscript><p style="padding: 24px">JavaScript 가 필요합니다.</p></noscript>
+
+<main class="gate" id="gate">
+  <form id="gate-form" autocomplete="off">
+    <span class="logo" aria-hidden="true">J</span>
+    <h1>Jobs</h1>
+    <label class="sr" for="gate-pass">비밀번호</label>
+    <input id="gate-pass" type="password" placeholder="비밀번호" autocomplete="current-password" required>
+    <label class="remember"><input id="gate-remember" type="checkbox" checked> 이 기기에서 기억</label>
+    <button id="gate-submit" type="submit">열기</button>
+    <p class="error" id="gate-error" role="alert"></p>
+  </form>
+</main>
+
+<div class="shell" id="app" hidden>
+  <aside class="side">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">J</span>
+      <span class="name">Jobs</span>
+      <span class="week" id="week"></span>
+    </div>
+    <nav class="nav" id="tracks" aria-label="트랙"></nav>
+    <div class="divider"></div>
+    <nav class="nav" id="labels" aria-label="표시"></nav>
+    <div class="side-foot">
+      <span id="updated"></span>
+      <button type="button" id="lock" aria-label="잠그기">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>잠금
+      </button>
+    </div>
+  </aside>
+
+  <section class="main" id="main" aria-labelledby="view-title">
+    <div class="toolbar">
+      <h2 id="view-title"></h2>
+      <span class="total" id="view-total"></span>
+      <span class="grow"></span>
+      <div class="seg" id="status" role="group" aria-label="공고 상태"></div>
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        <span class="sr">검색</span>
+        <input id="q" type="search" placeholder="검색">
+      </label>
+      <div class="seg icons" id="density" role="group" aria-label="보기 밀도">
+        <button type="button" data-density="min" aria-label="최소" title="최소">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 5h16M4 10h16M4 15h16M4 20h16"></path></svg>
+        </button>
+        <button type="button" data-density="mid" aria-label="중간" title="중간">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+        <button type="button" data-density="max" aria-label="최대" title="최대">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="4" width="16" height="6" rx="1.5"></rect><rect x="4" y="14" width="16" height="6" rx="1.5"></rect></svg>
+        </button>
+      </div>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="pager" id="pager"></div>
+  </section>
+</div>
+
+<script type="application/json" id="vault">__JOBS_VAULT__</script>
+<script>
+(function () {
+  'use strict';
+
+  var VAULT = JSON.parse(document.getElementById('vault').textContent);
+  var TRACKS = ['Flutter', 'React Native', 'Android', 'iOS', '기타 모바일'];
+  var TRACK_COLOR = { 'Flutter': '#4DABF7', 'React Native': '#9775FA', 'Android': '#51CF66', 'iOS': '#F783AC', '기타 모바일': '#ADB5BD' };
+  var AVATARS = ['#FFD8A8', '#B2F2BB', '#A5D8FF', '#D0BFFF', '#FCC2D7', '#FFEC99', '#99E9F2', '#C3FAE8'];
+  var PAGE_SIZE = { min: 60, mid: 40, max: 24 };
+  var PASS_KEY = 'jobs.pass';
+  var DENSITY_KEY = 'jobs.density';
+
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    del: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+
+  // ------------------------------------------------------------ 잠금 해제
+  // generate_job_html.py 의 lock() 과 짝이다. PBKDF2 로 키 두 개를 만들고,
+  // MAC 키로 무결성(=비밀번호)을 확인한 뒤 HMAC 카운터 키스트림으로 푼다.
+  function b64(s) {
+    var bin = atob(s), out = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  async function unlock(vault, password) {
+    var subtle = crypto.subtle;
+    var salt = b64(vault.salt), nonce = b64(vault.nonce), ct = b64(vault.ct), tag = b64(vault.tag);
+    var base = await subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+    var bits = new Uint8Array(await subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: salt, iterations: vault.iter }, base, 512));
+    var hmacKey = function (raw, usage) { return subtle.importKey('raw', raw, { name: 'HMAC', hash: 'SHA-256' }, false, [usage]); };
+    var encKey = await hmacKey(bits.slice(0, 32), 'sign');
+    var macKey = await hmacKey(bits.slice(32), 'verify');
+
+    var signed = new Uint8Array(salt.length + nonce.length + ct.length);
+    signed.set(salt, 0); signed.set(nonce, salt.length); signed.set(ct, salt.length + nonce.length);
+    if (!(await subtle.verify('HMAC', macKey, tag, signed))) throw new Error('wrong-password');
+
+    var blocks = Math.ceil(ct.length / 32), jobs = [];
+    for (var i = 0; i < blocks; i++) {
+      var msg = new Uint8Array(nonce.length + 4);
+      msg.set(nonce, 0);
+      new DataView(msg.buffer).setUint32(nonce.length, i);
+      jobs.push(subtle.sign('HMAC', encKey, msg));
+    }
+    var streams = await Promise.all(jobs);
+    var plain = new Uint8Array(ct.length);
+    streams.forEach(function (buf, i) {
+      var ks = new Uint8Array(buf), off = i * 32;
+      for (var j = 0; j < 32 && off + j < ct.length; j++) plain[off + j] = ct[off + j] ^ ks[j];
+    });
+    var inflated = new Blob([plain]).stream().pipeThrough(new DecompressionStream('deflate'));
+    return JSON.parse(await new Response(inflated).text());
+  }
+
+  var gateForm = document.getElementById('gate-form');
+  var gatePass = document.getElementById('gate-pass');
+  var gateRemember = document.getElementById('gate-remember');
+  var gateSubmit = document.getElementById('gate-submit');
+  var gateError = document.getElementById('gate-error');
+
+  async function tryOpen(password, remember) {
+    gateSubmit.disabled = true;
+    gateError.textContent = '';
+    try {
+      var data = await unlock(VAULT, password);
+      if (remember) store.set(PASS_KEY, password); else store.del(PASS_KEY);
+      start(data);
+      return true;
+    } catch (e) {
+      store.del(PASS_KEY);
+      gateError.textContent = e.message === 'wrong-password' ? '비밀번호가 맞지 않습니다.' : '이 브라우저에서는 열 수 없습니다.';
+      gatePass.select();
+      return false;
+    } finally {
+      gateSubmit.disabled = false;
+    }
+  }
+
+  gateForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    tryOpen(gatePass.value, gateRemember.checked);
+  });
+
+  document.getElementById('lock').addEventListener('click', function () {
+    store.del(PASS_KEY);
+    location.reload();
+  });
+
+  // ------------------------------------------------------------ 화면
+  var state = { track: 'all', label: 'none', status: 'all', q: '', page: 1, density: 'mid' };
+  var DATA = null;
+
+  function el(tag, attrs, children) {
+    var node = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      if (k === 'class') node.className = attrs[k];
+      else if (k === 'text') node.textContent = attrs[k];
+      else if (k === 'style') node.setAttribute('style', attrs[k]);
+      else if (k.indexOf('on') === 0) node.addEventListener(k.slice(2), attrs[k]);
+      else if (attrs[k] !== null && attrs[k] !== undefined && attrs[k] !== false) node.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function (c) { if (c) node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return node;
+  }
+
+  function hash(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
+  function md(d) { return Number(d.slice(5, 7)) + '월 ' + Number(d.slice(8, 10)) + '일'; }
+  function shortDate(d, thisYear) { return d.slice(0, 4) === thisYear ? md(d) : d.slice(2, 4) + '.' + Number(d.slice(5, 7)) + '.' + Number(d.slice(8, 10)); }
+
+  var match = {
+    track: function (r) { return state.track === 'all' || r.tr === state.track; },
+    label: function (r) { return state.label === 'none' || (state.label === 'hist' ? !!r.h : r.n); },
+    status: function (r) { return state.status === 'all' || (state.status === 'open' ? r.a : !r.a); },
+    q: function (r) { return !state.q || (r.t + ' ' + r.co).toLowerCase().indexOf(state.q) >= 0; }
+  };
+  function filterExcept(skip) {
+    return DATA.rows.filter(function (r) {
+      return Object.keys(match).every(function (k) { return k === skip || match[k](r); });
+    });
+  }
+  function set(patch) {
+    Object.keys(patch).forEach(function (k) { state[k] = patch[k]; });
+    if (!('page' in patch)) state.page = 1;
+    render();
+  }
+
+  function navButton(label, count, color, round, active, onclick) {
+    return el('button', { type: 'button', 'aria-pressed': String(active), onclick: onclick }, [
+      el('span', { class: 'swatch' + (round ? ' round' : ''), style: 'background:' + color }),
+      el('span', { class: 'label', text: label }),
+      el('span', { class: 'count', text: String(count) })
+    ]);
+  }
+
+  function renderSide() {
+    var forTracks = filterExcept('track');
+    var tracks = document.getElementById('tracks');
+    tracks.replaceChildren(navButton('전체 공고', forTracks.length, 'var(--ink)', false, state.track === 'all', function () { set({ track: 'all' }); }));
+    TRACKS.forEach(function (t) {
+      var n = forTracks.filter(function (r) { return r.tr === t; }).length;
+      tracks.appendChild(navButton(t, n, TRACK_COLOR[t], false, state.track === t, function () { set({ track: t }); }));
+    });
+    var forLabels = filterExcept('label');
+    var labels = document.getElementById('labels');
+    labels.replaceChildren(
+      navButton('지원이력', forLabels.filter(function (r) { return r.h; }).length, 'var(--hist-dot)', true, state.label === 'hist',
+        function () { set({ label: state.label === 'hist' ? 'none' : 'hist' }); }),
+      navButton('신규', forLabels.filter(function (r) { return r.n; }).length, 'var(--new)', true, state.label === 'fresh',
+        function () { set({ label: state.label === 'fresh' ? 'none' : 'fresh' }); })
+    );
+  }
+
+  function renderToolbar(total) {
+    var title = state.label === 'hist' ? '지원이력' : state.label === 'fresh' ? '신규' : state.track === 'all' ? '전체 공고' : state.track;
+    document.getElementById('view-title').textContent = title;
+    document.getElementById('view-total').textContent = String(total);
+
+    var forStatus = filterExcept('status');
+    var open = forStatus.filter(function (r) { return r.a; }).length;
+    var status = document.getElementById('status');
+    status.replaceChildren();
+    [['all', '전체', forStatus.length], ['open', '진행중', open], ['closed', '마감', forStatus.length - open]].forEach(function (s) {
+      status.appendChild(el('button', { type: 'button', 'aria-pressed': String(state.status === s[0]), onclick: function () { set({ status: s[0] }); } }, [
+        s[1], el('span', { class: 'n', text: String(s[2]) })
+      ]));
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll('#density button'), function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-density') === state.density));
+    });
+  }
+
+  function renderRow(r, thisYear) {
+    var cls = 'row' + (r.n ? ' new' : '') + (r.a ? '' : ' closed');
+    var href = /^https?:\/\//.test(r.u) ? r.u : null;
+    var head = el('span', { class: 'head' }, [
+      el('span', { class: 'co', text: r.co }),
+      el('span', { class: 'chip track', text: r.tr }),
+      r.h ? el('span', { class: 'chip hist', text: '↺ ' + r.h, title: r.hd }) : null,
+      r.a ? null : el('span', { class: 'chip closed', text: '마감 ' + Number(r.ls.slice(5, 7)) + '.' + Number(r.ls.slice(8, 10)) })
+    ]);
+    var meta = el('span', { class: 'meta' }, [r.p]);
+    if (r.po) {
+      meta.appendChild(document.createTextNode(' · '));
+      meta.appendChild(el('span', { class: r.po < '2025' ? 'old' : '', text: '게시 ' + r.po.replace(/-/g, '.') }));
+    }
+    return el('a', { class: cls, href: href, target: '_blank', rel: 'noopener noreferrer' }, [
+      el('span', { class: 'dot', 'aria-hidden': 'true' }),
+      el('span', { class: 'avatar', 'aria-hidden': 'true', style: 'background:' + AVATARS[hash(r.co) % AVATARS.length], text: r.co.charAt(0).toUpperCase() }),
+      el('span', { class: 'body' }, [head, el('span', { class: 'title', text: r.t }), meta]),
+      el('span', { class: 'date', text: shortDate(r.c, thisYear) })
+    ]);
+  }
+
+  function renderPager(total, size) {
+    var pages = Math.max(1, Math.ceil(total / size));
+    var pager = document.getElementById('pager');
+    pager.replaceChildren();
+    var from = total ? (state.page - 1) * size + 1 : 0;
+    var to = Math.min(total, state.page * size);
+    pager.appendChild(el('span', { class: 'range', text: from + '–' + to + ' / ' + total }));
+    if (pages === 1) return;
+
+    var go = function (p) { return function () { set({ page: p }); document.getElementById('main').scrollIntoView({ block: 'start' }); }; };
+    var nums = [];
+    for (var p = 1; p <= pages; p++) {
+      if (p === 1 || p === pages || Math.abs(p - state.page) <= 1) nums.push(p);
+      else if (nums[nums.length - 1] !== '…') nums.push('…');
+    }
+    var box = el('span', { class: 'pages' }, [
+      el('button', { type: 'button', 'aria-label': '이전', disabled: state.page === 1, onclick: go(state.page - 1) }, ['‹'])
+    ]);
+    nums.forEach(function (n) {
+      box.appendChild(n === '…'
+        ? el('span', { class: 'gap', text: '…' })
+        : el('button', { type: 'button', 'aria-current': n === state.page ? 'page' : null, onclick: go(n) }, [String(n)]));
+    });
+    box.appendChild(el('button', { type: 'button', 'aria-label': '다음', disabled: state.page === pages, onclick: go(state.page + 1) }, ['›']));
+    pager.appendChild(box);
+  }
+
+  function render() {
+    var rows = filterExcept(null);
+    var size = PAGE_SIZE[state.density];
+    var pages = Math.max(1, Math.ceil(rows.length / size));
+    if (state.page > pages) state.page = pages;
+    var thisYear = (DATA.updated || '').slice(0, 4);
+
+    document.getElementById('app').setAttribute('data-density', state.density);
+    renderSide();
+    renderToolbar(rows.length);
+    var list = document.getElementById('list');
+    var slice = rows.slice((state.page - 1) * size, state.page * size);
+    list.replaceChildren.apply(list, slice.length
+      ? slice.map(function (r) { return renderRow(r, thisYear); })
+      : [el('p', { class: 'empty', text: '—' })]);
+    renderPager(rows.length, size);
+  }
+
+  function start(data) {
+    DATA = data;
+    var saved = store.get(DENSITY_KEY);
+    state.density = PAGE_SIZE[saved] ? saved : 'mid';
+    document.getElementById('week').textContent = data.week ? 'W' + data.week : '';
+    document.getElementById('updated').textContent = data.updated ? data.updated.replace(/-/g, '.') : '';
+
+    document.getElementById('q').addEventListener('input', function (e) { set({ q: e.target.value.trim().toLowerCase() }); });
+    Array.prototype.forEach.call(document.querySelectorAll('#density button'), function (b) {
+      b.addEventListener('click', function () {
+        var first = (state.page - 1) * PAGE_SIZE[state.density];
+        var next = b.getAttribute('data-density');
+        store.set(DENSITY_KEY, next);
+        state.density = next;
+        set({ page: Math.floor(first / PAGE_SIZE[next]) + 1 });
+      });
+    });
+
+    document.getElementById('gate').hidden = true;
+    document.getElementById('app').hidden = false;
+    render();
+  }
+
+  var remembered = store.get(PASS_KEY);
+  if (remembered) tryOpen(remembered, true);
+  else gatePass.focus();
+})();
+</script>
+</body>
+</html>

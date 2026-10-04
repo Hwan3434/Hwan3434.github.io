@@ -7,12 +7,14 @@ on:
   pull_request:
     paths:
       - 'tools/*.py'
+      - 'tools/jobs_page.html'
       - '.github/workflows/jobs-test.yml'
   push:
     branches:
       - main
     paths:
       - 'tools/*.py'
+      - 'tools/jobs_page.html'
       - '.github/workflows/jobs-test.yml'
 
 permissions:

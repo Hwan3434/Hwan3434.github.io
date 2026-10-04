@@ -81,6 +81,11 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  # 비밀번호로 잠근 채용 페이지. 사이트맵에 올리지 않는다.
+  - scope:
+      path: "jobs.html"
+    values:
+      sitemap: false
 
 sass:
   style: compressed

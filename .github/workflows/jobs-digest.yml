@@ -46,14 +46,12 @@ jobs:
             echo "::warning::일부 소스가 실패한 채로 수집됐다. 로그를 확인할 것."
           fi
 
-      - name: Generate HTML
-        run: python tools/generate_job_html.py
-
       - name: Commit and Push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add jobs.html tools/jobs.json
+          # jobs.html 은 커밋하지 않는다. 배포(pages-deploy)가 Secret 으로 잠가서 만든다.
+          git add tools/jobs.json
 
           if ! git diff --cached --quiet; then
             git commit -m "chore: automated weekly jobs digest update"

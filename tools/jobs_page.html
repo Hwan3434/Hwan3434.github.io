@@ -100,27 +100,30 @@
   .list { display: flex; flex-direction: column; }
   .row { display: flex; gap: var(--row-gap); align-items: flex-start; padding: var(--row-py) 22px; border-bottom: 1px solid var(--line-soft); }
   .row:hover { background: var(--hover) !important; }
-  .row.new { background: var(--new-bg); }
+  .row.unread { background: var(--new-bg); }
   .row .dot { width: 8px; height: 8px; flex: none; border-radius: 50%; margin-top: calc(var(--avatar) / 2 - 4px + 2px); }
-  .row.new .dot { background: var(--new); }
+  .row.unread .dot { background: var(--new); }
   .row .avatar { position: relative; overflow: hidden; width: var(--avatar); height: var(--avatar); flex: none; border-radius: 50%; color: #1D2129; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: calc(var(--avatar) * 0.4); }
   .row .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 18%; background: #FFFFFF; box-shadow: inset 0 0 0 1px var(--line); border-radius: 50%; }
   .row .body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
   .row .head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
   .row .co { font-size: var(--co-size); font-weight: 500; }
-  .row.new .co { font-weight: 800; }
+  .row.unread .co { font-weight: 800; }
   .chip { font-size: 11.5px; font-weight: 500; border-radius: 6px; padding: 1px 7px; white-space: nowrap; }
   .chip.track { background: var(--chip); color: var(--chip-ink); }
   .chip.hist { background: var(--hist-bg); color: var(--hist); font-weight: 700; }
   .chip.closed { background: transparent; color: var(--closed); border: 1px solid var(--line); }
   .row .title { font-size: var(--title-size); color: var(--ink); overflow-wrap: anywhere; }
-  .row.new .title { font-weight: 700; }
+  .row.unread .title { font-weight: 700; }
   .row.closed .title, .row.closed .co { color: var(--closed); }
   .row .meta { font-size: var(--meta-size); color: var(--muted); }
   .row .meta .old { color: var(--old); }
   .row .date { flex: none; display: flex; gap: 8px; font-size: 12.5px; color: var(--muted); padding-top: 2px; white-space: nowrap; }
   .row .date .read { color: var(--faint); font-weight: 500; }
-  .row.new .date { font-weight: 800; }
+  .row .date .due { color: var(--muted); font-weight: 500; }
+  .row .date .due.soon { color: var(--old); font-weight: 700; }
+  .row .date .due.past { color: var(--faint); text-decoration: line-through; }
+  .row.unread .date > .reg { font-weight: 800; }
   [data-density="min"] .row .avatar { display: none; }
   [data-density="min"] .row .dot { margin-top: 7px; }
   [data-density="min"] .row .body { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
@@ -354,7 +357,6 @@
     track: function (r) { return state.track === 'all' || r.tr === state.track; },
     label: function (r) {
       if (state.label === 'hist') return !!r.h;
-      if (state.label === 'fresh') return r.n;
       if (state.label === 'unread') return !readMap[r.u];
       return true;
     },
@@ -393,15 +395,13 @@
     labels.replaceChildren(
       navButton('지원이력', forLabels.filter(function (r) { return r.h; }).length, 'var(--hist-dot)', true, state.label === 'hist',
         function () { set({ label: state.label === 'hist' ? 'none' : 'hist' }); }),
-      navButton('신규', forLabels.filter(function (r) { return r.n; }).length, 'var(--new)', true, state.label === 'fresh',
-        function () { set({ label: state.label === 'fresh' ? 'none' : 'fresh' }); }),
-      navButton('안 읽음', forLabels.filter(function (r) { return !readMap[r.u]; }).length, 'var(--faint)', true, state.label === 'unread',
+      navButton('안 읽음', forLabels.filter(function (r) { return !readMap[r.u]; }).length, 'var(--new)', true, state.label === 'unread',
         function () { set({ label: state.label === 'unread' ? 'none' : 'unread' }); })
     );
   }
 
   function renderToolbar(total) {
-    var title = state.label === 'hist' ? '지원이력' : state.label === 'fresh' ? '신규' : state.label === 'unread' ? '안 읽음' : state.track === 'all' ? '전체 공고' : state.track;
+    var title = state.label === 'hist' ? '지원이력' : state.label === 'unread' ? '안 읽음' : state.track === 'all' ? '전체 공고' : state.track;
     document.getElementById('view-title').textContent = title;
     document.getElementById('view-total').textContent = String(total);
 
@@ -409,7 +409,7 @@
     var open = forStatus.filter(function (r) { return r.a; }).length;
     var status = document.getElementById('status');
     status.replaceChildren();
-    [['all', '전체', forStatus.length], ['open', '진행중', open], ['closed', '마감', forStatus.length - open]].forEach(function (s) {
+    [['all', '전체', forStatus.length], ['open', '진행중', open], ['closed', '종료', forStatus.length - open]].forEach(function (s) {
       status.appendChild(el('button', { type: 'button', 'aria-pressed': String(state.status === s[0]), onclick: function () { set({ status: s[0] }); } }, [
         s[1], el('span', { class: 'n', text: String(s[2]) })
       ]));
@@ -421,13 +421,13 @@
   }
 
   function renderRow(r, thisYear) {
-    var cls = 'row' + (r.n ? ' new' : '') + (r.a ? '' : ' closed');
+    var cls = 'row' + (readMap[r.u] ? '' : ' unread') + (r.a ? '' : ' closed');
     var href = /^https?:\/\//.test(r.u) ? r.u : null;
     var head = el('span', { class: 'head' }, [
       el('span', { class: 'co', text: r.co }),
       el('span', { class: 'chip track', text: r.tr }),
       r.h ? el('span', { class: 'chip hist', text: '↺ ' + r.h, title: r.hd }) : null,
-      r.a ? null : el('span', { class: 'chip closed', text: '마감 ' + Number(r.ls.slice(5, 7)) + '.' + Number(r.ls.slice(8, 10)) })
+      r.a ? null : el('span', { class: 'chip closed', text: '종료 ' + Number(r.ls.slice(5, 7)) + '.' + Number(r.ls.slice(8, 10)) })
     ]);
     var meta = el('span', { class: 'meta' }, [r.p]);
     if (r.po) {
@@ -441,10 +441,19 @@
       renderAvatar(r),
       el('span', { class: 'body' }, [head, el('span', { class: 'title', text: r.t }), meta]),
       el('span', { class: 'date' }, [
-        shortDate(r.c, thisYear) + ' 등록',
+        el('span', { class: 'reg', text: shortDate(r.c, thisYear) + ' 등록' }),
+        r.dl ? renderDue(r.dl, thisYear) : null,
         read ? el('span', { class: 'read', text: '· 읽음(' + shortDate(read, thisYear) + ')' }) : null
       ])
     ]);
+  }
+
+  // 마감일. 일주일 안으로 남았으면 D-n 을 붙여 눈에 띄게 한다.
+  function renderDue(dl, thisYear) {
+    var days = Math.round((new Date(dl + 'T00:00:00') - new Date(today() + 'T00:00:00')) / 86400000);
+    var cls = 'due' + (days < 0 ? ' past' : days <= 7 ? ' soon' : '');
+    var text = '· 마감 ' + shortDate(dl, thisYear) + (days >= 0 && days <= 7 ? ' (D-' + days + ')' : '');
+    return el('span', { class: cls, text: text });
   }
 
   // 로고는 회사 도메인의 파비콘이다. 못 불러오면 이니셜이 그대로 남는다.

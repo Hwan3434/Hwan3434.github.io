@@ -241,6 +241,16 @@ class TestClassify(unittest.TestCase):
         self.assertTrue(js.looks_mobile("Android 게임 클라이언트 개발자"))
 
 
+class TestDeadline(unittest.TestCase):
+    def test_values(self):
+        self.assertEqual(js.deadline_date('2026-10-10T23:59:59'), '2026-10-10')
+        self.assertEqual(js.deadline_date('2026-10-10T15:00:00Z'), '2026-10-11')  # KST 기준
+        self.assertEqual(js.deadline_date('2026-10-10'), '2026-10-10')
+        self.assertIsNone(js.deadline_date('9999-12-31'))
+        self.assertIsNone(js.deadline_date(None))
+        self.assertIsNone(js.deadline_date('not a date'))
+
+
 class TestStamp(unittest.TestCase):
     def test_utc_z(self):
         self.assertEqual(js.iso_to_stamp("2026-09-01T04:05:06Z"),
@@ -424,6 +434,7 @@ class TestScrapers(unittest.TestCase):
             jobs[0]['job_url'],
             'https://cashwalk12.career.greetinghr.com/o/30835')
         self.assertEqual(jobs[0]['posted_at'], '2023-06-27 00:09:49')
+        self.assertIsNone(jobs[0]['deadline_at'])  # dueDate 가 없으면 상시
 
     def test_greetinghr_empty_openings_is_not_an_error(self):
         # 공고가 0건인 회사는 정상이다. 실패로 집계하면 매주 헛경고가 뜬다.
@@ -492,6 +503,8 @@ class TestScrapers(unittest.TestCase):
         self.assertEqual(jobs[0]['company'], '핀다')
         self.assertEqual(jobs[0]['job_url'],
                          'https://jumpit.saramin.co.kr/position/55000479')
+        self.assertEqual(jobs[0]['deadline_at'], '2026-10-10')
+        self.assertIsNone(jobs[1]['deadline_at'])
         # 직군마다 한 페이지로 끝나면 더 넘기지 않는다.
         self.assertEqual(len(calls), len(js.JUMPIT_CATEGORIES))
 
@@ -529,6 +542,7 @@ class TestScrapers(unittest.TestCase):
         self.assertEqual(jobs[0]['job_url'], 'https://www.rallit.com/positions/1591')
         self.assertEqual(jobs[0]['platform'], '랠릿')
         self.assertIsNone(jobs[0]['posted_at'])
+        self.assertIsNone(jobs[0]['deadline_at'])  # endedAt 9999-12-31 은 상시
 
     def test_rallit_follows_total_page(self):
         calls = []
@@ -656,6 +670,15 @@ class TestSave(unittest.TestCase):
 
         self.assertEqual(self.read()[0]['posted_at'], '2026-09-01 00:00:00')
 
+    def test_deadline_follows_latest_scrape(self):
+        base = {'id': 'j_1', 'platform': '점핏', 'title': 'Android 개발자',
+                'company': 'A', 'job_url': 'u', 'track': 'Android'}
+        js.save_jobs([dict(base, deadline_at='2026-10-10')])
+        js.save_jobs([dict(base, deadline_at='2026-10-31')])  # 연장
+        self.assertEqual(self.read()[0]['deadline_at'], '2026-10-31')
+        js.save_jobs([dict(base)])  # 마감일을 안 주는 소스는 건드리지 않는다
+        self.assertEqual(self.read()[0]['deadline_at'], '2026-10-31')
+
     def test_different_companies_not_merged(self):
         js.save_jobs([{'id': 'a', 'platform': 'Wanted', 'title': 'Android 개발자',
                        'company': '회사A', 'job_url': 'u', 'track': 'Android'}])
@@ -705,15 +728,11 @@ class TestGenerate(unittest.TestCase):
         self.assertEqual({r['t']: r['tr'] for r in rows},
                          {'Senior iOS Engineer': 'iOS', 'Android 앱 개발': 'Flutter'})
 
-    def test_new_means_found_in_latest_run(self):
-        # 배포는 수집 며칠 뒤에도 돈다. 현재 시각이 아니라 마지막 수집이 기준이다.
-        later = self.now + datetime.timedelta(days=3)
-        rows = gen.build_rows([
-            self.job('Android 이번 수집', created=0),
-            self.job('Android 지난주부터', created=7),
-        ], [], later)
-        self.assertEqual({r['t']: r['n'] for r in rows},
-                         {'Android 이번 수집': True, 'Android 지난주부터': False})
+    def test_rows_carry_deadline(self):
+        rows = self.rows([self.job('Android 개발자', deadline_at='2026-10-10'),
+                          self.job('iOS 개발자')])
+        self.assertEqual({r['t']: r['dl'] for r in rows},
+                         {'Android 개발자': '2026-10-10', 'iOS 개발자': ''})
 
     def test_company_keys(self):
         self.assertEqual(gen.company_keys('(주)오메타'), {'오메타'})

@@ -42,10 +42,6 @@ KDF_ITERATIONS = 200_000
 # 그 소스의 공고가 통째로 마감으로 바뀐다. 한 주 + 여유로 잡는다.
 ACTIVE_WINDOW_DAYS = 8
 
-# 마지막 수집에서 처음 발견한 공고에만 신규 표시를 한다. 페이지는 배포 때마다
-# 다시 만들어지므로 현재 시각이 아니라 마지막 수집 시각을 기준으로 잡는다.
-NEW_WINDOW_HOURS = 6
-
 KST = datetime.timezone(datetime.timedelta(hours=9))
 
 LEGAL_NAME_RE = re.compile(r'\(주\)|㈜|주식회사')
@@ -213,9 +209,7 @@ def latest_run(jobs):
 
 def build_rows(jobs, applied, now, domains=None):
     """페이지에 실을 공고 행을 만든다. 열린 공고가 먼저, 그다음 마감된 공고."""
-    run = latest_run(jobs)
     active_cutoff = now - datetime.timedelta(days=ACTIVE_WINDOW_DAYS)
-    new_cutoff = run - datetime.timedelta(hours=NEW_WINDOW_HOURS) if run else None
     domains = domains or {}
 
     rows = []
@@ -242,7 +236,7 @@ def build_rows(jobs, applied, now, domains=None):
             'c': created.strftime('%Y-%m-%d'),
             'ls': last_seen.strftime('%Y-%m-%d'),
             'a': last_seen > active_cutoff,
-            'n': bool(new_cutoff and created >= new_cutoff),
+            'dl': job.get('deadline_at') or '',
             'h': history_label(job.get('company'), history) if history else '',
             'hd': history_detail(history) if history else '',
         })

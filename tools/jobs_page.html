@@ -458,11 +458,13 @@
   }
 
   // 로고는 회사 도메인의 파비콘이다. 못 불러오면 이니셜이 그대로 남는다.
+  // 파비콘이 없는 도메인에는 구글이 16px 기본 지구본을 주므로 그것도 실패로 본다.
   function renderAvatar(r) {
     var avatar = el('span', { class: 'avatar', 'aria-hidden': 'true', style: 'background:' + AVATARS[hash(r.co) % AVATARS.length], text: r.co.charAt(0).toUpperCase() });
     if (/^[a-z0-9.-]+$/.test(r.d || '')) {
       var img = el('img', { alt: '', loading: 'lazy', referrerpolicy: 'no-referrer', src: 'https://www.google.com/s2/favicons?sz=128&domain=' + r.d });
       img.addEventListener('error', function () { img.remove(); });
+      img.addEventListener('load', function () { if (img.naturalWidth <= 16) img.remove(); });
       avatar.appendChild(img);
     }
     return avatar;

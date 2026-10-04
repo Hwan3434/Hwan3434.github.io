@@ -36,3 +36,7 @@ tools/node_modules/
 # Python
 __pycache__/
 *.pyc
+
+# jobs 페이지: 배포 때 생성한다. 지원 이력은 Secret 으로만 받는다.
+jobs.html
+tools/applied.local.json

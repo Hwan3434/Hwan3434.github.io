@@ -668,56 +668,130 @@ class TestSave(unittest.TestCase):
 
 class TestGenerate(unittest.TestCase):
     def setUp(self):
-        self.now = datetime.datetime(2026, 9, 8, 0, 0, 0)
+        self.now = datetime.datetime(2026, 9, 28, 6, 0, 0)
 
-    def stamp(self, days_ago):
-        return (self.now - datetime.timedelta(days=days_ago)
+    def stamp(self, days_ago, hours=0):
+        return (self.now - datetime.timedelta(days=days_ago, hours=hours)
                 ).strftime('%Y-%m-%d %H:%M:%S')
 
-    def test_active_window(self):
-        jobs = [
-            {'id': '1', 'last_seen_at': self.stamp(0)},
-            {'id': '2', 'last_seen_at': self.stamp(7)},
-            {'id': '3', 'last_seen_at': self.stamp(30)},   # 창 밖
-            {'id': '4'},                                    # 값 없음
-        ]
-        active = gen.select_active(jobs, self.now)
-        self.assertEqual({j['id'] for j in active}, {'1', '2'})
+    def job(self, title, company='회사', seen=0, created=0, **extra):
+        job = {'id': title, 'title': title, 'company': company, 'platform': '랠릿',
+               'job_url': 'https://x.test/' + str(len(title)),
+               'last_seen_at': self.stamp(seen), 'created_at': self.stamp(created)}
+        job.update(extra)
+        return job
 
-    def test_grouping_uses_track_then_falls_back(self):
-        jobs = [
-            {'id': '1', 'title': '아무 제목', 'track': 'Flutter',
-             'last_seen_at': self.stamp(0), 'created_at': self.stamp(0)},
-            # track 없는 과거 데이터는 제목으로 분류한다.
-            {'id': '2', 'title': 'iOS 개발자',
-             'last_seen_at': self.stamp(0), 'created_at': self.stamp(5)},
-        ]
-        grouped = gen.group_by_track(gen.select_active(jobs, self.now), self.now)
-        self.assertEqual(len(grouped['Flutter']), 1)
-        self.assertEqual(len(grouped['iOS']), 1)
+    def rows(self, jobs, applied=()):
+        return gen.build_rows(jobs, list(applied), self.now)
 
-    def test_new_badge_only_for_fresh(self):
-        jobs = [
-            # 이번 실행에서 처음 본 공고
-            {'id': '1', 'title': '갓 발견한 Android', 'track': 'Android',
-             'last_seen_at': self.stamp(0), 'created_at': self.stamp(0)},
-            # 지난주부터 있던 공고 — 이번에도 보였을 뿐 신규가 아니다
-            {'id': '2', 'title': '지난주부터 있던 Android', 'track': 'Android',
-             'last_seen_at': self.stamp(0), 'created_at': self.stamp(5)},
-        ]
-        grouped = gen.group_by_track(gen.select_active(jobs, self.now), self.now)
-        flags = {j['title']: j['is_new'] for j in grouped['Android']}
-        self.assertTrue(flags['갓 발견한 Android'])
-        self.assertFalse(flags['지난주부터 있던 Android'])
+    def test_closed_postings_stay_after_open_ones(self):
+        rows = self.rows([
+            self.job('Android 개발자 (마감)', seen=30, created=40),
+            self.job('Android 개발자 (열림)', seen=7, created=20),
+            self.job('iOS 개발자 (값 없음)', last_seen_at=None),
+        ])
+        self.assertEqual([r['t'] for r in rows],
+                         ['Android 개발자 (열림)', 'Android 개발자 (마감)'])
+        self.assertEqual([r['a'] for r in rows], [True, False])
 
-    def test_card_escapes_html(self):
-        card = gen.render_card({
-            'title': '<script>alert(1)</script>', 'company': 'A & B',
-            'platform': 'Wanted', 'url': 'https://x.test/?a=1&b=2',
-            'is_new': False, 'posted': None})
-        self.assertNotIn('<script>', card)
-        self.assertIn('&lt;script&gt;', card)
-        self.assertIn('&amp;', card)
+    def test_non_mobile_history_is_dropped(self):
+        # 예전 규칙으로 들어온 공고가 jobs.json 에 남아 있다.
+        rows = self.rows([self.job('Robot Learning Engineer'), self.job('Android 개발자')])
+        self.assertEqual([r['t'] for r in rows], ['Android 개발자'])
+
+    def test_track_falls_back_to_scraper_classifier(self):
+        rows = self.rows([self.job('Senior iOS Engineer'),
+                          self.job('Android 앱 개발', track='Flutter')])
+        self.assertEqual({r['t']: r['tr'] for r in rows},
+                         {'Senior iOS Engineer': 'iOS', 'Android 앱 개발': 'Flutter'})
+
+    def test_new_means_found_in_latest_run(self):
+        # 배포는 수집 며칠 뒤에도 돈다. 현재 시각이 아니라 마지막 수집이 기준이다.
+        later = self.now + datetime.timedelta(days=3)
+        rows = gen.build_rows([
+            self.job('Android 이번 수집', created=0),
+            self.job('Android 지난주부터', created=7),
+        ], [], later)
+        self.assertEqual({r['t']: r['n'] for r in rows},
+                         {'Android 이번 수집': True, 'Android 지난주부터': False})
+
+    def test_company_keys(self):
+        self.assertEqual(gen.company_keys('(주)오메타'), {'오메타'})
+        self.assertEqual(gen.company_keys('주식회사 다이노즈'), {'다이노즈'})
+        self.assertEqual(gen.company_keys('넛지헬스케어(캐시워크)'), {'넛지헬스케어', '캐시워크'})
+        self.assertEqual(gen.company_keys('PFCT (크플)'), {'pfct', '크플'})
+
+    def test_history_matches_whole_names_only(self):
+        applied = [{'company': '카카오', 'date': '2025', 'result': '불합격'},
+                   {'company': '캐시워크', 'date': '2024', 'result': '불합격'},
+                   {'company': '타다', 'aliases': ['TADA'], 'date': '2022', 'result': '불합격'}]
+        self.assertEqual(gen.match_history({'company': '카카오모빌리티', 'title': 'iOS'}, applied), [])
+        self.assertEqual(len(gen.match_history({'company': '넛지헬스케어(캐시워크)', 'title': 'iOS'}, applied)), 1)
+        # 회사명이 달라도 제목의 [브랜드] 표기로 맞춘다.
+        hit = gen.match_history({'company': '이지식스(엠블)', 'title': '[TADA] Android Engineer'}, applied)
+        self.assertEqual([e['company'] for e in hit], ['타다'])
+
+    def test_history_label(self):
+        same = [{'company': '강남언니', 'date': '2022', 'result': '불합격'},
+                {'company': '강남언니', 'date': '2025', 'result': '불합격'}]
+        self.assertEqual(gen.history_label('강남언니', same), '2025 · 2022 불합격')
+        repeated = [{'company': '리디', 'date': '2024', 'result': '불합격'}] * 3
+        self.assertEqual(gen.history_label('리디', repeated), '2024×3 불합격')
+        mixed = [{'company': 'A', 'date': '2026-09-01', 'result': '접수'},
+                 {'company': 'A', 'date': '2024', 'result': '불합격'}]
+        self.assertEqual(gen.history_label('A', mixed), '2026 접수 · 2024 불합격')
+        brand = [{'company': '이지식스', 'date': '2025', 'result': '불합격'},
+                 {'company': '타다', 'date': '2022', 'result': '불합격'}]
+        self.assertEqual(gen.history_label('이지식스(엠블)', brand), '2025 · 2022(타다) 불합격')
+
+    def test_rows_carry_history_and_clean_fields(self):
+        applied = [{'company': '쿠팡', 'date': '2025', 'result': '불합격', 'position': 'iOS'}]
+        rows = self.rows([self.job('Staff iOS Engineer', company='쿠팡',
+                                   platform='그리팅, 점핏, 그리팅', job_url='javascript:alert(1)'),
+                          self.job('Android 개발자', company='(주)오메타')], applied)
+        by_title = {r['t']: r for r in rows}
+        self.assertEqual(by_title['Staff iOS Engineer']['h'], '2025 불합격')
+        self.assertEqual(by_title['Staff iOS Engineer']['hd'], '2025 쿠팡 불합격 — iOS')
+        self.assertEqual(by_title['Staff iOS Engineer']['p'], '그리팅 · 점핏')
+        self.assertEqual(by_title['Staff iOS Engineer']['u'], '')
+        self.assertEqual(by_title['Android 개발자']['co'], '오메타')
+        self.assertEqual(by_title['Android 개발자']['h'], '')
+
+    def test_lock_roundtrip(self):
+        vault = gen.lock('공고 데이터'.encode('utf-8'), 'pw', iterations=1000)
+        self.assertEqual(gen.unlock(vault, 'pw').decode('utf-8'), '공고 데이터')
+        with self.assertRaises(ValueError):
+            gen.unlock(vault, 'wrong')
+
+    def test_load_applied_rejects_non_list(self):
+        old = os.environ.get('JOBS_APPLIED')
+        os.environ['JOBS_APPLIED'] = '{"company": "쿠팡"}'
+        try:
+            with self.assertRaises(ValueError):
+                gen.load_applied()
+        finally:
+            if old is None:
+                del os.environ['JOBS_APPLIED']
+            else:
+                os.environ['JOBS_APPLIED'] = old
+
+    def test_generated_page_holds_no_plaintext(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db = os.path.join(tmp, 'jobs.json')
+            out = os.path.join(tmp, 'jobs.html')
+            with open(db, 'w', encoding='utf-8') as f:
+                json.dump([self.job('Flutter 앱 개발자', company='비밀회사')], f, ensure_ascii=False)
+            applied = [{'company': '비밀회사', 'date': '2025', 'result': '불합격'}]
+            gen.generate_html(out, password='pw', applied=applied, now=self.now, db_path=db)
+            with open(out, encoding='utf-8') as f:
+                page = f.read()
+
+        self.assertNotIn('비밀회사', page)
+        self.assertNotIn('Flutter 앱 개발자', page)
+        self.assertNotIn(gen.VAULT_TOKEN, page)
+        vault = json.loads(page.split('id="vault">')[1].split('</script>')[0])
+        payload = json.loads(gen.unlock(vault, 'pw'))
+        self.assertEqual(payload['rows'][0]['h'], '2025 불합격')
 
 
 if __name__ == '__main__':

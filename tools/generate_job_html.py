@@ -1,44 +1,55 @@
-"""jobs.json 을 읽어 jobs.html 을 만든다.
+"""jobs.json 을 읽어 비밀번호로 잠긴 jobs.html 을 만든다.
 
-트랙(Flutter / React Native / Android / iOS)을 나눠서 보여준다.
-네이티브와 크로스플랫폼은 요구 스택도 채용 채널도 다른 시장이라
-한 덩어리로 묶어두면 읽히지 않는다.
+페이지에는 지금 열린 공고뿐 아니라 지금까지 수집한 공고가 모두 쌓인다.
+각 공고에는 그 회사에 지원했던 이력을 붙인다. 지원 이력은 개인 정보라서
+레포에 두지 않고 배포 시점에 환경변수(JOBS_APPLIED)로만 받는다.
+
+블로그는 공개 정적 사이트라 서버에서 막을 방법이 없다. 그래서 공고 데이터와
+지원 이력을 비밀번호로 암호화해 넣고, 브라우저가 비밀번호를 받아 푼다.
+페이지 틀(tools/jobs_page.html)에는 데이터가 들어 있지 않다.
+
+    JOBS_PAGE_PASSWORD  페이지 비밀번호. 없으면 DEFAULT_PASSWORD
+    JOBS_APPLIED        지원 이력 JSON. 없으면 tools/applied.local.json, 그것도 없으면 빈 목록
 """
 
+import base64
 import datetime
-import html
+import hashlib
+import hmac
 import json
 import os
+import re
+import zlib
+
+import job_scraper
+
+TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(TOOLS_DIR, 'jobs.json')
+TEMPLATE_PATH = os.path.join(TOOLS_DIR, 'jobs_page.html')
+LOCAL_APPLIED_PATH = os.path.join(TOOLS_DIR, 'applied.local.json')
+OUTPUT_PATH = os.path.join(TOOLS_DIR, '..', 'jobs.html')
+VAULT_TOKEN = '__JOBS_VAULT__'
+
+# 임시 비밀번호다. 저장소 Secret JOBS_PAGE_PASSWORD 를 넣으면 그 값을 쓴다.
+DEFAULT_PASSWORD = '1234'
+
+# 브라우저가 비밀번호를 한 번 확인하는 데 드는 비용이다. 대입 공격을 늦추는 용도다.
+KDF_ITERATIONS = 200_000
 
 # 수집은 주 1회(월요일) 돈다. 활성 판정 창을 24시간으로 두면 한 소스가 실패한 주에
-# 그 소스의 공고가 통째로 페이지에서 사라진다. 한 주 + 여유로 잡는다.
+# 그 소스의 공고가 통째로 마감으로 바뀐다. 한 주 + 여유로 잡는다.
 ACTIVE_WINDOW_DAYS = 8
 
-# 이번 실행에서 처음 발견한 공고에만 NEW를 붙인다.
-NEW_WINDOW_HOURS = 24
+# 마지막 수집에서 처음 발견한 공고에만 신규 표시를 한다. 페이지는 배포 때마다
+# 다시 만들어지므로 현재 시각이 아니라 마지막 수집 시각을 기준으로 잡는다.
+NEW_WINDOW_HOURS = 6
 
-TRACK_ORDER = ['Flutter', 'React Native', 'Android', 'iOS', '기타 모바일']
-TRACK_ICONS = {
-    'Flutter': '💙',
-    'React Native': '⚛️',
-    'Android': '💚',
-    'iOS': '🍎',
-    '기타 모바일': '📱',
-}
+KST = datetime.timezone(datetime.timedelta(hours=9))
 
-
-def categorize_job(title):
-    """track 필드가 없는 과거 데이터를 위한 폴백."""
-    t = (title or '').lower()
-    if 'flutter' in t or '플러터' in t:
-        return 'Flutter'
-    if 'react native' in t or '리액트 네이티브' in t:
-        return 'React Native'
-    if 'ios' in t or '아이폰' in t or 'mac' in t:
-        return 'iOS'
-    if 'android' in t or '안드로이드' in t:
-        return 'Android'
-    return '기타 모바일'
+LEGAL_NAME_RE = re.compile(r'\(주\)|㈜|주식회사')
+KEY_STRIP_RE = re.compile(r"[\s.\-·,&'’/]")
+PAREN_RE = re.compile(r'\((.*?)\)')
+TITLE_TAG_RE = re.compile(r'\[(.*?)\]')
 
 
 def parse_stamp(value):
@@ -50,156 +61,251 @@ def parse_stamp(value):
         return None
 
 
-def load_jobs(db_path):
+def load_jobs(db_path=DB_PATH):
     if not os.path.exists(db_path):
         return []
     with open(db_path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 
-def select_active(jobs, now):
-    cutoff = now - datetime.timedelta(days=ACTIVE_WINDOW_DAYS)
-    active = []
+def load_applied():
+    raw = os.environ.get('JOBS_APPLIED', '').strip()
+    if not raw and os.path.exists(LOCAL_APPLIED_PATH):
+        with open(LOCAL_APPLIED_PATH, 'r', encoding='utf-8') as f:
+            raw = f.read()
+    if not raw:
+        return []
+    # 형식이 깨졌으면 조용히 빈 목록으로 넘어가지 않는다. 표시가 통째로 사라진다.
+    entries = json.loads(raw)
+    if not isinstance(entries, list):
+        raise ValueError('지원 이력은 JSON 배열이어야 한다')
+    return entries
+
+
+# ---------------------------------------------------------------- 회사명 매칭
+
+def display_company(name):
+    return LEGAL_NAME_RE.sub('', name or '').strip()
+
+
+def company_keys(name):
+    """회사명을 비교용 키 집합으로 바꾼다.
+
+    법인 표기와 공백·구두점을 지우고, 괄호 안 브랜드명은 따로 키로 본다.
+    '넛지헬스케어(캐시워크)' → {'넛지헬스케어', '캐시워크'}
+    부분 문자열로는 비교하지 않는다. '카카오'가 '카카오모빌리티'에 붙으면 안 된다.
+    """
+    text = LEGAL_NAME_RE.sub('', name or '')
+    parts = [PAREN_RE.sub('', text)] + PAREN_RE.findall(text)
+    keys = set()
+    for part in parts:
+        key = KEY_STRIP_RE.sub('', part).lower()
+        if key:
+            keys.add(key)
+    return keys
+
+
+def posting_keys(job):
+    """회사명에 더해 제목 앞의 [브랜드] 표기도 키로 쓴다. '[TADA] Android Engineer'."""
+    keys = company_keys(job.get('company'))
+    for tag in TITLE_TAG_RE.findall(job.get('title') or ''):
+        keys |= company_keys(tag)
+    return keys
+
+
+def entry_keys(entry):
+    keys = company_keys(entry.get('company'))
+    for alias in entry.get('aliases') or []:
+        keys |= company_keys(alias)
+    return keys
+
+
+def match_history(job, applied):
+    keys = posting_keys(job)
+    return [entry for entry in applied if keys & entry_keys(entry)]
+
+
+def history_label(company, entries):
+    """'2025 · 2022 불합격'처럼 짧게 쓴다. 결과가 서로 다르면 연도마다 붙인다.
+
+    공고 회사명이 아니라 브랜드로 맞은 이력은 어느 이름으로 지원했는지 괄호로 남긴다.
+    """
+    own = company_keys(company)
+    entries = sorted(entries, key=lambda e: str(e.get('date', '')), reverse=True)
+
+    def when(entry):
+        year = str(entry.get('date', ''))[:4]
+        if not company_keys(entry.get('company')) & own:
+            year += f"({PAREN_RE.sub('', display_company(entry.get('company')))})"
+        return year
+
+    def joined(labels):
+        # 같은 해에 여러 번 냈으면 '2024×3'으로 묶는다.
+        counts = {}
+        for label in labels:
+            counts[label] = counts.get(label, 0) + 1
+        return ' · '.join(label if n == 1 else f'{label}×{n}' for label, n in counts.items())
+
+    results = [str(entry.get('result', '')) for entry in entries]
+    if len(set(results)) == 1:
+        return joined(when(e) for e in entries) + ' ' + results[0]
+    return joined(f'{when(e)} {r}' for e, r in zip(entries, results))
+
+
+def history_detail(entries):
+    lines = []
+    for entry in sorted(entries, key=lambda e: str(e.get('date', '')), reverse=True):
+        line = f"{entry.get('date', '')} {entry.get('company', '')} {entry.get('result', '')}"
+        if entry.get('position'):
+            line += f" — {entry['position']}"
+        lines.append(line.strip())
+    return '\n'.join(lines)
+
+
+# ---------------------------------------------------------------- 행 만들기
+
+def split_platforms(value):
+    """중복 병합된 공고는 platform 이 '그리팅, 점핏'처럼 합쳐져 있다."""
+    seen = []
+    for part in (value or '').split(','):
+        part = part.strip()
+        if part and part not in seen:
+            seen.append(part)
+    return seen
+
+
+def safe_url(url):
+    url = (url or '').strip()
+    return url if url.startswith(('https://', 'http://')) else ''
+
+
+def latest_run(jobs):
+    stamps = [parse_stamp(j.get('last_seen_at')) for j in jobs]
+    stamps = [s for s in stamps if s]
+    return max(stamps) if stamps else None
+
+
+def build_rows(jobs, applied, now):
+    """페이지에 실을 공고 행을 만든다. 열린 공고가 먼저, 그다음 마감된 공고."""
+    run = latest_run(jobs)
+    active_cutoff = now - datetime.timedelta(days=ACTIVE_WINDOW_DAYS)
+    new_cutoff = run - datetime.timedelta(hours=NEW_WINDOW_HOURS) if run else None
+
+    rows = []
     for job in jobs:
+        title = (job.get('title') or '').strip()
+        # 예전 규칙으로 들어온 비모바일 공고가 jobs.json 에 남아 있다. 지금 규칙으로 다시 거른다.
+        if not job_scraper.looks_mobile(title):
+            continue
         last_seen = parse_stamp(job.get('last_seen_at'))
-        if last_seen and last_seen > cutoff:
-            active.append(job)
-    return active
-
-
-def group_by_track(active, now):
-    new_cutoff = now - datetime.timedelta(hours=NEW_WINDOW_HOURS)
-    grouped = {track: [] for track in TRACK_ORDER}
-
-    for job in active:
-        track = job.get('track') or categorize_job(job.get('title'))
-        if track not in grouped:
-            track = '기타 모바일'
-
         created = parse_stamp(job.get('created_at'))
         posted = parse_stamp(job.get('posted_at'))
+        if not last_seen or not created:
+            continue
 
-        grouped[track].append({
-            'title': job.get('title') or '',
-            'company': job.get('company') or '',
-            'platform': job.get('platform') or '',
-            'url': job.get('job_url') or '',
-            'is_new': bool(created and created > new_cutoff),
-            # ATS가 게시일을 준 경우에만 표시한다. 없으면 아무것도 쓰지 않는다.
-            'posted': posted.strftime('%Y-%m-%d') if posted else None,
-            'sort_key': posted or created or datetime.datetime.min,
+        history = match_history(job, applied)
+        rows.append({
+            't': title,
+            'co': display_company(job.get('company')),
+            'tr': job.get('track') or job_scraper.classify_track(title),
+            'p': ' · '.join(split_platforms(job.get('platform'))),
+            'u': safe_url(job.get('job_url')),
+            'po': posted.strftime('%Y-%m-%d') if posted else '',
+            'c': created.strftime('%Y-%m-%d'),
+            'ls': last_seen.strftime('%Y-%m-%d'),
+            'a': last_seen > active_cutoff,
+            'n': bool(new_cutoff and created >= new_cutoff),
+            'h': history_label(job.get('company'), history) if history else '',
+            'hd': history_detail(history) if history else '',
         })
 
-    for track in grouped:
-        grouped[track].sort(key=lambda j: j['sort_key'], reverse=True)
-    return grouped
+    active = [r for r in rows if r['a']]
+    closed = [r for r in rows if not r['a']]
+    active.sort(key=lambda r: (r['c'], r['po']), reverse=True)
+    closed.sort(key=lambda r: (r['ls'], r['c']), reverse=True)
+    return active + closed
 
 
-def render_card(job):
-    new_tag = '<span class="new-badge">NEW</span>' if job['is_new'] else ''
-    posted = (f'<span class="posted">{job["posted"]} 게시</span>'
-              if job['posted'] else '')
-    title = html.escape(job['title'])
-    company = html.escape(job['company'])
-    platform = html.escape(job['platform'])
-    url = html.escape(job['url'], quote=True)
-    return f"""
-            <div class="job-card">
-                {new_tag}
-                <h3 class="job-title" title="{title}">{title}</h3>
-                <div class="company-name">{company}</div>
-                <div class="job-footer">
-                    <span class="platform-badge">{platform}</span>
-                    {posted}
-                    <a href="{url}" class="apply-btn" target="_blank" rel="noopener">지원하기 →</a>
-                </div>
-            </div>"""
+def build_payload(jobs, applied, now):
+    run = latest_run(jobs)
+    updated = (run.replace(tzinfo=datetime.timezone.utc).astimezone(KST)
+               if run else None)
+    return {
+        'updated': updated.strftime('%Y-%m-%d %H:%M') if updated else '',
+        'week': updated.isocalendar()[1] if updated else 0,
+        'rows': build_rows(jobs, applied, now),
+    }
 
 
-def generate_html():
-    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'jobs.json'))
-    jobs = load_jobs(db_path)
+# ---------------------------------------------------------------- 잠금
 
-    now = datetime.datetime.utcnow()
-    active = select_active(jobs, now)
-    grouped = group_by_track(active, now)
+def _derive_keys(password, salt, iterations):
+    keys = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, iterations, dklen=64)
+    return keys[:32], keys[32:]
 
-    kst = datetime.timezone(datetime.timedelta(hours=9))
-    now_kst = datetime.datetime.now(kst)
-    today = now_kst.strftime('%Y-%m-%d')
-    now_time = now_kst.strftime('%Y-%m-%d %H:%M')
 
-    total = len(active)
-    platforms = sorted({j.get('platform', '') for j in active if j.get('platform')})
-    source_line = ' · '.join(platforms) if platforms else '수집 소스 없음'
+def _xor_keystream(key, nonce, data):
+    """HMAC-SHA256 을 카운터 모드로 돌린 키스트림과 XOR 한다.
 
-    html_content = f"""<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>주간 모바일 채용 다이제스트 - {today}</title>
-    <style>
-        :root {{ --bg-color: #0d1117; --card-bg: #161b22; --text-main: #c9d1d9; --text-muted: #8b949e; --border: #30363d; }}
-        body {{ background-color: var(--bg-color); color: var(--text-main); font-family: 'Inter', -apple-system, sans-serif; margin: 0; padding: 20px; line-height: 1.4; }}
-        .container {{ width: 96%; max-width: 1800px; margin: 0 auto; }}
-        .header {{ position: relative; text-align: left; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }}
-        .header h1 {{ font-size: 1.8rem; margin: 0; color: #ffffff; }}
-        .last-updated {{ position: absolute; bottom: 15px; right: 0; color: var(--text-muted); font-size: 0.95rem; font-weight: 500; background: rgba(139, 148, 158, 0.1); padding: 6px 12px; border-radius: 6px; }}
-        .section-title {{ font-size: 1.3rem; color: #58a6ff; margin: 40px 0 15px 0; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(48, 54, 61, 0.5); padding-bottom: 8px; }}
-        .job-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }}
-        .job-card {{ background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 14px; display: flex; flex-direction: column; transition: border-color 0.2s; position: relative; }}
-        .job-card:hover {{ border-color: #58a6ff; }}
-        .job-title {{ font-size: 1rem; font-weight: 600; margin: 0 0 6px 0; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 40px; }}
-        .company-name {{ font-size: 0.85rem; color: #8b949e; margin-bottom: 12px; }}
-        .job-footer {{ display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: auto; flex-wrap: wrap; }}
-        .platform-badge {{ background-color: rgba(139, 148, 158, 0.15); color: #c9d1d9; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }}
-        .posted {{ color: var(--text-muted); font-size: 0.7rem; }}
-        .apply-btn {{ color: #58a6ff; text-decoration: none; font-size: 0.8rem; font-weight: 600; margin-left: auto; }}
-        .apply-btn:hover {{ text-decoration: underline; }}
-        .new-badge {{ position: absolute; top: 12px; right: 14px; background: linear-gradient(90deg, #ff4d4f, #ff7875); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; }}
-        .empty {{ color: var(--text-muted); padding: 40px 0; }}
-        .sources {{ color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>주간 모바일 채용 다이제스트 🚀</h1>
-            <p style="color: var(--text-muted); margin-top: 5px; font-size: 0.95rem;">최근 {ACTIVE_WINDOW_DAYS}일 내 확인된 활성 공고 {total}건</p>
-            <p class="sources">수집 소스: {html.escape(source_line)}</p>
-            <div class="last-updated">⏱️ 최근 갱신: {now_time}</div>
-        </div>
-"""
+    표준 라이브러리에 AES 가 없어서 쓰는 구성이다. 브라우저는 WebCrypto 의 HMAC 으로
+    같은 키스트림을 만든다. 무결성은 별도 MAC 키로 따로 확인한다(encrypt-then-MAC).
+    """
+    out = bytearray(len(data))
+    for offset in range(0, len(data), 32):
+        counter = (offset // 32).to_bytes(4, 'big')
+        stream = hmac.new(key, nonce + counter, hashlib.sha256).digest()
+        chunk = data[offset:offset + 32]
+        out[offset:offset + len(chunk)] = bytes(a ^ b for a, b in zip(chunk, stream))
+    return bytes(out)
 
-    if not total:
-        html_content += ('<p class="empty">활성 공고가 없습니다. '
-                         '수집 파이프라인 로그를 확인하세요.</p>')
 
-    for track in TRACK_ORDER:
-        track_jobs = grouped[track]
-        if not track_jobs:
-            continue
-        html_content += (
-            f'<h2 class="section-title">{TRACK_ICONS[track]} {track} '
-            f'<span style="color:var(--text-muted); font-size:0.9rem; margin-left:8px;">'
-            f'{len(track_jobs)}건</span></h2><div class="job-grid">'
-        )
-        for job in track_jobs:
-            html_content += render_card(job)
-        html_content += "</div>"
+def lock(plaintext, password, iterations=KDF_ITERATIONS):
+    salt = os.urandom(16)
+    nonce = os.urandom(16)
+    enc_key, mac_key = _derive_keys(password, salt, iterations)
+    ciphertext = _xor_keystream(enc_key, nonce, zlib.compress(plaintext, 9))
+    tag = hmac.new(mac_key, salt + nonce + ciphertext, hashlib.sha256).digest()
+    b64 = lambda b: base64.b64encode(b).decode('ascii')
+    return {'v': 1, 'iter': iterations, 'salt': b64(salt), 'nonce': b64(nonce),
+            'ct': b64(ciphertext), 'tag': b64(tag)}
 
-    html_content += "</div></body></html>"
 
-    output_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), '..', 'jobs.html'))
-    with open(output_path, 'w', encoding='utf-8') as f:
-        f.write(html_content)
+def unlock(vault, password):
+    """lock 의 역. 브라우저 쪽 구현과 같은 일을 한다. 테스트에서 쓴다."""
+    raw = {k: base64.b64decode(vault[k]) for k in ('salt', 'nonce', 'ct', 'tag')}
+    enc_key, mac_key = _derive_keys(password, raw['salt'], vault['iter'])
+    expected = hmac.new(mac_key, raw['salt'] + raw['nonce'] + raw['ct'], hashlib.sha256).digest()
+    if not hmac.compare_digest(expected, raw['tag']):
+        raise ValueError('비밀번호가 맞지 않는다')
+    return zlib.decompress(_xor_keystream(enc_key, raw['nonce'], raw['ct']))
 
-    print(f"jobs.html 생성 완료 — 활성 {total}건")
-    for track in TRACK_ORDER:
-        if grouped[track]:
-            print(f"  {track}: {len(grouped[track])}건")
+
+def render_page(vault):
+    with open(TEMPLATE_PATH, 'r', encoding='utf-8') as f:
+        template = f.read()
+    if VAULT_TOKEN not in template:
+        raise ValueError(f'{TEMPLATE_PATH} 에 {VAULT_TOKEN} 자리가 없다')
+    return template.replace(VAULT_TOKEN, json.dumps(vault).replace('</', '<\\/'))
+
+
+def generate_html(output_path=OUTPUT_PATH, password=None, applied=None, now=None,
+                  db_path=DB_PATH):
+    password = password or os.environ.get('JOBS_PAGE_PASSWORD', '').strip() or DEFAULT_PASSWORD
+    applied = load_applied() if applied is None else applied
+    now = now or datetime.datetime.utcnow()
+
+    payload = build_payload(load_jobs(db_path), applied, now)
+    plaintext = json.dumps(payload, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
+    html = render_page(lock(plaintext, password))
+
+    with open(os.path.abspath(output_path), 'w', encoding='utf-8') as f:
+        f.write(html)
+
+    rows = payload['rows']
+    print(f"jobs.html 생성 완료 — 공고 {len(rows)}건 "
+          f"(열림 {sum(r['a'] for r in rows)} · 지원이력 {sum(bool(r['h']) for r in rows)})")
+    if password == DEFAULT_PASSWORD:
+        print('경고: 임시 비밀번호로 잠갔다. Secret JOBS_PAGE_PASSWORD 를 넣을 것.')
 
 
 if __name__ == "__main__":

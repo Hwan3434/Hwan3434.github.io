@@ -868,20 +868,6 @@
   "duplicate_of_other_platform": false
  },
  {
-  "id": "saramin_55189764",
-  "platform": "사람인",
-  "title": "(주)청취닷컴 2026년 하반기 앱 개발자 정직원 채용 (신입/경력)",
-  "company": "(주)청취닷컴",
-  "job_url": "https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55189764",
-  "track": "기타 모바일",
-  "posted_at": "2026-10-02",
-  "career": "경력무관",
-  "location": "대전 중구",
-  "deadline": "11/01(일)",
-  "tech_stack": "Mobile",
-  "duplicate_of_other_platform": false
- },
- {
   "id": "saramin_55189228",
   "platform": "사람인",
   "title": "[재택근무] iOS 프리랜서 개발자 채용",
@@ -938,20 +924,6 @@
   "duplicate_of_other_platform": false
  },
  {
-  "id": "saramin_55175422",
-  "platform": "사람인",
-  "title": "모바일 앱 개발/운영·유지보수 관리자 경력 채용 공고입니다",
-  "company": "주식회사 클루텍",
-  "job_url": "https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55175422",
-  "track": "기타 모바일",
-  "posted_at": null,
-  "career": "경력 3~7년",
-  "location": "경남 창원시 성산구",
-  "deadline": "10/31(토)",
-  "tech_stack": "Mobile",
-  "duplicate_of_other_platform": false
- },
- {
   "id": "saramin_55173535",
   "platform": "사람인",
   "title": "이코드와 함께 성장해나갈 웹/앱 개발자 모집",
@@ -975,20 +947,6 @@
   "posted_at": "2026-10-01",
   "career": "경력무관",
   "location": "서울 강남구",
-  "deadline": "10/31(토)",
-  "tech_stack": "Mobile",
-  "duplicate_of_other_platform": false
- },
- {
-  "id": "saramin_55171476",
-  "platform": "사람인",
-  "title": "모바일개발자 채용공고",
-  "company": "(주)엔디소프트",
-  "job_url": "https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55171476",
-  "track": "기타 모바일",
-  "posted_at": "2026-10-01",
-  "career": "경력무관",
-  "location": "부산 해운대구",
   "deadline": "10/31(토)",
   "tech_stack": "Mobile",
   "duplicate_of_other_platform": false
@@ -1428,20 +1386,6 @@
   "duplicate_of_other_platform": false
  },
  {
-  "id": "jobkorea_49866284",
-  "platform": "잡코리아",
-  "title": "[신입] 모바일 앱 개발자 (iOS / Android) 채용",
-  "company": "㈜트레디오",
-  "job_url": "https://www.jobkorea.co.kr/Recruit/GI_Read/49866284",
-  "track": "Android",
-  "posted_at": null,
-  "career": "신입",
-  "location": "전북",
-  "deadline": null,
-  "tech_stack": "Mobile",
-  "duplicate_of_other_platform": false
- },
- {
   "id": "jobkorea_49985865",
   "platform": "잡코리아",
   "title": "웹 프론트엔드 및 모바일 앱(iOS/AOS) 개발자 모십니다.",
@@ -1521,20 +1465,6 @@
   "posted_at": null,
   "career": "경력5년↑",
   "location": "서울",
-  "deadline": null,
-  "tech_stack": "Mobile",
-  "duplicate_of_other_platform": false
- },
- {
-  "id": "jobkorea_49754728",
-  "platform": "잡코리아",
-  "title": "[대전/IT] 모바일 앱(Flutter) 개발자 채용(신입/경력 무관)",
-  "company": "㈜필상",
-  "job_url": "https://www.jobkorea.co.kr/Recruit/GI_Read/49754728",
-  "track": "Flutter",
-  "posted_at": null,
-  "career": "신입·경력",
-  "location": "대전",
   "deadline": null,
   "tech_stack": "Mobile",
   "duplicate_of_other_platform": false
@@ -3052,20 +2982,6 @@
   "duplicate_of_other_platform": true
  },
  {
-  "id": "zighang_0794f4b7-80cd-4a7d-b447-5b98d5d9c128",
-  "platform": "직행(Zighang)",
-  "title": "iOS개발자 채용공고",
-  "company": "엔디소프트",
-  "job_url": "https://zighang.com/recruitment/0794f4b7-80cd-4a7d-b447-5b98d5d9c128",
-  "track": "iOS",
-  "posted_at": null,
-  "career": "경력무관",
-  "location": "부산",
-  "deadline": "2026-10-17",
-  "tech_stack": "Mobile",
-  "duplicate_of_other_platform": false
- },
- {
   "id": "zighang_0ff2b873-7aa0-49cf-a231-394b4d29cc70",
   "platform": "직행(Zighang)",
   "title": "iOS 개발자 채용",
@@ -3164,20 +3080,6 @@
   "duplicate_of_other_platform": true
  },
  {
-  "id": "zighang_6d7cb67b-26bf-41f7-a4f0-043c44048a76",
-  "platform": "직행(Zighang)",
-  "title": "Flutter 개발자 채용",
-  "company": "모브리움",
-  "job_url": "https://zighang.com/recruitment/6d7cb67b-26bf-41f7-a4f0-043c44048a76",
-  "track": "Flutter",
-  "posted_at": null,
-  "career": "경력무관",
-  "location": "경북",
-  "deadline": "상시",
-  "tech_stack": "Mobile",
-  "duplicate_of_other_platform": false
- },
- {
   "id": "zighang_06e10060-d1a9-4c35-9741-c5d68fae90a2",
   "platform": "직행(Zighang)",
   "title": "Flutter 프론트엔드 개발자 채용",
@@ -3257,20 +3159,6 @@
   "posted_at": null,
   "career": "3년~7년",
   "location": "서울",
-  "deadline": "상시",
-  "tech_stack": "Mobile",
-  "duplicate_of_other_platform": true
- },
- {
-  "id": "zighang_8988820a-d4bf-44e9-8c49-0ded8a9c8084",
-  "platform": "직행(Zighang)",
-  "title": "[더블디] Flutter 앱 개발자 채용 공고",
-  "company": "더블디",
-  "job_url": "https://zighang.com/recruitment/8988820a-d4bf-44e9-8c49-0ded8a9c8084",
-  "track": "Flutter",
-  "posted_at": null,
-  "career": "신입",
-  "location": "대구",
   "deadline": "상시",
   "tech_stack": "Mobile",
   "duplicate_of_other_platform": true

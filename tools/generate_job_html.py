@@ -310,6 +310,8 @@ def build_rows(jobs, applied, now, domains=None, extra=()):
         # 예전 규칙으로 들어온 비모바일 공고가 jobs.json 에 남아 있다. 지금 규칙으로 다시 거른다.
         if not curated and not job_scraper.looks_mobile(title):
             continue
+        if not job_scraper.in_capital_area(job.get('location'), title):
+            continue
         last_seen = parse_stamp(job.get('last_seen_at'))
         created = parse_stamp(job.get('created_at'))
         posted = parse_stamp(job.get('posted_at'))

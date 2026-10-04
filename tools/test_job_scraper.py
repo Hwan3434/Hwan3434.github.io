@@ -757,6 +757,20 @@ class TestGenerate(unittest.TestCase):
         self.assertEqual(by_title['Android 개발자']['co'], '오메타')
         self.assertEqual(by_title['Android 개발자']['h'], '')
 
+    def test_company_domain_matches_name_variants(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, 'domains.json')
+            with open(path, 'w', encoding='utf-8') as f:
+                json.dump({'쿠팡': 'coupang.com', '넛지헬스케어(캐시워크)': 'cashwalk.com'}, f, ensure_ascii=False)
+            domains = gen.load_domains(path)
+            with open(path, 'w', encoding='utf-8') as f:
+                json.dump({'나쁜회사': 'javascript:alert(1)'}, f, ensure_ascii=False)
+            with self.assertRaises(ValueError):
+                gen.load_domains(path)
+        self.assertEqual(gen.company_domain('쿠팡 (Coupang)', domains), 'coupang.com')
+        self.assertEqual(gen.company_domain('캐시워크', domains), 'cashwalk.com')
+        self.assertEqual(gen.company_domain('모르는회사', domains), '')
+
     def test_lock_roundtrip(self):
         vault = gen.lock('공고 데이터'.encode('utf-8'), 'pw', iterations=1000)
         self.assertEqual(gen.unlock(vault, 'pw').decode('utf-8'), '공고 데이터')

@@ -27,6 +27,8 @@ TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(TOOLS_DIR, 'jobs.json')
 TEMPLATE_PATH = os.path.join(TOOLS_DIR, 'jobs_page.html')
 LOCAL_APPLIED_PATH = os.path.join(TOOLS_DIR, 'applied.local.json')
+# 회사 → 공식 도메인. 페이지가 이 도메인의 파비콘을 로고로 띄운다. 없는 회사는 이니셜로 나온다.
+DOMAINS_PATH = os.path.join(TOOLS_DIR, 'company_domains.json')
 OUTPUT_PATH = os.path.join(TOOLS_DIR, '..', 'jobs.html')
 VAULT_TOKEN = '__JOBS_VAULT__'
 
@@ -50,6 +52,7 @@ LEGAL_NAME_RE = re.compile(r'\(주\)|㈜|주식회사')
 KEY_STRIP_RE = re.compile(r"[\s.\-·,&'’/]")
 PAREN_RE = re.compile(r'\((.*?)\)')
 TITLE_TAG_RE = re.compile(r'\[(.*?)\]')
+DOMAIN_RE = re.compile(r'^[a-z0-9-]+(\.[a-z0-9-]+)+$')
 
 
 def parse_stamp(value):
@@ -162,6 +165,29 @@ def history_detail(entries):
     return '\n'.join(lines)
 
 
+def load_domains(path=DOMAINS_PATH):
+    """회사명 키 → 도메인. 표기가 달라도('쿠팡 (Coupang)') 같은 키로 찾는다."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, 'r', encoding='utf-8') as f:
+        raw = json.load(f)
+    domains = {}
+    for name, domain in raw.items():
+        domain = (domain or '').strip().lower()
+        if not DOMAIN_RE.match(domain):
+            raise ValueError(f'{path}: {name} 의 도메인 형식이 이상하다: {domain!r}')
+        for key in company_keys(name):
+            domains[key] = domain
+    return domains
+
+
+def company_domain(company, domains):
+    for key in sorted(company_keys(company)):
+        if key in domains:
+            return domains[key]
+    return ''
+
+
 # ---------------------------------------------------------------- 행 만들기
 
 def split_platforms(value):
@@ -185,11 +211,12 @@ def latest_run(jobs):
     return max(stamps) if stamps else None
 
 
-def build_rows(jobs, applied, now):
+def build_rows(jobs, applied, now, domains=None):
     """페이지에 실을 공고 행을 만든다. 열린 공고가 먼저, 그다음 마감된 공고."""
     run = latest_run(jobs)
     active_cutoff = now - datetime.timedelta(days=ACTIVE_WINDOW_DAYS)
     new_cutoff = run - datetime.timedelta(hours=NEW_WINDOW_HOURS) if run else None
+    domains = domains or {}
 
     rows = []
     for job in jobs:
@@ -207,6 +234,7 @@ def build_rows(jobs, applied, now):
         rows.append({
             't': title,
             'co': display_company(job.get('company')),
+            'd': company_domain(job.get('company'), domains),
             'tr': job.get('track') or job_scraper.classify_track(title),
             'p': ' · '.join(split_platforms(job.get('platform'))),
             'u': safe_url(job.get('job_url')),
@@ -233,7 +261,7 @@ def build_payload(jobs, applied, now):
     return {
         'updated': updated.strftime('%Y-%m-%d %H:%M') if updated else '',
         'week': updated.isocalendar()[1] if updated else 0,
-        'rows': build_rows(jobs, applied, now),
+        'rows': build_rows(jobs, applied, now, load_domains()),
     }
 
 

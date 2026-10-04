@@ -77,6 +77,14 @@
   .nav .label { flex: 1; white-space: nowrap; }
   .nav .count { font-size: 12px; color: var(--muted); }
   .divider { height: 1px; background: var(--line); margin: 12px; }
+  .checks { display: flex; flex-direction: column; gap: 2px; }
+  .checks .heading { padding: 0 12px 6px; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .checks label { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 12px; border-radius: 10px; font-size: 14px; cursor: pointer; }
+  .checks label:hover { background: var(--nav-active); }
+  .checks input { width: 16px; height: 16px; margin: 0; flex: none; accent-color: var(--new); cursor: pointer; }
+  .checks input:checked + .label { font-weight: 700; }
+  .checks .label { flex: 1; white-space: nowrap; }
+  .checks .count { font-size: 12px; color: var(--muted); }
   .side-foot { padding: 20px 12px 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--faint); }
   .side-foot button { border: 0; background: transparent; color: var(--muted); font-size: 12px; padding: 6px 8px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px; }
   .side-foot button:hover { background: var(--nav-active); color: var(--ink); }
@@ -149,6 +157,9 @@
     .nav::-webkit-scrollbar { display: none; }
     .nav button { flex: none; min-height: 38px; background: var(--panel); }
     .divider { display: none; }
+    .checks { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+    .checks .heading { flex-basis: 100%; padding: 6px 4px 0; }
+    .checks label { min-height: 36px; background: var(--panel); }
     .side-foot { padding: 4px 4px 0; }
     .side { flex-basis: 100%; }
     .toolbar { padding: 14px 16px; }
@@ -187,6 +198,8 @@
     <nav class="nav" id="tracks" aria-label="트랙"></nav>
     <div class="divider"></div>
     <nav class="nav" id="labels" aria-label="표시"></nav>
+    <div class="divider"></div>
+    <div class="checks" id="filters" role="group" aria-label="필터"></div>
     <div class="side-foot">
       <span id="updated"></span>
       <button type="button" id="lock" aria-label="잠그기">
@@ -236,6 +249,9 @@
   var PASS_KEY = 'jobs.pass';
   var DENSITY_KEY = 'jobs.density';
   var READ_KEY = 'jobs.read';
+  var FILTER_KEY = 'jobs.filters';
+  // 내 연차. 요구 경력 범위에 이 연차가 들어가는 공고만 남긴다.
+  var MY_YEARS = 10;
 
   var store = {
     get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -317,7 +333,7 @@
   });
 
   // ------------------------------------------------------------ 화면
-  var state = { track: 'all', label: 'none', status: 'all', q: '', page: 1, density: 'mid' };
+  var state = { track: 'all', label: 'none', status: 'all', q: '', page: 1, density: 'mid', filters: {} };
   var DATA = null;
 
   function el(tag, attrs, children) {
@@ -365,6 +381,20 @@
   window.addEventListener('pageshow', syncRead);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) syncRead(); });
 
+  // 좌측 체크박스 필터. 켠 것끼리는 모두 만족해야 남는다(AND).
+  // 경력 정보가 없는 공고(cy 가 null)는 거르지 않는다. 확인할 수 없어서 놓치는 쪽이 더 아깝다.
+  var FILTERS = [
+    { key: 'career', label: '경력 ' + MY_YEARS + '년 맞춤', hint: '요구 경력 범위에 ' + MY_YEARS + '년이 들어가는 공고. 경력 정보가 없는 공고는 남긴다.',
+      test: function (r) { return !r.cy || (r.cy[0] <= MY_YEARS && (r.cy[1] === null || r.cy[1] >= MY_YEARS)); } },
+    { key: 'norej', label: '탈락한 회사 빼기', hint: '지원 이력에 불합격·탈락이 있는 회사의 공고를 뺀다.',
+      test: function (r) { return !r.rj; } },
+    { key: 'nodue', label: '마감 지난 공고 빼기', hint: '마감일이 오늘보다 앞선 공고를 뺀다.',
+      test: function (r) { return !r.dl || r.dl >= today(); } },
+    { key: 'noold', label: '오래된 게시 빼기', hint: '게시일이 2025년보다 앞선 공고를 뺀다.',
+      test: function (r) { return !isOld(r.po); } }
+  ];
+  function isOld(po) { return !!po && po < '2025'; }
+
   function hash(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
   function md(d) { return Number(d.slice(5, 7)) + '월 ' + Number(d.slice(8, 10)) + '일'; }
   function shortDate(d, thisYear) { return d.slice(0, 4) === thisYear ? md(d) : d.slice(2, 4) + '.' + Number(d.slice(5, 7)) + '.' + Number(d.slice(8, 10)); }
@@ -377,7 +407,10 @@
       return true;
     },
     status: function (r) { return state.status === 'all' || (state.status === 'open' ? r.a : !r.a); },
-    q: function (r) { return !state.q || (r.t + ' ' + r.co).toLowerCase().indexOf(state.q) >= 0; }
+    q: function (r) { return !state.q || (r.t + ' ' + r.co).toLowerCase().indexOf(state.q) >= 0; },
+    filters: function (r) {
+      return FILTERS.every(function (f) { return !state.filters[f.key] || f.test(r); });
+    }
   };
   function filterExcept(skip) {
     return DATA.rows.filter(function (r) {
@@ -416,6 +449,32 @@
     );
   }
 
+  // 각 체크박스 옆 숫자는 그것을 켰을 때(이미 켰으면 지금) 남는 공고 수다.
+  function renderFilters() {
+    var base = filterExcept('filters');
+    var box = document.getElementById('filters');
+    box.replaceChildren(el('span', { class: 'heading', 'aria-hidden': 'true', text: '필터' }));
+    FILTERS.forEach(function (f) {
+      var others = FILTERS.filter(function (o) { return o !== f && state.filters[o.key]; });
+      var n = base.filter(function (r) { return f.test(r) && others.every(function (o) { return o.test(r); }); }).length;
+      var input = el('input', { type: 'checkbox', checked: !!state.filters[f.key], onchange: function () { toggleFilter(f.key, input.checked); } });
+      box.appendChild(el('label', { title: f.hint }, [input, el('span', { class: 'label', text: f.label }), el('span', { class: 'count', text: String(n) })]));
+    });
+  }
+  function toggleFilter(key, on) {
+    var next = {};
+    FILTERS.forEach(function (f) { if (f.key === key ? on : state.filters[f.key]) next[f.key] = true; });
+    store.set(FILTER_KEY, JSON.stringify(next));
+    set({ filters: next });
+  }
+  function loadFilters() {
+    var saved = {};
+    try { saved = JSON.parse(store.get(FILTER_KEY) || '{}') || {}; } catch (e) {}
+    var out = {};
+    FILTERS.forEach(function (f) { if (saved[f.key] === true) out[f.key] = true; });
+    return out;
+  }
+
   function renderToolbar(total) {
     var title = state.label === 'hist' ? '지원이력' : state.label === 'unread' ? '안 읽음' : state.track === 'all' ? '전체 공고' : state.track;
     document.getElementById('view-title').textContent = title;
@@ -448,7 +507,7 @@
     var meta = el('span', { class: 'meta' }, [r.p]);
     if (r.po) {
       meta.appendChild(document.createTextNode(' · '));
-      meta.appendChild(el('span', { class: r.po < '2025' ? 'old' : '', text: '게시 ' + r.po.replace(/-/g, '.') }));
+      meta.appendChild(el('span', { class: isOld(r.po) ? 'old' : '', text: '게시 ' + r.po.replace(/-/g, '.') }));
     }
     [r.cr, r.lo].forEach(function (v) { if (v) meta.appendChild(document.createTextNode(' · ' + v)); });
     var read = readMap[r.u];
@@ -522,6 +581,7 @@
 
     document.getElementById('app').setAttribute('data-density', state.density);
     renderSide();
+    renderFilters();
     renderToolbar(rows.length);
     var list = document.getElementById('list');
     var slice = rows.slice((state.page - 1) * size, state.page * size);
@@ -535,6 +595,7 @@
     DATA = data;
     var saved = store.get(DENSITY_KEY);
     state.density = PAGE_SIZE[saved] ? saved : 'mid';
+    state.filters = loadFilters();
     document.getElementById('week').textContent = data.week ? 'W' + data.week : '';
     document.getElementById('updated').textContent = data.updated ? data.updated.replace(/-/g, '.') : '';
 

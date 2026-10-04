@@ -857,6 +857,39 @@ class TestGenerate(unittest.TestCase):
         self.assertEqual(by_title['Android 개발자']['co'], '오메타')
         self.assertEqual(by_title['Android 개발자']['h'], '')
 
+    def test_rejected_companies_are_marked(self):
+        applied = [{'company': '쿠팡', 'date': '2025', 'result': '서류탈락'},
+                   {'company': '리디', 'date': '2026', 'result': '접수'},
+                   {'company': '당근', 'date': '2024', 'result': '불합격'}]
+        rows = self.rows([self.job('iOS 개발자', company='쿠팡'), self.job('Android 개발자', company='리디'),
+                          self.job('Flutter 개발자', company='당근'), self.job('iOS Engineer', company='토스')],
+                         applied)
+        self.assertEqual({r['co']: r['rj'] for r in rows},
+                         {'쿠팡': True, '리디': False, '당근': True, '토스': False})
+
+    def test_parse_career(self):
+        cases = {
+            '경력 3-7년': [3, 7], '경력 5~12년': [5, 12], '3년~15년 차': [3, 15],
+            '경력5년↑': [5, None], '경력 최소 6년 이상': [6, None], '5년차 이상, SDK': [5, None],
+            '7년차~': [7, None], '경력5년': [5, None], '35년 이하': [0, 35],
+            '3년 ~ 8년 미만': [3, 7], '신입': [0, 0], '인턴': [0, 0], '신입/경력1년': [0, 1],
+            '경력무관': [0, None], '경력 전체': [0, None], '신입·경력': [0, None],
+            '미들': None, '경력': None, '': None, None: None,
+        }
+        for text, expected in cases.items():
+            self.assertEqual(gen.parse_career(text), expected, text)
+
+    def test_career_falls_back_to_title(self):
+        rows = gen.build_rows([], [], self.now, extra=[
+            {'id': 'a', 'title': 'Android 개발자 (5년 이상)', 'company': 'A', 'platform': '사람인',
+             'job_url': 'https://a.test/1', 'career': '미들'},
+            {'id': 'b', 'title': 'iOS 개발자 (3~5년)', 'company': 'B', 'platform': '사람인',
+             'job_url': 'https://a.test/2', 'career': '경력 7-15년'},
+            {'id': 'c', 'title': 'Flutter 개발자', 'company': 'C', 'platform': '사람인',
+             'job_url': 'https://a.test/3'},
+        ])
+        self.assertEqual({r['co']: r['cy'] for r in rows}, {'A': [5, None], 'B': [7, 15], 'C': None})
+
     def test_company_domain_matches_name_variants(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = os.path.join(tmp, 'domains.json')

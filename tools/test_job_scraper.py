@@ -244,11 +244,11 @@ class TestClassify(unittest.TestCase):
 class TestRegion(unittest.TestCase):
     def test_capital_area_and_unknown_locations_stay(self):
         for location in ('서울', '서울/강남구', '경기 광주시', '인천 서해구', 'Seoul, South Korea',
-                         '없음', '해외', '기타', '', None):
+                         '없음', '기타', '', None):
             self.assertTrue(js.in_capital_area(location, 'Android 개발자'), location)
 
     def test_local_locations_are_dropped(self):
-        for location in ('대전', '대전 중구', '부산 해운대구', '대구', '경남 창원시 성산구', '전북', '경북'):
+        for location in ('대전', '대전 중구', '부산 해운대구', '대구', '경남 창원시 성산구', '전북', '경북', '해외'):
             self.assertFalse(js.in_capital_area(location, 'Android 개발자'), location)
 
     def test_title_tag_marks_region_when_location_is_missing(self):

@@ -168,8 +168,9 @@ def looks_mobile(title):
 
 # 수도권(서울·경기·인천) 공고만 본다 (2026-10-04 결정). 근무지를 주는 소스는
 # 첫 단어("대전 중구"의 "대전")로, 근무지를 안 주는 소스는 제목 꼬리표("[대전/IT]")로
-# 판별한다. 근무지가 비었거나 원격·해외처럼 지역이 아닌 값이면 남긴다.
-LOCAL_REGIONS = (
+# 판별한다. 해외 근무도 뺀다. 근무지가 비었거나 "기타"처럼 지역이 아닌 값이면 남긴다.
+OUTSIDE_REGIONS = (
+    '해외',
     '부산', '대구', '광주', '대전', '울산', '세종', '강원', '충북', '충남', '충청',
     '전북', '전남', '전라', '경북', '경남', '경상', '제주',
     '창원', '천안', '청주', '포항', '구미', '전주', '김해', '아산',
@@ -178,16 +179,16 @@ LOCATION_HEAD_RE = re.compile(r'[^\s/,(]+')
 TITLE_TAG_RE = re.compile(r'[\[(]([^\])]*)[\])]')
 
 
-def is_local_region(word):
-    return any(word.startswith(region) for region in LOCAL_REGIONS)
+def is_outside_region(word):
+    return any(word.startswith(region) for region in OUTSIDE_REGIONS)
 
 
 def in_capital_area(location=None, title=None):
     head = LOCATION_HEAD_RE.match((location or '').strip())
-    if head and is_local_region(head.group(0)):
+    if head and is_outside_region(head.group(0)):
         return False
     for tag in TITLE_TAG_RE.findall(title or ''):
-        if any(is_local_region(word) for word in re.split(r'[\s/,·]+', tag) if word):
+        if any(is_outside_region(word) for word in re.split(r'[\s/,·]+', tag) if word):
             return False
     return True
 

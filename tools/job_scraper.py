@@ -180,6 +180,24 @@ def iso_to_stamp(value):
         return None
 
 
+KST = datetime.timezone(datetime.timedelta(hours=9))
+
+
+def deadline_date(value):
+    """소스가 주는 마감일을 한국 날짜 'YYYY-MM-DD'로 바꾼다. 상시(없음·9999년)는 None."""
+    if not value:
+        return None
+    try:
+        dt = datetime.datetime.fromisoformat(str(value).replace('Z', '+00:00'))
+    except (ValueError, TypeError):
+        return None
+    if dt.year >= 9000:
+        return None
+    if dt.tzinfo is not None:
+        dt = dt.astimezone(KST)
+    return dt.strftime('%Y-%m-%d')
+
+
 def epoch_ms_to_stamp(value):
     """Lever가 주는 epoch 밀리초를 같은 문자열 포맷으로 바꾼다."""
     if not isinstance(value, (int, float)) or value <= 0:
@@ -438,6 +456,7 @@ def scrape_greetinghr(subdomain, company):
             'tech_stack': 'Mobile',
             'track': classify_track(title),
             'posted_at': iso_to_stamp(opening.get('openDate')),
+            'deadline_at': deadline_date(opening.get('dueDate')),
         })
     return jobs
 
@@ -495,6 +514,7 @@ def scrape_jumpit():
                     'tech_stack': 'Mobile',
                     'track': classify_track(title),
                     'posted_at': None,  # 목록 API 는 게시일을 주지 않는다
+                    'deadline_at': deadline_date(position.get('closedAt')),
                 })
 
             fetched += len(positions)
@@ -557,6 +577,7 @@ def scrape_rallit():
                     'track': classify_track(title),
                     # startedAt 은 전부 1970-01-01(상시)로 와서 게시일로 쓸 수 없다.
                     'posted_at': None,
+                    'deadline_at': deadline_date(item.get('endedAt')),
                 })
 
             if page >= (data.get('totalPage') or 1):
@@ -668,6 +689,9 @@ def save_jobs(new_jobs_list):
                 existing['posted_at'] = new_job['posted_at']
             if new_job.get('track') and not existing.get('track'):
                 existing['track'] = new_job['track']
+            # 마감일은 연장되거나 상시로 바뀔 수 있어 마감일을 주는 소스면 매번 덮어쓴다.
+            if 'deadline_at' in new_job:
+                existing['deadline_at'] = new_job['deadline_at']
             updated_count += 1
             continue
 

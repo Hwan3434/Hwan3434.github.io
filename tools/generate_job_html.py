@@ -358,6 +358,8 @@ def build_rows(jobs, applied, now, domains=None, extra=()):
             continue
         if not job_scraper.in_capital_area(job.get('location'), title):
             continue
+        if job_scraper.is_declined(job.get('company'), title):
+            continue
         last_seen = parse_stamp(job.get('last_seen_at'))
         created = parse_stamp(job.get('created_at'))
         posted = parse_stamp(job.get('posted_at'))

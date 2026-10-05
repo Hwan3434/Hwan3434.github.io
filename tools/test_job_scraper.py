@@ -628,6 +628,37 @@ class TestCollect(unittest.TestCase):
         self.assertEqual(len(failures), 2)
 
 
+class TestDeclined(unittest.TestCase):
+    def setUp(self):
+        with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, encoding='utf-8') as f:
+            json.dump([
+                {'companies': ['토스플레이스'], 'titles': ['Device Software Engineer (Android)']},
+                {'companies': ['PFCT(크플)'], 'titles': ['iOS Engineer(경력 iOS 엔지니어)']},
+            ], f, ensure_ascii=False)
+        self.declined = js.load_declined(f.name)
+        os.unlink(f.name)
+
+    def test_same_posting_on_other_platforms_is_declined(self):
+        for company, title in [
+            ('토스플레이스', 'Device Software Engineer (Android)'),
+            ('(주)비바리퍼블리카', '[토스플레이스] Device Software Engineer (Android)'),
+            ('PFCT(크플)', 'iOS Engineer(경력 iOS 엔지니어)'),
+            ('피에프씨테크놀로지스(주)', '[PFCT] iOS Engineer (경력 iOS 엔지니어)'),
+        ]:
+            self.assertTrue(js.is_declined(company, title, self.declined), (company, title))
+
+    def test_other_postings_of_same_company_stay(self):
+        for company, title in [
+            ('토스플레이스', 'Device Software Engineer (Android) 인턴'),
+            ('(주)비바리퍼블리카', '[토스] Device Software Engineer (Android)'),
+            ('PFCT(크플)', 'Android Engineer'),
+        ]:
+            self.assertFalse(js.is_declined(company, title, self.declined), (company, title))
+
+    def test_missing_file_declines_nothing(self):
+        self.assertEqual(js.load_declined('/nonexistent/declined.json'), [])
+
+
 class TestSave(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.NamedTemporaryFile(

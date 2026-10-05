@@ -26,6 +26,8 @@ RETRY_STATUSES = (403, 429, 500, 502, 503, 504)
 RETRY_WAITS = (2, 5)
 
 DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'jobs.json'))
+# 지원하지 않기로 한 공고. 회사 전체가 아니라 그 공고만 뺀다.
+DECLINED_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'declined_postings.json'))
 
 
 class SourceError(Exception):
@@ -665,6 +667,61 @@ def build_sources():
     return sources
 
 
+# 지원하지 않기로 한 공고를 뺀다 (2026-10-05). 같은 공고가 여러 플랫폼에 다른 회사명
+# ('(주)비바리퍼블리카', '비바리퍼블리카(토스)')과 꼬리표('[토스플레이스] ...')로 올라온다.
+# 그래서 회사는 법인 표기를 지우고 괄호 안 브랜드와 제목 앞 꼬리표까지 키로 보고,
+# 제목은 앞 꼬리표를 뗀 것과 안 뗀 것 중 하나가 목록의 제목과 같으면 같은 공고로 본다.
+# 포함 관계로는 맞추지 않는다. 같은 회사의 다른 공고까지 빠지면 안 된다.
+LEGAL_NAME_RE = re.compile(r'\(주\)|㈜|주식회사')
+PAREN_RE = re.compile(r'\((.*?)\)')
+LEADING_TAGS_RE = re.compile(r'^\s*(\[[^\]]*\]\s*)+')
+
+_declined_cache = None
+
+
+def company_name_keys(name):
+    text = LEGAL_NAME_RE.sub('', name or '')
+    parts = [PAREN_RE.sub('', text)] + PAREN_RE.findall(text)
+    return {key for key in map(normalize_string, parts) if key}
+
+
+def title_name_keys(title):
+    keys = {normalize_string(title), normalize_string(LEADING_TAGS_RE.sub('', title or ''))}
+    return {key for key in keys if key}
+
+
+def load_declined(path=None):
+    """declined_postings.json 을 (회사 키, 제목 키) 쌍 목록으로 읽는다."""
+    path = path or DECLINED_PATH
+    if not os.path.exists(path):
+        return []
+    with open(path, 'r', encoding='utf-8') as f:
+        entries = json.load(f)
+    declined = []
+    for entry in entries:
+        companies = set()
+        for name in entry['companies']:
+            companies |= company_name_keys(name)
+        titles = set()
+        for title in entry['titles']:
+            titles |= title_name_keys(title)
+        declined.append((companies, titles))
+    return declined
+
+
+def is_declined(company, title, declined=None):
+    global _declined_cache
+    if declined is None:
+        if _declined_cache is None:
+            _declined_cache = load_declined()
+        declined = _declined_cache
+    companies = company_name_keys(company)
+    for tag in re.findall(r'\[(.*?)\]', title or ''):
+        companies |= company_name_keys(tag)
+    titles = title_name_keys(title)
+    return any(companies & c and titles & t for c, t in declined)
+
+
 # ---------------------------------------------------------------- 저장
 
 def is_duplicate(jobs, company, title):
@@ -700,6 +757,8 @@ def save_jobs(new_jobs_list):
 
     for new_job in new_jobs_list:
         if not in_capital_area(new_job.get('location'), new_job.get('title')):
+            continue
+        if is_declined(new_job.get('company'), new_job.get('title')):
             continue
         existing = by_id.get(new_job['id'])
 

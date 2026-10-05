@@ -32,6 +32,9 @@ DOMAINS_PATH = os.path.join(TOOLS_DIR, 'company_domains.json')
 # 사용자 PC 의 Aside 브라우저로 2026-10-04 하루 모은 공고(단발성). 수집기가 다시 보지
 # 못하므로 모은 날을 첫 수집·마지막 확인 시각으로 둔다. 매주 덮어쓰는 jobs.json 과는 따로 둔다.
 ASIDE_PATH = os.path.join(TOOLS_DIR, 'jobs_aside.json')
+# 지원하지 않기로 한 공고. 데이터에서 지우지 않고 페이지에서 '제외함'으로 숨긴다.
+# 지우면 다음 수집 때 새 공고로 다시 들어온다.
+DECLINED_PATH = os.path.join(TOOLS_DIR, 'declined_postings.json')
 ASIDE_SEEN_AT = '2026-10-04 03:00:00'
 ASIDE_YEAR, ASIDE_MONTH = 2026, 10
 OUTPUT_PATH = os.path.join(TOOLS_DIR, '..', 'jobs.html')
@@ -130,6 +133,32 @@ def entry_keys(entry):
     for alias in entry.get('aliases') or []:
         keys |= company_keys(alias)
     return keys
+
+
+def load_declined(path=DECLINED_PATH):
+    """declined_postings.json 을 (회사 키, 제목 키) 쌍 목록으로 읽는다."""
+    if not os.path.exists(path):
+        return []
+    with open(path, 'r', encoding='utf-8') as f:
+        entries = json.load(f)
+    declined = []
+    for entry in entries:
+        companies, titles = set(), set()
+        for name in entry['companies']:
+            companies |= company_keys(name)
+        for title in entry['titles']:
+            titles |= title_keys(title)
+        declined.append((companies, titles))
+    return declined
+
+
+def is_declined(job, declined):
+    """회사 키와 제목 키가 모두 겹치면 제외한 공고다. 같은 회사의 다른 공고는 남긴다."""
+    if not declined:
+        return False
+    companies = posting_keys(job)
+    titles = title_keys(job.get('title'))
+    return any(companies & c and titles & t for c, t in declined)
 
 
 def match_history(job, applied):
@@ -334,6 +363,7 @@ def dedupe(rows):
                     platforms.append(name)
         row['p'] = ' · '.join(platforms)
         row['a'] = any(r['a'] for r in group)
+        row['x'] = any(r['x'] for r in group)
         row['c'] = min(r['c'] for r in group)
         row['ls'] = max(r['ls'] for r in group)
         for field in ('dl', 'po', 'cr', 'lo', 'u'):
@@ -342,7 +372,7 @@ def dedupe(rows):
     return merged
 
 
-def build_rows(jobs, applied, now, domains=None, extra=()):
+def build_rows(jobs, applied, now, domains=None, extra=(), declined=()):
     """페이지에 실을 공고 행을 만든다. 열린 공고가 먼저, 그다음 마감된 공고.
 
     extra 는 Aside 로 따로 모은 공고다. 사람이 골라 모은 것이라 모바일 판별을 다시 하지 않는다.
@@ -382,6 +412,7 @@ def build_rows(jobs, applied, now, domains=None, extra=()):
             'h': history_label(job.get('company'), history) if history else '',
             'hd': history_detail(history) if history else '',
             'rj': is_rejected(history),
+            'x': is_declined(job, declined),
             '_ck': company_keys(job.get('company')),
             '_tk': title_keys(title),
             '_aside': curated,
@@ -420,7 +451,7 @@ def build_payload(jobs, applied, now, extra=()):
     return {
         'updated': updated.strftime('%Y-%m-%d %H:%M') if updated else '',
         'week': updated.isocalendar()[1] if updated else 0,
-        'rows': build_rows(jobs, applied, now, load_domains(), extra),
+        'rows': build_rows(jobs, applied, now, load_domains(), extra, load_declined()),
     }
 
 

@@ -132,10 +132,14 @@
   .row .date .due.soon { color: var(--old); font-weight: 700; }
   .row .date .due.past { color: var(--faint); text-decoration: line-through; }
   .row.unread .date > .reg { font-weight: 800; }
-  .row .hide { flex: none; margin-top: -3px; height: 24px; padding: 0 9px; border: 1px solid var(--line); border-radius: 8px; background: transparent; font-size: 12px; color: var(--muted); cursor: pointer; }
-  .row .hide:hover { background: var(--panel); color: var(--ink); }
-  .row .hide:disabled { cursor: default; opacity: 0.6; }
-  .toolbar .copy { height: 34px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; font-size: 13px; color: var(--muted); cursor: pointer; }
+  .row .st { flex: none; margin-top: -3px; height: 24px; padding: 0 4px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); font-size: 12px; color: var(--muted); cursor: pointer; }
+  .row .st:hover { color: var(--ink); }
+  .save { margin: 12px 0 0; padding: 12px; border-radius: 12px; background: var(--new-bg); display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+  .save p { margin: 0; color: var(--ink); }
+  .save .hint { font-size: 12px; color: var(--muted); }
+  .save button, .save a { height: 34px; border: 0; border-radius: 10px; background: var(--ink); color: var(--panel); font-size: 13px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+  .save a { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+  .save .warn { color: var(--old); }
   [data-density="min"] .row .avatar { display: none; }
   [data-density="min"] .row .dot { margin-top: 7px; }
   [data-density="min"] .row .body { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
@@ -204,6 +208,7 @@
     <nav class="nav" id="labels" aria-label="표시"></nav>
     <div class="divider"></div>
     <div class="checks" id="filters" role="group" aria-label="필터"></div>
+    <div class="save" id="save" hidden></div>
     <div class="side-foot">
       <span id="updated"></span>
       <button type="button" id="lock" aria-label="잠그기">
@@ -216,7 +221,6 @@
     <div class="toolbar">
       <h2 id="view-title"></h2>
       <span class="total" id="view-total"></span>
-      <button type="button" class="copy" id="copy-hidden" title="저장소 tools/declined_postings.json 에 붙여 넣을 항목을 복사한다" hidden></button>
       <span class="grow"></span>
       <div class="seg" id="status" role="group" aria-label="공고 상태"></div>
       <label class="search">
@@ -242,11 +246,13 @@
 </div>
 
 <script type="application/json" id="vault">__JOBS_VAULT__</script>
+<script type="application/json" id="status-vault">__STATUS_VAULT__</script>
 <script>
 (function () {
   'use strict';
 
   var VAULT = JSON.parse(document.getElementById('vault').textContent);
+  var STATUS_VAULT = JSON.parse(document.getElementById('status-vault').textContent);
   var TRACKS = ['Flutter', 'React Native', 'Android', 'iOS', '기타 모바일'];
   var TRACK_COLOR = { 'Flutter': '#4DABF7', 'React Native': '#9775FA', 'Android': '#51CF66', 'iOS': '#F783AC', '기타 모바일': '#ADB5BD' };
   var AVATARS = ['#FFD8A8', '#B2F2BB', '#A5D8FF', '#D0BFFF', '#FCC2D7', '#FFEC99', '#99E9F2', '#C3FAE8'];
@@ -255,7 +261,10 @@
   var DENSITY_KEY = 'jobs.density';
   var READ_KEY = 'jobs.read';
   var FILTER_KEY = 'jobs.filters';
-  var HIDDEN_KEY = 'jobs.hidden';
+  var STATUS_KEY = 'jobs.status';
+  // 예전 '제외' 버튼이 남긴 값. 처음 열 때 '안 함' 상태로 옮기고 지운다.
+  var OLD_HIDDEN_KEY = 'jobs.hidden';
+  var STATUS_FILE_EDIT = 'https://github.com/Hwan3434/Hwan3434.github.io/edit/main/tools/job_status.vault.json';
   // 내 연차. 요구 경력 범위에 이 연차가 들어가는 공고만 남긴다.
   var MY_YEARS = 10;
 
@@ -304,6 +313,34 @@
     return JSON.parse(await new Response(inflated).text());
   }
 
+  // unlock 의 역. 공고 상태 파일을 페이지 비밀번호로 잠근다. generate_job_html.unlock 으로도 풀린다.
+  async function lock(value, password) {
+    var subtle = crypto.subtle;
+    var salt = crypto.getRandomValues(new Uint8Array(16)), nonce = crypto.getRandomValues(new Uint8Array(16));
+    var iter = VAULT.iter;
+    var base = await subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+    var bits = new Uint8Array(await subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: salt, iterations: iter }, base, 512));
+    var hmacKey = function (raw) { return subtle.importKey('raw', raw, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']); };
+    var encKey = await hmacKey(bits.slice(0, 32));
+    var macKey = await hmacKey(bits.slice(32));
+
+    var deflated = new Blob([new TextEncoder().encode(JSON.stringify(value))]).stream().pipeThrough(new CompressionStream('deflate'));
+    var plain = new Uint8Array(await new Response(deflated).arrayBuffer());
+    var ct = new Uint8Array(plain.length);
+    for (var i = 0; i * 32 < plain.length; i++) {
+      var msg = new Uint8Array(nonce.length + 4);
+      msg.set(nonce, 0);
+      new DataView(msg.buffer).setUint32(nonce.length, i);
+      var ks = new Uint8Array(await subtle.sign('HMAC', encKey, msg));
+      for (var j = 0; j < 32 && i * 32 + j < plain.length; j++) ct[i * 32 + j] = plain[i * 32 + j] ^ ks[j];
+    }
+    var signed = new Uint8Array(salt.length + nonce.length + ct.length);
+    signed.set(salt, 0); signed.set(nonce, salt.length); signed.set(ct, salt.length + nonce.length);
+    var tag = new Uint8Array(await subtle.sign('HMAC', macKey, signed));
+    var enc = function (bytes) { var bin = ''; for (var k = 0; k < bytes.length; k++) bin += String.fromCharCode(bytes[k]); return btoa(bin); };
+    return { v: 1, iter: iter, salt: enc(salt), nonce: enc(nonce), ct: enc(ct), tag: enc(tag) };
+  }
+
   var gateForm = document.getElementById('gate-form');
   var gatePass = document.getElementById('gate-pass');
   var gateRemember = document.getElementById('gate-remember');
@@ -316,6 +353,11 @@
     try {
       var data = await unlock(VAULT, password);
       if (remember) store.set(PASS_KEY, password); else store.del(PASS_KEY);
+      PASSWORD = password;
+      // 상태 파일은 이 페이지 비밀번호로 잠겨 있다. 비밀번호를 바꿨다면 풀리지 않는다.
+      if (STATUS_VAULT) {
+        try { savedStatus = (await unlock(STATUS_VAULT, password)).s || {}; } catch (e) { statusError = true; }
+      }
       start(data);
       return true;
     } catch (e) {
@@ -339,8 +381,9 @@
   });
 
   // ------------------------------------------------------------ 화면
-  var state = { track: 'all', label: 'none', status: 'all', q: '', page: 1, density: 'mid', filters: {} };
+  var state = { track: 'all', label: 'new', status: 'all', q: '', page: 1, density: 'mid', filters: {} };
   var DATA = null;
+  var PASSWORD = '';
 
   function el(tag, attrs, children) {
     var node = document.createElement(tag);
@@ -384,45 +427,107 @@
     render();
   }
 
-  // 제외한 공고. 데이터에서 지우지 않고 목록에서만 숨긴다. 두 군데서 온다.
-  // r.x 는 저장소의 declined_postings.json 에 오른 공고(모든 기기 공통),
-  // hiddenMap 은 이 기기에서 '제외'를 누른 공고다. '목록 복사'로 저장소 목록에 옮긴다.
-  function loadHidden() {
-    try { return JSON.parse(store.get(HIDDEN_KEY) || '{}') || {}; } catch (e) { return {}; }
+  // 공고 상태. 공고마다 하나만 갖는다. 고르지 않은 공고는 '새 공고'다.
+  // savedStatus 는 저장소의 job_status.vault.json(모든 기기 공통, 비밀번호로 잠김),
+  // localStatus 는 이 기기에서 바꾸고 아직 저장소에 올리지 않은 것이다. localStatus 가 이긴다.
+  // 키는 생성기가 넣어 준 r.k('회사|제목') 중 하나다. 바꿀 때는 r.k[0] 에 둔다.
+  var STATUSES = [
+    { key: 'new', label: '새 공고', color: 'var(--new)' },
+    { key: 'consider', label: '고민 중', color: '#FAB005' },
+    { key: 'applied', label: '지원함', color: '#51CF66' },
+    { key: 'rejected', label: '탈락', color: 'var(--old)' },
+    { key: 'skip', label: '안 함', color: 'var(--faint)' }
+  ];
+  var savedStatus = {};
+  var statusError = false;
+  function loadLocalStatus() {
+    try { return JSON.parse(store.get(STATUS_KEY) || '{}') || {}; } catch (e) { return {}; }
   }
-  var hiddenMap = loadHidden();
-  function rowKey(r) { return r.u || r.co + '|' + r.t; }
-  function isHidden(r) { return !!r.x || !!hiddenMap[rowKey(r)]; }
-  function toggleHidden(r) {
-    var key = rowKey(r);
-    if (hiddenMap[key]) delete hiddenMap[key];
-    else hiddenMap[key] = { co: r.co, t: r.t, d: today() };
-    store.set(HIDDEN_KEY, JSON.stringify(hiddenMap));
+  var localStatus = loadLocalStatus();
+  function lookup(map, r) {
+    for (var i = 0; i < r.k.length; i++) if (map[r.k[i]]) return map[r.k[i]];
+    return null;
+  }
+  // declined_postings.json 에 오른 공고(r.x)는 고르지 않았으면 '안 함'이다.
+  function baseStatus(r) { var e = lookup(savedStatus, r); return e ? e.s : r.x ? 'skip' : 'new'; }
+  function statusOf(r) { var e = lookup(localStatus, r); return e ? e.s : baseStatus(r); }
+  function setStatus(r, s) {
+    r.k.forEach(function (k) { delete localStatus[k]; });
+    if (s !== baseStatus(r)) localStatus[r.k[0]] = { s: s, co: r.co, t: r.t, d: today() };
+    store.set(STATUS_KEY, JSON.stringify(localStatus));
     render();
   }
-  // 이 기기에서만 제외한 공고를 declined_postings.json 항목 모양으로 복사한다.
-  function copyHidden(button) {
-    var entries = DATA.rows.filter(function (r) { return !r.x && hiddenMap[rowKey(r)]; })
-      .map(function (r) { return { companies: [r.co], titles: [r.t] }; });
-    var text = JSON.stringify(entries, null, 2);
-    var done = function () { button.textContent = entries.length + '건 복사됨'; };
-    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { window.prompt('복사하세요', text); });
-    else window.prompt('복사하세요', text);
+  function pendingRows() {
+    return DATA.rows.filter(function (r) { return lookup(localStatus, r); });
+  }
+  // 저장소에 반영된 것은 이 기기 목록에서 지운다. 예전 '제외' 버튼 값도 여기서 옮긴다.
+  function settleLocalStatus() {
+    var old = {};
+    try { old = JSON.parse(store.get(OLD_HIDDEN_KEY) || '{}') || {}; } catch (e) {}
+    DATA.rows.forEach(function (r) {
+      if (old[r.u || r.co + '|' + r.t] && !lookup(localStatus, r) && baseStatus(r) === 'new') {
+        localStatus[r.k[0]] = { s: 'skip', co: r.co, t: r.t, d: today() };
+      }
+      var e = lookup(localStatus, r);
+      if (e && e.s === baseStatus(r)) r.k.forEach(function (k) { delete localStatus[k]; });
+    });
+    store.del(OLD_HIDDEN_KEY);
+    store.set(STATUS_KEY, JSON.stringify(localStatus));
+  }
+  // 이 기기 변경을 합쳐 상태 파일 전체를 다시 잠근다. 지금 데이터에 없는 공고의 상태도 남긴다.
+  async function exportStatus() {
+    var out = {}, known = {};
+    DATA.rows.forEach(function (r) {
+      r.k.forEach(function (k) { known[k] = true; });
+      var s = statusOf(r);
+      if (s !== (r.x ? 'skip' : 'new')) {
+        var e = lookup(localStatus, r) || lookup(savedStatus, r);
+        out[r.k[0]] = { s: s, co: r.co, t: r.t, d: e ? e.d : today() };
+      }
+    });
+    Object.keys(savedStatus).forEach(function (k) { if (!known[k]) out[k] = savedStatus[k]; });
+    return JSON.stringify(await lock({ v: 1, s: out }, PASSWORD));
+  }
+  function copyText(text) {
+    if (navigator.clipboard) return navigator.clipboard.writeText(text);
+    window.prompt('복사하세요', text);
+    return Promise.resolve();
+  }
+  function renderSave() {
+    var box = document.getElementById('save');
+    var n = pendingRows().length;
+    box.hidden = !n && !statusError;
+    box.replaceChildren();
+    if (statusError) box.appendChild(el('p', { class: 'warn', text: '저장된 상태 파일을 이 비밀번호로 풀 수 없습니다.' }));
+    if (!n) return;
+    var button = el('button', { type: 'button', text: '저장 코드 복사' });
+    button.addEventListener('click', async function () {
+      button.disabled = true;
+      try { await copyText(await exportStatus()); button.textContent = '복사됨'; }
+      catch (e) { button.textContent = '복사 실패'; }
+      finally { button.disabled = false; }
+    });
+    box.append(
+      el('p', { text: '이 기기에서만 바뀐 상태 ' + n + '건' }),
+      el('span', { class: 'hint', text: '복사한 코드로 GitHub의 상태 파일 내용을 통째로 바꾸면 모든 기기에 반영됩니다.' }),
+      button,
+      el('a', { href: STATUS_FILE_EDIT, target: '_blank', rel: 'noopener noreferrer', text: 'GitHub에서 붙여넣기' })
+    );
   }
 
-  // 다른 탭에서 읽었거나, 뒤로 가기로 예전 화면이 되살아난 경우를 저장된 값에 맞춘다.
-  function syncHidden() {
-    var saved = loadHidden();
-    if (!DATA || JSON.stringify(saved) === JSON.stringify(hiddenMap)) return;
-    hiddenMap = saved;
+  // 다른 탭에서 바꿨거나, 뒤로 가기로 예전 화면이 되살아난 경우를 저장된 값에 맞춘다.
+  function syncStatus() {
+    var saved = loadLocalStatus();
+    if (!DATA || JSON.stringify(saved) === JSON.stringify(localStatus)) return;
+    localStatus = saved;
     render();
   }
   window.addEventListener('storage', function (e) {
     if (e.key === READ_KEY) syncRead();
-    if (e.key === HIDDEN_KEY) syncHidden();
+    if (e.key === STATUS_KEY) syncStatus();
   });
-  window.addEventListener('pageshow', function () { syncRead(); syncHidden(); });
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) { syncRead(); syncHidden(); } });
+  window.addEventListener('pageshow', function () { syncRead(); syncStatus(); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) { syncRead(); syncStatus(); } });
 
   // 좌측 체크박스 필터. 켠 것끼리는 모두 만족해야 남는다(AND).
   // 경력 정보가 없는 공고(cy 가 null)는 거르지 않는다. 확인할 수 없어서 놓치는 쪽이 더 아깝다.
@@ -445,12 +550,7 @@
   var match = {
     track: function (r) { return state.track === 'all' || r.tr === state.track; },
     label: function (r) {
-      // 제외한 공고는 '제외함'에서만 보인다.
-      if (state.label === 'hidden') return isHidden(r);
-      if (isHidden(r)) return false;
-      if (state.label === 'hist') return !!r.h;
-      if (state.label === 'unread') return !readMap[r.u];
-      return true;
+      return statusOf(r) === state.label;
     },
     status: function (r) { return state.status === 'all' || (state.status === 'open' ? r.a : !r.a); },
     q: function (r) { return !state.q || (r.t + ' ' + r.co).toLowerCase().indexOf(state.q) >= 0; },
@@ -487,14 +587,10 @@
     });
     var forLabels = filterExcept('label');
     var labels = document.getElementById('labels');
-    labels.replaceChildren(
-      navButton('지원이력', forLabels.filter(function (r) { return r.h && !isHidden(r); }).length, 'var(--hist-dot)', true, state.label === 'hist',
-        function () { set({ label: state.label === 'hist' ? 'none' : 'hist' }); }),
-      navButton('안 읽음', forLabels.filter(function (r) { return !readMap[r.u] && !isHidden(r); }).length, 'var(--new)', true, state.label === 'unread',
-        function () { set({ label: state.label === 'unread' ? 'none' : 'unread' }); }),
-      navButton('제외함', forLabels.filter(isHidden).length, 'var(--faint)', true, state.label === 'hidden',
-        function () { set({ label: state.label === 'hidden' ? 'none' : 'hidden' }); })
-    );
+    labels.replaceChildren.apply(labels, STATUSES.map(function (st) {
+      var n = forLabels.filter(function (r) { return statusOf(r) === st.key; }).length;
+      return navButton(st.label, n, st.color, true, state.label === st.key, function () { set({ label: st.key }); });
+    }));
   }
 
   // 각 체크박스 옆 숫자는 그것을 켰을 때(이미 켰으면 지금) 남는 공고 수다.
@@ -524,13 +620,10 @@
   }
 
   function renderToolbar(total) {
-    var title = state.label === 'hist' ? '지원이력' : state.label === 'unread' ? '안 읽음' : state.label === 'hidden' ? '제외함' : state.track === 'all' ? '전체 공고' : state.track;
+    var label = STATUSES.filter(function (st) { return st.key === state.label; })[0].label;
+    var title = state.track === 'all' ? label : state.track + ' · ' + label;
     document.getElementById('view-title').textContent = title;
     document.getElementById('view-total').textContent = String(total);
-    var copy = document.getElementById('copy-hidden');
-    var local = DATA.rows.filter(function (r) { return !r.x && hiddenMap[rowKey(r)]; }).length;
-    copy.hidden = state.label !== 'hidden' || !local;
-    copy.textContent = '이 기기 제외 ' + local + '건 복사';
 
     var forStatus = filterExcept('status');
     var open = forStatus.filter(function (r) { return r.a; }).length;
@@ -564,13 +657,12 @@
     [r.cr, r.lo].forEach(function (v) { if (v) meta.appendChild(document.createTextNode(' · ' + v)); });
     var read = readMap[r.u];
     var open = function () { markRead(r.u, this); };
-    // 줄 전체가 링크라 버튼 클릭이 링크로 번지지 않게 막는다.
-    var hide = el('button', {
-      type: 'button', class: 'hide', disabled: r.x,
-      title: r.x ? '저장소 제외 목록에 있는 공고' : null,
-      onclick: function (e) { e.preventDefault(); e.stopPropagation(); toggleHidden(r); },
-      onauxclick: function (e) { e.preventDefault(); e.stopPropagation(); }
-    }, [r.x ? '제외 목록' : isHidden(r) ? '되돌리기' : '제외']);
+    // 줄 전체가 링크라 상태 고르기가 링크로 번지지 않게 막는다.
+    var current = statusOf(r);
+    var stop = function (e) { e.preventDefault(); e.stopPropagation(); };
+    var pick = el('select', { class: 'st', 'aria-label': '상태', onclick: stop, onauxclick: stop,
+      onchange: function () { setStatus(r, pick.value); } },
+      STATUSES.map(function (st) { return el('option', { value: st.key, selected: st.key === current, text: st.label }); }));
     return el('a', { class: cls, href: href, target: '_blank', rel: 'noopener noreferrer', onclick: open, onauxclick: open }, [
       el('span', { class: 'dot', 'aria-hidden': 'true' }),
       renderAvatar(r),
@@ -579,7 +671,7 @@
         el('span', { class: 'reg', text: shortDate(r.c, thisYear) + ' 등록' }),
         r.dl ? renderDue(r.dl, thisYear) : null,
         read ? el('span', { class: 'read', text: '· 읽음(' + shortDate(read, thisYear) + ')' }) : null,
-        hide
+        pick
       ])
     ]);
   }
@@ -641,6 +733,7 @@
 
     document.getElementById('app').setAttribute('data-density', state.density);
     renderSide();
+    renderSave();
     renderFilters();
     renderToolbar(rows.length);
     var list = document.getElementById('list');
@@ -659,7 +752,7 @@
     document.getElementById('week').textContent = data.week ? 'W' + data.week : '';
     document.getElementById('updated').textContent = data.updated ? data.updated.replace(/-/g, '.') : '';
 
-    document.getElementById('copy-hidden').addEventListener('click', function (e) { copyHidden(e.currentTarget); });
+    settleLocalStatus();
     document.getElementById('q').addEventListener('input', function (e) { set({ q: e.target.value.trim().toLowerCase() }); });
     Array.prototype.forEach.call(document.querySelectorAll('#density button'), function (b) {
       b.addEventListener('click', function () {

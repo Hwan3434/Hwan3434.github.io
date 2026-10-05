@@ -35,10 +35,14 @@ ASIDE_PATH = os.path.join(TOOLS_DIR, 'jobs_aside.json')
 # 지원하지 않기로 한 공고. 데이터에서 지우지 않고 페이지에서 '제외함'으로 숨긴다.
 # 지우면 다음 수집 때 새 공고로 다시 들어온다.
 DECLINED_PATH = os.path.join(TOOLS_DIR, 'declined_postings.json')
+# 공고마다 고른 상태(고민 중·지원함·탈락·안 함). 지원 이력이 담겨 있어 페이지 비밀번호로
+# 잠근 채 저장소에 둔다. 페이지가 만들고 페이지가 푼다. 여기서는 그대로 실어 나르기만 한다.
+STATUS_PATH = os.path.join(TOOLS_DIR, 'job_status.vault.json')
 ASIDE_SEEN_AT = '2026-10-04 03:00:00'
 ASIDE_YEAR, ASIDE_MONTH = 2026, 10
 OUTPUT_PATH = os.path.join(TOOLS_DIR, '..', 'jobs.html')
 VAULT_TOKEN = '__JOBS_VAULT__'
+STATUS_TOKEN = '__STATUS_VAULT__'
 
 # 임시 비밀번호다. 저장소 Secret JOBS_PAGE_PASSWORD 를 넣으면 그 값을 쓴다.
 DEFAULT_PASSWORD = '1234'
@@ -364,6 +368,8 @@ def dedupe(rows):
         row['p'] = ' · '.join(platforms)
         row['a'] = any(r['a'] for r in group)
         row['x'] = any(r['x'] for r in group)
+        # 상태를 찾는 키. 묶인 공고마다 '회사|제목' 을 모두 넣어, 대표 공고가 바뀌어도 찾게 한다.
+        row['k'] = sorted({c + '|' + t for r in group for c in r['_ck'] for t in r['_tk']})
         row['c'] = min(r['c'] for r in group)
         row['ls'] = max(r['ls'] for r in group)
         for field in ('dl', 'po', 'cr', 'lo', 'u'):
@@ -498,23 +504,33 @@ def unlock(vault, password):
     return zlib.decompress(_xor_keystream(enc_key, raw['nonce'], raw['ct']))
 
 
-def render_page(vault):
+def load_status(path=STATUS_PATH):
+    if not os.path.exists(path):
+        return None
+    with open(path, 'r', encoding='utf-8') as f:
+        text = f.read().strip()
+    return json.loads(text) if text else None
+
+
+def render_page(vault, status=None):
     with open(TEMPLATE_PATH, 'r', encoding='utf-8') as f:
         template = f.read()
-    if VAULT_TOKEN not in template:
-        raise ValueError(f'{TEMPLATE_PATH} 에 {VAULT_TOKEN} 자리가 없다')
-    return template.replace(VAULT_TOKEN, json.dumps(vault).replace('</', '<\\/'))
+    for token in (VAULT_TOKEN, STATUS_TOKEN):
+        if token not in template:
+            raise ValueError(f'{TEMPLATE_PATH} 에 {token} 자리가 없다')
+    embed = lambda value: json.dumps(value).replace('</', '<\\/')
+    return template.replace(VAULT_TOKEN, embed(vault)).replace(STATUS_TOKEN, embed(status))
 
 
 def generate_html(output_path=OUTPUT_PATH, password=None, applied=None, now=None,
-                  db_path=DB_PATH, aside_path=ASIDE_PATH):
+                  db_path=DB_PATH, aside_path=ASIDE_PATH, status_path=STATUS_PATH):
     password = password or os.environ.get('JOBS_PAGE_PASSWORD', '').strip() or DEFAULT_PASSWORD
     applied = load_applied() if applied is None else applied
     now = now or datetime.datetime.utcnow()
 
     payload = build_payload(load_jobs(db_path), applied, now, load_aside(aside_path))
     plaintext = json.dumps(payload, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
-    html = render_page(lock(plaintext, password))
+    html = render_page(lock(plaintext, password), load_status(status_path))
 
     with open(os.path.abspath(output_path), 'w', encoding='utf-8') as f:
         f.write(html)

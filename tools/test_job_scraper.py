@@ -976,7 +976,8 @@ class TestGenerate(unittest.TestCase):
                 json.dump([self.job('Flutter 앱 개발자', company='비밀회사')], f, ensure_ascii=False)
             applied = [{'company': '비밀회사', 'date': '2025', 'result': '불합격'}]
             gen.generate_html(out, password='pw', applied=applied, now=self.now, db_path=db,
-                              aside_path=os.path.join(tmp, 'none.json'))
+                              aside_path=os.path.join(tmp, 'none.json'),
+                              status_path=os.path.join(tmp, 'none.json'))
             with open(out, encoding='utf-8') as f:
                 page = f.read()
 
@@ -986,6 +987,36 @@ class TestGenerate(unittest.TestCase):
         vault = json.loads(page.split('id="vault">')[1].split('</script>')[0])
         payload = json.loads(gen.unlock(vault, 'pw'))
         self.assertEqual(payload['rows'][0]['h'], '2025 불합격')
+        self.assertNotIn(gen.STATUS_TOKEN, page)
+        self.assertEqual(page.split('id="status-vault">')[1].split('</script>')[0], 'null')
+
+    def test_status_vault_is_carried_as_is(self):
+        # 상태 파일은 페이지가 잠그고 페이지가 푼다. 생성기는 열지 않고 그대로 싣는다.
+        status = gen.lock(json.dumps({'v': 1, 's': {'회사|android개발자': {'s': 'applied', 'co': '비밀상태회사'}}},
+                                     ensure_ascii=False).encode(), 'pw')
+        with tempfile.TemporaryDirectory() as tmp:
+            db = os.path.join(tmp, 'jobs.json')
+            path = os.path.join(tmp, 'status.json')
+            out = os.path.join(tmp, 'jobs.html')
+            with open(db, 'w', encoding='utf-8') as f:
+                json.dump([self.job('Android 개발자')], f, ensure_ascii=False)
+            with open(path, 'w', encoding='utf-8') as f:
+                json.dump(status, f)
+            gen.generate_html(out, password='pw', applied=[], now=self.now, db_path=db,
+                              aside_path=os.path.join(tmp, 'none.json'), status_path=path)
+            with open(out, encoding='utf-8') as f:
+                page = f.read()
+        embedded = json.loads(page.split('id="status-vault">')[1].split('</script>')[0])
+        self.assertEqual(embedded, status)
+        self.assertNotIn('비밀상태회사', page)
+
+    def test_rows_carry_status_keys_of_every_merged_posting(self):
+        rows = gen.build_rows([self.job('[공비서] iOS 리드 엔지니어', company='헤렌(공비서)')], [], self.now,
+                              extra=[{'title': 'iOS 리드 엔지니어', 'company': '(주)헤렌', 'platform': '리멤버',
+                                      'job_url': 'u'}])
+        self.assertEqual(len(rows), 1)
+        self.assertIn('헤렌|ios리드엔지니어', rows[0]['k'])
+        self.assertIn('공비서|공비서ios리드엔지니어', rows[0]['k'])
 
 
 if __name__ == '__main__':

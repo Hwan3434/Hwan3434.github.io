@@ -132,6 +132,10 @@
   .row .date .due.soon { color: var(--old); font-weight: 700; }
   .row .date .due.past { color: var(--faint); text-decoration: line-through; }
   .row.unread .date > .reg { font-weight: 800; }
+  .row .hide { flex: none; margin-top: -3px; height: 24px; padding: 0 9px; border: 1px solid var(--line); border-radius: 8px; background: transparent; font-size: 12px; color: var(--muted); cursor: pointer; }
+  .row .hide:hover { background: var(--panel); color: var(--ink); }
+  .row .hide:disabled { cursor: default; opacity: 0.6; }
+  .toolbar .copy { height: 34px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; font-size: 13px; color: var(--muted); cursor: pointer; }
   [data-density="min"] .row .avatar { display: none; }
   [data-density="min"] .row .dot { margin-top: 7px; }
   [data-density="min"] .row .body { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
@@ -212,6 +216,7 @@
     <div class="toolbar">
       <h2 id="view-title"></h2>
       <span class="total" id="view-total"></span>
+      <button type="button" class="copy" id="copy-hidden" title="저장소 tools/declined_postings.json 에 붙여 넣을 항목을 복사한다" hidden></button>
       <span class="grow"></span>
       <div class="seg" id="status" role="group" aria-label="공고 상태"></div>
       <label class="search">
@@ -250,6 +255,7 @@
   var DENSITY_KEY = 'jobs.density';
   var READ_KEY = 'jobs.read';
   var FILTER_KEY = 'jobs.filters';
+  var HIDDEN_KEY = 'jobs.hidden';
   // 내 연차. 요구 경력 범위에 이 연차가 들어가는 공고만 남긴다.
   var MY_YEARS = 10;
 
@@ -377,9 +383,46 @@
     readMap = saved;
     render();
   }
-  window.addEventListener('storage', function (e) { if (e.key === READ_KEY) syncRead(); });
-  window.addEventListener('pageshow', syncRead);
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) syncRead(); });
+
+  // 제외한 공고. 데이터에서 지우지 않고 목록에서만 숨긴다. 두 군데서 온다.
+  // r.x 는 저장소의 declined_postings.json 에 오른 공고(모든 기기 공통),
+  // hiddenMap 은 이 기기에서 '제외'를 누른 공고다. '목록 복사'로 저장소 목록에 옮긴다.
+  function loadHidden() {
+    try { return JSON.parse(store.get(HIDDEN_KEY) || '{}') || {}; } catch (e) { return {}; }
+  }
+  var hiddenMap = loadHidden();
+  function rowKey(r) { return r.u || r.co + '|' + r.t; }
+  function isHidden(r) { return !!r.x || !!hiddenMap[rowKey(r)]; }
+  function toggleHidden(r) {
+    var key = rowKey(r);
+    if (hiddenMap[key]) delete hiddenMap[key];
+    else hiddenMap[key] = { co: r.co, t: r.t, d: today() };
+    store.set(HIDDEN_KEY, JSON.stringify(hiddenMap));
+    render();
+  }
+  // 이 기기에서만 제외한 공고를 declined_postings.json 항목 모양으로 복사한다.
+  function copyHidden(button) {
+    var entries = DATA.rows.filter(function (r) { return !r.x && hiddenMap[rowKey(r)]; })
+      .map(function (r) { return { companies: [r.co], titles: [r.t] }; });
+    var text = JSON.stringify(entries, null, 2);
+    var done = function () { button.textContent = entries.length + '건 복사됨'; };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { window.prompt('복사하세요', text); });
+    else window.prompt('복사하세요', text);
+  }
+
+  // 다른 탭에서 읽었거나, 뒤로 가기로 예전 화면이 되살아난 경우를 저장된 값에 맞춘다.
+  function syncHidden() {
+    var saved = loadHidden();
+    if (!DATA || JSON.stringify(saved) === JSON.stringify(hiddenMap)) return;
+    hiddenMap = saved;
+    render();
+  }
+  window.addEventListener('storage', function (e) {
+    if (e.key === READ_KEY) syncRead();
+    if (e.key === HIDDEN_KEY) syncHidden();
+  });
+  window.addEventListener('pageshow', function () { syncRead(); syncHidden(); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) { syncRead(); syncHidden(); } });
 
   // 좌측 체크박스 필터. 켠 것끼리는 모두 만족해야 남는다(AND).
   // 경력 정보가 없는 공고(cy 가 null)는 거르지 않는다. 확인할 수 없어서 놓치는 쪽이 더 아깝다.
@@ -402,6 +445,9 @@
   var match = {
     track: function (r) { return state.track === 'all' || r.tr === state.track; },
     label: function (r) {
+      // 제외한 공고는 '제외함'에서만 보인다.
+      if (state.label === 'hidden') return isHidden(r);
+      if (isHidden(r)) return false;
       if (state.label === 'hist') return !!r.h;
       if (state.label === 'unread') return !readMap[r.u];
       return true;
@@ -442,10 +488,12 @@
     var forLabels = filterExcept('label');
     var labels = document.getElementById('labels');
     labels.replaceChildren(
-      navButton('지원이력', forLabels.filter(function (r) { return r.h; }).length, 'var(--hist-dot)', true, state.label === 'hist',
+      navButton('지원이력', forLabels.filter(function (r) { return r.h && !isHidden(r); }).length, 'var(--hist-dot)', true, state.label === 'hist',
         function () { set({ label: state.label === 'hist' ? 'none' : 'hist' }); }),
-      navButton('안 읽음', forLabels.filter(function (r) { return !readMap[r.u]; }).length, 'var(--new)', true, state.label === 'unread',
-        function () { set({ label: state.label === 'unread' ? 'none' : 'unread' }); })
+      navButton('안 읽음', forLabels.filter(function (r) { return !readMap[r.u] && !isHidden(r); }).length, 'var(--new)', true, state.label === 'unread',
+        function () { set({ label: state.label === 'unread' ? 'none' : 'unread' }); }),
+      navButton('제외함', forLabels.filter(isHidden).length, 'var(--faint)', true, state.label === 'hidden',
+        function () { set({ label: state.label === 'hidden' ? 'none' : 'hidden' }); })
     );
   }
 
@@ -476,9 +524,13 @@
   }
 
   function renderToolbar(total) {
-    var title = state.label === 'hist' ? '지원이력' : state.label === 'unread' ? '안 읽음' : state.track === 'all' ? '전체 공고' : state.track;
+    var title = state.label === 'hist' ? '지원이력' : state.label === 'unread' ? '안 읽음' : state.label === 'hidden' ? '제외함' : state.track === 'all' ? '전체 공고' : state.track;
     document.getElementById('view-title').textContent = title;
     document.getElementById('view-total').textContent = String(total);
+    var copy = document.getElementById('copy-hidden');
+    var local = DATA.rows.filter(function (r) { return !r.x && hiddenMap[rowKey(r)]; }).length;
+    copy.hidden = state.label !== 'hidden' || !local;
+    copy.textContent = '이 기기 제외 ' + local + '건 복사';
 
     var forStatus = filterExcept('status');
     var open = forStatus.filter(function (r) { return r.a; }).length;
@@ -512,6 +564,13 @@
     [r.cr, r.lo].forEach(function (v) { if (v) meta.appendChild(document.createTextNode(' · ' + v)); });
     var read = readMap[r.u];
     var open = function () { markRead(r.u, this); };
+    // 줄 전체가 링크라 버튼 클릭이 링크로 번지지 않게 막는다.
+    var hide = el('button', {
+      type: 'button', class: 'hide', disabled: r.x,
+      title: r.x ? '저장소 제외 목록에 있는 공고' : null,
+      onclick: function (e) { e.preventDefault(); e.stopPropagation(); toggleHidden(r); },
+      onauxclick: function (e) { e.preventDefault(); e.stopPropagation(); }
+    }, [r.x ? '제외 목록' : isHidden(r) ? '되돌리기' : '제외']);
     return el('a', { class: cls, href: href, target: '_blank', rel: 'noopener noreferrer', onclick: open, onauxclick: open }, [
       el('span', { class: 'dot', 'aria-hidden': 'true' }),
       renderAvatar(r),
@@ -519,7 +578,8 @@
       el('span', { class: 'date' }, [
         el('span', { class: 'reg', text: shortDate(r.c, thisYear) + ' 등록' }),
         r.dl ? renderDue(r.dl, thisYear) : null,
-        read ? el('span', { class: 'read', text: '· 읽음(' + shortDate(read, thisYear) + ')' }) : null
+        read ? el('span', { class: 'read', text: '· 읽음(' + shortDate(read, thisYear) + ')' }) : null,
+        hide
       ])
     ]);
   }
@@ -599,6 +659,7 @@
     document.getElementById('week').textContent = data.week ? 'W' + data.week : '';
     document.getElementById('updated').textContent = data.updated ? data.updated.replace(/-/g, '.') : '';
 
+    document.getElementById('copy-hidden').addEventListener('click', function (e) { copyHidden(e.currentTarget); });
     document.getElementById('q').addEventListener('input', function (e) { set({ q: e.target.value.trim().toLowerCase() }); });
     Array.prototype.forEach.call(document.querySelectorAll('#density button'), function (b) {
       b.addEventListener('click', function () {

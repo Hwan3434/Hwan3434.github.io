@@ -635,8 +635,11 @@ class TestDeclined(unittest.TestCase):
                 {'companies': ['토스플레이스'], 'titles': ['Device Software Engineer (Android)']},
                 {'companies': ['PFCT(크플)'], 'titles': ['iOS Engineer(경력 iOS 엔지니어)']},
             ], f, ensure_ascii=False)
-        self.declined = js.load_declined(f.name)
+        self.declined = gen.load_declined(f.name)
         os.unlink(f.name)
+
+    def declined_(self, company, title):
+        return gen.is_declined({'company': company, 'title': title}, self.declined)
 
     def test_same_posting_on_other_platforms_is_declined(self):
         for company, title in [
@@ -645,7 +648,7 @@ class TestDeclined(unittest.TestCase):
             ('PFCT(크플)', 'iOS Engineer(경력 iOS 엔지니어)'),
             ('피에프씨테크놀로지스(주)', '[PFCT] iOS Engineer (경력 iOS 엔지니어)'),
         ]:
-            self.assertTrue(js.is_declined(company, title, self.declined), (company, title))
+            self.assertTrue(self.declined_(company, title), (company, title))
 
     def test_other_postings_of_same_company_stay(self):
         for company, title in [
@@ -653,10 +656,22 @@ class TestDeclined(unittest.TestCase):
             ('(주)비바리퍼블리카', '[토스] Device Software Engineer (Android)'),
             ('PFCT(크플)', 'Android Engineer'),
         ]:
-            self.assertFalse(js.is_declined(company, title, self.declined), (company, title))
+            self.assertFalse(self.declined_(company, title), (company, title))
 
     def test_missing_file_declines_nothing(self):
-        self.assertEqual(js.load_declined('/nonexistent/declined.json'), [])
+        self.assertEqual(gen.load_declined('/nonexistent/declined.json'), [])
+
+    def test_declined_rows_are_kept_and_marked(self):
+        # 지우지 않고 표시만 한다. 페이지가 숨기고, 다음 수집 때 새 공고로 다시 들어오지 않는다.
+        now = datetime.datetime(2026, 10, 5)
+        stamp = '2026-10-04 00:00:00'
+        jobs = [{'id': i, 'title': t, 'company': c, 'platform': '원티드', 'job_url': 'https://x.test/' + i,
+                 'created_at': stamp, 'last_seen_at': stamp}
+                for i, c, t in [('1', '토스플레이스', 'Device Software Engineer (Android)'),
+                                ('2', '토스플레이스', 'Android Developer')]]
+        rows = gen.build_rows(jobs, [], now, declined=self.declined)
+        self.assertEqual({r['t']: r['x'] for r in rows},
+                         {'Device Software Engineer (Android)': True, 'Android Developer': False})
 
 
 class TestSave(unittest.TestCase):

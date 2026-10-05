@@ -140,6 +140,7 @@
   .save button, .save a { height: 34px; border: 0; border-radius: 10px; background: var(--ink); color: var(--panel); font-size: 13px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
   .save a { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
   .save .warn { color: var(--old); }
+  .save a.inline { display: inline; height: auto; box-shadow: none; padding: 0; font-weight: 500; color: var(--new); text-decoration: underline; }
   [data-density="min"] .row .avatar { display: none; }
   [data-density="min"] .row .dot { margin-top: 7px; }
   [data-density="min"] .row .body { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
@@ -265,6 +266,10 @@
   // 예전 '제외' 버튼이 남긴 값. 처음 열 때 '안 함' 상태로 옮기고 지운다.
   var OLD_HIDDEN_KEY = 'jobs.hidden';
   var STATUS_FILE_EDIT = 'https://github.com/Hwan3434/Hwan3434.github.io/edit/main/tools/job_status.vault.json';
+  // 자동 저장. 이 저장소 Contents 읽기·쓰기만 허용한 fine-grained 토큰을 기기마다 한 번 넣는다.
+  var TOKEN_KEY = 'jobs.ghToken';
+  var STATUS_API = 'https://api.github.com/repos/Hwan3434/Hwan3434.github.io/contents/tools/job_status.vault.json';
+  var TOKEN_NEW = 'https://github.com/settings/personal-access-tokens/new';
   // 내 연차. 요구 경력 범위에 이 연차가 들어가는 공고만 남긴다.
   var MY_YEARS = 10;
 
@@ -456,6 +461,7 @@
     if (s !== baseStatus(r)) localStatus[r.k[0]] = { s: s, co: r.co, t: r.t, d: today() };
     store.set(STATUS_KEY, JSON.stringify(localStatus));
     render();
+    scheduleSave();
   }
   function pendingRows() {
     return DATA.rows.filter(function (r) { return lookup(localStatus, r); });
@@ -474,8 +480,8 @@
     store.del(OLD_HIDDEN_KEY);
     store.set(STATUS_KEY, JSON.stringify(localStatus));
   }
-  // 이 기기 변경을 합쳐 상태 파일 전체를 다시 잠근다. 지금 데이터에 없는 공고의 상태도 남긴다.
-  async function exportStatus() {
+  // 이 기기 변경을 합친 상태 파일 내용. 지금 데이터에 없는 공고의 상태도 남긴다.
+  function buildStatus() {
     var out = {}, known = {};
     DATA.rows.forEach(function (r) {
       r.k.forEach(function (k) { known[k] = true; });
@@ -486,7 +492,90 @@
       }
     });
     Object.keys(savedStatus).forEach(function (k) { if (!known[k]) out[k] = savedStatus[k]; });
-    return JSON.stringify(await lock({ v: 1, s: out }, PASSWORD));
+    return { v: 1, s: out };
+  }
+  async function exportStatus() { return JSON.stringify(await lock(buildStatus(), PASSWORD)); }
+
+  // ------------------------------------------------------------ 자동 저장
+  // 페이지를 열면 배포를 기다리지 않고 저장소의 최신 상태 파일을 읽는다. 토큰이 있으면
+  // 상태를 바꿀 때마다 최신 파일에 이 기기 변경을 합쳐 다시 잠가 main 에 커밋한다.
+  // 다른 기기가 먼저 저장해 sha 가 어긋나면 다시 읽어 합친 뒤 한 번 더 시도한다.
+  var sync = '';  // '' | saving | saved | error | auth
+  var saving = false, saveAgain = false, saveTimer = null;
+  function apiHeaders() {
+    var headers = { Accept: 'application/vnd.github+json' };
+    var token = store.get(TOKEN_KEY);
+    if (token) headers.Authorization = 'Bearer ' + token;
+    return headers;
+  }
+  async function fetchStatusFile() {
+    var res = await fetch(STATUS_API + '?ref=main', { headers: apiHeaders(), cache: 'no-store' });
+    if (res.status === 401 || res.status === 403) throw new Error('auth');
+    if (!res.ok) throw new Error('fetch');
+    var body = await res.json();
+    var text = new TextDecoder().decode(b64(body.content.replace(/\s/g, '')));
+    var vault = JSON.parse(text || 'null');
+    // 비밀번호가 다르면 여기서 멈춘다. 풀지 못한 파일을 덮어쓰면 안 된다.
+    return { sha: body.sha, status: vault ? (await unlock(vault, PASSWORD)).s || {} : {} };
+  }
+  async function refreshStatus() {
+    try {
+      savedStatus = (await fetchStatusFile()).status;
+      statusError = false;
+    } catch (e) {
+      if (e.message === 'wrong-password') statusError = true;
+      return;  // 읽지 못하면 페이지에 실려 온 상태로 둔다.
+    } finally {
+      settleLocalStatus();
+      render();
+    }
+    scheduleSave(0);
+  }
+  function scheduleSave(delay) {
+    if (!store.get(TOKEN_KEY) || !pendingRows().length) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveStatus, delay === undefined ? 1500 : delay);
+  }
+  async function saveStatus() {
+    if (saving) { saveAgain = true; return; }
+    saving = true;
+    sync = 'saving';
+    renderSave();
+    try {
+      for (var attempt = 0; ; attempt++) {
+        var latest = await fetchStatusFile();
+        savedStatus = latest.status;
+        var next = buildStatus();
+        var res = await fetch(STATUS_API, {
+          method: 'PUT',
+          headers: Object.assign({ 'Content-Type': 'application/json' }, apiHeaders()),
+          body: JSON.stringify({ message: 'chore: 공고 상태 저장', branch: 'main', sha: latest.sha,
+                                 content: btoa(JSON.stringify(await lock(next, PASSWORD)) + '\n') })
+        });
+        if ((res.status === 409 || res.status === 422) && attempt === 0) continue;
+        if (res.status === 401 || res.status === 403 || res.status === 404) throw new Error('auth');
+        if (!res.ok) throw new Error('save');
+        savedStatus = next.s;
+        break;
+      }
+      sync = 'saved';
+    } catch (e) {
+      sync = e.message === 'auth' ? 'auth' : 'error';
+      if (e.message === 'wrong-password') statusError = true;
+    } finally {
+      saving = false;
+      settleLocalStatus();
+      render();
+    }
+    if (saveAgain) { saveAgain = false; scheduleSave(0); }
+  }
+  function askToken() {
+    var token = window.prompt('이 저장소(Hwan3434.github.io)의 Contents 읽기·쓰기만 허용한 fine-grained 토큰을 붙여 넣으세요.\n이 브라우저에만 저장됩니다. 비우고 확인하면 자동 저장을 끕니다.', '');
+    if (token === null) return;
+    if (token.trim()) store.set(TOKEN_KEY, token.trim()); else store.del(TOKEN_KEY);
+    sync = '';
+    render();
+    scheduleSave(0);
   }
   function copyText(text) {
     if (navigator.clipboard) return navigator.clipboard.writeText(text);
@@ -496,9 +585,19 @@
   function renderSave() {
     var box = document.getElementById('save');
     var n = pendingRows().length;
-    box.hidden = !n && !statusError;
+    var auto = !!store.get(TOKEN_KEY);
     box.replaceChildren();
     if (statusError) box.appendChild(el('p', { class: 'warn', text: '저장된 상태 파일을 이 비밀번호로 풀 수 없습니다.' }));
+    if (auto) {
+      var line = { saving: '저장 중…', saved: n ? '' : '모든 기기에 저장됨', error: '저장하지 못했습니다. 잠시 뒤 다시 시도합니다.', auth: '토큰으로 저장할 수 없습니다.' }[sync] || '';
+      if (sync === 'error') scheduleSave(10000);
+      if (line) box.appendChild(el('p', { class: sync === 'error' || sync === 'auth' ? 'warn' : '', text: line }));
+      if (n && sync !== 'saving') box.appendChild(el('p', { text: '저장 기다리는 변경 ' + n + '건' }));
+      if (sync === 'auth') box.appendChild(el('button', { type: 'button', text: '토큰 다시 넣기', onclick: askToken }));
+      box.hidden = !box.childNodes.length;
+      return;
+    }
+    box.hidden = !n && !statusError;
     if (!n) return;
     var button = el('button', { type: 'button', text: '저장 코드 복사' });
     button.addEventListener('click', async function () {
@@ -509,7 +608,10 @@
     });
     box.append(
       el('p', { text: '이 기기에서만 바뀐 상태 ' + n + '건' }),
-      el('span', { class: 'hint', text: '복사한 코드로 GitHub의 상태 파일 내용을 통째로 바꾸면 모든 기기에 반영됩니다.' }),
+      el('button', { type: 'button', text: '자동 저장 켜기', onclick: askToken }),
+      el('span', { class: 'hint' }, ['토큰을 한 번 넣으면 바꿀 때마다 모든 기기에 저장됩니다. ',
+        el('a', { class: 'inline', href: TOKEN_NEW, target: '_blank', rel: 'noopener noreferrer', text: '토큰 만들기' })]),
+      el('span', { class: 'hint', text: '또는 코드를 복사해 GitHub의 상태 파일 내용을 통째로 바꿔도 됩니다.' }),
       button,
       el('a', { href: STATUS_FILE_EDIT, target: '_blank', rel: 'noopener noreferrer', text: 'GitHub에서 붙여넣기' })
     );
@@ -767,6 +869,7 @@
     document.getElementById('gate').hidden = true;
     document.getElementById('app').hidden = false;
     render();
+    refreshStatus();
   }
 
   var remembered = store.get(PASS_KEY);

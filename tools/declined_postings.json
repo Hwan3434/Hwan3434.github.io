@@ -1,26 +1,1558 @@
 [
   {
-    "companies": ["비바리퍼블리카", "토스"],
-    "titles": ["Android Developer"]
+    "companies": [
+      "비바리퍼블리카",
+      "토스"
+    ],
+    "titles": [
+      "Android Developer"
+    ]
   },
   {
-    "companies": ["토스플레이스"],
-    "titles": ["Android Developer", "Device Software Engineer (Android)", "iOS Developer"]
+    "companies": [
+      "토스플레이스"
+    ],
+    "titles": [
+      "Android Developer",
+      "Device Software Engineer (Android)",
+      "iOS Developer"
+    ]
   },
   {
-    "companies": ["판옵티콘"],
-    "titles": ["Flutter 앱 개발자 (Android Native 병행)", "판옵티콘 - Flutter 앱 개발자 (Android Native 병행)"]
+    "companies": [
+      "판옵티콘"
+    ],
+    "titles": [
+      "Flutter 앱 개발자 (Android Native 병행)",
+      "판옵티콘 - Flutter 앱 개발자 (Android Native 병행)"
+    ]
   },
   {
-    "companies": ["캐폴랩스"],
-    "titles": ["[캐폴테스트] Flutter 앱 개발자 (2~7년)"]
+    "companies": [
+      "캐폴랩스"
+    ],
+    "titles": [
+      "[캐폴테스트] Flutter 앱 개발자 (2~7년)"
+    ]
   },
   {
-    "companies": ["서울거래"],
-    "titles": ["Flutter 프론트엔드 개발자 채용"]
+    "companies": [
+      "서울거래"
+    ],
+    "titles": [
+      "Flutter 프론트엔드 개발자 채용"
+    ]
   },
   {
-    "companies": ["PFCT(크플)", "피에프씨테크놀로지스"],
-    "titles": ["iOS Engineer(경력 iOS 엔지니어)", "iOS Engineer(신입 iOS 엔지니어)", "iOS Engineer 3년 이상"]
+    "companies": [
+      "PFCT(크플)",
+      "피에프씨테크놀로지스"
+    ],
+    "titles": [
+      "iOS Engineer(경력 iOS 엔지니어)",
+      "iOS Engineer(신입 iOS 엔지니어)",
+      "iOS Engineer 3년 이상"
+    ]
+  },
+  {
+    "companies": [
+      "26도라인"
+    ],
+    "titles": [
+      "IOS 개발자 경력직 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "CJ올리브영"
+    ],
+    "titles": [
+      "커머스플랫폼유닛 Android 개발채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "[헤드헌팅] BJAK그룹 산하 A1"
+    ],
+    "titles": [
+      "Android Software Engineer",
+      "iOS Software Engineer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "[헤드헌팅] 중소기업"
+    ],
+    "titles": [
+      "IT 분야 프로그램 개발자 모집 (안드로이드 부문)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "iM뱅크"
+    ],
+    "titles": [
+      "[경력] 안드로이드 개발자 채용",
+      "[iM뱅크] 안드로이드 개발자 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "ms인포테크"
+    ],
+    "titles": [
+      "iOS 개발자 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "강남언니"
+    ],
+    "titles": [
+      "[강남언니] Android 개발자",
+      "[강남언니] iOS 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "건강누리"
+    ],
+    "titles": [
+      "크로스플랫폼 앱 개발자 채용[신입]",
+      "크로스플랫폼 앱 개발자 채용[대리]",
+      "크로스플랫폼 앱 개발자 채용[과장]"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "고스트패스"
+    ],
+    "titles": [
+      "시니어 모바일 앱 개발자 iOS/Android"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "교보문고"
+    ],
+    "titles": [
+      "Android App 개발 엔지니어(3~5년)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "구글(Google)"
+    ],
+    "titles": [
+      "Strategic Partnerships Development Manager, Apps, Play Partnerships (Korean, English)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "굿닥(goodoc)"
+    ],
+    "titles": [
+      "React Native Tech Lead (7년 이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "글로벌머니익스프레스"
+    ],
+    "titles": [
+      "AoS/IoS 개발자",
+      "[GME/핀테크] AoS/IoS 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "글리티"
+    ],
+    "titles": [
+      "[글리티] 모바일 앱 개발자 채용 (Android · iOS · Web)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "넛지헬스케어"
+    ],
+    "titles": [
+      "[캐시워크] Flutter개발 병역특례 대상자 모집",
+      "[캐시워크애즈] Flutter개발 산업기능요원 모집",
+      "[캐시워크] Flutter개발 채용전환형 인턴",
+      "[캐시워크-병역특례] iOS개발 병역특례 대상자 모집",
+      "[캐시워크애즈] iOS개발 산업기능요원 모집",
+      "[캐시워크-병역특례] Flutter개발 병역특례 대상자 모집",
+      "[캐시워크] 안드로이드개발 채용전환형 인턴",
+      "병역특례 안드로이드개발 산업기능요원 모집",
+      "[병역특례 현역/보충역] Flutter개발자",
+      "[캐시워크-병역특례] Flutter 개발 병역특례 대상자 모집"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "넛지헬스케어(캐시워크)"
+    ],
+    "titles": [
+      "[병역특레 현역/보충역] 안드로이드앱(Kotlin) 개발자",
+      "[병역특례 현역/보충역] Flutter개발자",
+      "[캐시워크] Flutter개발 병역특례",
+      "[캐시워크] Flutter개발 채용전환형 인턴",
+      "[캐시워크] iOS개발 병역특례",
+      "[캐시워크] iOS개발 채용전환형 인턴",
+      "[캐시워크] 안드로이드개발 병역특례",
+      "[캐시워크] 안드로이드개발 채용전환형 인턴",
+      "[캐시워크애즈] Flutter개발 산업기능요원 모집",
+      "[캐시워크애즈] iOS개발 산업기능요원 모집",
+      "[캐시워크애즈] 안드로이드개발 산업기능요원 모집",
+      "[병역특례 현역/보충역] iOS 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "넥스트라인코드"
+    ],
+    "titles": [
+      "항공사 정비시스템 모바일서비스 React Native 개발자 모집"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "노머스(원더월)"
+    ],
+    "titles": [
+      "iOS 엔지니어(IC)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "노빌더"
+    ],
+    "titles": [
+      "모바일 앱 프론트엔드 개발자 채용 (React, TypeScript)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "당근"
+    ],
+    "titles": [
+      "Software Engineer, Android",
+      "Software Engineer, iOS",
+      "Software Engineer, Android (인턴)",
+      "모바일실 Software Engineer, Android (인턴)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "더게임"
+    ],
+    "titles": [
+      "모바일 앱·웹 프론트엔드 개발자 (React Native/React)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "더그리트"
+    ],
+    "titles": [
+      "[(주)더그리트] 프론트 개발자(Flutter) 채용(경력)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "더블디"
+    ],
+    "titles": [
+      "[더블디] Flutter 앱 개발자 채용 공고"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "데이터라이즈"
+    ],
+    "titles": [
+      "Mobile SDK Engineer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "데이터위버"
+    ],
+    "titles": [
+      "[신입/경력]AI 백엔드 및 모바일 앱 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "덱스컨설팅"
+    ],
+    "titles": [
+      "Power Platform (Apps/Automate) 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "도브러너"
+    ],
+    "titles": [
+      "모바일 화이트해킹/침투테스트 전문가 (Red Team Engineer)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "디오"
+    ],
+    "titles": [
+      "(주)디오 모바일 앱 개발자 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "디지털엑스"
+    ],
+    "titles": [
+      "Software Engineer (React Native)",
+      "Software Engineer (React Native) 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "디티솔루션"
+    ],
+    "titles": [
+      "모바일 앱 개발자 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "딜라이트룸(Alarmy)"
+    ],
+    "titles": [
+      "Senior Mobile SDK Engineer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "딥메디"
+    ],
+    "titles": [
+      "안드로이드 시니어 개발자(5년이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "라이너(Liner)"
+    ],
+    "titles": [
+      "Mobile Engineer (React Native)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "라이프엑스"
+    ],
+    "titles": [
+      "[마미톡] Android Engineer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "러닝포인트"
+    ],
+    "titles": [
+      "안드로이드 러닝 앱 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "리브리티"
+    ],
+    "titles": [
+      "안드로이드 개발자 (3년 이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "리브리티(Libryty)"
+    ],
+    "titles": [
+      "안드로이드 개발자 (3년 이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "리주비놀"
+    ],
+    "titles": [
+      "모바일 앱 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "마이크로소프트(Microsoft)"
+    ],
+    "titles": [
+      "Apps & AI Solution Architect"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "마카롱팩토리"
+    ],
+    "titles": [
+      "안드로이드 개발 (5년 이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "마카롱팩토리(마이클)"
+    ],
+    "titles": [
+      "안드로이드 개발 (5년 이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "모젯"
+    ],
+    "titles": [
+      "[경력] 안드로이드 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "모젯(정오의데이트)"
+    ],
+    "titles": [
+      "안드로이드 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "모카시스템"
+    ],
+    "titles": [
+      "[4.5일제] 안드로이드 개발자 모집"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "무신사"
+    ],
+    "titles": [
+      "Product Manager (앱테크)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "반디소프트인터내셔널"
+    ],
+    "titles": [
+      "Windows 데스크톱 앱 개발자(C++)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "백패커"
+    ],
+    "titles": [
+      "[텀블벅] iOS 개발자 (1~3년)",
+      "[아이디어스] 안드로이드 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "보이저엑스"
+    ],
+    "titles": [
+      "[Vrew/vFlat] 안드로이드 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "보이저엑스(VoyagerX)"
+    ],
+    "titles": [
+      "[Vrew/vFlat] 안드로이드 개발자",
+      "[Vrew/vFlat] iOS 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "브이아이펫"
+    ],
+    "titles": [
+      "[재택근무 주1회]펫VIP(브이아이펫)React Native 개발 가능한 풀스텍개발자 모집"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "블루케이"
+    ],
+    "titles": [
+      "C++(MFC) / FLUTTER 개발자 모집"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "블리수(Blissoo)"
+    ],
+    "titles": [
+      "[BLISSOO] 엔터테인먼트 모바일 앱 개발자 경력자 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "비누랩스"
+    ],
+    "titles": [
+      "iOS 개발자 (책임급)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "비바리퍼블리카(토스)"
+    ],
+    "titles": [
+      "[토스] iOS Developer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "비버웍스"
+    ],
+    "titles": [
+      "시니어 모바일 앱 개발자 (React Native)",
+      "시니어 모바일앱 개발자(ReactNative)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "빗썸"
+    ],
+    "titles": [
+      "iOS 앱개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "새한엔케이앤디"
+    ],
+    "titles": [
+      "[연구소] 의료장비 Android 기반 앱 개발자 모집합니다.(경력..."
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "새흐름"
+    ],
+    "titles": [
+      "[FODI] android 개발자(경력 3년 이상 채용)",
+      "[FODI] IOS 개발자(경력 3년 이상 채용)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "샵라이브"
+    ],
+    "titles": [
+      "Software Engineer (Android) - 4년 이상",
+      "Software Engineer (Android) - 7년 이상",
+      "Software Engineer (iOS) - 7년 이상"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "스캐터랩"
+    ],
+    "titles": [
+      "Mobile Engineer (React Native)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "스캐터랩(Scatterlab)"
+    ],
+    "titles": [
+      "Mobile Engineer (React Native)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "스쿨버스"
+    ],
+    "titles": [
+      "클라이언트(flutter) 개발자 경력 채용",
+      "클라이언트(flutter) 개발자 신입 채용",
+      "클라이언트(flutter) 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "스토어링크"
+    ],
+    "titles": [
+      "iOS 앱 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "시큐리온"
+    ],
+    "titles": [
+      "안드로이드 앱(악성코드) 분석가"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "쓰리아이"
+    ],
+    "titles": [
+      "iOS Developer (Beamo)",
+      "AI Native - Mobile(Android, IOS), Frontend Developer",
+      "<span>iOS</span> Developer (Beamo)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "씨엠엔피"
+    ],
+    "titles": [
+      "모바일 앱 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "씨제이올리브영(CJ올리브영)"
+    ],
+    "titles": [
+      "커머스플랫폼유닛 Android"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "씨제이이엔엠(CJ ENM)"
+    ],
+    "titles": [
+      "[Mnet Plus] 앱 개발(React Native)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "아르템코퍼레이션"
+    ],
+    "titles": [
+      "앱 개발자 (App Developer)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "아이림프"
+    ],
+    "titles": [
+      "[주식회사 아이림프] 안드로이드 & ios 개발자 채용 공고"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "아이비테크"
+    ],
+    "titles": [
+      "[안드로이드 개발자 ]"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "아이씨티케이"
+    ],
+    "titles": [
+      "VPN Agent / GW(Android) 개발"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "아이씨티케이홀딩스(ICTK)"
+    ],
+    "titles": [
+      "VPN Agent / GW(Android) 개발"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "아이엑세스"
+    ],
+    "titles": [
+      "자바(Java) & 리액트네이티브(RN) 개발자모집(중/고급)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "아이엠뱅크"
+    ],
+    "titles": [
+      "안드로이드 개발자 채용",
+      "[iM뱅크] 안드로이드 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "아이젝스"
+    ],
+    "titles": [
+      "[(주)아이젝스] 안드로이드 & ios 개발자 채용 공고"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "아이티브라운"
+    ],
+    "titles": [
+      "[판교/상주] HL만도 MES공정PDA안드로이드개발자(중급) 모집(연단위연장)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "야나두"
+    ],
+    "titles": [
+      "[야나두(야핏)] 안드로이드(AOS) 개발"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "에버브레인"
+    ],
+    "titles": [
+      "iOS Software Engineer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "에버소프트"
+    ],
+    "titles": [
+      "[프리랜서] 안드로이드 네이티브 앱 개발 및 유지보수"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "에스더블유엠"
+    ],
+    "titles": [
+      "[SWM] 안드로이드 App 및 Framework 개발자 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "에이아이플로우"
+    ],
+    "titles": [
+      "Android/BLE 의료기기 SW 개발"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "에이치알포유"
+    ],
+    "titles": [
+      "[코스피 상장 IT서비스 중견기업] 증권사 MTS 앱/솔루션 개발"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "에이티씨아이"
+    ],
+    "titles": [
+      "React Native 모바일 엔지니어"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "에이피알"
+    ],
+    "titles": [
+      "[IT] Flutter 개발자 경력사원 모집 | 에이피알"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "엔디소프트"
+    ],
+    "titles": [
+      "모바일개발자 채용",
+      "iOS개발자 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "엔에이치엔에이스"
+    ],
+    "titles": [
+      "모빌리티/광고 서비스 모바일 앱 개발자(Android/iOS)",
+      "[NHN ACE]모빌리티·광고 서비스 모바일 앱 개발자(Android/iOS)",
+      "모빌리티/광고 서비스 모바일 앱 개발자(iOS)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "엔코위더스"
+    ],
+    "titles": [
+      "Flutter 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "엘핀"
+    ],
+    "titles": [
+      "네이티브 앱(Swift, Antroid studio) 개발 경력 채..."
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "엠서클"
+    ],
+    "titles": [
+      "[웰다] Product Engineer_APP 파트 3년 이상",
+      "[웰다] 디지털 헬스케어 혁신을 이끌 APP Engineer (경력)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "엠피에이지(MPAG)"
+    ],
+    "titles": [
+      "플랫폼 서비스 앱 개발자 (React Native)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "여기어때"
+    ],
+    "titles": [
+      "Android Developer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "여기어때컴퍼니"
+    ],
+    "titles": [
+      "Android Developer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "오렌지스퀘어"
+    ],
+    "titles": [
+      "iOS 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "오메타"
+    ],
+    "titles": [
+      "iOS 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "오픈마인즈"
+    ],
+    "titles": [
+      "[오픈마인즈] - 하이브리드앱 개발자(경력)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "와탭랩스(WhaTapLabs)"
+    ],
+    "titles": [
+      "모바일 에이전트 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "위런에듀"
+    ],
+    "titles": [
+      "[재택근무] iOS 프리랜서 개발자 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "위버스마인드"
+    ],
+    "titles": [
+      "AI 학습앱 Android 개발자",
+      "[위버스마인드] AI 학습앱 Android 개발자 채용 (경력)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "유모스원"
+    ],
+    "titles": [
+      "FMS Mobile Engineer (iOS to Flutter Migration)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "유탑소프트"
+    ],
+    "titles": [
+      "웹 프론트엔드 및 모바일 앱(iOS/AOS) 개발자 모십니다."
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "유피소프트"
+    ],
+    "titles": [
+      "[유피소프트] 안드로이드 개발자 정규직 채용(경력/대리급 이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "이든크루"
+    ],
+    "titles": [
+      "Flutter 개발자 (미들~시니어)",
+      "Flutter 개발자 (미들&시니어)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "이지식스(엠블)"
+    ],
+    "titles": [
+      "[TADA] Android Engineer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "이코드"
+    ],
+    "titles": [
+      "이코드와 함께 성장해나갈 웹/앱 개발자 모집"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "잠보 소프트"
+    ],
+    "titles": [
+      "안드로이드 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "잠보소프트"
+    ],
+    "titles": [
+      "안드로이드 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "제네시스네스트"
+    ],
+    "titles": [
+      "Flutter 앱 개발자 [경력 1~8년]",
+      "[제네시스네스트] Flutter App 개발자 (1년-8년)",
+      "Flutter App 개발자 (1년~8년)",
+      "Flutter 앱 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "제이엠씨컨설팅"
+    ],
+    "titles": [
+      "React Native 모바일 앱 개발자 (Android/iOS)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "제이투이"
+    ],
+    "titles": [
+      "[ReactNative SI 여의도] 00은행 뱅킹 현대화 (9)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "제제미미"
+    ],
+    "titles": [
+      "[쑥쑥찰칵] Android 개발자",
+      "[쑥쑥찰칵] iOS 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "제트오더코리아"
+    ],
+    "titles": [
+      "안드로이드 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "준컴퍼니"
+    ],
+    "titles": [
+      "[신차연구소 카랩] React / React Native 프론트엔드 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "중고나라"
+    ],
+    "titles": [
+      "iOS 개발자(Flutter to Native 리빌딩)",
+      "iOS 개발자(네이티브 전환)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "지에스티"
+    ],
+    "titles": [
+      "스마트공장 - 웹(react)& 앱(플러터) 개발자 모집(서울)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "지피에이코리아"
+    ],
+    "titles": [
+      "모바일광고 운영 담당자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "초이스테크코리아"
+    ],
+    "titles": [
+      "[경력] IT기반 안드로이드 & IOS 개발자 (10년 이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "캐시워크애즈"
+    ],
+    "titles": [
+      "[캐시워크애즈] Flutter개발 산업기능요원 모집"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "캐처스"
+    ],
+    "titles": [
+      "React/React Native 개발"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "케이티밀리의서재"
+    ],
+    "titles": [
+      "iOS 모바일앱 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "코딧(CODITCorp.)"
+    ],
+    "titles": [
+      "앱 개발자 (React Native, 2년 이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "코보시스"
+    ],
+    "titles": [
+      "Flutter 개발자 (바로더 POS/테이블오더/QR오더)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "쿠팡"
+    ],
+    "titles": [
+      "Manager, Mobile Engineering — Search AI Product & Mobile",
+      "Staff Android Engineer (Rocket Pay)",
+      "Staff Mobile Engineer",
+      "Staff iOS Engineer",
+      "[쿠팡페이] Staff iOS Engineer (Rocket Pay)",
+      "[쿠팡페이] iOS 개발자 (로켓페이)",
+      "[Coupang Pay Tech] Staff Mobile Engineer",
+      "[쿠팡페이] Staff iOS Engineer (Rockey Pay)",
+      "Senior Flutter Engineer (Coupang Eats)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "쿠팡 (Coupang)"
+    ],
+    "titles": [
+      "Staff Android Engineer",
+      "Staff Mobile Engineer (iOS)",
+      "Sr Mobile Engineer (Eats iOS)",
+      "Senior Flutter Engineer (Coupang Eats)",
+      "Tech Lead Manager, Mobile — Search AI Product & Mobile",
+      "Staff Mobile Engineer (TW Android)",
+      "Senior Staff, Mobile engineer(Eats Mobile Engineering)",
+      "Staff Mobile Engineer [Marketing Product Engineering]"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "큐센텍"
+    ],
+    "titles": [
+      "[경력]React Native, Web 프론트엔드, 하이브리드 앱 개발자 (AI코딩)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "크래프톤"
+    ],
+    "titles": [
+      "[Publishing Platform Div.] Sr. Mobile App Developer (7년 이상 / 계약직)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "크로스이엔에프"
+    ],
+    "titles": [
+      "Android Developer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "클레온"
+    ],
+    "titles": [
+      "AI 디지털 휴먼 Android 개발자 (5년차 이상, SDK)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "텐빌리언"
+    ],
+    "titles": [
+      "앱 개발자 경력 채용 (2~5년)",
+      "앱 개발자 경력 채용 (6~9년)",
+      "앱 개발자 경력 채용 (10년이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "텔레칩스"
+    ],
+    "titles": [
+      "Android SDK 개발 Project Leader"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "텔어스"
+    ],
+    "titles": [
+      "Full Stack Engineer - Mobile"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "토모도모"
+    ],
+    "titles": [
+      "하나은행 원큐앱 iOS 유지운영 개발 고급개발자채용(청라,5개월)",
+      "하나은행 원큐앱 iOS 유지운영 개발 고급 개발자 채용(청라, 5개월)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "트루엔"
+    ],
+    "titles": [
+      "[트루엔] App개발(Android, iOS, Flutter)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "트리니티수학"
+    ],
+    "titles": [
+      "[에듀테크] Flutter · Python 개발자 채용 (재택 유동 / 수학 전공 우대)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "트리플콤마"
+    ],
+    "titles": [
+      "모바일 앱 개발자 (Flutter)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "트리플콤마(골드스푼)"
+    ],
+    "titles": [
+      "모바일 앱 개발자 (Flutter)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "티맵모빌리티"
+    ],
+    "titles": [
+      "Android SDK Engineer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "티엔젠"
+    ],
+    "titles": [
+      "안드로이드 개발자 신입사원 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "파란샘"
+    ],
+    "titles": [
+      "웹/앱 프론트엔드 개발자 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "페이타랩"
+    ],
+    "titles": [
+      "Android Developer",
+      "iOS Developer 신입",
+      "iOS Developer (경력 1~10년)",
+      "[병역특례] Android Developer (산업기능요원/보충역/전직)",
+      "iOS Developer",
+      "[900만 유저 패스오더] Android Developer",
+      "[900만 유저 패스오더] iOS Developer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "포디(FODI)"
+    ],
+    "titles": [
+      "Android 개발자",
+      "IOS 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "포티투닷(42dot)"
+    ],
+    "titles": [
+      "Android Engineer (System Application)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "프로베디"
+    ],
+    "titles": [
+      "앱테크 서비스 관련 APP 프런트엔드 개발 (Flutter) - 프리랜서"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "플러스하이"
+    ],
+    "titles": [
+      "성장률 200프로 진행중인 회사의 개발자모집(JAVA/React/Vue/and&ios)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "플루이즈"
+    ],
+    "titles": [
+      "모바일 AI Agent Engineer"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "핀다"
+    ],
+    "titles": [
+      "App Lead",
+      "안드로이드 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "핀다(FINDA)"
+    ],
+    "titles": [
+      "안드로이드 개발자",
+      "App Lead"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "하이어다이버시티"
+    ],
+    "titles": [
+      "[엔지니어링 팀] 모바일 엔지니어 (3년 이상)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "한차오"
+    ],
+    "titles": [
+      "React Native 앱개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "핸드위치"
+    ],
+    "titles": [
+      "안드로이드 운영 프리랜서 채용"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "헤렌"
+    ],
+    "titles": [
+      "[헤렌/공비서] iOS 개발자",
+      "[헤렌/공비서] iOS 리드 엔지니어 (7년차~)",
+      "[헤렌/공비서] Android 리드 엔지니어 (7년차~)",
+      "[공비서] iOS 개발자 (2년차~6년차)",
+      "[공비서] iOS 리드 엔지니어 (7년차~)",
+      "[헤렌/공비서] iOS 리드 개발자(7년~)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "헥토이노베이션"
+    ],
+    "titles": [
+      "날씨돌 Android 앱 개발"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "현대오토에버"
+    ],
+    "titles": [
+      "[IVI] Embedded SW Architect - Android Framework 개발 Developer",
+      "[IVI] Embedded SW Architect - Android Framework 개발 Architector"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "휴넷"
+    ],
+    "titles": [
+      "IOS 앱 개발자[5년 이상]",
+      "[휴넷] IOS 앱 개발자 [정규직/경력]"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "휴레이포지티브"
+    ],
+    "titles": [
+      "안드로이드 개발자(경력)"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "힐링페이퍼"
+    ],
+    "titles": [
+      "[강남언니] Android 개발자",
+      "[강남언니] iOS 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
+  },
+  {
+    "companies": [
+      "힐링페이퍼(강남언니)"
+    ],
+    "titles": [
+      "[강남언니] Android 개발자",
+      "[강남언니] iOS 개발자"
+    ],
+    "reason": "2026-10-05 정리: 지원 고민 중인 공고 외 숨김"
   }
 ]

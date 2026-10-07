@@ -1,9 +1,8 @@
 name: "Weekly Jobs Digest"
 
+# 매주 월요일 자동 수집은 멈췄다. 수집 방식을 다시 정하는 동안 필요할 때만 수동으로 돌린다.
+# 이름은 pages-deploy.yml 의 workflow_run 이 이 이름으로 이어받으므로 바꾸지 않는다.
 on:
-  schedule:
-    # 매주 월요일 오전 9시 (KST) = UTC 기준 월요일 00:00
-    - cron: '0 0 * * 1'
   workflow_dispatch:
 
 permissions:

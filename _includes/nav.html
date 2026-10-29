@@ -21,11 +21,6 @@
 {% if current_lang == "en" %}
   {% assign is_en = true %}
   {% assign prefix = "/en" %}
-  {% assign twin_url = page.url | remove_first: "/en" %}
-  {% if twin_url == "" %}{% assign twin_url = "/" %}{% endif %}
-{% else %}
-  {% assign twin_url = "/en" | append: page.url %}
-  {% if page.url == "/" %}{% assign twin_url = "/en/" %}{% endif %}
 {% endif %}
 
 {% assign t = site.data[current_lang].nav %}

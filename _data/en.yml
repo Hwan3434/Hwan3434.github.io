@@ -11,7 +11,6 @@ nav:
 home:
   subtitle: "Slowly <em>recording</em><br />code and thoughts."
   desc: "Real problems encountered, perspectives on tools, and occasional non-code thoughts. Written at a sustainable pace."
-  min_read: " min"
   empty: "No posts yet."
   no_news: "No news posted yet."
   no_phil: "No philosophy posts yet."

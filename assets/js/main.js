@@ -171,13 +171,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderSearchResults() {
       if (currentResults.length === 0) {
-        searchResults.innerHTML = '<div class="search-empty">결과가 없습니다.</div>';
+        searchResults.innerHTML = `<div class="search-empty">${searchResults.dataset.empty}</div>`;
         return;
       }
       searchResults.innerHTML = currentResults.map((item, i) => `
         <a href="${item.url}" class="search-result ${i === searchIndex ? 'cur' : ''}" data-index="${i}">
           <div class="sr-title">${item.title}</div>
-          <div class="sr-meta">${item.categories} — ${item.date}</div>
+          <div class="sr-meta">${item.categories} — ${item.date.replace(/\./g, '. ')}</div>
         </a>
       `).join('');
       

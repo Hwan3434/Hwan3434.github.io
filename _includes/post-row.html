@@ -1,0 +1,19 @@
+{%- comment -%} 글 목록의 한 줄. 사용: include post-row.html post=post tags=true featured=true {%- endcomment -%}
+{%- assign p = include.post -%}
+<article class="post-row{% if include.featured %} featured{% endif %}" data-tags="{{ p.tags | join: ',' }},{{ p.categories | join: ',' }}">
+  <p class="pr-meta">
+    <time datetime="{{ p.date | date: '%Y-%m-%d' }}">{{ p.date | date: "%Y. %m. %d" }}</time>
+    {%- if p.categories.size > 0 %}
+    <span class="pr-cats">{% for cat in p.categories %}{{ cat | capitalize }}{% unless forloop.last %} · {% endunless %}{% endfor %}</span>
+    {%- endif %}
+  </p>
+  <h2><a href="{{ p.url | relative_url }}">{{ p.title }}</a></h2>
+  <p class="pr-sum">{{ p.description | default: p.excerpt | strip_html | truncatewords: 30 }}</p>
+  {%- if include.tags and p.tags.size > 0 %}
+  <div class="pr-tags">
+    {%- for tag in p.tags %}
+    <button type="button" class="tag" data-tag="{{ tag }}">{{ tag }}</button>
+    {%- endfor %}
+  </div>
+  {%- endif %}
+</article>

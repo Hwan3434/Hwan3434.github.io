@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-21"
+title: "WordPress 긴급 패치, Codex 컨텍스트 변경, 로봇 기반 모델 (2026. 07. 21)"
 date: 2026-07-21 06:02:36 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

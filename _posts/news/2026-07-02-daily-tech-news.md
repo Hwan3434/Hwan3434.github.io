@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-02"
+title: "모델 재배포, 풀스택 에이전트, 오픈소스 시스템 (2026. 07. 02)"
 date: 2026-07-02 06:01:18 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

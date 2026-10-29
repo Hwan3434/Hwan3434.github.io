@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-30"
+title: "GPT-5.6 추론 최적화, Kimi K3-256k, npm·Actions 공급망 방어 (2026. 07. 30)"
 date: 2026-07-30 06:02:48 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

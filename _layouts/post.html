@@ -11,6 +11,16 @@ layout: default
   {% assign current_lang = page.lang | default: "ko" %}
   {% assign t_nav = site.data[current_lang].nav %}
   {% assign t_post = site.data[current_lang].post %}
+
+  {% comment %} 시리즈: 같은 언어·같은 series 값의 글을 series_order 순으로 모은다 {% endcomment %}
+  {% assign series_posts = nil %}
+  {% assign series_index = 0 %}
+  {% if page.series %}
+    {% assign series_posts = site.posts | where: "lang", current_lang | where: "series", page.series | sort: "series_order", "last" %}
+    {% for p in series_posts %}
+      {% if p.url == page.url %}{% assign series_index = forloop.index %}{% endif %}
+    {% endfor %}
+  {% endif %}
   
   {% assign tab_name = t_nav.etc %}
   {% assign tab_url = "/" %}
@@ -58,6 +68,10 @@ layout: default
 
     <div class="article-grid">
       <div class="article-main">
+        {% if series_posts.size > 1 %}
+          {% include series.html posts=series_posts index=series_index %}
+        {% endif %}
+
         <div class="prose" id="prose">
           {{ content }}
         </div>
@@ -74,7 +88,17 @@ layout: default
           {% assign prev_in_category = nil %}
           {% assign next_in_category = nil %}
           {% assign found_current = false %}
-          
+          {% assign prev_label = t_post.prev %}
+          {% assign next_label = t_post.next %}
+
+          {% if series_posts.size > 1 %}
+            {% comment %} 시리즈 글은 시리즈 안에서만 이어진다. 첫 편엔 이전, 마지막 편엔 다음이 없다 {% endcomment %}
+            {% assign prev_label = t_post.series_prev %}
+            {% assign next_label = t_post.series_next %}
+            {% assign prev_i = series_index | minus: 2 %}
+            {% if series_index > 1 %}{% assign prev_in_category = series_posts[prev_i] %}{% endif %}
+            {% if series_index < series_posts.size %}{% assign next_in_category = series_posts[series_index] %}{% endif %}
+          {% else %}
           {% for p in site.posts %}
             {% assign p_lang = p.lang | default: "ko" %}
             {% if p_lang != current_lang %}{% continue %}{% endif %}
@@ -98,18 +122,19 @@ layout: default
               {% endif %}
             {% endif %}
           {% endfor %}
+          {% endif %}
 
           {% if prev_in_category or next_in_category %}
           <nav class="prevnext">
             {% if prev_in_category %}
             <a class="pn-card prev" href="{{ prev_in_category.url | relative_url }}">
-              <span class="pn-label">{% include icon.html name="arrow-left" px=16 %}{{ t_post.prev }}</span>
+              <span class="pn-label">{% include icon.html name="arrow-left" px=16 %}{{ prev_label }}</span>
               <span class="pn-title">{{ prev_in_category.title }}</span>
             </a>
             {% endif %}
             {% if next_in_category %}
             <a class="pn-card next" href="{{ next_in_category.url | relative_url }}">
-              <span class="pn-label">{{ t_post.next }}{% include icon.html name="arrow-right" px=16 %}</span>
+              <span class="pn-label">{{ next_label }}{% include icon.html name="arrow-right" px=16 %}</span>
               <span class="pn-title">{{ next_in_category.title }}</span>
             </a>
             {% endif %}

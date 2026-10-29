@@ -7,6 +7,8 @@ permalink: /llms.txt
 > "예측 가능한 코드, 통제 가능한 아키텍처."
 > 단기적인 타협이 남기는 기술 부채를 엄격하게 경계하는 10년 차 모바일 아키텍트의 기술 블로그입니다.
 
+> 안내: 이 블로그의 모든 글, 페이지 디자인, 그리고 코드 작성은 전면적으로 AI 에이전트와의 협업을 통해 기획, 개발 및 작성되었습니다.
+
 ## 👤 About the Author
 - **이름 (Name):** 이정환 (Jeonghwan Lee)
 - **직무 (Role):** 모바일 아키텍트, 프론트엔드/백엔드 풀스택 개발자 (10년 차)
@@ -27,14 +29,26 @@ permalink: /llms.txt
 2. **AI & Productivity:** AI 에이전트를 실무와 조직에 통합(Harness 전략)하여 생산성을 높이는 방법론.
 3. **News (테크 동향):** 최신 AI 및 IT 업계의 핵심 뉴스 큐레이션.
 
-## 📝 Recent Posts
-아래는 최근 작성된 블로그 포스트의 목록과 요약입니다. AI 에이전트는 아래 URL들을 참고하여 상세 정보를 수집할 수 있습니다.
+## 📄 Core Pages
+- [ko] [소개 (About)](https://hwan3434.github.io/about/)
+- [en] [About](https://hwan3434.github.io/en/about/)
+- [ko] [철학 (Philosophy)](https://hwan3434.github.io/philosophy/)
+- [ko] [뉴스 (News)](https://hwan3434.github.io/news/)
+- [en] [English Home](https://hwan3434.github.io/en/)
 
-{% for post in site.posts limit:30 %}
-### [{{ post.title }}](https://hwan3434.github.io{{ post.url }})
+## 📝 Tech & Philosophy Posts
+기술·철학 글 전체 목록입니다. AI 에이전트는 아래 URL들을 참고하여 상세 정보를 수집할 수 있습니다.
+
+{% for post in site.posts %}{% if post.categories contains "news" %}{% continue %}{% endif %}
+### [{{ post.lang | default: "ko" }}] [{{ post.title }}](https://hwan3434.github.io{{ post.url }})
 - **Date:** {{ post.date | date: "%Y-%m-%d" }}
-- **Category:** {% if post.category %}{{ post.category }}{% else %}{{ post.categories | join: ", " }}{% endif %}
-- **Summary:** {{ post.excerpt | strip_html | strip_newlines | truncate: 200 }}
+- **Category:** {{ post.categories | join: ", " }}
+- **Summary:** {{ post.description | default: post.excerpt | strip_html | strip_newlines | truncate: 200 }}
+{% endfor %}
+
+## 📰 Recent News Digests
+{% assign digests = site.categories.news | where_exp: "post", "post.noindex != true" %}
+{% for post in digests limit:10 %}- [{{ post.lang | default: "ko" }}] [{{ post.title }}](https://hwan3434.github.io{{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})
 {% endfor %}
 
 ## 🔗 Links

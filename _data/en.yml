@@ -26,6 +26,9 @@ post:
   prev: "Previous"
   next: "Next"
   toc: "On this page"
+  series: "Series"
+  series_prev: "Previous part"
+  series_next: "Next part"
 footer:
   slogan: "Records of code and thoughts"
   resume: "Portfolio and Resume"

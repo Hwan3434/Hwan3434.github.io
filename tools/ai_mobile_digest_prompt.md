@@ -67,6 +67,17 @@ Open with an `##` headline naming the day's threads, then a **TL;DR list — one
 
 Separate sections with `---` and group items under `###` headers named after the actual topic (e.g. `### On-Device Inference`, `### Flutter Toolchain`). Close with **one sentence** on what the day's items share. If nothing genuinely connects them, omit the closing line rather than inventing a thread.
 
+## Polish the Korean draft
+
+Before saving the Korean post, run the `humanize-korean` skill in this repository (`.claude/skills/humanize-korean/`) once on the Korean body, everything below the front matter, with genre `blog`. No one answers questions during the run, so do not wait for confirmation. Take only its wording changes:
+
+- Keep the structure exactly: the `##` headline, the TL;DR list, `---` separators, `###` headers, each item's shape and bullet count, `[Source URL](...)` lines, `> 시사점:` lines, and `(vendor 측정)` marks.
+- Keep every number, version, API name, product name, and URL as it was. Discard any change that alters one of them or removes a bullet.
+- After polishing, check the hard limits under Writing rules again.
+- If the skill fails, save the unpolished draft and say so in the report. A failed polish is not a reason to skip publishing.
+
+Write the English post from the polished Korean. The skill leaves working files under `_workspace/`; never commit them.
+
 ## Output
 
 1. Korean → `_posts/news/YYYY-MM-DD-ai-mobile-digest.md`

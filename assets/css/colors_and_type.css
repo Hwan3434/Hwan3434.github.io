@@ -1,383 +1,192 @@
 /* =========================================================================
-   Claude Design System — colors_and_type.css
-   Import once at the root of any HTML file:
-     <link rel="stylesheet" href="/colors_and_type.css">
-   All tokens are CSS custom properties. Use them — never inline hex.
+   Still 디자인 시스템 토큰 — tokens.json 을 CSS 변수로 옮겼다.
+   색 값은 이 파일의 토큰 블록에만 둔다. 다른 곳에서는 var(--토큰)만 쓴다.
    ========================================================================= */
 
-/* ---- Fonts ---------------------------------------------------------- */
-/* Body sans: Pretendard (uploaded brand font, replaces Inter / StyreneB substitute) */
 @font-face {
-  font-family: 'Pretendard';
-  src: url('../fonts/PretendardVariable.woff2') format('woff2-variations');
+  font-family: "SUIT Variable";
+  src: url("../fonts/SUIT-Variable.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
-/* Display serif (Copernicus substitute) + mono via Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=JetBrains+Mono:wght@400;500&display=swap');
-
-:root {
-  /* ===== Brand & Accent ================================================ */
-  --primary:           #cc785c;
-  --primary-active:    #a9583e;
-  --primary-disabled:  #e6dfd8;
-  --accent-teal:       #5db8a6;
-  --accent-amber:      #e8a55a;
-
-  /* ===== Surface ======================================================= */
-  --canvas:                #faf9f5;
-  --surface-soft:          #f5f0e8;
-  --surface-card:          #efe9de;
-  --surface-cream-strong:  #e8e0d2;
-  --surface-dark:          #181715;
-  --surface-dark-elevated: #252320;
-  --surface-dark-soft:     #1f1e1b;
-  --hairline:              #e6dfd8;
-  --hairline-soft:         #ebe6df;
-
-  /* ===== Text ========================================================== */
-  --ink:           #141413;
-  --body-strong:   #252523;
-  --body:          #3d3d3a;
-  --muted:         #6c6a64;
-  --muted-soft:    #8e8b82;
-  --on-primary:    #ffffff;
-  --on-dark:       #faf9f5;
-  --on-dark-soft:  #a09d96;
-
-  /* ===== Semantic ====================================================== */
-  --success: #5db872;
-  --warning: #d4a017;
-  --error:   #c64545;
-
-  /* ===== Spacing (4px base) ============================================ */
-  --space-xxs:     4px;
-  --space-xs:      8px;
-  --space-sm:      12px;
-  --space-md:      16px;
-  --space-lg:      24px;
-  --space-xl:      32px;
-  --space-xxl:     48px;
-  --space-section: 96px;
-
-  /* ===== Border Radius ================================================= */
-  --radius-xs:   4px;
-  --radius-sm:   6px;
-  --radius-md:   8px;
-  --radius-lg:   12px;
-  --radius-xl:   16px;
-  --radius-pill: 9999px;
-  --radius-full: 9999px;
-
-  /* ===== Shadow (rare) ================================================= */
-  --shadow-soft: 0 1px 3px rgba(20, 20, 19, 0.08);
-
-  /* ===== Container ===================================================== */
-  --container-max: 1200px;
-
-  /* ===== Type Families ================================================== */
-  /* Display: Copernicus → Tiempos Headline → Fraunces (Google Fonts) → Garamond */
-  --font-display: 'Copernicus', 'Tiempos Headline', 'Fraunces', 'Cormorant Garamond', 'EB Garamond', Garamond, 'Times New Roman', serif;
-  /* Body: StyreneB → Pretendard (uploaded) → Inter → system humanist sans */
-  --font-body:    'StyreneB', 'Pretendard', 'Söhne', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-
-  /* ===== Type tokens (size / weight / line-height / tracking) =========== */
-  /* Display sizes — always serif, weight 400, negative tracking */
-  --display-xl-size:     64px;  --display-xl-lh:  1.05; --display-xl-track:  -1.5px;
-  --display-lg-size:     48px;  --display-lg-lh:  1.1;  --display-lg-track:  -1px;
-  --display-md-size:     36px;  --display-md-lh:  1.15; --display-md-track:  -0.5px;
-  --display-sm-size:     28px;  --display-sm-lh:  1.2;  --display-sm-track:  -0.3px;
-
-  /* Title sizes — sans, weight 500 */
-  --title-lg-size: 22px; --title-lg-lh: 1.3;
-  --title-md-size: 18px; --title-md-lh: 1.4;
-  --title-sm-size: 16px; --title-sm-lh: 1.4;
-
-  /* Body — sans, weight 400 */
-  --body-md-size: 16px; --body-md-lh: 1.55;
-  --body-sm-size: 14px; --body-sm-lh: 1.55;
-
-  /* Caption / Code / Button / Nav */
-  --caption-size:           13px;
-  --caption-uppercase-size: 12px;
-  --code-size:              14px; --code-lh: 1.6;
-  --button-size:            14px;
-  --nav-link-size:          14px;
+@font-face {
+  font-family: "Geist Mono";
+  src: url("../fonts/GeistMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
-/* =========================================================================
-   Base reset + canvas
-   ========================================================================= */
+/* ---- 토큰 블록 시작 -------------------------------------------------- */
+
+/* 색: dark */
+:root, [data-theme="dark"] {
+  --bg: #0a0a0b;
+  --surface: #141415;
+  --surface-raised: #1c1c1e;
+  --border-subtle: #2c2c2e;
+  --border-strong: #6c6c72;
+  --ink: #f5f5f7;
+  --ink-muted: #a1a1a6;
+  --ink-faint: #8a8a90;
+  --brand: #2fd3b5;
+  --brand-soft: rgba(47, 211, 181, 0.12);
+  --success: #4cd471;
+  --success-soft: rgba(76, 212, 113, 0.12);
+  --warning: #ffb340;
+  --warning-soft: rgba(255, 179, 64, 0.12);
+  --danger: #ff6961;
+  --danger-soft: rgba(255, 105, 97, 0.12);
+  --on-danger: #0a0a0b;
+  --info: #64a8ff;
+  --info-soft: rgba(100, 168, 255, 0.12);
+  --chart-1: #1aa58f;
+  --chart-2: #d95926;
+  --chart-3: #3987e5;
+  --chart-4: #d55181;
+  --chart-5: #9085e9;
+  --chart-other: #6c6c72;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --on-brand: #0a0a0b;
+  --elevation-1: inset 0 1px 0 rgba(255,255,255,0.04);
+  --elevation-2: inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 24px rgba(0,0,0,0.5);
+  --elevation-3: inset 0 1px 0 rgba(255,255,255,0.06), 0 24px 64px rgba(0,0,0,0.6);
+  color-scheme: dark;
+}
+
+/* 색: light */
+[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #f5f5f7;
+  --surface-raised: #ffffff;
+  --border-subtle: #e5e5ea;
+  --border-strong: #86868b;
+  --ink: #111113;
+  --ink-muted: #5d5d63;
+  --ink-faint: #6e6e73;
+  --brand: #0a7466;
+  --brand-soft: rgba(10, 116, 102, 0.08);
+  --success: #1a7f37;
+  --success-soft: rgba(26, 127, 55, 0.08);
+  --warning: #966300;
+  --warning-soft: rgba(150, 99, 0, 0.08);
+  --danger: #cf222e;
+  --danger-soft: rgba(207, 34, 46, 0.08);
+  --on-danger: #ffffff;
+  --info: #0b67d0;
+  --info-soft: rgba(11, 103, 208, 0.08);
+  --chart-1: #1a9e88;
+  --chart-2: #eb6834;
+  --chart-3: #2a78d6;
+  --chart-4: #e87ba4;
+  --chart-5: #6250d6;
+  --chart-other: #a1a1a6;
+  --scrim: rgba(17, 17, 19, 0.32);
+  --on-brand: #ffffff;
+  --elevation-1: 0 1px 2px rgba(0,0,0,0.05);
+  --elevation-2: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.08);
+  --elevation-3: 0 2px 8px rgba(0,0,0,0.06), 0 20px 48px rgba(0,0,0,0.14);
+  color-scheme: light;
+}
+
+/* 테마와 무관한 토큰 */
+:root {
+  /* 별칭 */
+  --code-keyword: var(--info);
+  --code-string: var(--success);
+  --code-number: var(--warning);
+  --code-comment: var(--ink-faint);
+  --focus-ring: var(--brand);
+  --chart-grid: var(--border-subtle);
+  --chart-axis: var(--ink-faint);
+  --chart-seq-1: #4fbfa8;
+  --chart-seq-2: #2aa58f;
+  --chart-seq-3: #16897a;
+  --chart-seq-4: #0d6f63;
+  --chart-seq-5: #08554c;
+
+  /* 간격 */
+  --space-inline: 8px;
+  --space-stack: 12px;
+  --space-group: 24px;
+  --space-pad: 24px;
+  --space-section: 64px;
+  --space-page: 32px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* 레이아웃 (미디어 쿼리에는 변수를 못 써서 600 / 900 / 1200 을 그대로 적는다) */
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 900px;
+  --breakpoint-lg: 1200px;
+  --content-max: 1120px;
+  --prose-max: 680px;
+
+  /* 반경과 곡률 */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-2xl: 28px;
+  --radius-full: 9999px;
+  --corner-large: squircle;
+  --corner-small: round;
+
+  /* 모션 */
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+  --duration-slow: 360ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+  --ease-move: cubic-bezier(0.32, 0.72, 0, 1);
+  --move-sm: 8px;
+  --scale-enter: 0.96;
+  --scale-press: 0.97;
+  --page-shift: 30%;
+
+  /* 상태 */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --disabled-opacity: 0.4;
+
+  /* 글꼴 */
+  --font-sans: "SUIT Variable", SUIT, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "Geist Mono", "SUIT Variable", SUIT, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ---- 토큰 블록 끝 ---------------------------------------------------- */
+
+/* 기본 */
+* { box-sizing: border-box; }
 html, body {
   margin: 0;
   padding: 0;
-  background: var(--canvas);
-  color: var(--body);
-  font-family: var(--font-body);
-  font-size: var(--body-md-size);
-  line-height: var(--body-md-lh);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 26px;
   font-weight: 400;
+  word-break: keep-all;
+  overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
-
-* { box-sizing: border-box; }
-
-/* =========================================================================
-   Semantic type — drop these classes on elements directly
-   ========================================================================= */
-
-/* Display (always serif, weight 400, negative tracking) */
-.display-xl, h1.display, .h1 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: var(--display-xl-size);
-  line-height: var(--display-xl-lh);
-  letter-spacing: var(--display-xl-track);
-  color: var(--ink);
-  margin: 0;
+h1, h2, h3, h4, p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+code, pre, kbd { font-family: var(--font-mono); font-variant-ligatures: none; }
+::selection { background: var(--brand-soft); }
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
-.display-lg, h2.display, .h2 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: var(--display-lg-size);
-  line-height: var(--display-lg-lh);
-  letter-spacing: var(--display-lg-track);
-  color: var(--ink);
-  margin: 0;
-}
-.display-md, h3.display, .h3 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: var(--display-md-size);
-  line-height: var(--display-md-lh);
-  letter-spacing: var(--display-md-track);
-  color: var(--ink);
-  margin: 0;
-}
-.display-sm, h4.display, .h4 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: var(--display-sm-size);
-  line-height: var(--display-sm-lh);
-  letter-spacing: var(--display-sm-track);
-  color: var(--ink);
-  margin: 0;
-}
-
-/* Title (sans, weight 500) */
-.title-lg {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: var(--title-lg-size);
-  line-height: var(--title-lg-lh);
-  color: var(--ink);
-  margin: 0;
-}
-.title-md {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: var(--title-md-size);
-  line-height: var(--title-md-lh);
-  color: var(--ink);
-  margin: 0;
-}
-.title-sm {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: var(--title-sm-size);
-  line-height: var(--title-sm-lh);
-  color: var(--ink);
-  margin: 0;
-}
-
-/* Body */
-.body-md, p {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: var(--body-md-size);
-  line-height: var(--body-md-lh);
-  color: var(--body);
-  margin: 0;
-}
-.body-sm {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: var(--body-sm-size);
-  line-height: var(--body-sm-lh);
-  color: var(--body);
-  margin: 0;
-}
-
-/* Caption / labels */
-.caption {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: var(--caption-size);
-  line-height: 1.4;
-  color: var(--ink);
-}
-.caption-uppercase {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: var(--caption-uppercase-size);
-  line-height: 1.4;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-/* Code */
-code, pre, .code {
-  font-family: var(--font-mono);
-  font-weight: 400;
-  font-size: var(--code-size);
-  line-height: var(--code-lh);
-}
-
-/* Inline coral text-link — one of the system's most distinctive details */
-a, .text-link {
-  color: var(--primary);
-  text-decoration: none;
-}
-a:active, .text-link:active {
-  text-decoration: underline;
-  color: var(--primary-active);
-}
-
-/* =========================================================================
-   Utility surface helpers
-   ========================================================================= */
-.surface-canvas      { background: var(--canvas); color: var(--ink); }
-.surface-soft        { background: var(--surface-soft); color: var(--ink); }
-.surface-card        { background: var(--surface-card); color: var(--ink); }
-.surface-cream-strong{ background: var(--surface-cream-strong); color: var(--ink); }
-.surface-dark        { background: var(--surface-dark); color: var(--on-dark); }
-.surface-dark-soft   { background: var(--surface-dark-soft); color: var(--on-dark); }
-.surface-coral       { background: var(--primary); color: var(--on-primary); }
-
-/* =========================================================================
-   Buttons
-   ========================================================================= */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: var(--button-size);
-  line-height: 1;
-  height: 40px;
-  padding: 0 20px;
-  border-radius: var(--radius-md);
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background-color 120ms cubic-bezier(0.4, 0, 0.2, 1);
-  white-space: nowrap;
-  text-decoration: none;
-}
-.btn-primary {
-  background: var(--primary);
-  color: var(--on-primary);
-}
-.btn-primary:active { background: var(--primary-active); }
-
-.btn-secondary {
-  background: var(--canvas);
-  color: var(--ink);
-  border-color: var(--hairline);
-}
-
-.btn-secondary-on-dark {
-  background: var(--surface-dark-elevated);
-  color: var(--on-dark);
-  border-color: transparent;
-}
-
-.btn-text {
-  background: transparent;
-  color: var(--ink);
-  padding: 0 8px;
-}
-
-.btn-icon-circular {
-  width: 36px; height: 36px;
-  padding: 0;
-  border-radius: var(--radius-full);
-  background: var(--canvas);
-  color: var(--ink);
-  border-color: var(--hairline);
-}
-
-/* =========================================================================
-   Inputs
-   ========================================================================= */
-.input {
-  display: block;
-  width: 100%;
-  height: 40px;
-  padding: 10px 14px;
-  font-family: var(--font-body);
-  font-size: var(--body-md-size);
-  color: var(--ink);
-  background: var(--canvas);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-  outline: none;
-  transition: border-color 120ms, box-shadow 120ms;
-}
-.input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(204, 120, 92, 0.15);
-}
-
-/* =========================================================================
-   Badges & pills
-   ========================================================================= */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: var(--caption-size);
-  line-height: 1;
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
-  background: var(--surface-card);
-  color: var(--ink);
-}
-.badge-coral {
-  background: var(--primary);
-  color: var(--on-primary);
-  font-size: var(--caption-uppercase-size);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-/* =========================================================================
-   Cards
-   ========================================================================= */
-.card {
-  border-radius: var(--radius-lg);
-  padding: var(--space-xl);
-}
-.card-feature       { background: var(--surface-card); }
-.card-mockup-dark   { background: var(--surface-dark); color: var(--on-dark); }
-.card-code-window   { background: var(--surface-dark); color: var(--on-dark); padding: var(--space-lg); }
-.card-pricing       { background: var(--canvas); border: 1px solid var(--hairline); }
-.card-pricing-featured { background: var(--surface-dark); color: var(--on-dark); }
-.card-callout-coral { background: var(--primary); color: var(--on-primary); padding: var(--space-xxl); }
-
-/* =========================================================================
-   Layout helpers
-   ========================================================================= */
-.container {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 var(--space-lg);
-}
-.section { padding: var(--space-section) 0; }

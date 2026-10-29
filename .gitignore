@@ -40,3 +40,6 @@ __pycache__/
 # jobs 페이지: 배포 때 생성한다. 지원 이력은 Secret 으로만 받는다.
 jobs.html
 tools/applied.local.json
+
+# humanize-korean 스킬이 윤문할 때 남기는 작업 파일
+_workspace/

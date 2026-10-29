@@ -1,13 +1,13 @@
 # AI & Mobile Daily Digest
 
-You are running as a scheduled Orca automation for this Jekyll blog repository.
+You are running as a daily Claude routine in the cloud for this Jekyll blog repository. Each run starts from a fresh clone of the repository; nothing from previous runs is left behind, and no one is watching the run.
 
 Goal: publish today's digest covering two pillars — **AI engineering** and **mobile development** — written for a 10-year mobile developer (Flutter 3y, Android, iOS, some Java server).
 
 ## Hard constraints
 
-- Do not modify unrelated files. Keep existing uncommitted user changes intact.
-- Use Asia/Seoul time for all dates.
+- Do not modify any file other than the two post files for today.
+- Use Asia/Seoul time for all dates. The cloud machine's clock is not in Asia/Seoul; get today's date with `TZ=Asia/Seoul date +%F`.
 - Every claim must come from a source you actually fetched today. Never invent numbers, version strings, or URLs. If you cannot verify an item, drop it.
 
 ## Coverage: two pillars
@@ -67,6 +67,17 @@ Open with an `##` headline naming the day's threads, then a **TL;DR list — one
 
 Separate sections with `---` and group items under `###` headers named after the actual topic (e.g. `### On-Device Inference`, `### Flutter Toolchain`). Close with **one sentence** on what the day's items share. If nothing genuinely connects them, omit the closing line rather than inventing a thread.
 
+## Polish the Korean draft
+
+Before saving the Korean post, run the `humanize-korean` skill in this repository (`.claude/skills/humanize-korean/`) once on the Korean body, everything below the front matter, with genre `blog`. No one answers questions during the run, so do not wait for confirmation. Take only its wording changes:
+
+- Keep the structure exactly: the `##` headline, the TL;DR list, `---` separators, `###` headers, each item's shape and bullet count, `[Source URL](...)` lines, `> 시사점:` lines, and `(vendor 측정)` marks.
+- Keep every number, version, API name, product name, and URL as it was. Discard any change that alters one of them or removes a bullet.
+- After polishing, check the hard limits under Writing rules again.
+- If the skill fails, save the unpolished draft and say so in the report. A failed polish is not a reason to skip publishing.
+
+Write the English post from the polished Korean. The skill leaves working files under `_workspace/`; never commit them.
+
 ## Output
 
 1. Korean → `_posts/news/YYYY-MM-DD-ai-mobile-digest.md`
@@ -76,19 +87,42 @@ Front matter for both:
 
 ```yaml
 layout: post
-title: "AI · 모바일 다이제스트 - YYYY-MM-DD"   # EN: "AI & Mobile Digest - YYYY-MM-DD"
-date: YYYY-MM-DD HH:MM:SS +0900
+title: "Google Colab CLI 출시와 Gemma 4 12B 로컬 AI (2026. 06. 07)"   # EN: "Google Colab CLI Launch and Gemma 4 12B Local AI (2026. 06. 07)"
+description: "Colab CLI로 로컬 터미널에서 원격 GPU를 쓰고, Gemma 4 12B는 16GB RAM 랩톱에서 돌아갑니다."
+date: 2026-06-07 08:00:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]
 ```
 
+- **title**: `"<today's topic> (YYYY. MM. DD)"`. The topic names the day's threads from the `##` headline, around 40 characters, naming the concrete products or versions rather than a theme. The date goes at the end in parentheses, with dots and spaces exactly as shown. The English post uses the same shape: `"<topic> (YYYY. MM. DD)"`. Titles already used on this blog:
+  - `"Google Colab CLI 출시와 Gemma 4 12B 로컬 AI (2026. 06. 07)"`
+  - `"Apple WWDC26 개발자 업데이트와 Gemini 기반 Apple AI (2026. 06. 09)"`
+  - `"DiffusionGemma, Gemini Omni, NAVER의 Kubernetes LLM 서빙 최적화 (2026. 06. 14)"`
+- **description**: the TL;DR condensed into one sentence, at most 120 characters, in the post's language. Search engines show it as the result snippet. Wrap it in double quotes and escape any `"` or `\` inside it as `\"` and `\\`.
+
 The English post is a faithful rendering of the same items, not a separate selection.
+
+## When not to publish
+
+Posts are published to the live blog with no human review, so a thin post is worse than no post. Create no files, commit nothing, and end with a report explaining why if either holds:
+
+- You could not fetch and verify any source today.
+- After dropping unverifiable items, either pillar has fewer than 2 items.
 
 ## Finish
 
-1. Sanity check: both files exist, both have valid front matter, every item has a source link and a `시사점:` / `Takeaway:` line, and both pillars are represented.
-2. If a post for today already exists and nothing meaningful changed, stop — do not create a duplicate commit.
-3. Commit only the generated post files: `chore: automated AI/mobile digest update`
-4. Push to the current branch.
+1. If `_posts/news/` already has a post for today's date, stop — do not create a second post or a duplicate commit.
+2. Sanity check: both files exist, every item has a source link and a `시사점:` / `Takeaway:` line, and both pillars are represented.
+3. Parse the front matter of both files as YAML and stop without committing if either fails, or if `title`, `description`, or `date` is missing. Ruby and Jekyll may not be installed, so do not try to build the site. For example (run `pip install pyyaml` first if `import yaml` fails):
 
-Report concisely: files created, item count per pillar, whether the commit and push succeeded.
+   ```bash
+   python3 -c 'import sys, yaml
+   for p in sys.argv[1:]:
+       fm = yaml.safe_load(open(p).read().split("---")[1])
+       assert all(fm.get(k) for k in ("title", "description", "date")), p' _posts/news/YYYY-MM-DD-ai-mobile-digest.md _posts/en/news/YYYY-MM-DD-ai-mobile-digest.md
+   ```
+
+4. Commit only the two post files: `chore: automated AI/mobile digest update`
+5. Push directly to `main`: `git push origin HEAD:main`. If the push is rejected because `main` moved, run `git pull --rebase origin main` once and push again.
+
+Report concisely: files created (or why nothing was published), item count per pillar, whether the commit and push succeeded.

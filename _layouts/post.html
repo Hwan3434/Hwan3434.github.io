@@ -36,7 +36,7 @@ layout: default
 
   <div class="col-wide">
     <nav class="breadcrumb">
-      <button onclick="window.location='{{ tab_url | relative_url }}'">{{ tab_name }}</button>
+      <a href="{{ tab_url | relative_url }}">{{ tab_name }}</a>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; opacity: 0.6;"><path d="M9 18l6-6-6-6"/></svg>
       <span style="color: var(--muted-soft);">{{ page.categories.last | default: t_post.record | capitalize }}</span>
     </nav>
@@ -70,7 +70,7 @@ layout: default
         <div class="article-foot">
           <div class="tag-row">
             {% for tag in page.tags %}
-              <span class="tag" onclick="window.location='{{ '/' | relative_url }}?tag={{ tag }}'">{{ tag }}</span>
+              <a class="tag" href="{{ '/' | relative_url }}?tag={{ tag | url_encode }}">{{ tag }}</a>
             {% endfor %}
           </div>
 
@@ -104,10 +104,10 @@ layout: default
 
           <div class="prevnext">
             {% if prev_in_category %}
-            <button class="pn-card prev" onclick="window.location='{{ prev_in_category.url | relative_url }}'">
+            <a class="pn-card prev" href="{{ prev_in_category.url | relative_url }}">
               <div class="pn-label">← {{ t_post.prev }}</div>
               <div class="pn-title">{{ prev_in_category.title }}</div>
-            </button>
+            </a>
             {% else %}
             <button class="pn-card prev disabled">
               <div class="pn-label">← {{ t_post.prev }}</div>
@@ -116,10 +116,10 @@ layout: default
             {% endif %}
 
             {% if next_in_category %}
-            <button class="pn-card next" onclick="window.location='{{ next_in_category.url | relative_url }}'">
+            <a class="pn-card next" href="{{ next_in_category.url | relative_url }}">
               <div class="pn-label">{{ t_post.next }} →</div>
               <div class="pn-title">{{ next_in_category.title }}</div>
-            </button>
+            </a>
             {% else %}
             <button class="pn-card next disabled">
               <div class="pn-label">{{ t_post.next }} →</div>

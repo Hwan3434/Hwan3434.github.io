@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-10"
+title: "WWDC26 Time Allowances와 Gemini 3.5 Live Translate (2026. 06. 10)"
 date: 2026-06-10 09:33:08 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

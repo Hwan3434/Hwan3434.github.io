@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-28"
+title: "Kimi K3, PGSimCity, Bun Rust 재작성 검증 (2026. 07. 28)"
 date: 2026-07-28 06:02:05 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

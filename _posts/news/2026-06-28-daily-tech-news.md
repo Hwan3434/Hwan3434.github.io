@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-28"
+title: "추론 가속, AI 기여 정책, 오픈소스 보안 (2026. 06. 28)"
 date: 2026-06-28 06:03:38 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

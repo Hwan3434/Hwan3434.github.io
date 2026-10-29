@@ -1,0 +1,29 @@
+{%- comment -%}
+  시리즈 목차. Still List 명세. 사용: include series.html posts=series_posts index=series_index
+  posts 는 post.html 이 같은 언어·같은 series 로 걸러 series_order 순으로 정렬해 넘긴다.
+{%- endcomment -%}
+{%- assign t_post = site.data[page.lang].post | default: site.data.ko.post -%}
+<nav class="series" aria-label="{{ t_post.series }}: {{ page.series }}">
+  <div class="series-head">
+    <p class="series-caption">{{ t_post.series }}</p>
+    <p class="series-title">{{ page.series }}</p>
+    <p class="series-count">{{ include.index }} / {{ include.posts.size }}</p>
+  </div>
+  <ol class="series-list">
+    {%- for p in include.posts %}
+    <li>
+      {%- if p.url == page.url %}
+      <span class="series-item current" aria-current="page">
+        <span class="series-num">{{ forloop.index }}</span>
+        <span class="series-name">{{ p.title }}</span>
+      </span>
+      {%- else %}
+      <a class="series-item" href="{{ p.url | relative_url }}">
+        <span class="series-num">{{ forloop.index }}</span>
+        <span class="series-name">{{ p.title }}</span>
+      </a>
+      {%- endif %}
+    </li>
+    {%- endfor %}
+  </ol>
+</nav>

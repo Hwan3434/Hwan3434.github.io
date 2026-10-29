@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-11"
+title: "코딩 평가 신뢰성, 에이전트형 업무, 온디바이스 AI 운영 (2026. 07. 11)"
 date: 2026-07-11 06:02:07 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

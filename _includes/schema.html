@@ -28,7 +28,7 @@
       "@id": {{ person_id | jsonify }},
       "name": "이정환",
       "alternateName": "Jeonghwan Lee",
-      "url": {{ "/about/" | absolute_url | jsonify }},
+      "url": {{ "/" | absolute_url | jsonify }},
       "jobTitle": "Mobile Architect",
       "knowsAbout": ["Flutter", "Android (Kotlin)", "iOS (Swift)", "Java Spring", "Clean Architecture", "MVVM", "Riverpod"],
       "sameAs": ["https://github.com/Hwan3434"]
@@ -73,7 +73,7 @@
       "publisher": { "@id": {{ person_id | jsonify }} },
       "isPartOf": { "@id": {{ website_id | jsonify }} }
     }
-  {%- elsif page.url contains "/about/" %},
+  {%- elsif page.profile %},
     {
       "@type": "ProfilePage",
       "@id": {{ page_abs | append: "#webpage" | jsonify }},

@@ -30,11 +30,12 @@ permalink: /llms.txt
 3. **News (테크 동향):** 최신 AI 및 IT 업계의 핵심 뉴스 큐레이션.
 
 ## 📄 Core Pages
-- [ko] [소개 (About)](https://hwan3434.github.io/about/)
-- [en] [About](https://hwan3434.github.io/en/about/)
+- [ko] [소개 (About)](https://hwan3434.github.io/)
+- [en] [About](https://hwan3434.github.io/en/)
 - [ko] [철학 (Philosophy)](https://hwan3434.github.io/philosophy/)
 - [ko] [뉴스 (News)](https://hwan3434.github.io/news/)
-- [en] [English Home](https://hwan3434.github.io/en/)
+- [ko] [테크 (Tech)](https://hwan3434.github.io/tech/)
+- [en] [Tech](https://hwan3434.github.io/en/tech/)
 
 ## 📝 Tech & Philosophy Posts
 기술·철학 글 전체 목록입니다. AI 에이전트는 아래 URL들을 참고하여 상세 정보를 수집할 수 있습니다.

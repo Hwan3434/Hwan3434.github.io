@@ -14,7 +14,7 @@ layout: default
       {{ content }}
     </div>
 
-    {% if page.url contains "about" %}
+    {% if page.profile %}
     {% assign current_lang = page.lang | default: "ko" %}
     {% assign t_about = site.data[current_lang].about %}
     <section class="about-contact">
@@ -28,7 +28,7 @@ layout: default
           {% include icon.html name="rss" %}
           {{ t_about.rss }}
         </a>
-        <a class="btn" href="{{ '/' | relative_url }}">
+        <a class="btn" href="{% if current_lang == 'en' %}{{ '/en/tech/' | relative_url }}{% else %}{{ '/tech/' | relative_url }}{% endif %}">
           {% include icon.html name="arrow-left" %}
           {{ t_about.posts }}
         </a>

@@ -32,7 +32,7 @@ layout: default
   
   {% if current_main_category == "tech" %}
     {% assign tab_name = t_nav.tech %}
-    {% assign tab_url = "/" %}
+    {% assign tab_url = "/tech/" %}
   {% endif %}
   
   {% if current_main_category == "philosophy" %}
@@ -80,7 +80,7 @@ layout: default
           {% if page.tags.size > 0 %}
           <div class="tag-row">
             {% for tag in page.tags %}
-              <a class="tag" href="{{ '/' | relative_url }}?tag={{ tag | url_encode }}">{{ tag }}</a>
+              <a class="tag" href="{{ '/tech/' | relative_url }}?tag={{ tag | url_encode }}">{{ tag }}</a>
             {% endfor %}
           </div>
           {% endif %}

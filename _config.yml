@@ -1,6 +1,7 @@
 # theme: jekyll-theme-chirpy
 
 lang: ko-KR
+locale: ko_KR
 timezone: Asia/Seoul
 
 title: Hwan's Dev Blog
@@ -65,6 +66,7 @@ defaults:
       comments: true
       toc: true
       lang: en
+      locale: en_US
       permalink: /en/posts/:year/:month/:day/:slug/
   - scope:
       path: ""
@@ -76,6 +78,7 @@ defaults:
       type: pages
     values:
       lang: en
+      locale: en_US
   - scope:
       path: _tabs
     values:
@@ -93,6 +96,8 @@ sass:
 
 exclude:
   - "*.gem"
+  # 조사 노트. 파일은 레포에 두고 사이트에는 내지 않는다.
+  - research
   - "*.gemspec"
   - docs
   - tools

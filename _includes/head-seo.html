@@ -1,0 +1,23 @@
+{%- comment -%}
+  canonical, description, Open Graph 는 jekyll-seo-tag 가 낸다. <title> 은 레이아웃이 직접 쓴다.
+  seo-tag 의 JSON-LD 는 _plugins/seo-tag-without-json-ld.rb 가 끄고, 구조화 데이터는 schema.html 이 낸다.
+{%- endcomment -%}
+{% seo title=false %}
+{%- if page.noindex %}
+  <meta name="robots" content="noindex" />
+{%- else -%}
+  {%- assign page_urls = site.pages | map: "url" -%}
+  {%- assign known_urls = site.posts | map: "url" | concat: page_urls | join: "|" | prepend: "|" | append: "|" -%}
+  {%- assign twin_key = "|" | append: twin_url | append: "|" -%}
+  {%- if known_urls contains twin_key -%}
+    {%- if page.lang == "en" -%}
+      {%- assign ko_url = twin_url -%}{%- assign en_url = page.url -%}
+    {%- else -%}
+      {%- assign ko_url = page.url -%}{%- assign en_url = twin_url -%}
+    {%- endif %}
+  <link rel="alternate" hreflang="ko" href="{{ ko_url | absolute_url }}" />
+  <link rel="alternate" hreflang="en" href="{{ en_url | absolute_url }}" />
+  <link rel="alternate" hreflang="x-default" href="{{ ko_url | absolute_url }}" />
+  {%- endif -%}
+{%- endif %}
+  {% include schema.html %}

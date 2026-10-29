@@ -1,9 +1,18 @@
+{%- comment -%} 짝 언어 페이지 주소. 규칙은 /en + ko 경로. nav 의 언어 전환 버튼과 hreflang 이 같이 쓴다. {%- endcomment -%}
+{%- if page.lang == "en" -%}
+  {%- assign twin_url = page.url | remove_first: "/en" -%}
+  {%- if twin_url == "" -%}{%- assign twin_url = "/" -%}{%- endif -%}
+{%- else -%}
+  {%- assign twin_url = "/en" | append: page.url -%}
+  {%- if page.url == "/" -%}{%- assign twin_url = "/en/" -%}{%- endif -%}
+{%- endif -%}
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: "ko" }}" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% if page.title %}{{ page.title }} — {% endif %}{{ site.title }}</title>
+  {% include head-seo.html %}
   <link rel="icon" type="image/svg+xml" href="{{ '/assets/img/favicon.svg' | relative_url }}" />
   <link rel="preload" href="{{ '/assets/fonts/SUIT-Variable.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="{{ '/assets/css/colors_and_type.css' | relative_url }}" />

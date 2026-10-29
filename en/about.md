@@ -4,6 +4,7 @@ title: About
 heading: "Predictable Code<br>Controllable <em>Architecture</em>."
 lede: "Code must be readable even as team members change, and errors must be prevented by structure. I am Jeonghwan Lee, a 10-year mobile architect who strictly guards against the technical debt left by short-term compromises."
 permalink: /en/about/
+description: "Code must be readable even as team members change, and errors must be prevented by structure. I am Jeonghwan Lee, a 10-year mobile architect who strictly guards against the technical debt left by short-term compromises."
 ---
 
 <div class="notice" role="note">

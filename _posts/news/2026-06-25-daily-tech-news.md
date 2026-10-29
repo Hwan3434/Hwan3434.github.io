@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-25"
+title: "AI 보안 패치, 로컬 에이전트, 플랫폼 변경 (2026. 06. 25)"
 date: 2026-06-25 06:36:06 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

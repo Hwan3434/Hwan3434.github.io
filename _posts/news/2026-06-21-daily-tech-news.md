@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-21"
+title: "브라질 iOS 앱 생태계, Google AI 에이전트 비전, 인프라 자동화 (2026. 06. 21)"
 date: 2026-06-21 09:32:00 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

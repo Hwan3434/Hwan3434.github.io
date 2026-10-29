@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-29"
+title: "병렬 CI, 공급망 보호, AI 코드 보안 (2026. 06. 29)"
 date: 2026-06-29 06:03:57 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-12"
+title: "Apple ImageCreator 지원 중단, OpenAI의 Ona 인수, Claude Corps (2026. 06. 12)"
 date: 2026-06-12 09:34:33 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

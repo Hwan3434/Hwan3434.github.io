@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-23"
+title: "AI 에이전트, LLM 최적화, 오픈소스의 진화 (2026. 06. 23)"
 date: 2026-06-23 09:30:48 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

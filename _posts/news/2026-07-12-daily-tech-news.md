@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-12"
+title: "에이전트 리뷰 최적화, AI 보안 분석, WordPress 7.1 준비 (2026. 07. 12)"
 date: 2026-07-12 06:00:56 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

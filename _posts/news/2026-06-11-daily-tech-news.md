@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-11"
+title: "WWDC26 핵심 사항, Gemini 메모리 기능, Codex 블랙홀 시뮬레이션 (2026. 06. 11)"
 date: 2026-06-11 09:34:52 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

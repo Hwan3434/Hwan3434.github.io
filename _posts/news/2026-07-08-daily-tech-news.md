@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-08"
+title: "에이전트 런타임, 로컬 코딩 모델, 모델 해석 가능성 (2026. 07. 08)"
 date: 2026-07-08 06:00:16 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

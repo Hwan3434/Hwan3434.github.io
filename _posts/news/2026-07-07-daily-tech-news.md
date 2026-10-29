@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-07"
+title: "플랫폼 베타, 탄력적 AI 학습, 클라우드 IDE와 에이전트 개발 (2026. 07. 07)"
 date: 2026-07-07 06:00:22 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

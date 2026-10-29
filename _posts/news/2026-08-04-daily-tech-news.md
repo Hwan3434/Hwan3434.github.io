@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-08-04"
+title: "대규모 모델 추론 최적화, 허위 CVE, 장기 코딩 벤치마크 (2026. 08. 04)"
 date: 2026-08-04 06:03:37 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

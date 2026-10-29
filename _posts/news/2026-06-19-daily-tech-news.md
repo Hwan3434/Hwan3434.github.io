@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-19"
+title: "브라질 iOS 시장 변화와 Google A2A 에이전트 프로토콜 (2026. 06. 19)"
 date: 2026-06-19 09:38:42 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

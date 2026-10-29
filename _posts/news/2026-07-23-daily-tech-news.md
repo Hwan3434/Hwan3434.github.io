@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-23"
+title: "Agentic RL 처리량, 초고속 Tokenizer, 실전 SIMD (2026. 07. 23)"
 date: 2026-07-23 06:02:04 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

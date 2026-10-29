@@ -26,6 +26,9 @@ post:
   prev: "이전 글"
   next: "다음 글"
   toc: "목차"
+  series: "시리즈"
+  series_prev: "이전 편"
+  series_next: "다음 편"
 footer:
   slogan: "개발과 생각의 기록"
   resume: "포트폴리오와 이력서"

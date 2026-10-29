@@ -189,6 +189,33 @@ body { min-height: 100vh; }
 .source-chip .sc-label { font-weight: 600; }
 .source-chip .sc-provider { color: var(--ink-muted); }
 
+/* 시리즈 목차 — List + ListItem 명세. 현재 편만 선택 상태(brand-soft) */
+.series {
+  margin-bottom: var(--space-6); overflow: hidden;
+  background: var(--surface); border: 1px solid var(--border-subtle); box-shadow: var(--elevation-1);
+  border-radius: var(--radius-lg); corner-shape: var(--corner-large);
+}
+.series-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-1) var(--space-3);
+  padding: 14px var(--space-4); border-bottom: 1px solid var(--border-subtle);
+}
+.series-caption { grid-column: 1 / -1; font-size: 12px; line-height: 16px; color: var(--ink-faint); }
+.series-title { font-size: 16px; line-height: 24px; font-weight: 600; color: var(--ink); }
+.series-count { font-size: 14px; line-height: 20px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.series-list { list-style: none; margin: 0; padding: 0; }
+.series-list li + li { border-top: 1px solid var(--border-subtle); }
+.series-item {
+  display: flex; align-items: baseline; gap: var(--space-3); padding: 14px var(--space-4);
+  font-size: 16px; line-height: 24px; font-weight: 500; color: var(--ink);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+a.series-item:hover { background: var(--surface-raised); }
+a.series-item:focus-visible { outline-offset: calc(-1 * var(--focus-ring-width)); }
+.series-num { flex: none; min-width: var(--space-4); font-size: 14px; line-height: 20px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.series-name { min-width: 0; }
+.series-item.current { background: var(--brand-soft); }
+.series-item.current .series-name { color: var(--brand); font-weight: 600; }
+
 /* 목차 */
 .toc { position: sticky; top: var(--space-9); }
 .toc-title { font-size: 12px; line-height: 16px; color: var(--ink-faint); margin-bottom: var(--space-3); }

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-17"
+title: "웹 Grounding, Prompt 빌드, Xcode 27 CI, 소프트웨어 보존 (2026. 07. 17)"
 date: 2026-07-17 06:01:37 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

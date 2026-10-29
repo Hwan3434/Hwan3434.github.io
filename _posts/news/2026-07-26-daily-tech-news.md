@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-26"
+title: "Claude Opus 5 API, Stateless MCP, PostgreSQL 알림 확장 (2026. 07. 26)"
 date: 2026-07-26 06:02:15 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-27"
+title: "차세대 모델, 에이전트 실행 환경, 품질 자동화 (2026. 06. 27)"
 date: 2026-06-27 06:04:56 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

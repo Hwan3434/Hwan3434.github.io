@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-01"
+title: "에이전트 모델, 평가 루프, 시스템 디버깅 (2026. 07. 01)"
 date: 2026-07-01 06:03:30 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

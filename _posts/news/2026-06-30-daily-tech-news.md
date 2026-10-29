@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-30"
+title: "에이전트 평가, 컴퓨터 사용 모델, 품질 자동화 (2026. 06. 30)"
 date: 2026-06-30 06:00:21 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

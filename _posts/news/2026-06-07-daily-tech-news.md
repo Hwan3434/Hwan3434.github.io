@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-07"
+title: "Google Colab CLI 출시와 Gemma 4 12B 로컬 AI (2026. 06. 07)"
 date: 2026-06-07 18:07:19 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

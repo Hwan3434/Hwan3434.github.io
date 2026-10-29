@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-31"
+title: "GPT-5.6 가격 조정, Gemini Robotics 2, GitHub Stacked PR (2026. 07. 31)"
 date: 2026-07-31 06:00:54 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

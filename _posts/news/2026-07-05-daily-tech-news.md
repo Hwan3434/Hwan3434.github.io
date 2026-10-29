@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-05"
+title: "형식 검증 AI, build toolchain, 근거리 공유 보안과 agent 결제 (2026. 07. 05)"
 date: 2026-07-05 06:03:43 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

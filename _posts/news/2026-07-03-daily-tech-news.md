@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-07-03"
+title: "AI 도구 경계, 배포 정책, 컨테이너와 JVM (2026. 07. 03)"
 date: 2026-07-03 06:02:54 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

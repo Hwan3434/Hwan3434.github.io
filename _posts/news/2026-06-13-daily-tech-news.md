@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-13"
+title: "ImageCreator 지원 중단, Swift TrueType 힌팅, DiffusionGemma (2026. 06. 13)"
 date: 2026-06-13 09:34:38 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

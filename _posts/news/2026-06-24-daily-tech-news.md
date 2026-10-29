@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "데일리 테크 뉴스 - 2026-06-24"
+title: "팀 단위 AI 에이전트, Gemini API 변경, 모바일 개발 업데이트 (2026. 06. 24)"
 date: 2026-06-24 21:26:58 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

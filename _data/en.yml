@@ -6,6 +6,8 @@ nav:
   etc: "Etc"
   search: "Search"
   theme: "Toggle Theme"
+  home: "Home"
+  lang: "Change language"
 home:
   subtitle: "Slowly <em>recording</em><br />code and thoughts."
   desc: "Real problems encountered, perspectives on tools, and occasional non-code thoughts. Written at a sustainable pace."
@@ -28,3 +30,13 @@ post:
 footer:
   slogan: "Records of code and thoughts"
   resume: "Portfolio and Resume"
+search:
+  label: "Search"
+  placeholder: "Search posts, tags, categories"
+  close: "Close"
+  empty: "No results."
+about:
+  contact: "Contact"
+  email: "Email"
+  rss: "RSS"
+  posts: "Read posts"

@@ -17,7 +17,7 @@ permalink: /en/philosophy/
       {% for post in site.categories.philosophy %}
         {% assign post_lang = post.lang | default: "ko" %}
         {% if post_lang != current_lang %}{% continue %}{% endif %}
-        <article class="post-row" data-tags="{{ post.tags | join: ',' }},{{ post.categories | join: ',' }}" onclick="window.location='{{ post.url | relative_url }}'">
+        <article class="post-row" data-tags="{{ post.tags | join: ',' }},{{ post.categories | join: ',' }}">
           <div class="pr-date">{{ post.date | date: "%Y.%m.%d" }}</div>
           <div>
             <div class="pr-cats">
@@ -25,7 +25,7 @@ permalink: /en/philosophy/
                 <span class="pr-cat">{{ cat | capitalize }}</span>
               {% endfor %}
             </div>
-            <h2>{{ post.title }}</h2>
+            <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
             <p class="pr-sum">{{ post.description | default: post.excerpt | strip_html | truncatewords: 30 }}</p>
           </div>
         </article>

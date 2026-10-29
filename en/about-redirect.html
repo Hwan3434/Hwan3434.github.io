@@ -1,0 +1,17 @@
+---
+layout: null
+permalink: /en/about/
+sitemap: false
+---
+{%- comment -%} 소개가 루트로 옮겨 가기 전 주소. 예전 링크를 살려 둔다. {%- endcomment -%}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting…</title>
+  <link rel="canonical" href="{{ '/en/' | absolute_url }}" />
+  <meta name="robots" content="noindex" />
+  <meta http-equiv="refresh" content="0; url={{ '/en/' | relative_url }}" />
+</head>
+<body><a href="{{ '/en/' | relative_url }}">{{ '/en/' | absolute_url }}</a></body>
+</html>

@@ -10,9 +10,9 @@
   {% assign is_news = true %}
 {% endif %}
 
-{% assign is_home = false %}
-{% if page.url == '/' or page.url == '/index.html' or page.url == '/en/' or down_path contains "tech/" %}
-  {% assign is_home = true %}
+{% assign is_tech = false %}
+{% if page.url == '/tech/' or page.url == '/en/tech/' or down_path contains "tech/" %}
+  {% assign is_tech = true %}
 {% endif %}
 
 {% assign is_en = false %}
@@ -28,10 +28,10 @@
   <div class="nav-inner">
     <a href="{{ '/' | relative_url }}" class="brand" aria-label="{{ t.home }}">Hwan</a>
     <div class="nav-links">
-      <a href="{{ prefix | append: '/' | relative_url }}" class="nav-link{% if is_home %} active{% endif %}"{% if is_home %} aria-current="page"{% endif %}>{{ t.tech }}</a>
+      <a href="{{ prefix | append: '/' | relative_url }}" class="nav-link{% if page.profile %} active{% endif %}"{% if page.profile %} aria-current="page"{% endif %}>{{ t.about }}</a>
+      <a href="{{ prefix | append: '/tech/' | relative_url }}" class="nav-link{% if is_tech %} active{% endif %}"{% if is_tech %} aria-current="page"{% endif %}>{{ t.tech }}</a>
       <a href="{{ prefix | append: '/philosophy/' | relative_url }}" class="nav-link{% if is_philosophy %} active{% endif %}"{% if is_philosophy %} aria-current="page"{% endif %}>{{ t.philosophy }}</a>
       <a href="{{ prefix | append: '/news/' | relative_url }}" class="nav-link{% if is_news %} active{% endif %}"{% if is_news %} aria-current="page"{% endif %}>{{ t.news }}</a>
-      <a href="{{ prefix | append: '/about/' | relative_url }}" class="nav-link{% if page.url contains 'about' %} active{% endif %}"{% if page.url contains 'about' %} aria-current="page"{% endif %}>{{ t.about }}</a>
     </div>
     <div class="nav-actions">
       <a href="{{ twin_url | relative_url }}" class="icon-btn lang-toggle" id="lang-toggle-btn" aria-label="{{ t.lang }}">{% if is_en %}KO{% else %}EN{% endif %}</a>

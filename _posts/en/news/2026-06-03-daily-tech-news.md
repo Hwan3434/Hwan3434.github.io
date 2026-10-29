@@ -2,6 +2,9 @@
 layout: post
 title: "[Daily News] IT News Digest for June 3, 2026"
 categories: [news]
+# 본문이 짧은 초기 디지스트. 검색 색인과 사이트맵에서 뺀다.
+noindex: true
+sitemap: false
 ---
 
 Hello, here are the latest major AI and tech news updates for June 3, 2026. Today, we have a variety of news ranging from massive investment announcements to security and hardware innovations.

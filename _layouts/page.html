@@ -24,10 +24,6 @@ layout: default
           {% include icon.html name="github" %}
           GitHub
         </a>
-        <a class="btn" href="mailto:{{ site.email | default: 'hwan3434@example.com' }}">
-          {% include icon.html name="mail" %}
-          {{ t_about.email }}
-        </a>
         <a class="btn" href="{{ '/feed.xml' | relative_url }}">
           {% include icon.html name="rss" %}
           {{ t_about.rss }}

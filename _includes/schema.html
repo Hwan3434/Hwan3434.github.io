@@ -1,0 +1,114 @@
+{%- comment -%}
+  페이지마다 JSON-LD @graph 하나. Person·WebSite 는 모든 페이지에 두고 @id 로 서로 가리킨다.
+  홈은 Blog, 글은 BlogPosting, 소개는 ProfilePage, 목록은 CollectionPage 를 더하고, 홈 밖에는 BreadcrumbList 를 단다.
+  Person 에는 사이트에 적힌 사실만 넣는다.
+{%- endcomment -%}
+{%- assign lang = page.lang | default: "ko" -%}
+{%- assign t_nav = site.data[lang].nav -%}
+{%- if lang == "en" -%}{%- assign home_url = "/en/" | absolute_url -%}{%- else -%}{%- assign home_url = "/" | absolute_url -%}{%- endif -%}
+{%- assign page_abs = page.url | absolute_url -%}
+{%- assign person_id = "/#person" | absolute_url -%}
+{%- assign website_id = "/#website" | absolute_url -%}
+{%- assign desc = page.description | default: page.excerpt | default: site.description | strip_html | normalize_whitespace | truncatewords: 100 -%}
+
+{%- assign section_name = nil -%}
+{%- if page.collection == "posts" -%}
+  {%- if page.categories contains "news" -%}
+    {%- assign section_name = t_nav.news -%}{%- assign section_url = home_url | append: "news/" -%}
+  {%- elsif page.categories contains "philosophy" -%}
+    {%- assign section_name = t_nav.philosophy -%}{%- assign section_url = home_url | append: "philosophy/" -%}
+  {%- endif -%}
+{%- endif -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": {{ person_id | jsonify }},
+      "name": "이정환",
+      "alternateName": "Jeonghwan Lee",
+      "url": {{ "/about/" | absolute_url | jsonify }},
+      "jobTitle": "Mobile Architect",
+      "knowsAbout": ["Flutter", "Android (Kotlin)", "iOS (Swift)", "Java Spring", "Clean Architecture", "MVVM", "Riverpod"],
+      "sameAs": ["https://github.com/Hwan3434"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": {{ website_id | jsonify }},
+      "url": {{ "/" | absolute_url | jsonify }},
+      "name": {{ site.title | jsonify }},
+      "inLanguage": ["ko", "en"],
+      "publisher": { "@id": {{ person_id | jsonify }} }
+    }
+{%- if page.layout == "home" %},
+    {
+      "@type": "Blog",
+      "@id": {{ home_url | append: "#blog" | jsonify }},
+      "url": {{ home_url | jsonify }},
+      "name": {{ site.title | jsonify }},
+      "description": {{ desc | jsonify }},
+      "inLanguage": {{ lang | jsonify }},
+      "isPartOf": { "@id": {{ website_id | jsonify }} },
+      "author": { "@id": {{ person_id | jsonify }} }
+    }
+{%- else -%}
+  {%- if page.collection == "posts" %},
+    {
+      "@type": "BlogPosting",
+      "@id": {{ page_abs | append: "#post" | jsonify }},
+      "mainEntityOfPage": {{ page_abs | jsonify }},
+      "url": {{ page_abs | jsonify }},
+      "headline": {{ page.title | jsonify }},
+      "description": {{ desc | jsonify }},
+      "inLanguage": {{ lang | jsonify }},
+      "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+      {%- if page.last_modified_at %}
+      "dateModified": {{ page.last_modified_at | date_to_xmlschema | jsonify }},
+      {%- endif %}
+      {%- if page.tags.size > 0 %}
+      "keywords": {{ page.tags | join: ", " | jsonify }},
+      {%- endif %}
+      "author": { "@id": {{ person_id | jsonify }} },
+      "publisher": { "@id": {{ person_id | jsonify }} },
+      "isPartOf": { "@id": {{ website_id | jsonify }} }
+    }
+  {%- elsif page.url contains "/about/" %},
+    {
+      "@type": "ProfilePage",
+      "@id": {{ page_abs | append: "#webpage" | jsonify }},
+      "url": {{ page_abs | jsonify }},
+      "name": {{ page.title | jsonify }},
+      "description": {{ desc | jsonify }},
+      "inLanguage": {{ lang | jsonify }},
+      "isPartOf": { "@id": {{ website_id | jsonify }} },
+      "mainEntity": { "@id": {{ person_id | jsonify }} }
+    }
+  {%- else %},
+    {
+      "@type": {% if page.list %}"CollectionPage"{% else %}"WebPage"{% endif %},
+      "@id": {{ page_abs | append: "#webpage" | jsonify }},
+      "url": {{ page_abs | jsonify }},
+      "name": {{ page.title | default: site.title | jsonify }},
+      "description": {{ desc | jsonify }},
+      "inLanguage": {{ lang | jsonify }},
+      "isPartOf": { "@id": {{ website_id | jsonify }} }
+    }
+  {%- endif %},
+    {
+      "@type": "BreadcrumbList",
+      "@id": {{ page_abs | append: "#breadcrumb" | jsonify }},
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": {{ site.title | jsonify }}, "item": {{ home_url | jsonify }} },
+        {%- if section_name %}
+        { "@type": "ListItem", "position": 2, "name": {{ section_name | jsonify }}, "item": {{ section_url | jsonify }} },
+        { "@type": "ListItem", "position": 3, "name": {{ page.title | jsonify }}, "item": {{ page_abs | jsonify }} }
+        {%- else %}
+        { "@type": "ListItem", "position": 2, "name": {{ page.title | default: site.title | jsonify }}, "item": {{ page_abs | jsonify }} }
+        {%- endif %}
+      ]
+    }
+{%- endif %}
+  ]
+}
+</script>

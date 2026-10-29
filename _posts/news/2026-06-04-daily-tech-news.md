@@ -4,6 +4,9 @@ title: "데일리 테크 뉴스 - 2026년 6월 4일"
 date: 2026-06-04 09:00:00 +0900
 categories: [news]
 tags: [AI, Tech, Daily]
+# 본문이 짧은 초기 디지스트. 검색 색인과 사이트맵에서 뺀다.
+noindex: true
+sitemap: false
 ---
 
 오늘의 주요 최신 AI 및 테크 뉴스 5가지입니다.

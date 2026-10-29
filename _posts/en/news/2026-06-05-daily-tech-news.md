@@ -4,6 +4,9 @@ title: "Daily Tech News - June 5, 2026"
 date: 2026-06-05 09:00:00 +0900
 categories: [news]
 tags: [AI, Tech, Daily]
+# 본문이 짧은 초기 디지스트. 검색 색인과 사이트맵에서 뺀다.
+noindex: true
+sitemap: false
 ---
 
 Here are today's top 5 latest AI and tech news stories.

@@ -9,8 +9,6 @@ series_order: 2
 toc: true
 ---
 
-> 2023년 velog에 올렸던 글을 옮겨 왔습니다.
-
 이번에는 Kotlin Multiplatform Mobile(이하 KMM)로 샘플 프로젝트를 만들어 보겠습니다.
 
 ## Create Github repository

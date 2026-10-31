@@ -9,8 +9,6 @@ series_order: 2
 toc: true
 ---
 
-> Originally posted on velog in 2023 and moved here.
-
 This time, let's build a sample project with Kotlin Multiplatform Mobile (KMM).
 
 ## Create Github repository

@@ -165,6 +165,20 @@ body { min-height: 100vh; }
   color: var(--ink);
 }
 
+/* Table — kramdown 표. 넓으면 표 안에서 가로 스크롤 */
+.prose table {
+  display: block; width: max-content; max-width: 100%; overflow-x: auto;
+  border-collapse: separate; border-spacing: 0;
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-md); corner-shape: var(--corner-small);
+  font-size: 15px; line-height: 24px; font-variant-numeric: tabular-nums;
+}
+.prose th, .prose td { padding: 10px var(--space-4); text-align: left; vertical-align: top; border-bottom: 1px solid var(--border-subtle); }
+.prose th + th, .prose td + td { border-left: 1px solid var(--border-subtle); }
+.prose thead th { background: var(--surface); font-weight: 600; color: var(--ink); white-space: nowrap; }
+.prose tbody tr:last-child td { border-bottom: 0; }
+.prose td { min-width: 7em; }
+.prose td code, .prose th code { padding: 1px 5px; white-space: nowrap; }
+
 /* CodeBlock — kramdown + rouge 출력 */
 .prose pre {
   margin: 0; padding: var(--space-4) var(--space-5); overflow-x: auto;

@@ -8,6 +8,17 @@ layout: default
       {% if page.lede %}
       <p class="lede">{{ page.lede }}</p>
       {% endif %}
+      {% if page.profile %}
+      {% assign prefix = "" %}
+      {% if page.lang == "en" %}{% assign prefix = "/en" %}{% endif %}
+      {% assign go_lang = page.lang | default: "ko" %}
+      {% assign t_go = site.data[go_lang].about %}
+      <nav class="about-go" aria-label="{{ t_go.go_label }}">
+        <a class="btn" href="{{ prefix | append: '/tech/' | relative_url }}">{{ t_go.go_tech }}{% include icon.html name="arrow-right" px=16 %}</a>
+        <a class="btn" href="{{ prefix | append: '/philosophy/' | relative_url }}">{{ t_go.go_philosophy }}{% include icon.html name="arrow-right" px=16 %}</a>
+        <a class="btn" href="{{ prefix | append: '/news/' | relative_url }}">{{ t_go.go_news }}{% include icon.html name="arrow-right" px=16 %}</a>
+      </nav>
+      {% endif %}
     </header>
 
     <div class="prose">

@@ -271,6 +271,8 @@ a.series-item:focus-visible { outline-offset: calc(-1 * var(--focus-ring-width))
 .stories dt { font-size: 20px; line-height: 28px; letter-spacing: -0.01em; font-weight: 600; }
 .stories dt + dd { margin: var(--space-1) 0 0; color: var(--ink-muted); }
 .stories dd + dt { margin-top: var(--space-5); }
+.about-go { display: flex; flex-wrap: wrap; gap: var(--space-inline); margin-top: var(--space-6); }
+.about-go .btn .icon { color: var(--ink-muted); }
 .about-contact { padding: var(--space-7) 0 var(--space-8); }
 .about-contact h2 { font-size: 28px; line-height: 36px; letter-spacing: -0.02em; font-weight: 600; margin-bottom: var(--space-5); }
 .contact-row { display: flex; flex-wrap: wrap; gap: var(--space-inline); }
@@ -308,6 +310,8 @@ a.series-item:focus-visible { outline-offset: calc(-1 * var(--focus-ring-width))
   .nav-links { order: 3; width: 100%; margin: 0 calc(-1 * var(--space-3)); }
   .foot-inner { padding: var(--space-6) var(--space-4); }
   .masthead, .about-head { padding: var(--space-7) 0 var(--space-6); }
+  .about-go { flex-direction: column; }
+  .about-go .btn { justify-content: space-between; }
   .masthead h1, .about-head h1 { font-size: 40px; line-height: 48px; letter-spacing: -0.025em; }
   .article-head h1 { font-size: 28px; line-height: 36px; letter-spacing: -0.02em; }
   .prevnext { grid-template-columns: 1fr; }

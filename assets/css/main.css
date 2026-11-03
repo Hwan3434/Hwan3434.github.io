@@ -144,6 +144,8 @@ body { min-height: 100vh; }
 .prose { color: var(--ink); }
 .prose > * + * { margin-top: var(--space-4); }
 .prose > :first-child { margin-top: 0; }
+/* 본문 h1은 쓰지 않는 게 원칙(제목은 레이아웃이 그림). 들어와도 줄이 겹치지 않게 h2와 같은 크기로 받는다 */
+.prose h1,
 .prose h2 { font-size: 28px; line-height: 36px; letter-spacing: -0.02em; font-weight: 600; margin-top: var(--space-7); scroll-margin-top: var(--space-9); }
 .prose h3 { font-size: 20px; line-height: 28px; letter-spacing: -0.01em; font-weight: 600; margin-top: var(--space-6); scroll-margin-top: var(--space-9); }
 .prose h4 { font-size: 16px; line-height: 26px; font-weight: 600; margin-top: var(--space-5); }

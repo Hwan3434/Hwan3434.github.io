@@ -6,7 +6,7 @@ categories: [philosophy, essay]
 tags: [AI, DDD, Product Engineering, essay]
 ---
 
-# Thoughts on the Boundary Between PMs and Developers, and Entropy in the AI Era, Starting from Screen-Dependent APIs
+## Thoughts on the Boundary Between PMs and Developers, and Entropy in the AI Era, Starting from Screen-Dependent APIs
 
 I was organizing the retrospective agenda for our product organization for the first half of 2026. Among numerous inefficiencies, one particularly painful issue stood out. It was the problem of "screen-dependent API design," where the backend had to create a new API every time the frontend's screen layout changed. To resolve this maintenance nightmare—where we had to overhaul the server whenever a screen changed—we concluded that we should "provide pure APIs solely based on domain (business) units."
 

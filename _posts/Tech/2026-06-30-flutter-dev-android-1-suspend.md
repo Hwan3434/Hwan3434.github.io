@@ -1,7 +1,7 @@
 ---
 title: "Flutter 개발자가 본 Android (1) suspend는 스레드를 막지 않는다"
 description: "Dart의 async/await에 익숙한 개발자가 Kotlin 코루틴을 이해하는 기준점: suspend, launch와 async, 구조화된 동시성, Dispatcher"
-date: 2026-11-03 22:00:00 +0900
+date: 2026-06-30 21:00:00 +0900
 categories: [android, 코루틴]
 tags: [Kotlin, Coroutine, Dart, Flutter, 구조화된 동시성]
 series: "Flutter 개발자가 본 Android"

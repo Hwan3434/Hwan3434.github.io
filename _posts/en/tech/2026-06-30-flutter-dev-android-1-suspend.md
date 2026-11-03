@@ -1,7 +1,7 @@
 ---
 title: "Android Through a Flutter Developer's Eyes (1) suspend Doesn't Block the Thread"
 description: "A reference point for understanding Kotlin coroutines if you know Dart's async/await: suspend, launch and async, structured concurrency, and Dispatchers"
-date: 2026-11-03 22:00:00 +0900
+date: 2026-06-30 21:00:00 +0900
 categories: [android, coroutine]
 tags: [Kotlin, Coroutine, Dart, Flutter, Structured Concurrency]
 series: "Android Through a Flutter Developer's Eyes"

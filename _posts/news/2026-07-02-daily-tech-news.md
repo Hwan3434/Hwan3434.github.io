@@ -1,5 +1,6 @@
 ---
 title: "모델 재배포, 풀스택 에이전트, 오픈소스 시스템 (2026. 07. 02)"
+description: "Claude Fable 5 글로벌 접근 복구, Genkit Agents API 프리뷰, Cloud Workbench VS Code 확장, 반복 실패를 agent skill로 바꾸는 Flutter, Asahi Linux 7.1."
 date: 2026-07-02 06:01:18 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

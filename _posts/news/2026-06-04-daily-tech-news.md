@@ -1,5 +1,6 @@
 ---
 title: "데일리 테크 뉴스 - 2026년 6월 4일"
+description: "Anthropic의 기록적 성장, OpenAI 모델의 Amazon Bedrock 탑재, Computex 2026 개막, 기업의 에이전트 AI 확산, AI 인프라의 전력 부족."
 date: 2026-06-04 09:00:00 +0900
 categories: [news]
 tags: [AI, Tech, Daily]

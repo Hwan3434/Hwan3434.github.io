@@ -1,5 +1,6 @@
 ---
 title: "Apple WWDC26 개발자 업데이트와 Gemini 기반 Apple AI (2026. 06. 09)"
+description: "WWDC26의 Time Allowances와 약관 변경, Gemini 기반 Apple AI 아키텍처, Colab CLI와 Gemma 4 12B, 토스·네이버의 에이전트 품질 관리, Signal의 영국 감시법 비판."
 date: 2026-06-09 09:29:30 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

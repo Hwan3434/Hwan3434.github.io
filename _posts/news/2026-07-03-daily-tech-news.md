@@ -1,5 +1,6 @@
 ---
 title: "AI 도구 경계, 배포 정책, 컨테이너와 JVM (2026. 07. 03)"
+description: "GitHub Models 종료 일정과 Copilot의 첫 open-weight 모델, Issue fields 정식 출시, Android 개발자 인증 논쟁, Podman 6.0, vLLM 0.24."
 date: 2026-07-03 06:02:54 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

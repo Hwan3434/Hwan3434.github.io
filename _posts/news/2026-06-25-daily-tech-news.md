@@ -1,5 +1,6 @@
 ---
 title: "AI 보안 패치, 로컬 에이전트, 플랫폼 변경 (2026. 06. 25)"
+description: "OpenAI Daybreak와 Patch the Planet, 장기 작업용 Codex 가이드, ADK·A2A Python-Go 예제, Gemma 4 12B 로컬 에이전트, 구형 Claude 모델 종료."
 date: 2026-06-25 06:36:06 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

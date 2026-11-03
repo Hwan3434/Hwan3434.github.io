@@ -1,5 +1,6 @@
 ---
 title: "AI · 모바일 다이제스트 - 2026-08-16"
+description: "A2UI 메시지를 미리 만들어 캐시하는 Flutter genui, Material·Cupertino 분리된 Flutter 3.47, Media3 PlayerPool, 한국 App Store 등급 override."
 date: 2026-08-16 06:20:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]

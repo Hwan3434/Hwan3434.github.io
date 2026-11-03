@@ -1,5 +1,6 @@
 ---
 title: "GPT-5.6 가격 조정, Gemini Robotics 2, GitHub Stacked PR (2026. 07. 31)"
+description: "GPT-5.6 Luna·Terra 가격 인하와 Sol Fast mode, DeepMind의 whole-body 로봇 제어, 의존 관계 있는 작은 변경 관리, 리팩터링 후 agent 작업 비교 실험."
 date: 2026-07-31 06:00:54 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

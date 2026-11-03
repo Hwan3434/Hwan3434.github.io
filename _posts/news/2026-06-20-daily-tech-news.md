@@ -1,5 +1,6 @@
 ---
 title: "AI 에이전트 프로토콜과 브라질 iOS 시장의 새로운 기회 (2026. 06. 20)"
+description: "A2A 1주년과 Agentic Resource Discovery, 브라질 iOS 대체 마켓플레이스·결제 허용, GPT-5.5 Instant의 건강 응답 개선, 토스 Spark Connect."
 date: 2026-06-20 09:29:48 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

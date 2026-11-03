@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-24"
+description: "A default 3-day Dependabot cooldown, JEP 540's small standard JSON API, the Unity CLI for the terminal, and Naver's VictoriaMetrics for millions of containers."
 date: 2026-07-24 06:02:18 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

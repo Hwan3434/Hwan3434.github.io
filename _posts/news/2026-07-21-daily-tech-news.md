@@ -1,5 +1,6 @@
 ---
 title: "WordPress 긴급 패치, Codex 컨텍스트 변경, 로봇 기반 모델 (2026. 07. 21)"
+description: "실제 공격에 쓰인 WordPress pre-auth RCE, Codex 0.144의 GPT-5.6 Sol context 보정, Xiaomi-Robotics-1, Rust 기반 compositor Moonshine."
 date: 2026-07-21 06:02:36 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

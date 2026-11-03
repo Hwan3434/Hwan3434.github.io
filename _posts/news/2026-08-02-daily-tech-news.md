@@ -1,5 +1,6 @@
 ---
 title: "Astra의 Lean 인증 수학 결과, Google Agent Eval GA, NetBSD 11.0 (2026. 08. 02)"
+description: "OpenAI Astra의 수학·이론 전산학 결과 10건, 실험과 production에 같은 metric 쓰기, Lean 커널 soundness 버그, NetBSD 11.0의 RISC-V 지원."
 date: 2026-08-02 06:02:49 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

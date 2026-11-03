@@ -1,5 +1,6 @@
 ---
 title: "AI · 모바일 다이제스트 - 2026-08-23"
+description: "Firebase AI Logic의 온디바이스 generateObject, Android Studio Rabbit 1의 Play 업로드, 토스의 prefix cache 사례, Qwen3-TTS, llm 0.33."
 date: 2026-08-23 06:10:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]

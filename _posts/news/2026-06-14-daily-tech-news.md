@@ -1,5 +1,6 @@
 ---
 title: "DiffusionGemma, Gemini Omni, NAVER의 Kubernetes LLM 서빙 최적화 (2026. 06. 14)"
+description: "ImageCreator 지원 중단, DiffusionGemma·Colab CLI·Gemma 4 12B·Gemini Omni 공개, 네이버의 Kubernetes LLM 서빙 최적화 경험."
 date: 2026-06-14 09:31:29 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

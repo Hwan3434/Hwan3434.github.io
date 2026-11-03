@@ -1,5 +1,6 @@
 ---
 title: "추론 가속, AI 기여 정책, 오픈소스 보안 (2026. 06. 28)"
+description: "DeepSeek의 추측 디코딩 DSpark·DeepSpec, Hugging Face Jobs의 vLLM endpoint, Kubernetes의 AI 기여 정책, Copilot PR merge 지표, Node.js 26.4.0."
 date: 2026-06-28 06:03:38 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

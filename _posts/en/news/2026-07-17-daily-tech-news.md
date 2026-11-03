@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-17"
+description: "Parallel Web Search grounding in Gemini Enterprise Agent Platform, managing large agent prompts as build artifacts, an Xcode 27 runner preview, and Comic Chat's source released."
 date: 2026-07-17 06:01:37 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,5 +1,6 @@
 ---
 title: "오픈 웨이트 모델, LLM용 DSL, 에이전트 개발 환경 (2026. 07. 16)"
+description: "1M context 멀티모달 MoE Inkling, DSL을 LLM 출력의 기준으로 쓰는 방법, Visual Studio의 MCP 검증과 C++ 현대화 에이전트, Codex 물리 컨트롤러."
 date: 2026-07-16 06:01:45 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

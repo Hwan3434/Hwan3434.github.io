@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-03"
+description: "GitHub Models shutdown dates and Copilot's first open-weight model, Issue fields GA, the Android Developer Verification debate, Podman 6.0, and vLLM 0.24."
 date: 2026-07-03 06:02:54 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,5 +1,6 @@
 ---
 title: "GPT-5.6, 브라우저 AI 추론, 에이전트 워크플로 신뢰성 (2026. 07. 10)"
+description: "GPT-5.6 제품군 일반 제공, ADK 2.0의 deterministic workflow 분리, 브라우저용 LiteRT.js, 재시작 없는 TPU 장애 복구, 코딩 에이전트 테스트 운영."
 date: 2026-07-10 06:02:29 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-10"
+description: "The GPT-5.6 family goes GA, ADK 2.0 separates deterministic workflows from agents, LiteRT.js for browsers, TPU failure recovery without restarts, and running tests with coding agents."
 date: 2026-07-10 06:02:29 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

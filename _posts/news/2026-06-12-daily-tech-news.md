@@ -1,5 +1,6 @@
 ---
 title: "Apple ImageCreator 지원 중단, OpenAI의 Ona 인수, Claude Corps (2026. 06. 12)"
+description: "iOS 27의 ImageCreator 지원 중단, DiffusionGemma 개발자 가이드, OpenAI의 Ona 인수 계획, 네이버의 LLM 서빙·Android 빌드 발표."
 date: 2026-06-12 09:34:33 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

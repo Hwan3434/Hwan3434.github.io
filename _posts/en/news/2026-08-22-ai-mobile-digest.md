@@ -1,5 +1,6 @@
 ---
 title: "AI & Mobile Digest - 2026-08-22"
+description: "ASR models that memorized benchmark answers, DeepSeek's per-image token cap, faster widget builds in Flutter Wasm, porting a Dart package with Antigravity, and a Kotlin benchmark."
 date: 2026-08-22 06:10:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]

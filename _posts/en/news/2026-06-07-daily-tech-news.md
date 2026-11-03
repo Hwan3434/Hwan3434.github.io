@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-06-07"
+description: "Google ships the Colab CLI and Gemma 4 12B for 16GB laptops, Gemini Omni debuts, Anthropic talks about self-improving AI, and Toss and Naver share how they use AI."
 date: 2026-06-07 18:07:19 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

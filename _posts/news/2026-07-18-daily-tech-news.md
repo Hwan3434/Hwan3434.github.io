@@ -1,5 +1,6 @@
 ---
 title: "AI Patch 검증, Spec-Driven Plugin, Self-Hosted Git (2026. 07. 18)"
+description: "AI가 만든 첫 patch를 비용 탐색용으로 보는 GitHub, Gemini CLI용 Conductor, Forgejo 16.0, Holo Core AArch64 preview, 작은 SQLite에서도 필요한 운영 지표."
 date: 2026-07-18 06:02:06 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

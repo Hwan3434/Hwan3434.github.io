@@ -1,5 +1,6 @@
 ---
 title: "Genkit Agent Skills, Go 1.27 미리보기, Rust All Hands (2026. 08. 03)"
+description: "Genkit 전 언어 SDK의 Agent Skills, Go 1.27 미리 보기, Rust All Hands 논의, JIT 없이 Linux에서 Mach-O CLI를 실행하는 Kakehashi."
 date: 2026-08-03 06:01:32 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

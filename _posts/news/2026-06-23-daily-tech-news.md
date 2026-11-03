@@ -1,5 +1,6 @@
 ---
 title: "AI 에이전트, LLM 최적화, 오픈소스의 진화 (2026. 06. 23)"
+description: "Google Jules와 ADK·A2A 크로스 언어 에이전트, Unsloth로 GLM-5.2 로컬 실행, OpenAI Daybreak 보안 도구, Flutter AI 커피숍, es-toolkit의 성장."
 date: 2026-06-23 09:30:48 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

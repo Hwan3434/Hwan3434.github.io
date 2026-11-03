@@ -1,5 +1,6 @@
 ---
 title: "AI & Mobile Digest - 2026-08-18"
+description: "CI script injection in a Copilot Autofix PR, Qwen 3.8 27B, Kimi-K3 support in llama.cpp, Gemma 4 running locally in Android Studio, and the targetSdk 36 deadline."
 date: 2026-08-18 06:10:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]

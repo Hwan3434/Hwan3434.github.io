@@ -1,5 +1,6 @@
 ---
 title: "대규모 모델 추론 최적화, 허위 CVE, 장기 코딩 벤치마크 (2026. 08. 04)"
+description: "Cloudflare의 KV cache FP8·INT4 압축, 검증을 통과하지 못한 SQLite Critical CVE, source 없이 프로그램을 재구현하는 장기 과제, Karpathy의 실험."
 date: 2026-08-04 06:03:37 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

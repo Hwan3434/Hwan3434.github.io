@@ -1,5 +1,6 @@
 ---
 title: "에이전트 모델, 평가 루프, 시스템 디버깅 (2026. 07. 01)"
+description: "Claude Sonnet 5 출시, Gemini API의 Nano Banana 2 Lite, graph workflow 중심의 ADK Go 2.0, 코딩 에이전트용 평가 skill, GeneBench-Pro."
 date: 2026-07-01 06:03:30 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,5 +1,6 @@
 ---
 title: "Kimi K3, PGSimCity, Bun Rust 재작성 검증 (2026. 07. 28)"
+description: "100만 token context Kimi K3 가중치 공개, PostgreSQL 내부를 탐색하는 PGSimCity, Bun의 Rust 재작성 이후 비용, MAI-Cyber-1-Flash."
 date: 2026-07-28 06:02:05 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

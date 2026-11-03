@@ -1,5 +1,6 @@
 ---
 title: "에이전트 평가, 컴퓨터 사용 모델, 품질 자동화 (2026. 06. 30)"
+description: "GPT-5.6 Sol 프리뷰, computer use를 기본 도구로 넣은 Gemini 3.5 Flash, Jules 기반 에이전트 평가, Agentic Resource Discovery, Flutter와 Antigravity."
 date: 2026-06-30 06:00:21 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

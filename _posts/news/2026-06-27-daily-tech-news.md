@@ -1,5 +1,6 @@
 ---
 title: "차세대 모델, 에이전트 실행 환경, 품질 자동화 (2026. 06. 27)"
+description: "GPT-5.6 Sol 제한 프리뷰, Copilot에 MAI-Code-1-Flash, GitHub Desktop 3.6의 worktree 지원, AWS Lambda MicroVMs 샌드박스, Blackwell GPU 커널 교재."
 date: 2026-06-27 06:04:56 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

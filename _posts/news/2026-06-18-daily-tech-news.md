@@ -1,5 +1,6 @@
 ---
 title: "A2UI와 MCP 앱, Agentic Resource Discovery 스펙, AI 화학자 (2026. 06. 18)"
+description: "A2UI와 MCP 앱 결합 패턴, Agentic Resource Discovery 스펙, OpenAI AI 화학자의 의약 반응 개선, 네이버·카카오·토스의 에이전트 사례."
 date: 2026-06-18 09:35:39 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

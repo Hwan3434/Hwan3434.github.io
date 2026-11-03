@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-28"
+description: "Kimi K3 weights with a 1M-token context, PGSimCity for exploring PostgreSQL internals, the costs after Bun's Rust rewrite, and MAI-Cyber-1-Flash."
 date: 2026-07-28 06:02:05 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

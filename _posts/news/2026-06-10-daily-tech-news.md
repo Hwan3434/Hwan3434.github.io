@@ -1,5 +1,6 @@
 ---
 title: "WWDC26 Time Allowances와 Gemini 3.5 Live Translate (2026. 06. 10)"
+description: "WWDC26 개발자 업데이트, Colab CLI와 Gemma 4 12B, Gemini 3.5 Live Translate, Claude Fable 5·Mythos 5 출시, npm v12 주요 변경 예고."
 date: 2026-06-10 09:33:08 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

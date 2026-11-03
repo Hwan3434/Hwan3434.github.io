@@ -1,5 +1,6 @@
 ---
 title: "에이전트 평가, 발견 표준, SDK 업데이트 (2026. 06. 26)"
+description: "Codex 사용 데이터로 본 에이전트 업무 전환, Jules로 목표 지향 코딩 에이전트 평가, Agentic Resource Discovery 사양, A2UI·MCP Apps 패턴, SDK 업데이트."
 date: 2026-06-26 06:00:18 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

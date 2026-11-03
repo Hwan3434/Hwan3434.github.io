@@ -20,9 +20,6 @@ OPTIONAL = ["series", "series_order", "pin", "noindex", "sitemap", "toc"]
 # _config.yml defaults 가 채우는 값. 글에 쓰면 글마다 달라 보이기만 한다.
 BY_DEFAULTS = ["layout", "lang", "locale", "permalink", "comments"]
 
-# 루틴이 description·영어판을 쓰기 전에 올라간 뉴스. 소급해 채우지 않고 검사에서 뺀다.
-NEWS_LEGACY_BEFORE = dt.date(2026, 10, 30)
-
 # 한국어 폴더 → 영어판 폴더
 SECTIONS = {"Tech": "tech", "Philosophy": "philosophy", "news": "news"}
 
@@ -62,11 +59,8 @@ def check(path, section, is_en):
     file_date = dt.date(*map(int, fname.groups())) if fname else None
 
     news = section == "news"
-    legacy = news and file_date and file_date < NEWS_LEGACY_BEFORE
 
     for k in REQUIRED:
-        if k == "description" and legacy:
-            continue
         if not fm.get(k):
             errs.append(f"{k}: 빠졌다")
     for k in fm:
@@ -117,7 +111,7 @@ def check(path, section, is_en):
             errs.append(f"제목 단계를 건너뛴다({where}에 h{level}, ##부터 한 단계씩): {line[:40]}")
         prev = max(level, 2)
 
-    if not is_en and not legacy:
+    if not is_en:
         pair = os.path.join(ROOT, "en", SECTIONS[section], name)
         if not os.path.exists(pair):
             errs.append(f"영어판이 없다: {pair}")

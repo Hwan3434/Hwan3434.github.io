@@ -1,5 +1,6 @@
 ---
 title: "AI · 모바일 다이제스트 - 2026-08-19"
+description: "R8 Configuration Analyzer로 Tinder 콜드 스타트 47% 단축, ADK zero-trust 레퍼런스, 모델별 에이전트 메모리, Jetpack XR beta02, Apple EU 수수료 변경."
 date: 2026-08-19 06:10:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]

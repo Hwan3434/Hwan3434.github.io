@@ -1,5 +1,6 @@
 ---
 title: "Claude Opus 5 API, Stateless MCP, PostgreSQL 알림 확장 (2026. 07. 26)"
+description: "Claude Opus 5와 tool 변경·자동 fallback beta, session을 없앤 차기 MCP 사양, PostgreSQL LISTEN/NOTIFY 배치 처리, Android loopback ADB 제한 가능성."
 date: 2026-07-26 06:02:15 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

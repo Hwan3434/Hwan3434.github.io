@@ -1,5 +1,6 @@
 ---
 title: "형식 검증 AI, build toolchain, 근거리 공유 보안과 agent 결제 (2026. 07. 05)"
+description: "Lean 4 형식 검증용 Leanstral 1.5, Copilot 사용량 지표 보정, Zig package manager 이동, Rust 1.96.1, AirDrop·Quick Share pre-auth 취약점 6건."
 date: 2026-07-05 06:03:43 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

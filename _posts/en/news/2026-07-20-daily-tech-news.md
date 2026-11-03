@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-20"
+description: "The Bun 1.4 preview rewritten in Rust, a bowling alley scoring system built on ESP32 and Redis, SoundCloud's AAC high-frequency cut, and Minecraft Java moving to SDL3."
 date: 2026-07-20 06:02:14 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

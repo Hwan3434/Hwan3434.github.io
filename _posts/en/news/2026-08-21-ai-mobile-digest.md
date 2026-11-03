@@ -1,5 +1,6 @@
 ---
 title: "AI & Mobile Digest - 2026-08-21"
+description: "LFM2.5-DSpark runs 2.27x faster on device with a 300M draft, a Core ML INT8 model on iPhone 15, smolvm 1.8.3, Swift 6.4 Embedded, and modeling domain errors in Kotlin."
 date: 2026-08-21 06:10:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]

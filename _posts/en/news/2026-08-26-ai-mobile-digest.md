@@ -1,5 +1,6 @@
 ---
 title: "AI & Mobile Digest - 2026-08-26"
+description: "4-bit models beating the original BF16, Granite 4.2 under Apache 2.0, Android 17 per-app memory limits, Flutter's desktop multi-window API, and Play's GenAI review requirements."
 date: 2026-08-26 06:10:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]

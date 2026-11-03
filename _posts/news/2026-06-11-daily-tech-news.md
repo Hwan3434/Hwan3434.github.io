@@ -1,5 +1,6 @@
 ---
 title: "WWDC26 핵심 사항, Gemini 메모리 기능, Codex 블랙홀 시뮬레이션 (2026. 06. 11)"
+description: "WWDC26 핵심, DiffusionGemma와 Gemma 4 12B, Gemini 메모리 기능, Codex로 만든 블랙홀 시뮬레이션, 16GB Raspberry Pi 5, 국내 기술 블로그 소식."
 date: 2026-06-11 09:34:52 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

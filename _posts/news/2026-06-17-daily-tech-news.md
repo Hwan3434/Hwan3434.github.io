@@ -1,5 +1,6 @@
 ---
 title: "Google Sign In OIDC 클레임, TPU 개발자 허브, Android 17 (2026. 06. 17)"
+description: "Sign in with Google의 auth_time·amr 클레임 추가, TPU 개발자 허브 공개, Android 17과 GrapheneOS, 국내 기업의 AI 에이전트 활용 사례."
 date: 2026-06-17 09:34:27 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

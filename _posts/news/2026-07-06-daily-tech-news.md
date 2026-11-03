@@ -1,5 +1,6 @@
 ---
 title: "UI 기본값 전환, agent 문서화, 오픈소스 기여와 DNS 호환성 (2026. 07. 06)"
+description: "shadcn/ui의 기본 컴포넌트를 Base UI로 전환, 코딩 에이전트용 문서를 만드는 LangChain OpenWiki, Martin Fowler 워크숍 자료, Flipper Zero 기여 절차."
 date: 2026-07-06 06:01:21 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

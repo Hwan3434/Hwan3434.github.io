@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-14"
+description: "Social media questions in App Store age ratings, CodeQL prompt injection detection, Martin Fowler on agent harnesses, the Logseq 2.0.1 DB beta, and dom-docx."
 date: 2026-07-14 06:00:15 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

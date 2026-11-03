@@ -1,5 +1,6 @@
 ---
 title: "Google Colab CLI 출시와 Gemma 4 12B 로컬 AI (2026. 06. 07)"
+description: "Google Colab CLI 출시와 16GB 랩톱에서 도는 Gemma 4 12B, Gemini Omni 공개, Anthropic의 자기 개선 AI 언급, 토스·네이버의 AI 활용 사례."
 date: 2026-06-07 18:07:19 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

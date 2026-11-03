@@ -1,5 +1,6 @@
 ---
 title: "AI & Mobile Digest - 2026-08-27"
+description: "Granite Speech 5.0, a 470M ASR model, GLM-5.3-Flash under MIT, vLLM embeddings on TPU, DEX optimization in Play quality criteria, and Compose Multiplatform 1.12.0."
 date: 2026-08-27 06:10:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]

@@ -1,5 +1,6 @@
 ---
 title: "코딩 평가 신뢰성, 에이전트형 업무, 온디바이스 AI 운영 (2026. 07. 11)"
+description: "SWE-Bench Pro 데이터 감사, GPT-Live 음성 모델 API, Codex 기반 ChatGPT Work, App Store의 소셜 미디어 기능 표기 요구, 온디바이스 AI 운영."
 date: 2026-07-11 06:02:07 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

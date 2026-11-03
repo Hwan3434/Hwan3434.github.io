@@ -34,6 +34,19 @@ Core ML, Apple Foundation Models, Gemini Nano / AICore, LiteRT / MediaPipe, MLX,
 
 Stock prices, earnings, funding rounds, executive moves, and broad business news — unless there is direct, concrete engineering impact. Also skip pure marketing announcements, unverified rumors, and reposts with no new technical detail.
 
+## Search for news outside the source list
+
+After reading the listed sources, run 2–4 WebSearch queries per pillar for news from the last 24–48 hours. Example queries:
+
+- Pillar A: `Claude release`, `Gemini API update`, `Hugging Face release`
+- Pillar B: `Flutter release`, `Android Studio release`, `Jetpack Compose release`, `Swift Xcode release`, `Kotlin Multiplatform release`
+
+Search results are candidates only:
+
+- Open each candidate's original page with WebFetch before using it. Never take a number or version from a search result snippet.
+- Drop any result dated more than 48 hours before today, and apply the Exclusions above.
+- If any site, listed or found by search, refuses automated access (e.g. 403 from openai.com or medium.com), skip it and fill the slot from another source.
+
 ## Writing rules
 
 Match the established house style of recent posts under `_posts/news/` — read two of them before writing.

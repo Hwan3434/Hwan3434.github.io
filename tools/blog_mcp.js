@@ -25,11 +25,16 @@ server.tool(
     {
         title: z.string().describe("The title of the blog post"),
         content: z.string().describe("The main markdown content"),
-        category: z.string().default("etc").describe("Category folder (e.g. news, tech, philosophy)"),
+        description: z.string().describe("One-sentence summary (<=120 chars) shown in lists and search results"),
+        category: z.enum(["tech", "philosophy", "news"]).describe("Section: tech, philosophy or news"),
+        categories: z.array(z.string()).optional().describe("[topic, detail] for tech/philosophy, e.g. ['flutter', '트러블슈팅'] or ['philosophy', '에세이']. Ignored for news"),
         slug: z.string().optional().describe("Optional english slug for the filename. If not provided, a default one is generated."),
         tags: z.array(z.string()).optional().describe("Array of tags for the blog post")
     },
-    async ({ title, content, category, slug, tags }) => {
+    async ({ title, description, content, category, categories, slug, tags }) => {
+        if (category !== 'news' && (!categories || categories.length !== 2)) {
+            throw new Error('tech/philosophy posts need categories: [topic, detail] (CLAUDE.md 글 작성 기준)');
+        }
         let finalSlug = slug;
         if (!finalSlug) {
             finalSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -48,9 +53,11 @@ server.tool(
         const datetimeStr = `${dateStr} ${timeStr} +0900`;
 
         const filename = `${dateStr}-${finalSlug}.md`;
-        const catLower = category.toLowerCase();
-        
-        const outDir = path.join(BLOG_DIR, '_posts', catLower);
+        // 폴더는 CLAUDE.md '글 작성 기준'을 따른다: _posts/{Tech,Philosophy,news}
+        const folder = { tech: 'Tech', philosophy: 'Philosophy', news: 'news' }[category];
+        const catLine = category === 'news' ? 'news' : categories.join(', ');
+
+        const outDir = path.join(BLOG_DIR, '_posts', folder);
         if (!fs.existsSync(outDir)) {
             fs.mkdirSync(outDir, { recursive: true });
         }
@@ -61,7 +68,7 @@ server.tool(
         if (tags && tags.length > 0) {
             tagsLine = `tags: [${tags.join(', ')}]\n`;
         }
-        const frontmatter = `---\nlayout: post\ntitle: "${title}"\ndate: ${datetimeStr}\ncategories: [${catLower}]\n${tagsLine}---\n\n`;
+        const frontmatter = `---\ntitle: "${title}"\ndescription: "${description}"\ndate: ${datetimeStr}\ncategories: [${catLine}]\n${tagsLine}---\n\n`;
         
         fs.writeFileSync(outPath, frontmatter + content, 'utf-8');
 

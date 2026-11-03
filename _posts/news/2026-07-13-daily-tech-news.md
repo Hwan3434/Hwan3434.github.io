@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "GPT-5.6 API, 브라우저 AI 추론, 탄력적 분산 학습 (2026. 07. 13)"
 date: 2026-07-13 06:00:51 +0900
 categories: [news]

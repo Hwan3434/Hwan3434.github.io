@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Google Sign In OIDC 클레임, TPU 개발자 허브, Android 17 (2026. 06. 17)"
 date: 2026-06-17 09:34:27 +0900
 categories: [news]

@@ -4,7 +4,6 @@ description: "A story of struggling for over an hour due to the instability of D
 date: 2026-05-17 12:16:00 +0900
 categories: [flutter, troubleshooting]
 tags: [Dart, Sort, Stable Sort, Troubleshooting]
-toc: true
 ---
 
 When developing, there is basic knowledge we firmly believe languages or frameworks will naturally provide. For me, that belief was 'the default sort algorithm must naturally be a stable sort'.

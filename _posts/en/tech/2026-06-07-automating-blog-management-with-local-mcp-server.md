@@ -1,8 +1,8 @@
 ---
-layout: post
 title: "Automating Blog Management with a Local MCP Server"
+description: "Building a local MCP server that lets an AI write and deploy posts to a Jekyll blog, and why MCP instead of a REST API or CLI."
 date: 2026-06-07 08:47:19 +0900
-categories: [tech]
+categories: [ai, automation]
 tags: [MCP, AI Agent, Automation]
 ---
 

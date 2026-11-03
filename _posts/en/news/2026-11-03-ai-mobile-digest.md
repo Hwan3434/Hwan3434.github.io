@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Agent Skills Moves to AAIF, Swift 6.4, New App Store Age Rating Items (2026. 11. 03)"
 description: "Agent Skills moves under the Linux Foundation's AAIF, Swift 6.4 ships, and App Store Connect adds new age rating declarations."
 date: 2026-11-03 08:00:00 +0900

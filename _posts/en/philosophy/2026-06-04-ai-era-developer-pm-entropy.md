@@ -1,6 +1,6 @@
 ---
-layout: post
 title: "Thoughts on the Boundary Between PMs and Developers, and Entropy in the AI Era"
+description: "Starting from screen-dependent APIs and DDD, a reflection on what the friction between PMs and developers, and entropy, mean when the cost of code nears zero."
 date: 2026-06-04 08:00:00 +0900
 categories: [philosophy, essay]
 tags: [AI, DDD, Product Engineering, essay]

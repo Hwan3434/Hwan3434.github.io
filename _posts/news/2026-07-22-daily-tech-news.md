@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "AI Agent 보안 사고, 경량 Cyber 모델, Xcode 27 beta 4 (2026. 07. 22)"
 date: 2026-07-22 06:01:20 +0900
 categories: [news]

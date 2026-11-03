@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Anthropic Scion 소스 컨트롤, App Review 가이드라인 개정, iPhone Duo (2026. 10. 31)"
 description: "Anthropic이 git을 대체한 Scion을 공개하고, Apple은 심사 가이드라인을 개정하며 iPhone Duo 스크린샷 요건을 예고했습니다."
 date: 2026-10-31 08:00:00 +0900

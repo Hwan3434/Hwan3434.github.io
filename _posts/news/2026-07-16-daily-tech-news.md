@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "오픈 웨이트 모델, LLM용 DSL, 에이전트 개발 환경 (2026. 07. 16)"
 date: 2026-07-16 06:01:45 +0900
 categories: [news]

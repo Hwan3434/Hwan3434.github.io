@@ -4,7 +4,6 @@ description: "Claude Code 업데이트로 겪은 자체 구축 스킬(Skill)의 
 date: 2026-06-03 11:50:00 +0900
 categories: [ai, 회고]
 tags: [Claude Code, AI Agent, Harness, 생산성]
-toc: true
 ---
 
 요즘 **Claude Code**와 같은 AI 코딩 에이전트를 실무에 적극적으로 활용하면서, 나만의 개발 환경에 맞춘 이른바 '하네스(Harness)'를 자체적으로 만들어 사용하고 있었습니다. 여기서 하네스란, 에이전트가 내 프로젝트를 더 잘 이해하고 동작하도록 도와주는 **커스텀 룰(Rule), 스킬(Skill), 서브에이전트(Sub-agent)** 등을 의미합니다.

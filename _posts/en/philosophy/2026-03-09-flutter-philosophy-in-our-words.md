@@ -5,7 +5,6 @@ date: 2026-03-09 18:00:00 +0900
 categories: [philosophy, essay]
 tags: [philosophy, architecture, mindset]
 pin: true
-toc: true
 ---
 
 ## Two Values

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Agent Skills Moves to AAIF, Swift 6.4, and Apple's 27 SDK Deadline (2026. 10. 30)"
 description: "The Agent Skills standard moves to AAIF, and Swift 6.4 plus Apple's 2027 SDK and certificate deadlines are set."
 date: 2026-10-30 08:00:00 +0900

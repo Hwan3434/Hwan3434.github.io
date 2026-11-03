@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Genkit Agent Skills, Go 1.27 미리보기, Rust All Hands (2026. 08. 03)"
 date: 2026-08-03 06:01:32 +0900
 categories: [news]

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Claude 암호분석, 과학 소프트웨어와 Coding Agent, Zig 증분 컴파일 (2026. 07. 29)"
 date: 2026-07-29 06:01:57 +0900
 categories: [news]

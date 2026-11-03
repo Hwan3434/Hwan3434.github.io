@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "LLM 기반 Lean 증명, GrapheneOS 잠금 방어, AI Token Relay 사기 (2026. 07. 27)"
 date: 2026-07-27 06:02:30 +0900
 categories: [news]

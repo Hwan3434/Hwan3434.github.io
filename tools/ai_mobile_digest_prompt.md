@@ -99,7 +99,6 @@ Write the English post from the polished Korean. The skill leaves working files 
 Front matter for both:
 
 ```yaml
-layout: post
 title: "Google Colab CLI 출시와 Gemma 4 12B 로컬 AI (2026. 06. 07)"   # EN: "Google Colab CLI Launch and Gemma 4 12B Local AI (2026. 06. 07)"
 description: "Colab CLI로 로컬 터미널에서 원격 GPU를 쓰고, Gemma 4 12B는 16GB RAM 랩톱에서 돌아갑니다."
 date: 2026-06-07 08:00:00 +0900

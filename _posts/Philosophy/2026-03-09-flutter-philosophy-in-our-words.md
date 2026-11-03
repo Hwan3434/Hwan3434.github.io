@@ -5,7 +5,6 @@ date: 2026-03-09 18:00:00 +0900
 categories: [philosophy, 에세이]
 tags: [철학, 아키텍처, 마인드셋]
 pin: true
-toc: true
 ---
 
 ## 두 가지 가치

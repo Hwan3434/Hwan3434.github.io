@@ -4,7 +4,6 @@ description: "API 스펙은 지키고, 기획 판단은 존중한다. 앱 개발
 date: 2026-10-29 22:00:00 +0900
 categories: [philosophy, 에세이]
 tags: [협업, API, 기획, 아키텍처, 마인드셋]
-toc: true
 ---
 
 앱 개발자는 혼자 일하지 않습니다.

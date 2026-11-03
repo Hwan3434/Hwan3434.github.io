@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Agent Skills AAIF 이관과 Swift 6.4, Apple 27 SDK 마감 (2026. 10. 30)"
 description: "Agent Skills 표준이 AAIF로 넘어가고, Swift 6.4와 Apple 2027년 SDK·인증서 마감이 확정됐습니다."
 date: 2026-10-30 08:00:00 +0900

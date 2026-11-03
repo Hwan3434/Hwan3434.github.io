@@ -6,7 +6,6 @@ categories: [android, 코루틴]
 tags: [Kotlin, Coroutine, Dart, Flutter, 구조화된 동시성]
 series: "Flutter 개발자가 본 Android"
 series_order: 1
-toc: true
 ---
 
 Flutter를 3년 하고 다시 Android 코드를 열었을 때, 코루틴은 낯설지 않았습니다.

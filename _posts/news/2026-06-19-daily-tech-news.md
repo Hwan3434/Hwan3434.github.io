@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "브라질 iOS 시장 변화와 Google A2A 에이전트 프로토콜 (2026. 06. 19)"
 date: 2026-06-19 09:38:42 +0900
 categories: [news]
@@ -10,14 +9,14 @@ tags: [Developer, AI, Daily]
 
 ---
 
-### iOS 개발자를 위한 브라질 시장의 새로운 기회와 약관 변경
+## iOS 개발자를 위한 브라질 시장의 새로운 기회와 약관 변경
 
 애플이 브라질 경쟁 당국(CADE)과의 합의에 따라 **iOS 개발자 프로그램 라이선스 약관을 업데이트**했습니다. 이 변화는 특히 브라질 내 iOS 앱에 대해 **대체 앱 마켓플레이스, 대체 결제 시스템, 그리고 인앱 결제 외 제안(out-of-app offers)을 허용**하는 내용을 골자로 합니다. iOS 26.5부터 적용될 이 정책은 개발자들이 Core Technology Commission을 고려하면서도 브라질 시장에서 앱을 배포하고 수익을 창출할 수 있는 더 다양한 옵션을 제공할 것으로 예상됩니다. 모든 개발자는 업데이트된 약관(Attachment 12)을 반드시 검토하고 동의해야 합니다.
 
 *   [https://developer.apple.com/news/?id=umq9wxmm](https://developer.apple.com/news/?id=umq9wxmm) (Apple Developer)
 *   [https://developer.apple.com/news/?id=dhwadr2x](https://developer.apple.com/news/?id=dhwadr2x) (Apple Developer)
 
-### Google, AI 에이전트 협업 프로토콜(A2A) 및 개방형 표준 발표
+## Google, AI 에이전트 협업 프로토콜(A2A) 및 개방형 표준 발표
 
 Google은 자율 AI 에이전트 간의 안전한 협업을 가능하게 하는 **Agent-to-Agent (A2A) 프로토콜의 1주년**을 기념하며, 이 프레임워크가 전통적인 API의 제약 없이 에이전트들이 복잡한 워크플로우를 위임하고, 컨텍스트 오염을 방지하며, 데이터 프라이버시를 유지하면서 모듈식 애플리케이션을 설계하는 방법을 강조했습니다. 특히 생명 과학 분야 에이전트 인터페이스 'FoldRun'의 사례를 통해 A2A의 실용성을 보여주었습니다.
 
@@ -29,7 +28,7 @@ Google은 자율 AI 에이전트 간의 안전한 협업을 가능하게 하는 
 *   [https://developers.googleblog.com/announcing-the-agentic-resource-discovery-specification/](https://developers.googleblog.com/announcing-the-agentic-resource-discovery-specification/) (Google Developers Blog)
 *   [https://developers.googleblog.com/a2ui-and-mcp-apps/](https://developers.googleblog.com/a2ui-and-mcp-apps/) (Google Developers Blog)
 
-### AI 모델 활용 및 엔터프라이즈 기능 업데이트 (OpenAI, Anthropic, Google Gemini)
+## AI 모델 활용 및 엔터프라이즈 기능 업데이트 (OpenAI, Anthropic, Google Gemini)
 
 **OpenAI**는 ChatGPT Enterprise 사용자를 위해 **새로운 비용 관리 기능과 사용량 분석**을 도입하여, 조직이 AI 비용을 효율적으로 관리하고 AI를 확장할 수 있도록 지원합니다. 또한, **GPT-5.5 Instant 모델을 통해 ChatGPT의 건강 및 웰니스 분야 응답 지능을 크게 향상**시켰다고 밝혔습니다. 이는 더 강력한 추론 능력, 개선된 컨텍스트 이해, 명확한 커뮤니케이션, 그리고 의사 평가를 통한 검증을 포함합니다. 이와 더불어, **AI 추론 모델이 희귀 유전 질환 진단에 활용되어 이전에 해결되지 않았던 18개 사례에서 새로운 진단을 식별**하는 데 성공한 연구 사례를 공유하며 AI의 의료 분야 잠재력을 입증했습니다.
 
@@ -48,7 +47,7 @@ Google은 자율 AI 에이전트 간의 안전한 협업을 가능하게 하는 
 *   [https://news.google.com/rss/articles/CBMigwFBVV95cUxOLWtvMHpGVUpqcmMtalRVSTZldjRyNkNQM1kwSXQ3T0JjNDVDazQ4R1NicTBHSHBhcTJiYXFEcjBmOXJZN0ZRR1dPNjBZWmlNNmZtZmpaUjhmQUFnLWlkelc0RUw1bTFyR01lbTNreTFyTEtDSnMxX25CX3NhT2VXcUQ5NA?oc=5](https://news.google.com/rss/articles/CBMigwFBVV95cUxOLWtvMHpGVUpqcmMtalRVSTZldjRyNkNQM1kwSXQ3T0JjNDVDazQ4R1NicTBHSHBhcTJiYXFEcjBmOXJZN0ZRR1dPNjA3WmlNNmZtZmpaUjhmQUFnLWlkelc0RUw1bTFyR01lbTNreTFyTEtDSnMxX25CX3NhT2VXcUQ5NA?oc=5) (Axios via Google News)
 *   [https://www.intheweights.com/](https://www.intheweights.com/) (In The Weights)
 
-### AI 에이전트: 도구에서 동료로, 실제 개발 및 서비스 적용 사례
+## AI 에이전트: 도구에서 동료로, 실제 개발 및 서비스 적용 사례
 
 저명한 소프트웨어 엔지니어인 **Martin Fowler**는 제약 연구를 위한 LLM 기반 시스템을 구축했던 경험을 공유하며 **안정적이고 신뢰할 수 있는 에이전트 AI 시스템 설계의 중요성**을 강조했습니다. PDF 보고서에 묻혀있던 수십 년간의 연구 정보를 질의할 수 있는 시스템 구축 과정을 통해, 실제 환경에서 LLM을 활용하는 데 필요한 깊이 있는 통찰을 제공합니다.
 

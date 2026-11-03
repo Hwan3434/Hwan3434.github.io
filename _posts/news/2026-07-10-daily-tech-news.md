@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "GPT-5.6, 브라우저 AI 추론, 에이전트 워크플로 신뢰성 (2026. 07. 10)"
 date: 2026-07-10 06:02:29 +0900
 categories: [news]

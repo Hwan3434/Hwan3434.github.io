@@ -4,7 +4,6 @@ description: "Keep the API spec, respect planning decisions. Two rules for how a
 date: 2026-10-29 22:00:00 +0900
 categories: [philosophy, essay]
 tags: [collaboration, API, product planning, architecture, mindset]
-toc: true
 ---
 
 An app developer never works alone.

@@ -1,0 +1,33 @@
+name: "Post Lint"
+
+# 글이 CLAUDE.md '글 작성 기준'을 지키는지 검사한다. 규칙 본체는 tools/check_posts.py.
+# 매일 새벽 4시(KST)에도 도는 건 루틴·MCP 도구가 main 에 바로 올린 글을 잡기 위해서다.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 19 * * *'   # 매일 04:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Check posts
+        run: python tools/check_posts.py

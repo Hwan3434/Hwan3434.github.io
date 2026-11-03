@@ -6,7 +6,6 @@ categories: [kotlin, kmm]
 tags: [KMM, Kotlin Multiplatform Mobile, Android Studio]
 series: "KMM (Kotlin Multiplatform Mobile)"
 series_order: 2
-toc: true
 ---
 
 This time, let's build a sample project with Kotlin Multiplatform Mobile (KMM).

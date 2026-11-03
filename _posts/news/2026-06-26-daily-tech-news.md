@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "에이전트 평가, 발견 표준, SDK 업데이트 (2026. 06. 26)"
 date: 2026-06-26 06:00:18 +0900
 categories: [news]

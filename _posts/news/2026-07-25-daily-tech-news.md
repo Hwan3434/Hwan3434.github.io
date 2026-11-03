@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Ray on TPU, IntelliJ Plugin Generator, Debian의 LLM 정책 논의 (2026. 07. 25)"
 date: 2026-07-25 06:02:30 +0900
 categories: [news]

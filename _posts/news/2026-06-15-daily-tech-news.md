@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "DiffusionGemma, Kage 웹사이트 단일 바이너리, Gemini Spark (2026. 06. 15)"
 date: 2026-06-15 09:33:24 +0900
 categories: [news]

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "UI 기본값 전환, agent 문서화, 오픈소스 기여와 DNS 호환성 (2026. 07. 06)"
 date: 2026-07-06 06:01:21 +0900
 categories: [news]

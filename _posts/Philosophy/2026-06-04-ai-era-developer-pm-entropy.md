@@ -1,6 +1,6 @@
 ---
-layout: post
 title: "AI 시대, 기획자와 개발자의 경계 그리고 엔트로피에 대한 단상"
+description: "화면 종속적 API 문제에서 DDD를 떠올린 뒤, 코딩 비용이 0에 가까워지는 AI 시대에 기획자와 개발자 사이의 마찰과 엔트로피가 어떤 의미인지 생각해 본 글."
 date: 2026-06-04 08:00:00 +0900
 categories: [philosophy, 에세이]
 tags: [AI, DDD, Product Engineering, 에세이]

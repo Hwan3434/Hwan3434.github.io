@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "AI Agent 침해사고의 장기 자격증명 위험, Servo 0.4.0 (2026. 08. 01)"
 date: 2026-08-01 06:01:35 +0900
 categories: [news]

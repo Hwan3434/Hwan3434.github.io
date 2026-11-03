@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-30"
+description: "Cutting kernel and agent iteration costs with GPT-5.6, Kimi Code with a 256K context, GitHub's analysis of npm and Actions attack chains, and HANDBOOK.md for steering agents."
 date: 2026-07-30 06:02:48 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

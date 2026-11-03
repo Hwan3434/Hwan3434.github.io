@@ -1,5 +1,6 @@
 ---
 title: "Gemma 4 12B 개발자 가이드, Linear 속도 분석, 토스 AI Surf Day (2026. 06. 08)"
+description: "Google Colab CLI와 노트북용 Gemma 4 12B 출시, Linear의 성능 분석, 토스 AI Surf Day, Gemini의 환각 사례."
 date: 2026-06-08 09:31:37 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-06-27"
+description: "GPT-5.6 Sol in limited preview, MAI-Code-1-Flash in Copilot, worktree support in GitHub Desktop 3.6, AWS Lambda MicroVM sandboxes, and a Blackwell GPU kernel course."
 date: 2026-06-27 06:04:56 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

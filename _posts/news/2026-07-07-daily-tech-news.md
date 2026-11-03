@@ -1,5 +1,6 @@
 ---
 title: "플랫폼 베타, 탄력적 AI 학습, 클라우드 IDE와 에이전트 개발 (2026. 07. 07)"
+description: "iOS 27 beta 3, Cloud Workbench Notebooks VS Code 확장, MaxText·Pathways 탄력적 TPU 학습, Claude Sonnet 5의 API·Claude Code 제공, 18년 된 libunwind 버그."
 date: 2026-07-07 06:00:22 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

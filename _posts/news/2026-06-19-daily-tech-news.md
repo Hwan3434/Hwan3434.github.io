@@ -1,5 +1,6 @@
 ---
 title: "브라질 iOS 시장 변화와 Google A2A 에이전트 프로토콜 (2026. 06. 19)"
+description: "브라질 iOS 앱의 대체 마켓플레이스·결제 허용, A2A 1주년과 Agentic Resource Discovery, 네이버·토스의 AI 에이전트 적용 사례."
 date: 2026-06-19 09:38:42 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

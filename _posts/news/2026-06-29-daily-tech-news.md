@@ -1,5 +1,6 @@
 ---
 title: "병렬 CI, 공급망 보호, AI 코드 보안 (2026. 06. 29)"
+description: "GitHub Actions의 job 내 step 병렬 실행, npm의 72시간 read-only 보호, Codex 민감 파일 제외 요청, Semgrep 보안 하네스 벤치마크, Strix Halo 분산 vLLM."
 date: 2026-06-29 06:03:57 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

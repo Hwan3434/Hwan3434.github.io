@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - June 4, 2026"
+description: "Anthropic's record growth, OpenAI models on Amazon Bedrock, Computex 2026 opens, agentic AI spreads in enterprises, and power shortages from AI infrastructure."
 date: 2026-06-04 09:00:00 +0900
 categories: [news]
 tags: [AI, Tech, Daily]

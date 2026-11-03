@@ -1,5 +1,6 @@
 ---
 title: "에이전트 리뷰 최적화, AI 보안 분석, WordPress 7.1 준비 (2026. 07. 12)"
+description: "Copilot 코드 리뷰 비용 절감, 제품 코드에서 문서 PR을 만드는 cross-repo 흐름, CodeQL 2.26.0, WordPress 7.1 Beta 1 준비와 AI Client 확장."
 date: 2026-07-12 06:00:56 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

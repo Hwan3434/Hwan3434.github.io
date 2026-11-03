@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-06-26"
+description: "Codex usage data on how agents shift work, evaluating goal-driven coding agents with Jules, the Agentic Resource Discovery spec, A2UI and MCP Apps patterns, and SDK updates."
 date: 2026-06-26 06:00:18 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,5 +1,6 @@
 ---
 title: "DiffusionGemma, Kage 웹사이트 단일 바이너리, Gemini Spark (2026. 06. 15)"
+description: "DiffusionGemma, Colab CLI, Gemma 4 12B, Gemini Omni와 함께, 웹사이트를 단일 바이너리로 묶는 Kage와 Gemini Spark 에이전트 리뷰."
 date: 2026-06-15 09:33:24 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

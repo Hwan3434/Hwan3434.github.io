@@ -1,5 +1,6 @@
 ---
 title: "Claude 암호분석, 과학 소프트웨어와 Coding Agent, Zig 증분 컴파일 (2026. 07. 29)"
+description: "Claude Mythos Preview의 HAWK·AES 공격 개선, OpenAI의 과학 소프트웨어 현장 보고서, Zig의 함수 단위 증분 컴파일, subagent의 가치를 다룬 글."
 date: 2026-07-29 06:01:57 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

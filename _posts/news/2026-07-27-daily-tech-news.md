@@ -1,5 +1,6 @@
 ---
 title: "LLM 기반 Lean 증명, GrapheneOS 잠금 방어, AI Token Relay 사기 (2026. 07. 27)"
+description: "LLM이 Lean으로 증명한 Zstandard decoder 불변식, GrapheneOS의 데이터 추출 방어, 도용 credential을 파는 AI token relay, Runway의 Varnish 캐시 분산."
 date: 2026-07-27 06:02:30 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

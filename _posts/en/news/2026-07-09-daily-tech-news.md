@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-09"
+description: "OpenAI finds flaws in about 30% of SWE-Bench Pro tasks, the full-duplex GPT-Live voice model, new search on Apple's developer site, a Gemini and Gemma edge-cloud case, and local model coding results."
 date: 2026-07-09 06:02:29 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

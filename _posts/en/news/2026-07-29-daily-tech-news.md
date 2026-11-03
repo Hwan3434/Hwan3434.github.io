@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-29"
+description: "Claude Mythos Preview improves attacks on HAWK and AES, OpenAI's field report on scientific software, function-level incremental builds in Zig, and an essay on what subagents are for."
 date: 2026-07-29 06:01:57 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

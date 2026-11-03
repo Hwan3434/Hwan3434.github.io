@@ -1,5 +1,6 @@
 ---
 title: "브라질 iOS 앱 생태계, Google AI 에이전트 비전, 인프라 자동화 (2026. 06. 21)"
+description: "브라질 iOS 대체 마켓플레이스·결제 허용, A2A·ARD·A2UI와 MCP 앱, OpenAI의 희귀 질환 진단 지원, 토스·네이버의 자동화 사례."
 date: 2026-06-21 09:32:00 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

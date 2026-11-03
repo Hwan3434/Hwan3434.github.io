@@ -1,5 +1,6 @@
 ---
 title: "코딩 평가 신뢰성, 실시간 음성 AI, edge-cloud 아키텍처 (2026. 07. 09)"
+description: "SWE-Bench Pro 작업 약 30%의 결함 분석, full-duplex 음성 모델 GPT-Live, Apple 개발자 사이트 새 검색, Gemini·Gemma edge-cloud 사례, 로컬 모델 코딩 결과."
 date: 2026-07-09 06:02:29 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

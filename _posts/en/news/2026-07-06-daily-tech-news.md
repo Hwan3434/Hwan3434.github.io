@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-06"
+description: "shadcn/ui switches its default component library to Base UI, LangChain's repository docs for coding agents, Martin Fowler's workshop hub, and Flipper Zero's contribution process."
 date: 2026-07-06 06:01:21 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

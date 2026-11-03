@@ -1,5 +1,6 @@
 ---
 title: "GPT-5.6 API, 브라우저 AI 추론, 탄력적 분산 학습 (2026. 07. 13)"
+description: "GPT-5.6과 Responses API 에이전트 기능, Claude Code의 설계 과정, 브라우저용 LiteRT.js, TPU 탄력적 학습, Flutter 3.44 릴리스 노트, GitHub Models 종료 전 brownout."
 date: 2026-07-13 06:00:51 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-27"
+description: "An LLM proves Zstandard decoder invariants in Lean, GrapheneOS defenses against data extraction, AI token relays reselling stolen credentials, and Runway's Varnish cache sharding."
 date: 2026-07-27 06:02:30 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

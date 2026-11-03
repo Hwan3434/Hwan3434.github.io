@@ -1,5 +1,6 @@
 ---
 title: "AI 추론 최적화, 소프트웨어 공급망, ML 운영 도구 (2026. 07. 15)"
+description: "Qwen 3.5-397B를 Ironwood TPU에서 최대 4.7배 가속, PR에 AI 보안 탐지 결과 표시, Dependabot 3일 cooldown 기본값, Headlamp Kubeflow plugin, C++26 reflection."
 date: 2026-07-15 06:01:57 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

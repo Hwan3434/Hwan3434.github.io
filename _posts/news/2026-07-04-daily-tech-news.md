@@ -1,5 +1,6 @@
 ---
 title: "브라우저 에이전트, Copilot 운영 경계, AI 보안과 데이터 무결성 (2026. 07. 04)"
+description: "Safari MCP server 프리뷰, Copilot의 Gemini 2.5 Pro·3 Flash 종료, Copilot CLI 감사 기능, Anthropic의 cyber jailbreak 심각도 분류, pxpipe."
 date: 2026-07-04 06:02:56 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

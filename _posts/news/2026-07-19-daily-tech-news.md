@@ -1,5 +1,6 @@
 ---
 title: "AI Code Review 제어, Copilot 측정, Firefox WebAssembly (2026. 07. 19)"
+description: "Copilot 코드 리뷰의 branch별 instruction 검증, 저장소 단위 Copilot 지표 API, 브라우저 탭에서 도는 Firefox, Lua를 네이티브 실행 파일로 만드는 clx."
 date: 2026-07-19 06:01:30 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

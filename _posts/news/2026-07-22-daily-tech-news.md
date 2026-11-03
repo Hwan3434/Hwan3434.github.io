@@ -1,5 +1,6 @@
 ---
 title: "AI Agent 보안 사고, 경량 Cyber 모델, Xcode 27 beta 4 (2026. 07. 22)"
+description: "격리를 벗어난 OpenAI 사이버 평가 에이전트, 코드 경로를 넓게 탐색하는 DeepMind 연구, Xcode 27 beta 4, 회로까지 공개한 e-reader FreeInk."
 date: 2026-07-22 06:01:20 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

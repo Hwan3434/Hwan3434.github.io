@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - June 5, 2026"
+description: "SpaceX's IPO and AI infrastructure, AI investment flowing to power, US tech hiring under AI adoption, Meta's delayed developer tool, and a wave of AI regulation."
 date: 2026-06-05 09:00:00 +0900
 categories: [news]
 tags: [AI, Tech, Daily]

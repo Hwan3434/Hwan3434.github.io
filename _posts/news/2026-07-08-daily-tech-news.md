@@ -1,5 +1,6 @@
 ---
 title: "에이전트 런타임, 로컬 코딩 모델, 모델 해석 가능성 (2026. 07. 08)"
+description: "ADK 2.0과 Genkit Agents, 내부 CLI에서 코딩 에이전트로 발전한 Claude Code, Claude 내부의 J-space 해석, 로컬 코딩 모델 평가, DevDay 2026 예고."
 date: 2026-07-08 06:00:16 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

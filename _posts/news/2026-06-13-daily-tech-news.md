@@ -1,5 +1,6 @@
 ---
 title: "ImageCreator 지원 중단, Swift TrueType 힌팅, DiffusionGemma (2026. 06. 13)"
+description: "ImageCreator 지원 중단과 TrueType 힌팅 인터프리터의 Swift 전환, DiffusionGemma와 Gemini Omni, 네이버의 LLM 서빙·Android 발표."
 date: 2026-06-13 09:34:38 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

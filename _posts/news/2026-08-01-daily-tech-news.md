@@ -1,5 +1,6 @@
 ---
 title: "AI Agent 침해사고의 장기 자격증명 위험, Servo 0.4.0 (2026. 08. 01)"
+description: "Hugging Face 침해에서 드러난 장기 Tailscale auth key, Servo 0.4.0, Go 1.28용 generic 컬렉션, 실제 on-call 입력의 ORCA-bench."
 date: 2026-08-01 06:01:35 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

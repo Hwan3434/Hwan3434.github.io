@@ -1,5 +1,6 @@
 ---
 title: "Ray on TPU, IntelliJ Plugin Generator, Debian의 LLM 정책 논의 (2026. 07. 25)"
+description: "TPU에서 Serve·Data·Train을 지원하는 Ray 2.55, IntelliJ Platform 템플릿 변경, Debian의 LLM 기여 정책 논의, Copilot에 들어간 Claude Opus 5."
 date: 2026-07-25 06:02:30 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

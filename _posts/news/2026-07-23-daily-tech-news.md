@@ -1,5 +1,6 @@
 ---
 title: "Agentic RL 처리량, 초고속 Tokenizer, 실전 SIMD (2026. 07. 23)"
+description: "비동기 rollout으로 TPU 유휴를 줄인 Google Tunix, GB/s급 BPE tokenizer Gigatoken, 루프를 SIMD로 옮기는 패턴, 스타트업의 Postgres 운영 가이드."
 date: 2026-07-23 06:02:04 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,5 +1,6 @@
 ---
 title: "AI & Mobile Digest - 2026-08-16"
+description: "Flutter genui pre-generating and caching A2UI messages, Flutter 3.47 splitting out Material and Cupertino, Media3's PlayerPool, and rating overrides on the Korean App Store."
 date: 2026-08-16 06:20:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]

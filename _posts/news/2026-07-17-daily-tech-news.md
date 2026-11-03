@@ -1,5 +1,6 @@
 ---
 title: "웹 Grounding, Prompt 빌드, Xcode 27 CI, 소프트웨어 보존 (2026. 07. 17)"
+description: "Gemini Enterprise Agent Platform의 Parallel Web Search grounding, 대형 agent prompt를 build artifact로 관리, Xcode 27 runner 프리뷰, Comic Chat 소스 공개."
 date: 2026-07-17 06:01:37 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

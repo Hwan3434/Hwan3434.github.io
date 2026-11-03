@@ -1,5 +1,6 @@
 ---
 title: "팀 단위 AI 에이전트, Gemini API 변경, 모바일 개발 업데이트 (2026. 06. 24)"
+description: "Slack에서 협업하는 Claude Tag 베타, Codex의 지식 작업 확장, Gemini Interactions API GA와 모델 종료 일정, Apple 27 디자인 키트와 베타."
 date: 2026-06-24 21:26:58 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

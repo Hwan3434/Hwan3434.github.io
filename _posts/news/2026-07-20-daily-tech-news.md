@@ -1,5 +1,6 @@
 ---
 title: "Claude Code의 Rust 기반 Bun, ESP32 제어 시스템, AAC 인코딩 (2026. 07. 20)"
+description: "Rust로 다시 쓴 Bun 1.4 preview, ESP32와 Redis로 만든 볼링장 scoring, SoundCloud의 AAC 고역 처리, Minecraft Java의 SDL3 전환."
 date: 2026-07-20 06:02:14 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-21"
+description: "A WordPress pre-auth RCE exploited in the wild, a GPT-5.6 Sol context fix in Codex 0.144, Xiaomi-Robotics-1, and Moonshine, a Rust compositor."
 date: 2026-07-21 06:02:36 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

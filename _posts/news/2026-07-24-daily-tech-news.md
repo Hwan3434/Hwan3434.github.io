@@ -1,5 +1,6 @@
 ---
 title: "Dependabot 공급망 방어, Java JSON API, Unity CLI (2026. 07. 24)"
+description: "Dependabot 3일 cooldown 기본 적용, 표준 JSON API를 제안한 JEP 540, terminal에서 쓰는 Unity CLI, 수백만 container를 다루는 네이버 VictoriaMetrics."
 date: 2026-07-24 06:02:18 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

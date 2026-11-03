@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-05"
+description: "Leanstral 1.5 for Lean 4 verification, corrected Copilot usage metrics, Zig moves its package manager, Rust 1.96.1, and six pre-auth flaws in AirDrop and Quick Share."
 date: 2026-07-05 06:03:43 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

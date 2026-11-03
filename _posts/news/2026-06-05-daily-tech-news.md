@@ -1,5 +1,6 @@
 ---
 title: "데일리 테크 뉴스 - 2026년 6월 5일"
+description: "SpaceX IPO와 AI 인프라, 전력에 몰리는 AI 투자, AI 도입에 따른 미국 기술 기업 고용 변화, Meta 개발자 도구 출시 지연, 각국의 AI 규제 입법."
 date: 2026-06-05 09:00:00 +0900
 categories: [news]
 tags: [AI, Tech, Daily]

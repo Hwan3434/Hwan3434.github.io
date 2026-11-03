@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-01"
+description: "Claude Sonnet 5 launches, Nano Banana 2 Lite joins the Gemini API, ADK Go 2.0 centers on graph workflows, an agent evaluation skill for coding agents, and GeneBench-Pro."
 date: 2026-07-01 06:03:30 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

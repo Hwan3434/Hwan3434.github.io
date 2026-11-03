@@ -1,5 +1,6 @@
 ---
 title: "GPT-5.6 추론 최적화, Kimi K3-256k, npm·Actions 공급망 방어 (2026. 07. 30)"
+description: "GPT-5.6으로 줄인 kernel·agent 반복 비용, 256K context Kimi Code, npm과 Actions 공격 사슬 분석, 긴 policy 파일로 agent를 통제하는 HANDBOOK.md."
 date: 2026-07-30 06:02:48 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

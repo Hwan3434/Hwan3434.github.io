@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-07-07"
+description: "iOS 27 beta 3, Cloud Workbench Notebooks in VS Code, elastic TPU training with MaxText and Pathways, Claude Sonnet 5 in the API and Claude Code, and an 18-year-old libunwind bug."
 date: 2026-07-07 06:00:22 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

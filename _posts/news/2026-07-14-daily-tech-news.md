@@ -1,5 +1,6 @@
 ---
 title: "AI 보안 분석, 에이전트 하네스, 오픈소스 도구 (2026. 07. 14)"
+description: "App Store 연령 등급 설문의 소셜 미디어 항목, CodeQL의 prompt injection 탐지, Martin Fowler의 agent harness 글, Logseq 2.0.1 DB beta, dom-docx."
 date: 2026-07-14 06:00:15 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

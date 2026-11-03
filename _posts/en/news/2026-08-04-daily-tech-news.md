@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-08-04"
+description: "Cloudflare's FP8 KV cache and INT4 weights, SQLite critical CVEs that failed verification, a long task of reimplementing programs without source, and a Karpathy experiment."
 date: 2026-08-04 06:03:37 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

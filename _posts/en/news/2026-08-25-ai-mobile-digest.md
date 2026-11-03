@@ -1,5 +1,6 @@
 ---
 title: "AI & Mobile Digest - 2026-08-25"
+description: "Tinder's one-line keep rule fix for cold start, AnchorSpace in the Jetpack XR beta, private.icloud.com for Sign in with Apple, per-model agent memory, and ADK voice agent evaluation."
 date: 2026-08-25 06:10:00 +0900
 categories: [news]
 tags: [AI, Mobile, Flutter, Android, iOS, Daily]

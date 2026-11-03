@@ -1,5 +1,6 @@
 ---
 title: "Daily Tech News - 2026-06-25"
+description: "OpenAI's Daybreak and Patch the Planet, a Codex guide for long tasks, ADK and A2A Python-Go examples, Gemma 4 12B local agents, and older Claude models retired."
 date: 2026-06-25 06:36:06 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

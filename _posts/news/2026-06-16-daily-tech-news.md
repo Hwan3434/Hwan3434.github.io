@@ -1,5 +1,6 @@
 ---
 title: "Sign in with Apple 도메인 통합과 AI 에이전트용 Playwright E2E (2026. 06. 16)"
+description: "Sign in with Apple·Hide My Email 도메인의 private.icloud.com 통합, DiffusionGemma와 Gemini 3.5 Live Translate, 네이버의 AI 에이전트용 Playwright E2E 하네스."
 date: 2026-06-16 09:39:15 +0900
 categories: [news]
 tags: [Developer, AI, Daily]

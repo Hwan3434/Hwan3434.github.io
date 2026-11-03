@@ -24,8 +24,8 @@ social:
 #   id: ""
 
 # 웹마스터 인증 (필요시 입력)
-# webmaster_verifications:
-#   google: ""
+webmaster_verifications:
+  google: "g95oCHCGFLat1GheChoTeSwy3xnKX0h_NK1Kz9zJ1_w"
 
 theme_mode: # [light | dark]
 # 비워두면 시스템 설정을 따름

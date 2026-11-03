@@ -68,7 +68,7 @@ layout: default
 
     <div class="article-grid">
       <div class="article-main">
-        {% if series_posts.size > 1 %}
+        {% if series_posts.size > 0 %}
           {% include series.html posts=series_posts index=series_index %}
         {% endif %}
 
@@ -91,7 +91,7 @@ layout: default
           {% assign prev_label = t_post.prev %}
           {% assign next_label = t_post.next %}
 
-          {% if series_posts.size > 1 %}
+          {% if series_posts.size > 0 %}
             {% comment %} 시리즈 글은 시리즈 안에서만 이어진다. 첫 편엔 이전, 마지막 편엔 다음이 없다 {% endcomment %}
             {% assign prev_label = t_post.series_prev %}
             {% assign next_label = t_post.series_next %}

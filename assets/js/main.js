@@ -53,6 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
       tocList.appendChild(li);
     });
 
+    // 항목이 2개 미만이면 목차가 쓸모없으니 상자째 숨긴다
+    const tocContainer = document.getElementById('toc-container');
+    if (tocContainer) tocContainer.hidden = headings.length < 2;
+
     // TOC Observer
     const tocLinks = tocList.querySelectorAll('a');
     if (tocLinks.length > 0 && typeof IntersectionObserver !== 'undefined') {

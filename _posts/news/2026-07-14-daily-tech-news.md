@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "AI 보안 분석, 에이전트 하네스, 오픈소스 도구 (2026. 07. 14)"
 date: 2026-07-14 06:00:15 +0900
 categories: [news]

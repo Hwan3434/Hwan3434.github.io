@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "AI 에이전트 생태계의 발전: A2A, ARD, UI 통합 (2026. 06. 22)"
 date: 2026-06-22 09:33:04 +0900
 categories: [news]

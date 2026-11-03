@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "AI Patch 검증, Spec-Driven Plugin, Self-Hosted Git (2026. 07. 18)"
 date: 2026-07-18 06:02:06 +0900
 categories: [news]

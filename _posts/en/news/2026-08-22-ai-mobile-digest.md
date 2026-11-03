@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "AI & Mobile Digest - 2026-08-22"
 date: 2026-08-22 06:10:00 +0900
 categories: [news]

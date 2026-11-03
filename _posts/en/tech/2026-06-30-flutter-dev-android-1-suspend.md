@@ -6,7 +6,6 @@ categories: [android, coroutine]
 tags: [Kotlin, Coroutine, Dart, Flutter, Structured Concurrency]
 series: "Android Through a Flutter Developer's Eyes"
 series_order: 1
-toc: true
 ---
 
 When I opened Android code again after three years of Flutter, coroutines didn't feel foreign.

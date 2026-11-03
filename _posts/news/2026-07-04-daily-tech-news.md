@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "브라우저 에이전트, Copilot 운영 경계, AI 보안과 데이터 무결성 (2026. 07. 04)"
 date: 2026-07-04 06:02:56 +0900
 categories: [news]

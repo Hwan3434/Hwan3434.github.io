@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "AI · 모바일 다이제스트 - 2026-08-18"
 date: 2026-08-18 06:10:00 +0900
 categories: [news]

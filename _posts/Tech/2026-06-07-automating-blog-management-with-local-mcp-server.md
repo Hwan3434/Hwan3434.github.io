@@ -1,8 +1,8 @@
 ---
-layout: post
 title: "로컬 MCP 서버로 블로그 관리 자동화하기"
+description: "AI가 Jekyll 블로그에 글을 쓰고 배포까지 하도록 로컬 MCP 서버를 만들고, REST API나 CLI 대신 MCP를 고른 이유를 정리한다."
 date: 2026-06-07 08:47:19 +0900
-categories: [tech]
+categories: [ai, 자동화]
 tags: ["MCP", "AI Agent", "자동화"]
 ---
 

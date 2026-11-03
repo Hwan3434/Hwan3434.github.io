@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Daily Tech News - 2026-06-29"
 date: 2026-06-29 06:03:57 +0900
 categories: [news]

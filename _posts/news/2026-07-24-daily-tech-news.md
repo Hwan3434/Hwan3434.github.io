@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Dependabot 공급망 방어, Java JSON API, Unity CLI (2026. 07. 24)"
 date: 2026-07-24 06:02:18 +0900
 categories: [news]

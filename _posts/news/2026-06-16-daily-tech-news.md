@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Sign in with Apple 도메인 통합과 AI 에이전트용 Playwright E2E (2026. 06. 16)"
 date: 2026-06-16 09:39:15 +0900
 categories: [news]

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "AI 추론 최적화, 소프트웨어 공급망, ML 운영 도구 (2026. 07. 15)"
 date: 2026-07-15 06:01:57 +0900
 categories: [news]

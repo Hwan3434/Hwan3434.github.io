@@ -4,7 +4,6 @@ description: "Dart 기본 정렬의 불안정성 때문에 1시간 넘게 고생
 date: 2026-05-17 12:16:00 +0900
 categories: [flutter, 트러블슈팅]
 tags: [Dart, 정렬, Stable Sort, 트러블슈팅]
-toc: true
 ---
 
 개발을 하다 보면 언어나 프레임워크가 당연히 제공할 것이라고 굳게 믿고 넘어가는 기본 상식들이 있습니다. 저에게는 '기본 정렬(Sort) 알고리즘은 당연히 안정 정렬(Stable Sort)일 것이다'라는 믿음이 그랬습니다.

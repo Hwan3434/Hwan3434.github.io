@@ -46,6 +46,18 @@
 -   **지어낸 일화 금지:** 작성자가 겪었다고 확인되지 않은 1인칭 경험("저는 두 번 틀렸습니다" 등)을 만들어 넣지 않습니다. 경험을 쓸 때는 작성자가 준 자료에 있는 것만 씁니다.
 -   **맥락 유지:** 앞뒤 흐름과 동떨어진 문장을 끼워 넣지 않습니다. 강조할 내용은 표나 설명의 흐름 안에 녹입니다.
 
+# 블로그 글 작성 기준 (`_posts/`)
+
+모든 글은 이 기준 하나를 따릅니다. `python3 tools/check_posts.py`가 검사하고, GitHub Actions(`Post Lint`)가 PR·main push·매일 새벽 4시(KST)에 돌립니다. 아래 `OUTPUT FORMAT`은 옵시디언 노트용이고 블로그 글에는 쓰지 않습니다.
+
+-   **위치:** 한국어 `_posts/{Tech,Philosophy,news}/`, 영어판 `_posts/en/{tech,philosophy,news}/`에 같은 파일명으로 둡니다. 파일명은 `YYYY-MM-DD-영문-소문자-슬러그.md`.
+-   **frontmatter 필수:** `title`, `description`(한 문장, 120자 안팎), `date`(`YYYY-MM-DD HH:MM:SS +0900`, 파일명 날짜와 같게), `categories`, `tags`(목록).
+-   **categories:** 테크·철학은 `[대분류, 세부]` 두 개(예: `[flutter, 트러블슈팅]`, `[philosophy, 에세이]`), 대분류는 영문 소문자. 뉴스는 `[news]` 하나.
+-   **선택 키:** `series` + `series_order`(함께), `pin`, `noindex: true` + `sitemap: false`(함께), `toc: false`(목차를 끌 때만).
+-   **쓰지 않는 키:** `layout`, `toc: true`, `lang`, `locale`, `permalink`, `comments`. `_config.yml` 기본값이 채우므로 글에 쓰면 글마다 달라 보이기만 합니다. 기준에 없는 키도 쓰지 않습니다.
+-   **본문 제목:** `#`은 쓰지 않습니다(페이지 제목은 `title`이 그립니다). `##`부터 시작하고 한 단계씩 내려갑니다(`##` → `###` → `####`). 목차는 `##`·`###`을 모으고, 항목이 2개 미만이면 숨겨집니다.
+-   **예외:** 2026-10-30 이전 뉴스는 `description`과 영어판 없이 올라가 그대로 둡니다. 목록에서는 본문 첫 문단이 요약으로 나옵니다.
+
 # OUTPUT FORMAT
 
 ---

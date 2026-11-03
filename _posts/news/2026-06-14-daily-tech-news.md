@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "DiffusionGemma, Gemini Omni, NAVER의 Kubernetes LLM 서빙 최적화 (2026. 06. 14)"
 date: 2026-06-14 09:31:29 +0900
 categories: [news]

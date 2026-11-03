@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Astra의 Lean 인증 수학 결과, Google Agent Eval GA, NetBSD 11.0 (2026. 08. 02)"
 date: 2026-08-02 06:02:49 +0900
 categories: [news]

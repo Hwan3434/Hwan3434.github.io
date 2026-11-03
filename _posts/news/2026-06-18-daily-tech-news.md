@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "A2UI와 MCP 앱, Agentic Resource Discovery 스펙, AI 화학자 (2026. 06. 18)"
 date: 2026-06-18 09:35:39 +0900
 categories: [news]

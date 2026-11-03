@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "AI 에이전트 프로토콜과 브라질 iOS 시장의 새로운 기회 (2026. 06. 20)"
 date: 2026-06-20 09:29:48 +0900
 categories: [news]
@@ -11,9 +10,9 @@ tags: [Developer, AI, Daily]
 
 ---
 
-### 오늘의 개발자 뉴스: AI 에이전트 진화와 앱 생태계 변화 (2026년 06월 20일)
+## 오늘의 개발자 뉴스: AI 에이전트 진화와 앱 생태계 변화 (2026년 06월 20일)
 
-#### AI 에이전트 생태계의 진화: 프로토콜, 스펙, 그리고 자율 성장
+### AI 에이전트 생태계의 진화: 프로토콜, 스펙, 그리고 자율 성장
 
 **1. 구글, AI 에이전트 협업 프로토콜 및 리소스 디스커버리 스펙 발표**
 
@@ -34,7 +33,7 @@ tags: [Developer, AI, Daily]
 [Source URL](https://d2.naver.com/helloworld/2852215) (NAVER D2)
 [Source URL](https://d2.naver.com/helloworld/4399330) (NAVER D2)
 
-#### 애플 개발자 프로그램 및 iOS 생태계 변화: 브라질 시장의 새로운 기회
+### 애플 개발자 프로그램 및 iOS 생태계 변화: 브라질 시장의 새로운 기회
 
 **3. 브라질 iOS 앱 시장에 중대한 변화 예고**
 
@@ -44,7 +43,7 @@ tags: [Developer, AI, Daily]
 [Source URL](https://developer.apple.com/news/?id=umq9wxmm) (Apple Developer News)
 [Source URL](https://developer.apple.com/news/?id=dhwadr2x) (Apple Developer News)
 
-#### AI 기술의 흥미로운 응용 및 인프라 혁신
+### AI 기술의 흥미로운 응용 및 인프라 혁신
 
 **4. OpenAI, GPT-5.5 Instant로 헬스케어 AI 지능 강화 및 희귀 질환 진단 기여**
 

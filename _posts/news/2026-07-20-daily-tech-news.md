@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Claude Code의 Rust 기반 Bun, ESP32 제어 시스템, AAC 인코딩 (2026. 07. 20)"
 date: 2026-07-20 06:02:14 +0900
 categories: [news]

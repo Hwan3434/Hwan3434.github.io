@@ -4,7 +4,6 @@ description: "Causes of corrupted multibyte characters in SSE streams and a solu
 date: 2026-04-04 19:00:00 +0900
 categories: [flutter, troubleshooting]
 tags: [Dart, SSE, UTF-8, Encoding]
-toc: true
 ---
 
 ## The Problem

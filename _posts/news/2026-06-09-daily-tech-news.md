@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Apple WWDC26 개발자 업데이트와 Gemini 기반 Apple AI (2026. 06. 09)"
 date: 2026-06-09 09:29:30 +0900
 categories: [news]

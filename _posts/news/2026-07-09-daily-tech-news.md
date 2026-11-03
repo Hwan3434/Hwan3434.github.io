@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "코딩 평가 신뢰성, 실시간 음성 AI, edge-cloud 아키텍처 (2026. 07. 09)"
 date: 2026-07-09 06:02:29 +0900
 categories: [news]

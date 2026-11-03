@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "AI Code Review 제어, Copilot 측정, Firefox WebAssembly (2026. 07. 19)"
 date: 2026-07-19 06:01:30 +0900
 categories: [news]

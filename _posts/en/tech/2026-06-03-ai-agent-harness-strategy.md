@@ -4,7 +4,6 @@ description: "The overlap issue with custom-built skills experienced from the Cl
 date: 2026-06-03 11:50:00 +0900
 categories: [ai, retrospect]
 tags: [Claude Code, AI Agent, Harness, Productivity]
-toc: true
 ---
 
 Recently, while actively using AI coding agents like **Claude Code** in my work, I had been building and using a custom 'Harness' tailored to my own development environment. Here, a harness refers to the **custom rules, skills, sub-agents**, etc., that help the agent better understand and operate within my projects.

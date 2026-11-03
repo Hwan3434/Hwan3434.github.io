@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Agent Skills의 AAIF 이관, Swift 6.4, App Store 연령 등급 신규 항목 (2026. 11. 03)"
 description: "Agent Skills가 Linux Foundation 산하 AAIF로 넘어가고, Swift 6.4가 나왔으며, App Store Connect에 연령 등급 항목이 추가됩니다."
 date: 2026-11-03 08:00:00 +0900

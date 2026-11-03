@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Anthropic Scion Source Control, App Review Guidelines Update, iPhone Duo (2026. 10. 31)"
 description: "Anthropic details Scion, its git replacement, while Apple updates App Review Guidelines and announces iPhone Duo screenshot rules."
 date: 2026-10-31 08:00:00 +0900

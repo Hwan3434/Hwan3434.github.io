@@ -311,6 +311,7 @@ a.series-item:focus-visible { outline-offset: calc(-1 * var(--focus-ring-width))
 @keyframes page-enter { from { opacity: 0; transform: translateY(var(--move-sm)); } }
 @media (prefers-reduced-motion: reduce) {
   .search-box, .search-scrim.open .search-box { transform: none; transition: none; }
+  .btn:active, .tag:active, .icon-btn:active { transform: none; }
 }
 
 /* 중간 화면 (breakpoint-md 900) */
@@ -326,6 +327,15 @@ a.series-item:focus-visible { outline-offset: calc(-1 * var(--focus-ring-width))
   .nav-links { order: 3; width: 100%; margin: 0 calc(-1 * var(--space-3)); }
   .foot-inner { padding: var(--space-6) var(--space-4); }
   .masthead, .about-head { padding: var(--space-7) 0 var(--space-6); }
+  /* 태그 필터는 한 줄 가로 스크롤. 첫 화면을 태그가 차지하지 않게 한다.
+     스크롤 영역이 포커스 링을 자르지 않게 위아래로 space-1 여유를 둔다 */
+  .filterbar {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    margin: calc(-1 * var(--space-1)) calc(-1 * var(--space-4)) 0;
+    padding: var(--space-1) var(--space-4) var(--space-7);
+  }
+  .filterbar::-webkit-scrollbar { display: none; }
+  .filterbar .tag { flex: none; white-space: nowrap; }
   .about-go { flex-direction: column; }
   .about-go .btn { justify-content: space-between; }
   .masthead h1, .about-head h1 { font-size: 40px; line-height: 48px; letter-spacing: -0.025em; }

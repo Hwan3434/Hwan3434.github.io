@@ -6,7 +6,6 @@ categories: [android, coroutine]
 tags: [Kotlin, Coroutine, Exception Handling, Cancellation, SupervisorJob]
 series: "Android Through a Flutter Developer's Eyes"
 series_order: 2
-toc: true
 ---
 
 Exceptions from a Dart `Future` are simple.

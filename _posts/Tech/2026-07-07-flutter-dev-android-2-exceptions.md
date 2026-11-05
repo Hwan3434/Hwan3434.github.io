@@ -6,7 +6,6 @@ categories: [android, 코루틴]
 tags: [Kotlin, Coroutine, 예외 처리, 취소, SupervisorJob]
 series: "Flutter 개발자가 본 Android"
 series_order: 2
-toc: true
 ---
 
 Dart에서 `Future`의 예외는 단순합니다.

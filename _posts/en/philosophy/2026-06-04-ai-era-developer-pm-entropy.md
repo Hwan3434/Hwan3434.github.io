@@ -48,9 +48,13 @@ The massive frictional heat that erupts when these two extreme temperaments viol
 
 But AI is breaking down the tension between the two.
 
-The PM writes a meticulous plan together with AI, has AI review it and give feedback, and then hands it to the developer. The developer gives that plan to AI as it is, has AI build it, and supervises. The PM's imagination gets smoothed by AI's review before it ever reaches the developer, and the developer's persistence stays at supervising AI's output instead of building things directly. With AI standing on both sides of the spot where the two temperaments used to clash, the very point of contact where friction happened disappears.
+The PM writes a meticulous plan together with AI, has AI review it and give feedback, and then hands it to the developer. In this process, the PM's creativity is, if anything, worn down by AI's persuasion. AI refines the plan while already accounting for development resources such as API costs and database load. The parts that would once have been shaved off by clashing with the developer are now shaved off in advance by AI.
 
-So the friction between planning and development disappears, and everything connects smoothly. Without conflict, results will emerge quickly, but they will somehow lack vitality, remaining ordinary and standardized.
+The developer, in turn, gives that plan to AI as it is and has AI build it. The architecture and the API calls have already been considered in the plan, so there is nothing in particular to touch. The gaps that the developer's persistence would have dug into are already filled at the planning stage.
+
+With AI filling both sides of the spot where the two temperaments used to clash, the very point of contact where friction happened disappears.
+
+And so planning and development connect smoothly. Without conflict, results will emerge quickly, but they will somehow lack vitality, remaining ordinary and standardized.
 
 When every company develops in this pattern, the tendencies of AI rub off on the products. The styles of models like OpenAI's, Claude, and Gemini seep into both the plans and the code, and even though the companies differ, their products come to resemble one another. In this phenomenon, I felt a foreboding that the world's pendulum was shifting in the direction of **decreasing entropy (diversity and degree of disorder)**.
 

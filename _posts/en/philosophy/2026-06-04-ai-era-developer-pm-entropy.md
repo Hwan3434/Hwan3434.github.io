@@ -44,7 +44,7 @@ The driving force that made developers great for decades was a "perverted persis
 | Driving force | Free imagination | Perverted persistence |
 | Aims at | Business value beyond the constraints of reality | Control down to the 0.01% edge case |
 
-The two temperaments mostly collided at the point of implementation. Over how (How) the developer would technically build what the PM wanted, whether it was possible at all, when it could be done, and how the exceptions would be handled, the PM's imagination and the developer's persistence stood against each other.
+The two temperaments mostly collided at the point of implementation. When a PM's novel request multiplied queries and drove up API costs or weighed down the database, or when it meant touching an architecture that was already built, the PM's imagination and the developer's persistence stood against each other. The fight was always over "How do we implement this requirement?"
 
 The massive frictional heat that erupts when these two extreme temperaments violently collide is what gave birth to great products.
 
@@ -68,13 +68,21 @@ No. If we are not to fall into this swamp of standardization, we must elevate th
 
 ## Raising the Battlefield
 
-In the past, friction happened where the PM's demands ran into the developer's question of "how to implement this technically (How)." Now that AI has taken over the How, however, PMs and developers must generate even greater friction over "What to build for humanity, and Why."
+Once AI can rework an architecture, or rewrite queries and storage structures, in a single day, friction no longer happens at that point.
+
+> Then where does the collision happen?
+
+Facing what a PM or designer has made, the developer asks: "Is that really good UX?" "Can we afford the cost of storing even that?" The planning side answers: "Users will find this UI/UX fresh and engaging." "We have to store this to have the data we can offer our customers." Through this exchange, the developer also starts asking whether it is the core of the business.
+
+If in the past the developer held on to "How do we implement this requirement?", now the PM and the developer begin to wrestle with the same territory: "Is this really the core of the business?" The battlefield where friction happens moves to "What to build for humanity, and Why."
 
 | | The old battlefield | The new battlefield |
 |---|---|---|
-| Where friction happens | Where the PM's demands meet the developer's implementation (How) | Where the two clash over What to build, and Why |
-| The PM's part | Free imagination that ignores the constraints of reality | As coding costs converge to zero, explode the imagination and maximize the chaos of the business |
-| The developer's part | Persistence that controls down to the 0.01% edge case | An even greater obsession to macroscopically control the complexity of massive systems intertwined with hundreds of AI agents |
+| Where friction happens | API costs and database load driven up by requests, changes that touch an existing architecture | Is that good UX? Is it worth storing even that? |
+| The central question | How do we implement this requirement? | Is this really the core of the business? (What, Why) |
+| PM and developer | Face off holding different questions | Clash over the same question |
+
+Standing on the same battlefield does not mean their temperaments have to become the same. As coding costs converge to zero, PMs must explode their imagination to maximize the chaos of the business, and developers must possess an even greater obsession to macroscopically control the complexity that massive systems intertwined with hundreds of AI agents can produce. When chaos and obsession collide over the same question, the frictional heat comes back to life.
 
 The moment we become intoxicated by the convenience provided by AI and settle for "adequate answers," the creative disorder (entropy) that evolved the product drops to its lowest, and its vitality will wither away.
 

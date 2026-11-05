@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-08-01"
+title: "Long-Lived Credential Risk in an AI Agent Breach, Servo 0.4.0 (2026. 08. 01)"
 description: "Long-lived Tailscale auth keys exposed in the Hugging Face breach, Servo 0.4.0, generic collections for Go 1.28, and ORCA-bench on realistic on-call inputs."
 date: 2026-08-01 06:01:35 +0900
 categories: [news]

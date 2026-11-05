@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-08"
+title: "Agent Runtimes, Local Coding Models, Model Interpretability (2026. 07. 08)"
 description: "ADK 2.0 and Genkit Agents, how Claude Code grew from an internal CLI, interpreting J-space inside Claude, a look at local coding models, and DevDay 2026 announced."
 date: 2026-07-08 06:00:16 +0900
 categories: [news]

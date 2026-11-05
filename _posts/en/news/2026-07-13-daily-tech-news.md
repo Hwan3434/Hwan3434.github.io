@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-13"
+title: "GPT-5.6 API, In-Browser AI Inference, Elastic Distributed Training (2026. 07. 13)"
 description: "GPT-5.6 and new agent features in the Responses API, how Claude Code was designed, LiteRT.js in the browser, elastic TPU training, Flutter 3.44 notes, and GitHub Models brownouts."
 date: 2026-07-13 06:00:51 +0900
 categories: [news]

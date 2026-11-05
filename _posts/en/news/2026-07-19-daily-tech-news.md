@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-19"
+title: "Controlling AI Code Review, Measuring Copilot, Firefox in WebAssembly (2026. 07. 19)"
 description: "Branch-specific instructions in Copilot code review, repository-level Copilot metrics APIs, Firefox running in a browser tab via WebAssembly, and clx compiling Lua to native executables."
 date: 2026-07-19 06:01:30 +0900
 categories: [news]

@@ -1,5 +1,5 @@
 ---
-title: "AI · 모바일 다이제스트 - 2026-08-26"
+title: "BF16을 앞선 4-bit 모델, Granite 4.2, Flutter 데스크톱 멀티 윈도우 (2026. 08. 26)"
 description: "원본 BF16을 앞선 4-bit 모델, Apache 2.0 Granite 4.2, Android 17 앱별 메모리 한도, Flutter 데스크톱 멀티 윈도우 API, Play GenAI 심사 요건."
 date: 2026-08-26 06:10:00 +0900
 categories: [news]

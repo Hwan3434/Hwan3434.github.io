@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-08-02"
+title: "Astra's Lean-Verified Math Results, Google Agent Eval GA, NetBSD 11.0 (2026. 08. 02)"
 description: "Ten math and theoretical CS results from OpenAI's Astra, using the same metrics in experiments and production, a Lean kernel soundness bug, and NetBSD 11.0 with RISC-V."
 date: 2026-08-02 06:02:49 +0900
 categories: [news]

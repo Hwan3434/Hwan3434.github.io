@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-06-28"
+title: "Faster Inference, AI Contribution Policies, Open-Source Security (2026. 06. 28)"
 description: "DeepSeek's DSpark and DeepSpec speculative decoding, private vLLM endpoints on Hugging Face Jobs, Kubernetes' AI contribution policy, Copilot PR merge metrics, and Node.js 26.4.0."
 date: 2026-06-28 06:03:38 +0900
 categories: [news]

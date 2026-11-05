@@ -1,5 +1,5 @@
 ---
-title: "AI · 모바일 다이제스트 - 2026-08-25"
+title: "Tinder의 keep rule 한 줄, Jetpack XR beta, Sign in with Apple 새 도메인 (2026. 08. 25)"
 description: "keep rule 한 줄로 줄인 Tinder 콜드 스타트, Jetpack XR beta의 AnchorSpace, Sign in with Apple의 private.icloud.com, 모델별 에이전트 메모리, ADK 음성 에이전트 평가."
 date: 2026-08-25 06:10:00 +0900
 categories: [news]

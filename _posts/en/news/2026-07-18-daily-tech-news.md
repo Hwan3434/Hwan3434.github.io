@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-18"
+title: "Verifying AI Patches, Spec-Driven Plugins, Self-Hosted Git (2026. 07. 18)"
 description: "GitHub treats an AI's first patch as cost discovery, Conductor for Gemini CLI, Forgejo 16.0, a Holo Core AArch64 preview, and metrics worth watching even in small SQLite apps."
 date: 2026-07-18 06:02:06 +0900
 categories: [news]

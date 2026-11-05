@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-26"
+title: "Claude Opus 5 API, Stateless MCP, Scaling PostgreSQL Notifications (2026. 07. 26)"
 description: "Claude Opus 5 with tool changes and automatic fallback in beta, a stateless next MCP spec, batching PostgreSQL LISTEN/NOTIFY, and possible limits on Android loopback ADB."
 date: 2026-07-26 06:02:15 +0900
 categories: [news]

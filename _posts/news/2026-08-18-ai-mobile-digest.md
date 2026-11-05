@@ -1,5 +1,5 @@
 ---
-title: "AI · 모바일 다이제스트 - 2026-08-18"
+title: "Copilot Autofix 스크립트 인젝션, Qwen 3.8 27B, Android Studio의 Gemma 4 (2026. 08. 18)"
 description: "Copilot Autofix PR의 CI 스크립트 인젝션, Qwen 3.8 27B, llama.cpp의 Kimi-K3 지원, Android Studio에서 로컬로 도는 Gemma 4, targetSdk 36 배포 제한."
 date: 2026-08-18 06:10:00 +0900
 categories: [news]

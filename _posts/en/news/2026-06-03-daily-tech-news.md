@@ -1,5 +1,5 @@
 ---
-title: "[Daily News] IT News Digest for June 3, 2026"
+title: "Anthropic's $65B Round, SoftBank's French AI Data Centers, the First Autonomous Agent Cyberattack (2026. 06. 03)"
 description: "Anthropic raises $65B, SoftBank invests in French AI data centers, Cognition raises $1B, the first cyberattack by an autonomous LLM agent, and a light-based AI chip."
 date: 2026-06-03 09:00:00 +0900
 categories: [news]

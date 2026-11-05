@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-06-24"
+title: "Team AI Agents, Gemini API Changes, Mobile Development Updates (2026. 06. 24)"
 description: "Claude Tag beta brings Claude into Slack, Codex expands to knowledge work, the Gemini Interactions API goes GA with model deprecations, and Apple ships 27 design kits and betas."
 date: 2026-06-24 21:26:58 +0900
 categories: [news]

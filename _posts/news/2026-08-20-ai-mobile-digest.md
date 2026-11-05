@@ -1,5 +1,5 @@
 ---
-title: "AI · 모바일 다이제스트 - 2026-08-20"
+title: "Unsloth Dynamic 3.0, Android 17 메모리 상한, Mojo 오픈소스 공개 (2026. 08. 20)"
 description: "Unsloth Dynamic 3.0 GGUF, Android 17의 앱별 메모리 상한, EAS Observe GA, Ornith-1.5의 SWE-Bench 86.0, Mojo 컴파일러 오픈소스 공개."
 date: 2026-08-20 06:10:00 +0900
 categories: [news]

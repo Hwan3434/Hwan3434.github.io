@@ -1,5 +1,5 @@
 ---
-title: "AI · 모바일 다이제스트 - 2026-08-24"
+title: "세션 없는 MCP 로드맵, int4 KV cache의 tool call 문제, AGP 10 Variant API (2026. 08. 24)"
 description: "세션을 없애는 MCP 로드맵, int4 KV cache의 tool call 문제, 자율 연구 153런, Dart primary constructor, AGP 10의 새 Variant API."
 date: 2026-08-24 06:10:00 +0900
 categories: [news]

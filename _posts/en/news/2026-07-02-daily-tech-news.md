@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-02"
+title: "Model Redeployment, Full-Stack Agents, Open-Source Systems (2026. 07. 02)"
 description: "Claude Fable 5 access restored globally, Genkit Agents API preview, the Cloud Workbench VS Code extension, Flutter turning repeated failures into agent skills, and Asahi Linux 7.1."
 date: 2026-07-02 06:01:18 +0900
 categories: [news]

@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-15"
+title: "AI Inference Optimization, Software Supply Chains, ML Operations Tools (2026. 07. 15)"
 description: "Up to 4.7x faster Qwen 3.5-397B on Ironwood TPUs, AI security findings in pull requests, a default 3-day Dependabot cooldown, the Headlamp Kubeflow plugin, and C++26 reflection."
 date: 2026-07-15 06:01:57 +0900
 categories: [news]

@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-06-29"
+title: "Parallel CI, Supply Chain Protection, AI Code Security (2026. 06. 29)"
 description: "GitHub Actions runs steps in parallel within a job, npm adds 72-hour read-only protection, Codex sensitive-file exclusion, Semgrep's security harness benchmark, and distributed vLLM on Strix Halo."
 date: 2026-06-29 06:03:57 +0900
 categories: [news]

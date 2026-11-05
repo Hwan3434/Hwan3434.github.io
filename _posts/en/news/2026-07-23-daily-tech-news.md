@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-23"
+title: "Agentic RL Throughput, Ultra-Fast Tokenizers, Practical SIMD (2026. 07. 23)"
 description: "Google Tunix cuts TPU idle time with async rollouts, Gigatoken tokenizes BPE at GB/s, a pattern for moving loops to SIMD, and a Postgres survival guide for startups."
 date: 2026-07-23 06:02:04 +0900
 categories: [news]

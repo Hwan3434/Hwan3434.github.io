@@ -44,13 +44,19 @@ The driving force that made developers great for decades was a "perverted persis
 | Driving force | Free imagination | Perverted persistence |
 | Aims at | Business value beyond the constraints of reality | Control down to the 0.01% edge case |
 
+The two temperaments mostly collided at the point of implementation. Over how (How) the developer would technically build what the PM wanted, whether it was possible at all, when it could be done, and how the exceptions would be handled, the PM's imagination and the developer's persistence stood against each other.
+
 The massive frictional heat that erupts when these two extreme temperaments violently collide is what gave birth to great products.
 
 ## Where the Friction Disappears
 
 But AI is breaking down the tension between the two.
 
-The friction between planning and development disappears, and everything connects smoothly. Without conflict, results will emerge quickly, but those results will somehow lack vitality, remaining ordinary and standardized. In this phenomenon, I felt a foreboding that the world's pendulum was shifting in the direction of **decreasing entropy (diversity and degree of disorder)**.
+The PM writes a meticulous plan together with AI, has AI review it and give feedback, and then hands it to the developer. The developer gives that plan to AI as it is, has AI build it, and supervises. The PM's imagination gets smoothed by AI's review before it ever reaches the developer, and the developer's persistence stays at supervising AI's output instead of building things directly. With AI standing on both sides of the spot where the two temperaments used to clash, the very point of contact where friction happened disappears.
+
+So the friction between planning and development disappears, and everything connects smoothly. Without conflict, results will emerge quickly, but they will somehow lack vitality, remaining ordinary and standardized.
+
+When every company develops in this pattern, the tendencies of AI rub off on the products. The styles of models like OpenAI's, Claude, and Gemini seep into both the plans and the code, and even though the companies differ, their products come to resemble one another. In this phenomenon, I felt a foreboding that the world's pendulum was shifting in the direction of **decreasing entropy (diversity and degree of disorder)**.
 
 **In a frictionless world, there is no innovation.**
 
@@ -62,11 +68,11 @@ No. If we are not to fall into this swamp of standardization, we must elevate th
 
 ## Raising the Battlefield
 
-In the past, we fought over "How to implement this technically (How)." Now, however, we must generate even greater friction over "What to build for humanity, and Why."
+In the past, friction happened where the PM's demands ran into the developer's question of "how to implement this technically (How)." Now that AI has taken over the How, however, PMs and developers must generate even greater friction over "What to build for humanity, and Why."
 
 | | The old battlefield | The new battlefield |
 |---|---|---|
-| The question we fight over | How to implement this technically (How) | What to build for humanity, and Why |
+| Where friction happens | Where the PM's demands meet the developer's implementation (How) | Where the two clash over What to build, and Why |
 | The PM's part | Free imagination that ignores the constraints of reality | As coding costs converge to zero, explode the imagination and maximize the chaos of the business |
 | The developer's part | Persistence that controls down to the 0.01% edge case | An even greater obsession to macroscopically control the complexity of massive systems intertwined with hundreds of AI agents |
 

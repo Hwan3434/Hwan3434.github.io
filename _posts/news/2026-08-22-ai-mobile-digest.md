@@ -1,5 +1,5 @@
 ---
-title: "AI · 모바일 다이제스트 - 2026-08-22"
+title: "벤치마크를 외운 ASR 모델, Flutter Wasm 속도 개선, Antigravity로 Dart 포팅 (2026. 08. 22)"
 description: "벤치마크 정답을 외운 ASR 모델들, DeepSeek 비전 모델의 이미지 토큰 상한, Flutter Wasm 빌드 시간 개선, Antigravity로 Dart 패키지 포팅, Kotlin 벤치."
 date: 2026-08-22 06:10:00 +0900
 categories: [news]

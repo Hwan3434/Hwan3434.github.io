@@ -1,5 +1,5 @@
 ---
-title: "AI & Mobile Digest - 2026-08-19"
+title: "Tinder's 47% Faster Cold Start with R8, ADK Zero-Trust, Apple's EU Fee Change (2026. 08. 19)"
 description: "Tinder cuts cold start 47% with the R8 Configuration Analyzer, an ADK zero-trust reference, per-model agent memory, Jetpack XR beta02, and Apple's EU fee change."
 date: 2026-08-19 06:10:00 +0900
 categories: [news]

@@ -1,5 +1,5 @@
 ---
-title: "데일리 테크 뉴스 - 2026년 6월 6일"
+title: "미국 정부의 AI 기업 지분 검토, AI 인프라의 물 부족, Supermicro Vera Rubin 서버 (2026. 06. 06)"
 description: "미국 정부의 AI 기업 지분 검토, 기술주 조정, 전력에 이어 물 부족까지 번진 AI 인프라 리스크, Supermicro의 Vera Rubin 서버, 캐나다의 'AI for All' 전략."
 date: 2026-06-06 09:00:00 +0900
 categories: [news]

@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-08-03"
+title: "Genkit Agent Skills, Go 1.27 Preview, Rust All Hands (2026. 08. 03)"
 description: "Agent Skills in every Genkit SDK, a preview of Go 1.27, topics from Rust All Hands, and Kakehashi running Mach-O CLIs on Linux without a JIT."
 date: 2026-08-03 06:01:32 +0900
 categories: [news]

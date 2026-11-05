@@ -1,5 +1,5 @@
 ---
-title: "AI & Mobile Digest - 2026-08-20"
+title: "Unsloth Dynamic 3.0, Android 17 Memory Limits, Mojo Goes Open Source (2026. 08. 20)"
 description: "Unsloth Dynamic 3.0 GGUF, per-app memory limits in Android 17, EAS Observe GA, Ornith-1.5 scoring 86.0 on SWE-Bench, and the Mojo compiler going open source."
 date: 2026-08-20 06:10:00 +0900
 categories: [news]

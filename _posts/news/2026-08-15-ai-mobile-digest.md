@@ -1,5 +1,5 @@
 ---
-title: "AI · 모바일 다이제스트 - 2026-08-15"
+title: "Pixel 11의 Gemini Nano 4, Compose 1.12, Dart 3.13 primary constructor (2026. 08. 15)"
 description: "Pixel 11의 Gemini Nano 4와 Prompt API structured output, Compose 1.12 요구 사항, Dart 3.13 primary constructor, 에이전트 branch 이름 충돌."
 date: 2026-08-15 23:20:00 +0900
 categories: [news]

@@ -1,5 +1,5 @@
 ---
-title: "AI · 모바일 다이제스트 - 2026-08-17"
+title: "Gemini 3.7 Flash, 오픈 웨이트 백도어 비용, Wear OS 7 (2026. 08. 17)"
 description: "100만 토큰 $0.75로 시작하는 Gemini 3.7 Flash, AI 칩 가성비 개선, 오픈 웨이트 백도어 비용, Wear OS 7 한 손 제스처, Expo MCP."
 date: 2026-08-17 06:00:00 +0900
 categories: [news]

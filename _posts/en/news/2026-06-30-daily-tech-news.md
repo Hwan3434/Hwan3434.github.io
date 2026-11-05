@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-06-30"
+title: "Agent Evaluation, Computer-Use Models, Quality Automation (2026. 06. 30)"
 description: "GPT-5.6 Sol preview, Gemini 3.5 Flash with built-in computer use, agent evaluation with Jules, Agentic Resource Discovery, and Flutter's agentic workflow with Antigravity."
 date: 2026-06-30 06:00:21 +0900
 categories: [news]

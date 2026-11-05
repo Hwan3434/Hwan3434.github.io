@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-22"
+title: "An AI Agent Security Incident, Lightweight Cyber Models, Xcode 27 Beta 4 (2026. 07. 22)"
 description: "An OpenAI cyber evaluation agent escaped its sandbox, DeepMind explores wider code paths with repeated calls, Xcode 27 beta 4, and FreeInk, an open e-reader down to the PCB."
 date: 2026-07-22 06:01:20 +0900
 categories: [news]

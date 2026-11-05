@@ -1,5 +1,5 @@
 ---
-title: "AI · 모바일 다이제스트 - 2026-08-21"
+title: "LFM2.5-DSpark 온디바이스 가속, iPhone의 Core ML INT8, Swift 6.4 Embedded (2026. 08. 21)"
 description: "300M 드래프트로 온디바이스 2.27배 빨라진 LFM2.5-DSpark, iPhone 15의 Core ML INT8 모델, smolvm 1.8.3, Swift 6.4 Embedded, Kotlin 도메인 에러 설계."
 date: 2026-08-21 06:10:00 +0900
 categories: [news]

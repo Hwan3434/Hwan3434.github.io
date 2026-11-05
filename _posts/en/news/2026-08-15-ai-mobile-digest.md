@@ -1,5 +1,5 @@
 ---
-title: "AI & Mobile Digest - 2026-08-15"
+title: "Gemini Nano 4 on Pixel 11, Compose 1.12, Dart 3.13 Primary Constructors (2026. 08. 15)"
 description: "Gemini Nano 4 on Pixel 11 with structured output in the Prompt API, Compose 1.12 requirements, Dart 3.13 primary constructors, and agents colliding on branch names."
 date: 2026-08-15 23:20:00 +0900
 categories: [news]

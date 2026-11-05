@@ -1,5 +1,5 @@
 ---
-title: "AI · 모바일 다이제스트 - 2026-08-27"
+title: "Granite Speech 5.0, MIT로 공개된 GLM-5.3-Flash, Compose Multiplatform 1.12.0 (2026. 08. 27)"
 description: "470M ASR 모델 Granite Speech 5.0, MIT로 공개된 GLM-5.3-Flash, vLLM TPU 임베딩, Play 품질 기준의 DEX 최적화, Compose Multiplatform 1.12.0."
 date: 2026-08-27 06:10:00 +0900
 categories: [news]

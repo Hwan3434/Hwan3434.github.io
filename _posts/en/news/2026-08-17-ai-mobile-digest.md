@@ -1,5 +1,5 @@
 ---
-title: "AI & Mobile Digest - 2026-08-17"
+title: "Gemini 3.7 Flash, Open-Weight Backdoor Costs, Wear OS 7 (2026. 08. 17)"
 description: "Gemini 3.7 Flash from $0.75 per million input tokens, AI chip cost-performance gains, the cost of backdooring open weights, Wear OS 7 one-handed gestures, and Expo MCP."
 date: 2026-08-17 06:00:00 +0900
 categories: [news]

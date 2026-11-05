@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-11"
+title: "Coding Benchmark Reliability, Agentic Work, Running On-Device AI (2026. 07. 11)"
 description: "An audit of SWE-Bench Pro data, the GPT-Live voice model API, Codex-based ChatGPT Work, App Store's new social media capability labels, and running on-device AI."
 date: 2026-07-11 06:02:07 +0900
 categories: [news]

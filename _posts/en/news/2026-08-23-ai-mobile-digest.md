@@ -1,5 +1,5 @@
 ---
-title: "AI & Mobile Digest - 2026-08-23"
+title: "On-Device generateObject in Firebase AI Logic, Android Studio Rabbit 1, Toss's Prefix Cache (2026. 08. 23)"
 description: "On-device generateObject in Firebase AI Logic, direct Play uploads in Android Studio Rabbit 1, Toss's prefix cache case, Qwen3-TTS, and llm 0.33."
 date: 2026-08-23 06:10:00 +0900
 categories: [news]

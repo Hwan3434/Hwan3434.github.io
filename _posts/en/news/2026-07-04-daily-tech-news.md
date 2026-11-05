@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-04"
+title: "Browser Agents, Copilot Boundaries, AI Security and Data Integrity (2026. 07. 04)"
 description: "A Safari MCP server preview, Copilot retires Gemini 2.5 Pro and 3 Flash, Copilot CLI audit features, Anthropic's cyber jailbreak severity scale, and pxpipe."
 date: 2026-07-04 06:02:56 +0900
 categories: [news]

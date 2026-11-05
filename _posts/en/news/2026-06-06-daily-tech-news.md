@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - June 6, 2026"
+title: "US Stakes in AI Companies, Water Risk for AI Infrastructure, Supermicro's Vera Rubin Servers (2026. 06. 06)"
 description: "The US weighs stakes in AI companies, tech stocks pause, AI infrastructure risk extends from power to water, Supermicro's Vera Rubin servers, and Canada's AI for All strategy."
 date: 2026-06-06 09:00:00 +0900
 categories: [news]

@@ -1,5 +1,5 @@
 ---
-title: "AI & Mobile Digest - 2026-08-24"
+title: "MCP Roadmap Without Sessions, int4 KV Cache Breaking Tool Calls, AGP 10 Variant API (2026. 08. 24)"
 description: "The MCP roadmap drops sessions, int4 KV caches break tool calls, 153 autonomous research runs, Dart primary constructors, and the new Variant API in AGP 10."
 date: 2026-08-24 06:10:00 +0900
 categories: [news]

@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-16"
+title: "Open-Weight Models, DSLs for LLMs, Agent Development Environments (2026. 07. 16)"
 description: "Inkling, a 1M-context multimodal MoE, using a DSL as the source of truth for LLM output, MCP checks and a C++ modernization agent in Visual Studio, and a physical Codex controller."
 date: 2026-07-16 06:01:45 +0900
 categories: [news]

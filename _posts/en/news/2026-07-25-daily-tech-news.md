@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-25"
+title: "Ray on TPU, IntelliJ Plugin Generator, Debian's LLM Policy Debate (2026. 07. 25)"
 description: "Ray 2.55 supports Serve, Data, and Train on TPUs, IntelliJ Platform template changes, Debian debates LLM-assisted contributions, and Claude Opus 5 lands in Copilot."
 date: 2026-07-25 06:02:30 +0900
 categories: [news]

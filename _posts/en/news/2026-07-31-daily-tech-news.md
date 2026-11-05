@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-31"
+title: "GPT-5.6 Price Changes, Gemini Robotics 2, GitHub Stacked PRs (2026. 07. 31)"
 description: "Lower GPT-5.6 Luna and Terra prices and a Fast mode for Sol, DeepMind's whole-body robot control, managing stacked small changes on GitHub, and an agent experiment after refactoring."
 date: 2026-07-31 06:00:54 +0900
 categories: [news]

@@ -1,5 +1,5 @@
 ---
-title: "Daily Tech News - 2026-07-12"
+title: "Optimizing Agent Reviews, AI Security Analysis, Preparing for WordPress 7.1 (2026. 07. 12)"
 description: "Cutting Copilot code review costs, cross-repo doc PRs from product code, CodeQL 2.26.0, and preparing for WordPress 7.1 Beta 1 and its expanded AI Client."
 date: 2026-07-12 06:00:56 +0900
 categories: [news]

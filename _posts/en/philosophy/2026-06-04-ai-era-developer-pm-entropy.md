@@ -50,7 +50,7 @@ But AI is breaking down the tension between the two.
 
 The PM writes a meticulous plan together with AI, has AI review it and give feedback, and then hands it to the developer. In this process, the PM's creativity is, if anything, worn down by AI's persuasion. AI refines the plan while already accounting for development resources such as API costs and database load. The parts that would once have been shaved off by clashing with the developer are now shaved off in advance by AI.
 
-The developer, in turn, gives that plan to AI as it is and has AI build it. The architecture and the API calls have already been considered in the plan, so there is nothing in particular to touch. The gaps that the developer's persistence would have dug into are already filled at the planning stage.
+The developer also hands that plan to AI and has AI build it. In the past, what let a developer push back against a plan was the cost of implementation. "We would have to tear down the existing architecture" and "The schedule won't work" were the very reasons for objecting. Now, though, AI can change the structure in a single day. With no grounds left for a developer to say "it can't be done," no friction arises on the development side either.
 
 With AI filling both sides of the spot where the two temperaments used to clash, the very point of contact where friction happened disappears.
 
@@ -68,7 +68,7 @@ No. If we are not to fall into this swamp of standardization, we must elevate th
 
 ## Raising the Battlefield
 
-Once AI can rework an architecture, or rewrite queries and storage structures, in a single day, friction no longer happens at that point.
+As we saw earlier, once AI can rework an architecture, or rewrite queries and storage structures, in a single day, friction no longer happens at that point.
 
 > Then where does the collision happen?
 

@@ -30,13 +30,9 @@ In the past, someone who knew a bit of planning and a bit of development was dis
 
 Now, the people who hold the reins of those AIs and navigate the compromise between business practicality and technical perfection, those once "mediocre" people, will become the master conductors of the orchestra and dominate the field.
 
-## An Instinctive Repulsion Toward Uncontrolled Magic
+## The PM's Chaos, the Developer's Obsession
 
-As my thoughts reached this point, a strange sense of unease crept over me as I sat in front of the terminal without looking at a single line of code, just running the system. Everything is working fine, so why do I feel so anxious and unable to trust it? Is it because I am a developer accustomed to the old ways?
-
-The true nature of this anxiety was an **instinctive repulsion toward uncontrolled magic**.
-
-The driving force that made developers great for decades was a "perverted persistence" to control every variable without tolerating even a 0.01% edge case. In contrast, what makes a great PM is a "free imagination" that boldly pursues only business value, ignoring the constraints and rules of reality.
+What makes a great PM is a "free imagination" that boldly pursues only business value, ignoring the constraints and rules of reality. In contrast, the driving force that made developers great for decades was a "perverted persistence" to control every variable without tolerating even a 0.01% edge case.
 
 | | PM | Developer |
 |---|---|---|
@@ -60,7 +56,7 @@ When every company develops in this pattern, the tendencies of AI rub off on the
 
 **In a frictionless world, there is no innovation.**
 
-It's just an era of downward leveling where safe, ordinary outputs regurgitated by AI are mass-produced. The unease I couldn't shake off was precisely this instinctive sense of crisis regarding the loss of creative frictional heat.
+It's just an era of downward leveling where safe, ordinary outputs regurgitated by AI are mass-produced. The foreboding I felt was precisely this instinctive sense of crisis regarding the loss of creative frictional heat.
 
 > Is this shift of the pendulum truly right?
 

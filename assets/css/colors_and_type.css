@@ -179,6 +179,7 @@ html, body {
   font-weight: 400;
   word-break: keep-all;
   overflow-wrap: break-word;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

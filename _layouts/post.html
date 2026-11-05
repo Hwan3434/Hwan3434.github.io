@@ -48,7 +48,9 @@ layout: default
     <nav class="breadcrumb">
       <a href="{{ tab_url | relative_url }}">{{ tab_name }}</a>
       {% include icon.html name="chevron-right" px=16 %}
-      <span>{{ page.categories.last | default: t_post.record | capitalize }}</span>
+      {%- assign crumb_cat = page.categories.last | default: t_post.record -%}
+      {%- assign crumb_label = crumb_cat | capitalize %}
+      <span>{{ site.data.category_labels[crumb_cat] | default: crumb_label }}</span>
     </nav>
     <header class="article-head">
       <h1>{{ page.title }}</h1>

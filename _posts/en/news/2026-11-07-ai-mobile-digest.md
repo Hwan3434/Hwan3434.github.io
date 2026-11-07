@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Anthropic Agent Memory Dreaming, Siri AI Developer Preview, Subscription Retention Messages (2026. 11. 07)"
 description: "Anthropic details agent memory experiments, and Apple ships a Siri AI developer preview and subscription retention messages."
 date: 2026-11-07 08:00:00 +0900

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Anthropic 에이전트 메모리 dreaming, Siri AI 개발자 프리뷰, 구독 Retention messages (2026. 11. 07)"
 description: "Anthropic이 에이전트 메모리 실험을 공개하고, Apple은 Siri AI 개발자 프리뷰와 구독 리텐션 메시지를 내놨습니다."
 date: 2026-11-07 08:00:00 +0900

@@ -125,14 +125,16 @@ Posts are published to the live blog with no human review, so a thin post is wor
 
 1. If `_posts/news/` already has a post for today's date, stop — do not create a second post or a duplicate commit.
 2. Sanity check: both files exist, every item has a source link and a `시사점:` / `Takeaway:` line, and both pillars are represented.
-3. Parse the front matter of both files as YAML and stop without committing if either fails, or if `title`, `description`, or `date` is missing. Ruby and Jekyll may not be installed, so do not try to build the site. For example (run `pip install pyyaml` first if `import yaml` fails):
+3. Today's two files must pass the post linter before you commit. It is the same check the `Post Lint` workflow runs on `main`. Run it from the repository root (run `pip install pyyaml` first if it fails on `import yaml`). Ruby and Jekyll may not be installed, so do not try to build the site.
 
    ```bash
-   python3 -c 'import sys, yaml
-   for p in sys.argv[1:]:
-       fm = yaml.safe_load(open(p).read().split("---")[1])
-       assert all(fm.get(k) for k in ("title", "description", "date")), p' _posts/news/YYYY-MM-DD-ai-mobile-digest.md _posts/en/news/YYYY-MM-DD-ai-mobile-digest.md
+   python3 tools/check_posts.py
    ```
+
+   It checks every post and prints one line per violation as `<path>: <problem>`, with the problem written in Korean.
+
+   - If a line names one of today's two files, fix what it says and run the script again. If a line still names one of today's files, stop without committing and quote those lines in the report.
+   - Lines that name other posts do not block the commit. Leave those files untouched and quote the lines in the report. The script exits 1 whenever any post fails, so judge by the file paths in the output, not by the exit code.
 
 4. Commit only the two post files: `chore: automated AI/mobile digest update`
 5. Push directly to `main`: `git push origin HEAD:main`. If the push is rejected because `main` moved, run `git pull --rebase origin main` once and push again.

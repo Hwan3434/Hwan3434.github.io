@@ -16,7 +16,7 @@ Kotlin coroutines are different.
 Following the parent-child relationship from part 1, **exceptions travel up and cancellation travels down.**
 And on Android, an exception that nobody handles kills the app.
 
-Part 2 looks at how exceptions and cancellation flow on top of that structure, and, given that flow, where exception handling should live.
+> Part 2 looks at how exceptions and cancellation flow on top of that structure, and, given that flow, where exception handling should live.
 
 ## Failure goes up, cancellation goes down
 

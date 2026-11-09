@@ -19,8 +19,8 @@ A Kotlin coroutine moves between threads depending on its Dispatcher.
 If you line up things at the same level, a Future maps to a coroutine and an Isolate maps to a thread. The difference is that Isolates don't share memory, while threads do.
 Read only through the mapping table, without this difference in mind, and you end up writing code that blocks the main thread while believing it is "asynchronous."
 
-This series is a record of looking at Android again through a Flutter developer's eyes.
-Part 1 starts where coroutines start: `suspend`.
+> This series is a record of looking at Android again through a Flutter developer's eyes.
+> Part 1 starts where coroutines start: `suspend`.
 
 ## Does suspend block the thread?
 

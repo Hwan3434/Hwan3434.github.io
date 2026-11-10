@@ -12,9 +12,9 @@ Compose를 처음 보면 Flutter와 너무 닮아서 오히려 방심합니다.
 `@Composable` 함수는 `build()`, `mutableStateOf`는 `setState`, `remember`는 `State` 객체의 필드.
 상태가 바뀌면 함수가 다시 실행된다는 그림도 같습니다.
 
-차이는 **무엇을 건너뛰느냐**에 있습니다.
-Flutter는 `setState`를 부른 위젯부터 아래로 `build()`를 다시 돌리고, 같은 인스턴스의 위젯을 만나면 멈춥니다.
-Compose는 State를 **읽은 범위만** 다시 실행하고, 파라미터가 이전과 같은 자식은 건너뜁니다.
+차이는 **무엇을 건너뛰느냐**에서 납니다.
+Flutter는 `setState`를 부른 위젯부터 아래로 `build()`를 다시 돌리고 같은 인스턴스의 위젯을 만나면 멈춥니다.
+Compose는 State를 **읽은 범위만** 다시 실행하고 파라미터가 이전과 같은 자식은 건너뜁니다.
 그리고 "같다"의 기준이 타입마다 다릅니다.
 
 > 4편은 한 프레임을 만드는 세 단계에서 출발해, 다시 실행할 함수를 줄이는 방법(stable과 Strong Skipping)과 State를 늦은 단계에서 읽는 방법을 따라갑니다.
@@ -39,7 +39,7 @@ Compose는 **어느 단계에서 어떤 State를 읽었는지** 기록합니다.
 - Drawing에서 읽었으면 Drawing만 다시 합니다.
 
 그래서 최적화의 방향은 두 가지입니다.
-다시 실행할 함수를 줄이기, 그리고 State를 늦은 단계에서 읽기.
+다시 실행할 함수를 줄이는 것과 State를 늦은 단계에서 읽는 것입니다.
 
 ## 건너뛰기와 stable
 
@@ -56,7 +56,7 @@ Compose가 그렇게 믿을 수 있는 타입을 **stable**이라고 합니다.
 | `State<T>`, `@Immutable`·`@Stable`을 붙인 클래스 | Compose 컴파일러가 돌지 않은 다른 모듈의 클래스 |
 
 `List`가 unstable인 이유는 인터페이스이기 때문입니다.
-실제로는 `ArrayList`처럼 바뀔 수 있는 리스트일 수 있고, Compose는 확인할 방법이 없습니다.
+실제로는 `ArrayList`처럼 바뀔 수 있는 리스트일 수도 있는데, Compose는 확인할 방법이 없습니다.
 
 ### Strong Skipping
 
@@ -75,8 +75,10 @@ Flutter 개발자에게 unstable 쪽 규칙은 익숙합니다.
 `const` 위젯이나 미리 만들어 둔 `child`를 넘기면, 같은 인스턴스라 Flutter가 그 아래 `build()`를 건너뛰는 것과 같습니다.
 Compose는 여기에 stable 타입의 **내용 비교**를 더했습니다.
 
-남은 문제는 이것입니다.
+문제가 하나 남습니다.
 상태를 `copy`할 때마다 목록을 새로 만들면, 내용이 같아도 다른 인스턴스라 다시 실행됩니다.
+`ImmutableList`는 stable 타입이라 인스턴스가 아니라 `equals`로 비교합니다.
+목록을 새로 만들어도 내용이 같으면 건너뜁니다.
 
 ### 목록은 ImmutableList로, UI 모델은 @Immutable로
 
@@ -96,7 +98,7 @@ data class ArticleUiModel(
 - 목록은 `kotlinx.collections.immutable`의 `ImmutableList`를 씁니다. 만들 때 `toPersistentList()`를 씁니다.
 - domain 모델을 그대로 넘기지 않고 화면용 UI 모델로 바꿉니다. 모두 `val`로 두고 `@Immutable`을 붙입니다.
 
-`@Immutable`과 `@Stable`은 컴파일러에게 하는 약속이고, 검사는 하지 않습니다.
+`@Immutable`과 `@Stable`은 컴파일러에게 하는 약속이고 검사는 하지 않습니다.
 실제로 바뀌는 클래스에 `@Immutable`을 붙이면, 값이 바뀌어도 건너뛰어 화면이 갱신되지 않습니다.
 
 ## 상태를 늦게, 아래에서 읽기
@@ -129,7 +131,22 @@ Compose는 그 선택을 Modifier의 **값 버전과 람다 버전**으로 드�
 State를 부모에서 읽고 값을 자식에게 넘기면 부모까지 다시 실행됩니다.
 필요한 자식 안에서 읽거나, 값 대신 `() -> T` 람다를 넘기면 범위가 좁아집니다.
 
+```kotlin
+// 부모에서 scrollState.value를 읽으면 스크롤할 때마다 부모가 다시 실행됨
+Header(scrollProvider = { scrollState.value })
+
+@Composable
+fun Header(scrollProvider: () -> Int) {
+    Box(Modifier.offset { IntOffset(0, -scrollProvider()) })  // 실제로 읽는 곳은 Layout 단계
+}
+```
+
+부모는 람다만 넘기고 값을 읽지 않으므로, 스크롤해도 부모와 `Header` 함수 모두 다시 실행되지 않습니다.
+
 ## remember, derivedStateOf, snapshotFlow
+
+다시 실행할 함수를 줄이는 방법이 하나 더 있습니다.
+자주 바뀌는 State를 그대로 읽지 않고 화면에 필요한 결과만 읽는 것입니다.
 
 | 상황 | 쓰는 것 |
 |---|---|
@@ -144,13 +161,13 @@ val showTopButton by remember {
 }
 ```
 
-`firstVisibleItemIndex`는 스크롤할 때마다 바뀌지만, 버튼에 필요한 것은 "0보다 크냐" 하나입니다.
+`firstVisibleItemIndex`는 스크롤할 때마다 바뀌지만 버튼에 필요한 것은 "0보다 크냐" 하나입니다.
 `derivedStateOf`는 결과가 바뀔 때만 알리므로, 버튼은 맨 위를 벗어나는 순간과 돌아오는 순간에만 다시 실행됩니다.
 
 두 값을 단순히 합칠 때는 `derivedStateOf`가 이득이 없습니다.
 입력이 바뀔 때마다 결과도 바뀌므로, 그때는 `remember(a, b)`를 씁니다.
 
-무한 스크롤의 "목록 끝 감지"는 결과로 해야 할 일이 "다음 페이지 요청"이라 `snapshotFlow`입니다.
+무한 스크롤의 "목록 끝 감지"는 결과로 해야 할 일이 "다음 페이지 요청"이라 `snapshotFlow`를 씁니다.
 
 ```kotlin
 val currentOnLoadMore by rememberUpdatedState(onLoadMore)
@@ -168,6 +185,7 @@ LaunchedEffect(listState) {
 ```
 
 스크롤 상태를 Composition에서 읽지 않으므로, 스크롤해도 목록 화면 함수가 다시 실행되지 않습니다.
+`rememberUpdatedState`는 Effect를 다시 시작하지 않고 `onLoadMore`의 최신 값을 쓰게 해 줍니다. 아래 Effect 구간에서 다시 다룹니다.
 
 ## Lazy 목록의 key
 
@@ -178,13 +196,13 @@ items(state.articles, key = { it.id }) { article ->
 ```
 
 key가 없으면 Compose는 위치(index)로 항목을 구분합니다.
-맨 앞에 하나가 끼면 모든 항목의 위치가 밀리고, 항목 안의 `remember` 상태도 위치를 따라 엉뚱한 항목에 붙습니다.
+맨 앞에 하나가 끼면 모든 항목의 위치가 밀리고 항목 안의 `remember` 상태도 위치를 따라 엉뚱한 항목에 붙습니다.
 
 Flutter의 `ListView`에 `ValueKey`를 주는 이유와 정확히 같습니다.
 다른 점이 두 가지 있습니다.
 
 - **같은 key가 두 번 나오면 앱이 종료됩니다.** 다음 페이지를 붙일 때 `distinctBy { it.id }`로 중복을 거릅니다.
-- **key는 Bundle에 저장될 수 있어야 합니다.** `Int`, `Long`, `String` 같은 값을 씁니다.
+- **key는 Bundle에 저장될 수 있어야 합니다.** 화면 회전 같은 구성 변경 뒤에 스크롤 위치와 항목 상태를 key로 되찾기 때문입니다. `Int`, `Long`, `String` 같은 값을 씁니다.
 
 항목 모양이 여러 종류라면 `contentType`도 줍니다. 같은 종류끼리만 화면 밖 항목을 재사용합니다.
 
@@ -201,7 +219,7 @@ Composable 함수는 언제든, 몇 번이든 다시 실행될 수 있습니다.
 | `rememberUpdatedState(x)` | Effect를 다시 시작하지 않고 최신 값 쓰기 | `widget.onX`를 매번 읽기 |
 
 `LaunchedEffect`의 key는 "언제 다시 시작할지"입니다.
-`Unit`이면 화면에 있는 동안 한 번만 돌고, 자주 바뀌는 값을 넣으면 계속 취소되고 다시 시작합니다.
+`Unit`이면 화면에 있는 동안 한 번만 돌고 자주 바뀌는 값을 넣으면 계속 취소되고 다시 시작합니다.
 
 ## 확인하는 순서
 

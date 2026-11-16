@@ -41,5 +41,5 @@ __pycache__/
 jobs.html
 tools/applied.local.json
 
-# humanize-korean 스킬이 윤문할 때 남기는 작업 파일
+# humanize-korean 윤문 작업 파일과 flow-pair 기획·검토 작업본(_workspace/flow-pair/)
 _workspace/

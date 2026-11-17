@@ -4,6 +4,8 @@ description: "주석을 줄이자는 오래된 원칙이 AI 에이전트와 일�
 date: 2026-11-17 22:00:00 +0900
 categories: [philosophy, 에세이]
 tags: [AI, 에이전트, 주석, 린트, 아키텍처, 코드리뷰]
+series: "AI 시대의 개발자"
+series_order: 2
 ---
 
 저는 오래전부터 주석을 줄이자고 말하고 다녔습니다.

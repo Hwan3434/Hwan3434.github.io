@@ -4,6 +4,8 @@ description: "Starting from screen-dependent APIs and DDD, a reflection on what 
 date: 2026-06-04 08:00:00 +0900
 categories: [philosophy, essay]
 tags: [AI, DDD, Product Engineering, essay]
+series: "Developers in the AI Era"
+series_order: 1
 ---
 
 ## From Screen-Dependent APIs to DDD

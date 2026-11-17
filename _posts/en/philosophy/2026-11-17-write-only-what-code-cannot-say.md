@@ -4,6 +4,8 @@ description: "How an old rule about writing fewer comments now carries over to C
 date: 2026-11-17 22:00:00 +0900
 categories: [philosophy, essay]
 tags: [AI, agents, comments, lint, architecture, code review]
+series: "Developers in the AI Era"
+series_order: 2
 ---
 
 For a long time, I have been telling people to write fewer comments.

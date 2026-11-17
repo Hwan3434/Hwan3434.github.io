@@ -4,6 +4,8 @@ description: "화면 종속적 API 문제에서 DDD를 떠올린 뒤, 코딩 비
 date: 2026-06-04 08:00:00 +0900
 categories: [philosophy, 에세이]
 tags: [AI, DDD, Product Engineering, 에세이]
+series: "AI 시대의 개발자"
+series_order: 1
 ---
 
 ## 화면 종속적 API에서 DDD까지

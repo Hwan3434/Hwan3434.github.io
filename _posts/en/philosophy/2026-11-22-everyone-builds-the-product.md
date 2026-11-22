@@ -1,7 +1,7 @@
 ---
 title: "What Each Person Does on a Team Where Anyone Can Build"
 description: "Now that planners bring screens and AI writes the code, a look at what remains for planners, designers, developers, and QA on a team with a well-built harness"
-date: 2026-11-22 20:00:00 +0900
+date: 2026-11-22 14:00:00 +0900
 categories: [philosophy, essay]
 tags: [AI, agents, harness, planners, designers, developers, roles]
 series: "Developers in the AI Era"

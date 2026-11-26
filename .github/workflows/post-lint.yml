@@ -29,5 +29,8 @@ jobs:
       - name: Install PyYAML
         run: pip install pyyaml
 
+      - name: Test post checks
+        run: python tools/test_check_posts.py
+
       - name: Check posts
         run: python tools/check_posts.py

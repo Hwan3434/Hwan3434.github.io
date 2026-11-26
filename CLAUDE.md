@@ -52,6 +52,10 @@
 - `##` 부터 시작하고 한 단계씩 내려간다(`##` → `###` → `####`). 코드 블록 안의 `#` 은 검사하지 않는다.
 - 목차는 `##`·`###` 을 모은다. 항목이 2개 미만이면 숨겨진다.
 
+## 이미지와 글 링크
+
+- 본문의 사이트 안 이미지(`/assets/...`)는 레포에 대소문자까지 같은 파일이 있어야 하고, 사이트 안 글 링크(`/posts/...`, `/en/posts/...`)는 있는 글을 가리켜야 한다. 코드 안의 경로, 바깥 주소, 목록 같은 페이지 링크는 검사하지 않는다.
+
 ## 글이 어느 목록에 뜨는가
 
 폴더가 아니라 `categories` 가 정한다.
@@ -127,7 +131,7 @@
 | 파일 | 하는 일 |
 |---|---|
 | `pages-deploy.yml` | main push 마다 채용 페이지를 만들고 Jekyll 로 빌드해 Pages 에 배포한다 |
-| `post-lint.yml` | `Post Lint`. `tools/check_posts.py` 를 돌린다 |
+| `post-lint.yml` | `Post Lint`. `tools/test_check_posts.py` 로 검사 자체를 시험한 뒤 `tools/check_posts.py` 를 돌린다 |
 | `jobs-test.yml` | `tools/*.py` 를 바꾸면 `tools/test_job_scraper.py` 를 돌린다 |
 
 ## 그 밖의 `tools/`

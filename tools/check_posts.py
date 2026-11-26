@@ -27,13 +27,17 @@ SECTIONS = {"Tech": "tech", "Philosophy": "philosophy", "news": "news"}
 FILENAME = re.compile(r"^(\d{4})-(\d{2})-(\d{2})-[a-z0-9]+(?:-[a-z0-9]+)*\.md$")
 POST_FILE = re.compile(r"^(\d{4})-(\d{2})-(\d{2})-(.+)\.md$")
 
-# 본문의 링크 목적지. 목적지 뒤의 "제목" 은 잡지 않는다.
-MD_IMAGE = re.compile(r"!\[[^\]]*\]\(\s*<?([^)\s>]+)")
-MD_DEST = re.compile(r"\]\(\s*<?([^)\s>]+)")  # 그림과 링크 모두
-MD_REF = re.compile(r"^ {0,3}\[(?!\^)[^\]]+\]:\s*<?([^\s>]+)")  # [이름]: 목적지 (각주 [^1]: 는 뺀다)
-HTML_IMG = re.compile(r"<img\b[^>]*?\ssrc\s*=\s*[\"']([^\"']+)[\"']", re.I)
-HTML_A = re.compile(r"<a\b[^>]*?\shref\s*=\s*[\"']([^\"']+)[\"']", re.I)
+# 본문의 링크 목적지. <...> 꼴은 공백을, 맨 꼴은 괄호 한 겹을 품는다. 목적지 뒤의 "제목" 은 잡지 않는다.
+DEST = r"\s*(?:<([^>\n]+)>|((?:[^\s()]|\([^\s()]*\))+))"
+QUOTED = r"\s*=\s*(?:\"([^\"]*)\"|'([^']*)')"
+MD_IMAGE = re.compile(r"!\[[^\]]*\]\(" + DEST)
+MD_DEST = re.compile(r"(?<!\\)\]\(" + DEST)  # 그림과 링크 모두. \] 는 글자 그대로라 뺀다
+MD_REF = re.compile(r"^ {0,3}\[(?!\^)[^\]]+\]:" + DEST, re.M)  # [이름]: 목적지 (각주 [^1]: 는 뺀다)
+HTML_IMG = re.compile(r"<img\b[^>]*?\ssrc" + QUOTED, re.I)
+HTML_A = re.compile(r"<a\b[^>]*?\shref" + QUOTED, re.I)
+HTML_COMMENT = re.compile(r"<!--.*?-->", re.S)
 INLINE_CODE = re.compile(r"(`+).+?\1")
+FENCE = re.compile(r"^\s*(`{3,}|~{3,})(.*)$")
 
 
 def split(text):
@@ -42,14 +46,18 @@ def split(text):
 
 
 def outside_code(body):
-    """코드 블록(``` 나 ~~~ 사이) 밖의 줄."""
-    fenced = False
+    """코드 블록 밖의 줄. 코드 블록은 ``` 나 ~~~ 로 열고, 같은 글자를 그 길이 이상 쓴 줄로 닫는다."""
+    fence = None
     for line in body.splitlines():
-        if line.lstrip().startswith(("```", "~~~")):
-            fenced = not fenced
-            continue
-        if not fenced:
-            yield line
+        m = FENCE.match(line)
+        if fence is None:
+            # ``` 뒤에 ` 가 또 있으면 펜스가 아니라 인라인 코드다
+            if m and not (m.group(1)[0] == "`" and "`" in m.group(2)):
+                fence = m.group(1)
+            else:
+                yield line
+        elif m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence) and not m.group(2).strip():
+            fence = None
 
 
 def headings(body):
@@ -60,13 +68,15 @@ def headings(body):
 
 
 def links(body):
-    """코드 밖 본문의 링크 목적지마다 그림인지를 단다. {목적지: 그림인가}"""
+    """코드와 HTML 주석 밖 본문의 링크 목적지마다 그림인지를 단다. {목적지: 그림인가}"""
+    # 여러 줄에 걸친 <img> 와 주석을 잡으려고 줄을 다시 잇는다
+    text = HTML_COMMENT.sub("", "\n".join(INLINE_CODE.sub("", line) for line in outside_code(body)))
+    hits = sorted((m.start(), m.group(m.lastindex), image)
+                  for rx, image in ((MD_DEST, False), (MD_REF, False), (HTML_A, False), (MD_IMAGE, True), (HTML_IMG, True))
+                  for m in rx.finditer(text))
     found = {}
-    for line in outside_code(body):
-        line = INLINE_CODE.sub("", line)
-        for rx, image in ((MD_DEST, False), (MD_REF, False), (HTML_A, False), (MD_IMAGE, True), (HTML_IMG, True)):
-            for m in rx.finditer(line):
-                found[m.group(1)] = found.get(m.group(1), False) or image
+    for _, dest, image in hits:
+        found[dest] = found.get(dest, False) or image
     return found
 
 

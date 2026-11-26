@@ -140,6 +140,45 @@ class LinkCheckTest(unittest.TestCase):
         ]))
         self.assertEqual(errs, [SENTINEL_ERR])
 
+    def test_nested_fences_and_html_comments_are_not_checked(self):
+        code, errs = self.check("\n".join([
+            "````markdown",
+            "```kotlin",
+            "![a](/assets/img/no5.png)",
+            "```",
+            "````",
+            "```",
+            "~~~",
+            "![a](/assets/img/no6.png)",
+            "~~~",
+            "```",
+            "<!-- ![지운 그림](/assets/img/no7.png) -->",
+            "<!--",
+            "[지운 링크](/posts/2026/01/01/no8/)",
+            "-->",
+            "\\[글자 그대로\\](/posts/2026/01/01/no9/)",
+            SENTINEL,
+        ]))
+        self.assertEqual(errs, [SENTINEL_ERR])
+
+    def test_inline_triple_backticks_do_not_open_a_fence(self):
+        # 줄 첫머리의 ```코드``` 는 인라인 코드다. 그 뒤의 본문도 검사한다
+        code, errs = self.check("```js``` 는 코드다.\n" + SENTINEL)
+        self.assertEqual(errs, [SENTINEL_ERR])
+
+    def test_destination_forms(self):
+        for name in ["b(1).png", "my file.png", "it's.png"]:
+            self.write(f"assets/img/posts/a/{name}", "")
+        code, errs = self.check("\n".join([
+            "![a](/assets/img/posts/a/b(1).png)",
+            "![a](</assets/img/posts/a/my file.png>)",
+            "![a](/assets/img/posts/a/my%20file.png)",
+            '<img src="/assets/img/posts/a/it\'s.png">',
+            "<img alt=\"여러 줄\"",
+            '     src="/assets/img/posts/a/gone.png">',
+        ]))
+        self.assertEqual(errs, [f"{SRC}: 이미지 파일이 없다: /assets/img/posts/a/gone.png"])
+
     def test_external_urls_are_not_checked(self):
         code, errs = self.check("\n".join([
             "![a](https://example.com/x.png)",

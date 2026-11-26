@@ -10,6 +10,7 @@ import datetime as dt
 import os
 import re
 import sys
+import urllib.parse
 
 import yaml
 
@@ -24,6 +25,15 @@ BY_DEFAULTS = ["layout", "lang", "locale", "permalink", "comments"]
 SECTIONS = {"Tech": "tech", "Philosophy": "philosophy", "news": "news"}
 
 FILENAME = re.compile(r"^(\d{4})-(\d{2})-(\d{2})-[a-z0-9]+(?:-[a-z0-9]+)*\.md$")
+POST_FILE = re.compile(r"^(\d{4})-(\d{2})-(\d{2})-(.+)\.md$")
+
+# 본문의 링크 목적지. 목적지 뒤의 "제목" 은 잡지 않는다.
+MD_IMAGE = re.compile(r"!\[[^\]]*\]\(\s*<?([^)\s>]+)")
+MD_DEST = re.compile(r"\]\(\s*<?([^)\s>]+)")  # 그림과 링크 모두
+MD_REF = re.compile(r"^ {0,3}\[(?!\^)[^\]]+\]:\s*<?([^\s>]+)")  # [이름]: 목적지 (각주 [^1]: 는 뺀다)
+HTML_IMG = re.compile(r"<img\b[^>]*?\ssrc\s*=\s*[\"']([^\"']+)[\"']", re.I)
+HTML_A = re.compile(r"<a\b[^>]*?\shref\s*=\s*[\"']([^\"']+)[\"']", re.I)
+INLINE_CODE = re.compile(r"(`+).+?\1")
 
 
 def split(text):
@@ -31,21 +41,87 @@ def split(text):
     return (m.group(1), m.group(2)) if m else (None, None)
 
 
-def headings(body):
+def outside_code(body):
+    """코드 블록(``` 나 ~~~ 사이) 밖의 줄."""
     fenced = False
     for line in body.splitlines():
         if line.lstrip().startswith(("```", "~~~")):
             fenced = not fenced
             continue
-        m = None if fenced else re.match(r"^(#{1,6}) \S", line)
+        if not fenced:
+            yield line
+
+
+def headings(body):
+    for line in outside_code(body):
+        m = re.match(r"^(#{1,6}) \S", line)
         if m:
             yield len(m.group(1)), line.strip()
 
 
-def check(path, section, is_en):
+def links(body):
+    """코드 밖 본문의 링크 목적지마다 그림인지를 단다. {목적지: 그림인가}"""
+    found = {}
+    for line in outside_code(body):
+        line = INLINE_CODE.sub("", line)
+        for rx, image in ((MD_DEST, False), (MD_REF, False), (HTML_A, False), (MD_IMAGE, True), (HTML_IMG, True)):
+            for m in rx.finditer(line):
+                found[m.group(1)] = found.get(m.group(1), False) or image
+    return found
+
+
+def post_urls(config):
+    """_config.yml defaults 의 permalink 로 만든 글 주소 전부와, 글 주소가 시작하는 접두사들."""
+    rules = [(d["scope"].get("path", ""), d["values"]["permalink"])
+             for d in config.get("defaults", [])
+             if d.get("scope", {}).get("type") == "posts" and "permalink" in d.get("values", {})]
+    urls, prefixes = set(), set()
+    for root, _, files in os.walk(ROOT):
+        for f in files:
+            m = POST_FILE.match(f)
+            if not m:
+                continue
+            path = os.path.join(root, f)
+            # Jekyll 은 scope path 가 가장 길게 맞는 defaults 를 쓴다
+            _, link = max(((s, p) for s, p in rules if not s or path.startswith(s.rstrip("/") + "/")),
+                          key=lambda r: len(r[0]))
+            # Jekyll 은 frontmatter date 로 주소를 만든다. check() 가 그 날짜를 파일명 날짜와 같게 강제하니 파일명에서 딴다.
+            year, month, day, slug = m.groups()
+            urls.add(link.replace(":year", year).replace(":month", month).replace(":day", day).replace(":slug", slug))
+            prefixes.add(link.split(":")[0])
+    return urls, tuple(prefixes)
+
+
+def repo_file(path):
+    """레포에 대소문자까지 같은 파일이 있는가. macOS 는 대소문자를 가리지 않지만 Pages 는 가린다."""
+    cur = "."
+    for part in path.strip("/").split("/"):
+        if not os.path.isdir(cur) or part not in os.listdir(cur):
+            return False
+        cur = os.path.join(cur, part)
+    return os.path.isfile(cur)
+
+
+def link_errors(body, posts):
+    urls, prefixes = posts
+    errs = []
+    for dest, image in links(body).items():
+        if not dest.startswith("/") or dest.startswith("//"):
+            continue  # 바깥 주소
+        path = urllib.parse.unquote(re.split(r"[?#]", dest)[0])
+        if path.startswith(prefixes):
+            if not {path, path + "/", path.removesuffix("index.html")} & urls:
+                errs.append(f"링크한 글이 없다: {dest}")
+        elif image and not repo_file(path):
+            errs.append(f"이미지 파일이 없다: {dest}")
+    return errs
+
+
+def check(path, section, is_en, posts):
     errs = []
     name = os.path.basename(path)
-    fm_text, body = split(open(path, encoding="utf-8").read())
+    with open(path, encoding="utf-8") as f:
+        fm_text, body = split(f.read())
     if fm_text is None:
         return ["frontmatter(---)가 없다"]
     try:
@@ -111,6 +187,8 @@ def check(path, section, is_en):
             errs.append(f"제목 단계를 건너뛴다({where}에 h{level}, ##부터 한 단계씩): {line[:40]}")
         prev = max(level, 2)
 
+    errs += link_errors(body, posts)
+
     if not is_en:
         pair = os.path.join(ROOT, "en", SECTIONS[section], name)
         if not os.path.exists(pair):
@@ -121,6 +199,8 @@ def check(path, section, is_en):
 def main():
     if not os.path.isdir(ROOT):
         sys.exit("레포 루트에서 실행한다")
+    with open("_config.yml", encoding="utf-8") as f:
+        posts = post_urls(yaml.safe_load(f))
     bad = 0
     total = 0
     for root, dirs, files in sorted(os.walk(ROOT)):
@@ -138,7 +218,7 @@ def main():
                 bad += 1
                 continue
             total += 1
-            for e in check(path, sec, is_en):
+            for e in check(path, sec, is_en, posts):
                 print(f"{path}: {e}")
                 bad += 1
     print(f"\n글 {total}편 검사, 위반 {bad}건")
